@@ -63,8 +63,6 @@ if __name__ == '__main__':
                                    'action': rp.TRANSFER}]
             cuds.append(cud)
             idx += chunk_size
-            if idx > 30:
-                break
 
         umgr.submit_units(cuds)
         umgr.wait_units()
