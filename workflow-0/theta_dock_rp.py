@@ -13,8 +13,12 @@ if __name__ == '__main__':
 
     smi_fname  = sys.argv[1]
     tgt_fname  = sys.argv[2]
+    # Frontera
     path       = '/home/merzky/projects/covid/Model-generation/'
     conda      = '/home/merzky/.miniconda3/'
+    # Stampede2
+    path       = '/home1/01083/tg803521/radical/covid/Model-generation/'
+    conda      = '/home1/01083/tg803521/.miniconda3/'
 
     smiles     = pd.read_csv('%s/%s' % (path, smi_fname), sep=' ', header=None)
     n_smiles   = smiles.shape[0]
@@ -24,10 +28,12 @@ if __name__ == '__main__':
     try:
         pmgr   = rp.PilotManager(session=session)
         umgr   = rp.UnitManager(session=session)
-        pd_init = {'resource'      : 'local.localhost',
-                   'runtime'       : 30,
+        pd_init = {'resource'      : 'xsede.stampede2_srun',
+                   'runtime'       : 300,
                    'exit_on_error' : True,
-                   'cores'         : 128,
+                   'cores'         : 5000,
+                   'project'       : 'TG-MCB090174',
+                   'queue'         : 'normal',
                    'input_staging' : [path]
                   }
         pdesc = rp.ComputePilotDescription(pd_init)
@@ -40,7 +46,7 @@ if __name__ == '__main__':
 
             cud = rp.ComputeUnitDescription()
             cud.cpu_processes  = 1
-            cud.executable     = './theta_dock.py'
+            cud.executable     = './theta_dock.sh'
             cud.arguments      =  [smi_fname, tgt_fname, idx, chunk_size]
             cud.pre_exec       =  ['. %s/etc/profile.d/conda.sh' % conda,
                                    'conda activate covid-19-0']
@@ -53,6 +59,9 @@ if __name__ == '__main__':
                                    'action': rp.LINK},
                                   {'source': 'pilot:///Model-generation/oe_license.txt',
                                    'target': 'unit:///oe_license.txt',
+                                   'action': rp.LINK},
+                                  {'source': 'pilot:///Model-generation/theta_dock.sh',
+                                   'target': 'unit:///theta_dock.sh',
                                    'action': rp.LINK},
                                   {'source': 'pilot:///Model-generation/theta_dock.py',
                                    'target': 'unit:///theta_dock.py',
