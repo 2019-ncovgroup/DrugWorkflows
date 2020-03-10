@@ -1,0 +1,20 @@
+wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+chmod +x ~/miniconda.sh
+~/miniconda.sh -b -p $HOME/.miniconda3
+source $HOME/.miniconda3/bin/activate
+conda update -n base -c defaults conda
+wget -q https://raw.githubusercontent.com/aclyde11/Model-generation/covid/environment.yml
+sed -ie "70,86d" environment.yml
+conda env create --file environment.yml -n covid-19-0
+conda activate covid-19-0
+
+conda install -y psutil
+conda install -y setproctitle
+pip install --user docopt==0.6.2 mpi4py==3.0.3 packmol-memgen==0.9.9a0 \
+  pandas==0.25.3 parmed==3.0.0 pdb4amber==1.6.dev0 pymbar==3.0.4 pymsmt==18.0 \
+  python-dateutil==2.8.1 pytraj==2.0.3 pytz==2019.3 sander==16.0 scipy==1.3.2 \
+  tqdm==4.38.0 radical.pilot
+
+
+git clone git@github.com:aclyde11/Model-generation.git
+git clone git@github.com:2019-ncovgroup/DrugWorfklows.git
