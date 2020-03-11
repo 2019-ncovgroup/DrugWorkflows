@@ -26,3 +26,9 @@ pip install --user --no-cache-dir docopt==0.6.2 packmol-memgen==0.9.9a0 \
 
 git clone https://github.com/aclyde11/RNNGenerator.git
 git clone https://github.com/2019-ncovgroup/DrugWorfklows.git
+git clone https://github.com/radical-cybertools/radical.utils.git
+git clone https://github.com/radical-cybertools/radical.saga.git
+git clone https://github.com/radical-cybertools/radical.pilot.git
+git clone https://github.com/radical-cybertools/radical.entk.git
+git clone https://github.com/radical-cybertools/radical.analytics.git
+
