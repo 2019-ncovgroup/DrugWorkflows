@@ -24,10 +24,11 @@ pip install --user --no-cache-dir docopt==0.6.2 packmol-memgen==0.9.9a0 \
 # If required, this need support via modules
 # pip install --user mpi4py==3.0.3
 
-# If non interactive
-ssh-keyscan github.com >> $PREFIX/githubKey
-ssh-keygen -lf $PREFIX/githubKey
-echo `cat $PREFIX/githubKey`  >> ~/.ssh/known_hosts
+git clone https://github.com/aclyde11/Model-generation.git
+git clone https://github.com/2019-ncovgroup/DrugWorfklows.git
+git clone https://github.com/radical-cybertools/radical.utils.git
+git clone https://github.com/radical-cybertools/radical.saga.git
+git clone https://github.com/radical-cybertools/radical.pilot.git
+git clone https://github.com/radical-cybertools/radical.entk.git
+git clone https://github.com/radical-cybertools/radical.analytics.git
 
-git clone git@github.com:aclyde11/Model-generation.git
-git clone git@github.com:2019-ncovgroup/DrugWorfklows.git
