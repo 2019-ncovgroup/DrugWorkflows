@@ -5,58 +5,55 @@ import sys
 import pandas as pd
 
 import radical.pilot as rp
+import radical.utils as ru
 
 
 # ------------------------------------------------------------------------------
 #
 if __name__ == '__main__':
 
-    smi_fname  = sys.argv[1]
-    tgt_fname  = sys.argv[2]
-    # Frontera
-    path       = '/home/merzky/projects/covid/Model-generation/'
-    conda      = '/home/merzky/.miniconda3/'
-    # Stampede2
-    path       = '/home1/01083/tg803521/radical/covid/Model-generation/'
-    conda      = '/home1/01083/tg803521/.miniconda3/'
-    # Comet
-    path       = '/home/mturilli/github/Model-generation'
-    conda      = '/home/mturilli/.miniconda3/'
 
-    smiles     = pd.read_csv('%s/%s' % (path, smi_fname), sep=' ', header=None)
+    target     =     sys.argv[1]
+    smi_fname  =     sys.argv[2]
+    tgt_fname  =     sys.argv[3]
+    idx_start  = int(sys.argv[4])
+    chunk_size = int(sys.argv[5])
+    n_chunks   = int(sys.argv[6])
+
+    n_pilots   = n_chunks  # NOTE
+
+    cfg        = ru.read_json('config.json')
+    model      = cfg[target]['model']
+    conda      = cfg[target]['conda']
+
+    smiles     = pd.read_csv('%s/%s' % (model, smi_fname), sep=' ', header=None)
     n_smiles   = smiles.shape[0]
 
-    n_pilots   = 10
+    idx        = idx_start
+    session    = rp.Session()
+    try:
+        pmgr   = rp.PilotManager(session=session)
+        umgr   = rp.UnitManager(session=session)
+        pdinit = cfg[target]['pilot']
 
-    task_size  = 1
-    chunk_size = 10000
+        pdinit["exit_on_error"] = True,
+        pdinit["input_staging"] = [model]
 
-    done       = 0
-    idx        = 0
+        pdescs = [rp.ComputePilotDescription(pdinit) for i in range(n_pilots)]
+        pilots = pmgr.submit_pilots(pdescs)
 
-    while done < n_smiles:
+        umgr.add_pilots(pilots)
 
-        session    = rp.Session()
+        for p in range(n_pilots):
 
-        try:
-            pmgr   = rp.PilotManager(session=session)
-            umgr   = rp.UnitManager(session=session)
-            pd_init = {'resource'      : 'xsede.comet_ssh',
-                       'runtime'       : 60,
-                       'exit_on_error' : True,
-                       'cores'         : 24 * 5 + 24  * 10,
-                       'project'       : 'TG-MCB090174',
-                       'queue'         : 'compute',
-                       'input_staging' : [path]
-                      }
-            pdescs = [rp.ComputePilotDescription(pd_init) for i in range(n_pilots)]
-            pilots = pmgr.submit_pilots(pdescs)
+            cuds = list()
 
-            umgr.add_pilots(pilots)
+            for i in range(chunk_size):
 
-            chunk = 0
-            cuds  = list()
-            while chunk < chunk_size * n_pilots:
+                task_size = 1  # NOTE: NOT FLEXIBLE
+
+                idx = idx_start + p * chunk_size + i
+              # print(p, i, idx)
 
                 cud = rp.ComputeUnitDescription()
                 cud.cpu_processes  = 1
@@ -85,15 +82,18 @@ if __name__ == '__main__':
                                        'target': 'client:///output/output.%d' % idx,
                                        'action': rp.TRANSFER}]
                 cuds.append(cud)
-                idx   += task_size
-                chunk += task_size
 
+            # chunk defined for pilot
+            print('submit %d tasks as chunk %d' % (len(cuds), p))
             umgr.submit_units(cuds)
-            umgr.wait_units()
 
-        finally:
-            session.close(download=True)
-            done += chunk
+        # all chunks submitted to pilots
+        print('wait all')
+        umgr.wait_units()
+
+    finally:
+      # session.close(download=True)
+        pass
 
 
 # ------------------------------------------------------------------------------
