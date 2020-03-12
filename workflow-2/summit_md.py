@@ -190,8 +190,7 @@ def generate_training_pipeline():
         t4.pre_exec += ['export PYTHONPATH=%s/CVAE_exps:$PYTHONPATH' % base_path] 
         t4.pre_exec += ['cd %s/Outlier_search' % base_path] 
         t4.executable = ['%s/bin/python' % conda_path] 
-        t4.arguments = ['outlier_locator.py', '--md', '../MD_exps/fs-pep', '--cvae', '../CVAE_exps', '
-                --pdb', '../MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb', 
+        t4.arguments = ['outlier_locator.py', '--md', '../MD_exps/fs-pep', '--cvae', '../CVAE_exps', '--pdb', '../MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb', 
                 '--ref', '../MD_exps/fs-pep/pdb/fs-peptide.pdb']
 
         t4.cpu_reqs = {'processes': 1,
@@ -252,6 +251,7 @@ def generate_training_pipeline():
 
 
 
+    global CUR_STAGE
     p = Pipeline()
     p.name = 'MD_ML'
 
@@ -297,10 +297,10 @@ if __name__ == '__main__':
     # resource is 'local.localhost' to execute locally
     res_dict = {
             'resource': 'ornl.summit',
-            'queue'   : 'killable',
+            'queue'   : 'batch',
             'schema'  : 'local',
-            'walltime': 60 * 12,
-            'cpus'    : 42 * node_counts,
+            'walltime': 60 * 2,
+            'cpus'    : 42 * 4 * node_counts,
             'gpus'    : 6 * node_counts,
             'project' : 'MED110'
     }
