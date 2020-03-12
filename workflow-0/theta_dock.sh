@@ -9,7 +9,7 @@ smi_per_task=$1 ; shift
 
 idx_end=$((idx_start + smi_per_task))
 
-source $conda_dir/etc/profile.d/conda.sh
+. $conda_dir/etc/profile.d/conda.sh
 conda activate covid-19-0
 
 export OE_LICENSE=oe_license.txt
@@ -21,6 +21,6 @@ while test $idx -le $idx_end
 do
     echo $idx
     idx=$((idx+1))
-done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $smi_fname $tgt_fname {}
+done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $conda_dir $smi_fname $tgt_fname {}
 
 

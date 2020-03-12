@@ -1,5 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
+conda_dir=$1    ; shift
 smi_fname=$1    ; shift
 tgt_fname=$1    ; shift
 idx=$1          ; shift
@@ -7,6 +8,9 @@ len=1
 
 COMMAND="echo $smi_fname $tgt_fname $idx $len `date` >> OUTPUT; sleep 10; date >> OUTPUT"
 COMMAND="python ./theta_dock.py $smi_fname $tgt_fname $idx $len >> OUTPUT"
+
+# . $conda_dir/etc/profile.d/conda.sh
+# conda activate covid-19-0
 
 cleanup(){
   # echo "SIGTERM trap" >&2
