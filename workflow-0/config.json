@@ -1,9 +1,9 @@
 
 {
     "frontera": {
-        "model"   : "/home/merzky/projects/covid/Model-generation/",
-        "conda"   : "/home/merzky/.miniconda3/",
-        "pilot"   : {
+        "cpn"      : 64,
+        "conda"    : "/home/merzky/.miniconda3/",
+        "pilot"    : {
             "resource"      : "xsede.frontera",
             "runtime"       : 60,
             "cores"         : 128,
@@ -13,9 +13,9 @@
     },
 
     "stampede2" : {
-        "model"   : "/home1/01083/tg803521/radical/covid/Model-generation/",
-        "conda"   : "/home1/01083/tg803521/.miniconda3/",
-        "pilot"   : {
+        "cpn"      : 56,
+        "conda"    : "/home1/01083/tg803521/.miniconda3/",
+        "pilot"    : {
             "resource"      : "xsede.stampede2",
             "runtime"       : 60,
             "cores"         : 128,
@@ -25,9 +25,9 @@
     },
 
     "comet": {
-        "model"   : "/home/mturilli/github/Model-generation",
-        "conda"   : "/home/mturilli/.miniconda3/",
-        "pilot"   : {
+        "cpn"      : 24,
+        "conda"    : "/home/mturilli/.miniconda3/",
+        "pilot"    : {
             "resource"      : "xsede.comet",
             "runtime"       : 60,
             "cores"         : 128,
@@ -37,12 +37,12 @@
     },
 
     "localhost": {
-        "model"   : "/home/merzky/projects/covid/Model-generation",
-        "conda"   : "/home/merzky/.miniconda3/",
-        "pilot"   : {
+        "cpn"      : 2,
+        "conda"    : "/home/merzky/.miniconda3/",
+        "pilot"    : {
             "resource"      : "local.localhost",
             "runtime"       : 60,
-            "cores"         : 128
+            "cores"         : 0
         }
     }
 }

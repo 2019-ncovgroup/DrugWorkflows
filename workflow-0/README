@@ -1,16 +1,20 @@
 
-- adjust `conda` and `model` in `config.json`
-- adjust `conda` in `theta_dock.sh`
-- cp oe_license.txt ../../Model-generation
-- cp theta_*        ../../Model-generation
-- cp data/*         ../../Model-generation/input
+- `cores` in the config.json refers *ONLY* to nodes needed by the agent, cores
+   for the tasks are added via command line
+- ln -s .../Model-generation .
+- adjust `conda` in `config.json`
+- cp oe_license.txt to *here*
+- cp data/* Model-generation/input
 - ./theta_dock_rp_loop.py localhost input/discovery_set_db.smi input/test.oeb 0 10 2
 
   localhost : target (see config.json AND EDIT IT)
   smi...    : ...
   oeb...    : ...
   0         : start index
-  10        : number of tasks per pilot (== 1 sample per task)
   2         : number of pilots
+  10        : number of tasks per pilot (== number of compute nodes)
+  100       : number of samples per task
+
+next index (next run) starts at 'idx_start + n_pilots * n_tasks * n_samples'
 
 
