@@ -19,65 +19,79 @@ if __name__ == '__main__':
     # Stampede2
     path       = '/home1/01083/tg803521/radical/covid/Model-generation/'
     conda      = '/home1/01083/tg803521/.miniconda3/'
+    # Comet
+    path       = '/home/mturilli/github/Model-generation'
+    conda      = '/home/mturilli/.miniconda3/'
 
     smiles     = pd.read_csv('%s/%s' % (path, smi_fname), sep=' ', header=None)
     n_smiles   = smiles.shape[0]
-    chunk_size = 10
-    session    = rp.Session()
 
-    try:
-        pmgr   = rp.PilotManager(session=session)
-        umgr   = rp.UnitManager(session=session)
-        pd_init = {'resource'      : 'xsede.stampede2_srun',
-                   'runtime'       : 300,
-                   'exit_on_error' : True,
-                   'cores'         : 5000,
-                   'project'       : 'TG-MCB090174',
-                   'queue'         : 'normal',
-                   'input_staging' : [path]
-                  }
-        pdesc = rp.ComputePilotDescription(pd_init)
-        pilot = pmgr.submit_pilots(pdesc)
+    task_size  = 1
+    chunk_size = 24000
 
-        umgr.add_pilots(pilot)
-        idx  = 0
-        cuds = list()
-        while idx < n_smiles:
+    done       = 0
+    idx        = 0
 
-            cud = rp.ComputeUnitDescription()
-            cud.cpu_processes  = 1
-            cud.executable     = './theta_dock.sh'
-            cud.arguments      =  [smi_fname, tgt_fname, idx, chunk_size]
-            cud.pre_exec       =  ['. %s/etc/profile.d/conda.sh' % conda,
-                                   'conda activate covid-19-0']
-            cud.environment    =  {'OE_LICENSE': 'oe_license.txt'}
-            cud.input_staging  = [{'source': 'pilot:///Model-generation/input',
-                                   'target': 'unit:///input',
-                                   'action': rp.LINK},
-                                  {'source': 'pilot:///Model-generation/impress_md',
-                                   'target': 'unit:///impress_md',
-                                   'action': rp.LINK},
-                                  {'source': 'pilot:///Model-generation/oe_license.txt',
-                                   'target': 'unit:///oe_license.txt',
-                                   'action': rp.LINK},
-                                  {'source': 'pilot:///Model-generation/theta_dock.sh',
-                                   'target': 'unit:///theta_dock.sh',
-                                   'action': rp.LINK},
-                                  {'source': 'pilot:///Model-generation/theta_dock.py',
-                                   'target': 'unit:///theta_dock.py',
-                                   'action': rp.LINK},
-                                  ]
-            cud.output_staging = [{'source': 'unit:///STDOUT',
-                                   'target': 'client:///output/output.%d' % idx,
-                                   'action': rp.TRANSFER}]
-            cuds.append(cud)
-            idx += chunk_size
+    while done < n_smiles:
 
-        umgr.submit_units(cuds)
-        umgr.wait_units()
+        session    = rp.Session()
 
-    finally:
-        session.close(download=True)
+        try:
+            pmgr   = rp.PilotManager(session=session)
+            umgr   = rp.UnitManager(session=session)
+            pd_init = {'resource'      : 'xsede.comet_ssh',
+                       'runtime'       : 30,
+                       'exit_on_error' : True,
+                       'cores'         : 24 * 5 + 24  * 10,
+                       'project'       : 'TG-MCB090174',
+                       'queue'         : 'compute',
+                       'input_staging' : [path]
+                      }
+            pdesc = rp.ComputePilotDescription(pd_init)
+            pilot = pmgr.submit_pilots(pdesc)
+
+            umgr.add_pilots(pilot)
+
+            chunk = 0
+            cuds  = list()
+            while chunk < chunk_size:
+
+                cud = rp.ComputeUnitDescription()
+                cud.cpu_processes  = 1
+                cud.executable     = './theta_dock.sh'
+                cud.arguments      =  [smi_fname, tgt_fname, idx, task_size]
+                cud.pre_exec       =  ['. %s/etc/profile.d/conda.sh' % conda,
+                                       'conda activate covid-19-0']
+                cud.environment    =  {'OE_LICENSE': 'oe_license.txt'}
+                cud.input_staging  = [{'source': 'pilot:///Model-generation/input',
+                                       'target': 'unit:///input',
+                                       'action': rp.LINK},
+                                      {'source': 'pilot:///Model-generation/impress_md',
+                                       'target': 'unit:///impress_md',
+                                       'action': rp.LINK},
+                                      {'source': 'pilot:///Model-generation/oe_license.txt',
+                                       'target': 'unit:///oe_license.txt',
+                                       'action': rp.LINK},
+                                      {'source': 'pilot:///Model-generation/theta_dock.sh',
+                                       'target': 'unit:///theta_dock.sh',
+                                       'action': rp.LINK},
+                                      {'source': 'pilot:///Model-generation/theta_dock.py',
+                                       'target': 'unit:///theta_dock.py',
+                                       'action': rp.LINK},
+                                      ]
+                cud.output_staging = [{'source': 'unit:///STDOUT',
+                                       'target': 'client:///output/output.%d' % idx,
+                                       'action': rp.TRANSFER}]
+                cuds.append(cud)
+                idx   += task_size
+                chunk += task_size
+
+            umgr.submit_units(cuds)
+            umgr.wait_units()
+
+        finally:
+            session.close(download=True)
+            done += chunk
 
 
 # ------------------------------------------------------------------------------
