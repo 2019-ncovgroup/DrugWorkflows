@@ -33,3 +33,9 @@ git clone https://github.com/radical-cybertools/radical.pilot.git
 git clone https://github.com/radical-cybertools/radical.entk.git
 git clone https://github.com/radical-cybertools/radical.analytics.git
 
+# For workflow-0, use the covid branch in Model-generation
+cd Model-generation
+git checkout covid
+git pull
+
+
