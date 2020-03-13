@@ -24,7 +24,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 * PLPro_pocket23_receptor.oeb
 
 * CoV_pocket1_receptor.oeb - Frontera, AM
-* CoV_pocket2_receptor.oeb
+* CoV_pocket2_receptor.oeb - Frontera, AM
 * CoV_pocket8_receptor.oeb - Theta, AM
 * CoV_pocket10_receptor.oeb
 
