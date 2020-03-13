@@ -39,9 +39,19 @@ Intermediate files/folders are generated over the workflow execution. These need
 Currently, manual deletion is required like:
 ```
 rm -rf CVAE_exps/cvae_runs_*
-rm -rf VHP_exp/omm_runs_*
-rm -rf fs-pep/omm_runs_*
+rm -rf MD_exps/VHP_exp/omm_runs_*
+rm -rf MD_exps/fs-pep/omm_runs_*
 rm -rf Outlier_search/outlier_pdbs/*
 ```
 
+## Installation (Summit)
 
+```
+(python3)
+. "/sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh"
+conda create -n workflow-2 python=3.6 -y
+conda activate workflow-2
+conda install swig numpy cython scipy matplotlib pytables h5py -y
+pip install MDAnalysis MDAnalysisTests parmed
+pip install radical.entk radical.pilot==1.1.1
+```
