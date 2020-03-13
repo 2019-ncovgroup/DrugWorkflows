@@ -47,13 +47,13 @@
     },
 
     "theta": {
-        "cpn"      : 64,
-        "conda"    : "/gpfs/mira-home/mturilli/.miniconda3/",
+        "cpn"      : 112,
+        "conda"    : "/scratch1/01083/tg803521/miniconda3/",
         "pilot"    : {
-            "resource"      : "anl.theta",
-            "project"       : "CVD_Research",
-            "queue"         : "debug-flat-quad",
-            "runtime"       : 60,
+            "resource"      : "xsede.fronters",
+            "project"       : "FTA-Jha",
+            "queue"         : "development",
+            "runtime"       : 120,
             "cores"         : 0
         }
     }

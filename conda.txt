@@ -14,6 +14,7 @@ sed -ie "70,86d" $PREFIX/environment.yml
 conda env create --file $PREFIX/environment.yml -n covid-19-0
 conda activate covid-19-0
 
+conda install -y pandas
 conda install -y psutil
 conda install -y setproctitle
 pip install --user --no-cache-dir docopt==0.6.2 packmol-memgen==0.9.9a0 \
