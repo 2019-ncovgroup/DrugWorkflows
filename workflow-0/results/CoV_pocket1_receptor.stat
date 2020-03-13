@@ -1,0 +1,7 @@
+
+receptor  : CoV_pocket1_receptor            [    289359]
+smiles    : discovery_set_db                [    310782]
+missing   :                            6.9% [     21423]
+gaps >= 10:             223054 -     224999 [      1946]
+          :             247160 -     249999 [      2840]
+          :             272039 -     274999 [      2961]
