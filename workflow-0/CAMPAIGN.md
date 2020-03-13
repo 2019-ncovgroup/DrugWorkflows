@@ -31,12 +31,13 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 
 ## Runs
 
-| Run | command               | machine  | SMILES               | OEB                         |
-|-----|-----------------------|----------|----------------------|-----------------------------|
-| 1   | theta_dock_rp_loop.py | comet    | discovery_set_db.smi | Nsp10_pocket26_receptor.oeb |
-| 2   | theta_dock_rp_loop.py | comet    | discovery_set_db.smi | Nsp10_pocket26_receptor.oeb |
-| 3   | theta_dock_rp_loop.py | comet    | discovery_set_db.smi | ADRP_pocket1_receptor.oeb   |
-| 4   | theta_dock_rp_loop.py | comet    | discovery_set_db.smi | ADRP_pocket1_receptor.oeb   |
+| Run | command                    | machine  | SMILES               | OEB                         |
+|-----|----------------------------|----------|----------------------|-----------------------------|
+| 1   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | Nsp10_pocket26_receptor.oeb |
+| 2   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | Nsp10_pocket26_receptor.oeb |
+| 3   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | ADRP_pocket1_receptor.oeb   |
+| 4   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | ADRP_pocket1_receptor.oeb   |
+| 5   |  theta_dock_rp_loop.py     | comet    |  discovery_set_db.smi | ADRP_pocket13_receptor.oeb |
 
 ## Data
 
@@ -46,3 +47,4 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | 2   | rp.session.two.mturilli.018334.0023 | 200000 | 2        | 50         | 2000  |
 | 3   | rp.session.two.mturilli.018334.0024 | 0      | 2        | 50         | 2000  |
 | 4   | rp.session.two.mturilli.018334.0025 | 200000 | 2        | 50         | 2000  |
+| 5   | rp.session.two.mturilli.018334.0026 | 0      | 2        | 50         | 2000  |
