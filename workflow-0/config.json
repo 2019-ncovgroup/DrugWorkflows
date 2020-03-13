@@ -50,10 +50,18 @@
         "cpn"      : 112,
         "conda"    : "/scratch1/01083/tg803521/miniconda3/",
         "pilot"    : {
+<<<<<<< Updated upstream
             "resource"      : "xsede.fronters",
             "project"       : "FTA-Jha",
             "queue"         : "development",
             "runtime"       : 120,
+=======
+            "resource"      : "anl.theta",
+            "project"       : "CVD_Research",
+            "queue"         : "CVD_Research",
+          # "queue"         : "debug-flat-quad",
+            "runtime"       : 180,
+>>>>>>> Stashed changes
             "cores"         : 0
         }
     }

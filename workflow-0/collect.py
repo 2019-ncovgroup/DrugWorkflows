@@ -16,11 +16,19 @@ for sid in sids:
         uid = os.path.basename(task)[:-3]
         with open(task, 'r') as fin:
             for line in fin.readlines():
-                idx = line.find('theta_dock')
-                if idx < 0:
-                    continue
-                _, _, smi, oeb, _, idx_start, idx_count = line[idx:].split()
+                idx1 = line.find('theta_dock')
+                idx2 = line.find('>')
+                if idx1 < 0: continue
+                if idx2 < 0: idx2 = len(line)
+                try:
+                    _, _, smi, oeb, _, idx_start, idx_count = line[idx1:idx2].split()
+                except:
+                    print(line[idx:idx2])
+                    raise
                 break
+        if not oeb:
+          # print('skip %s' % task)
+            continue
         oeb       = oeb.strip('"')
         smi       = smi.strip('"')
         idx_start = idx_start.strip('"')
@@ -36,16 +44,21 @@ for sid in sids:
         cnt = 0
         with open('%s/STDOUT' % os.path.dirname(task), 'r') as fin:
             for line in fin.readlines():
+                if 'test,pl_pro' not in line:
+                    continue
                 data[oeb].add(line)
                 cnt += 1
       # print('    ', uid, oeb, smi, idx_start, idx_count, cnt)
-    print(sid, oeb)
+    if not oeb:
+        print(sid)
+    else:
+        print(sid, oeb, len(data[oeb]))
 print()
 
 for oeb in data:
     fname = '%s.out' % oeb[:-4]
     print('write %s' % fname)
-    if os.path.exist(fname):
+    if os.path.exists(fname):
         print('WARNING: %s exists - appending data' % fname)
     with open(fname, 'a') as fout:
         for line in sorted(list(data[oeb])):
