@@ -51,6 +51,8 @@ if __name__ == '__main__':
                 'oe_license.txt'
                ]
 
+        print('%d pilots: %d cores on %d nodes' % (n_pilots, cores, cores/cpn))
+
         pdescs = [rp.ComputePilotDescription(pdinit) for i in range(n_pilots)]
         pilots = pmgr.submit_pilots(pdescs)
 
@@ -104,7 +106,7 @@ if __name__ == '__main__':
         umgr.wait_units()
 
     finally:
-      # session.close(download=True)
+        session.close(download=True)
         pass
 
 
