@@ -6,8 +6,9 @@ tgt_fname=$1    ; shift
 idx=$1          ; shift
 len=1
 
-# . $conda_dir/etc/profile.d/conda.sh
-# conda activate covid-19-0
+
+. $conda_dir/etc/profile.d/conda.sh
+conda activate covid-19-0
 
 export export PYTHONPATH=`pwd`:$PYTHONPATH
 export CONDA_SHLVL=2
