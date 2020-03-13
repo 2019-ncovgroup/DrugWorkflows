@@ -1,14 +1,14 @@
 
 {
     "frontera": {
-        "cpn"      : 64,
-        "conda"    : "/home/merzky/.miniconda3/",
+        "cpn"      : 56,
+        "conda"    : "/scratch1/01083/tg803521/miniconda3/",
         "pilot"    : {
             "resource"      : "xsede.frontera",
-            "runtime"       : 60,
-            "cores"         : 128,
-            "project"       : "TG-MCB090174",
-            "queue"         : "compute"
+            "runtime"       : 120,
+            "cores"         : 0,
+            "project"       : "FTA-Jha",
+            "queue"         : "development"
         }
     },
 
@@ -47,21 +47,16 @@
     },
 
     "theta": {
-        "cpn"      : 112,
-        "conda"    : "/scratch1/01083/tg803521/miniconda3/",
+        "cpn"      : 64,
+        "conda"    : "/gpfs/mira-home/mturilli/.miniconda3/",
         "pilot"    : {
-<<<<<<< Updated upstream
-            "resource"      : "xsede.fronters",
-            "project"       : "FTA-Jha",
-            "queue"         : "development",
-            "runtime"       : 120,
-=======
+            "resource"      : "anl.theta",
+            "project"       : "CVD_Research",
             "resource"      : "anl.theta",
             "project"       : "CVD_Research",
             "queue"         : "CVD_Research",
           # "queue"         : "debug-flat-quad",
             "runtime"       : 180,
->>>>>>> Stashed changes
             "cores"         : 0
         }
     }
