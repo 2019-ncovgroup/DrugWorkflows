@@ -28,7 +28,7 @@
         "cpn"      : 24,
         "conda"    : "/home/mturilli/.miniconda3/",
         "pilot"    : {
-            "resource"      : "xsede.comet",
+            "resource"      : "xsede.comet_ssh",
             "runtime"       : 60,
             "cores"         : 128,
             "project"       : "TG-MCB090174",
