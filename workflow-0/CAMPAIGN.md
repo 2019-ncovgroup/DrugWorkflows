@@ -6,11 +6,11 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 
 * Nsp10_pocket1_receptor.oeb - Theta, AM, DONE
 * Nsp10_pocket3_receptor.oeb - 
-* Nsp10_pocket26_receptor.oeb - Comet, 
+* Nsp10_pocket26_receptor.oeb - Comet, MT, DONE
 
-* ADRP_pocket1_receptor.oeb
-* ADRP_pocket12_receptor.oeb
-* ADRP_pocket13_receptor.oeb
+* ADRP_pocket1_receptor.oeb -  Comet, MT, DONE
+* ADRP_pocket12_receptor.oeb -  Comet, MT, DONE
+* ADRP_pocket13_receptor.oeb -  Comet, MT
 
 * nsp15-CIT_pocket1_receptor.oeb
 * nsp15-CIT_pocket6_receptor.oeb
