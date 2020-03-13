@@ -5,7 +5,7 @@
 - adjust `conda` in `config.json`
 - cp oe_license.txt to *here*
 - cp data/* Model-generation/input
-- ./theta_dock_rp_loop.py localhost input/discovery_set_db.smi input/test.oeb 0 10 2
+- ./theta_dock_rp_loop.py localhost input/discovery_set_db.smi input/test.oeb 0 8 20 2000
 
   localhost : target (see config.json AND EDIT IT)
   smi...    : ...
