@@ -29,8 +29,8 @@
         "conda"    : "/home/mturilli/.miniconda3/",
         "pilot"    : {
             "resource"      : "xsede.comet_ssh",
-            "runtime"       : 60,
-            "cores"         : 128,
+            "runtime"       : 120,
+            "cores"         : 0,
             "project"       : "TG-MCB090174",
             "queue"         : "compute"
         }
