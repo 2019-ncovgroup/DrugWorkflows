@@ -1,4 +1,4 @@
 
-receptor  : nsp15-CIT_pocket13_receptor     [     95969]
+receptor  : nsp15-CIT_pocket13_receptor     [    287159]
 smiles    : discovery_set_db                [    310782]
-missing   :                           69.1% [    214813]
+missing   :                            7.6% [     23623]

@@ -1,0 +1,4 @@
+
+receptor  : PLPro_pocket23_receptor         [    153097]
+smiles    : discovery_set_db                [    310782]
+missing   :                           50.7% [    157685]
