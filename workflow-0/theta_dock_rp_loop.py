@@ -22,6 +22,10 @@ if __name__ == '__main__':
     n_pilots   = int(sys.argv[5])
     n_tasks    = int(sys.argv[6])  # tasks per pilot
     n_samples  = int(sys.argv[7])  # samples per task
+    specfile   = ''
+
+    if n_samples == 0:
+        specfile = sys.argv[8]
 
     cfg        = ru.read_json('config.json')
     model      = '%s/Model-generation' % os.getcwd()
@@ -51,6 +55,10 @@ if __name__ == '__main__':
                 'oe_license.txt'
                ]
 
+        if specfile:
+            pdinit["input_staging"].append(specfile)
+
+
         print('%d pilots: %d cores on %d nodes' % (n_pilots, cores, cores/cpn))
 
         pdescs = [rp.ComputePilotDescription(pdinit) for i in range(n_pilots)]
@@ -77,7 +85,7 @@ if __name__ == '__main__':
                 cud.cpu_threads    = cpn
                 cud.executable     = './theta_dock.sh'
                 cud.arguments      =  [conda, smi_fname, tgt_fname,
-                                       cpn, idx, n_samples, uid, uids]
+                                       cpn, idx, n_samples, uid, uids, specfile]
                 cud.environment    =  {'OE_LICENSE': 'oe_license.txt'}
                 cud.input_staging  = [{'source': 'pilot:///Model-generation/input',
                                        'target': 'unit:///input',
@@ -98,6 +106,12 @@ if __name__ == '__main__':
                                        'target': 'unit:///smi.sh',
                                        'action': rp.LINK},
                                       ]
+                if specfile:
+                    cud.input_staging.append({
+                        'source': 'pilot:///%s' % specfile,
+                        'target': 'unit:///specfile',
+                        'action': rp.LINK})
+
                 cuds.append(cud)
 
             # chunk defined for pilot

@@ -1,6 +1,6 @@
 # Workflow-0 Campaign
 
-## Targets 
+## Targets
 
 Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 
@@ -12,9 +12,9 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 |---------------------------------|----------|----------|---------|
 | ADRP_pocket1_receptor.oeb       | Comet    | MT       | Done    |
 | ADRP_pocket12_receptor.oeb      | Comet    | MT       | Done    |
-| ADRP_pocket13_receptor.oeb      | Comet    | MT       | Partial | 
+| ADRP_pocket13_receptor.oeb      | Comet    | MT       | Partial |
 |---------------------------------|----------|----------|---------|
-| nsp15-CIT_pocket1_receptor.oeb  |          |          |         |
+| nsp15-CIT_pocket1_receptor.oeb  | Theta    | AM       |         |
 | nsp15-CIT_pocket6_receptor.oeb  |          |          |         |
 | nsp15-CIT_pocket13_receptor.oeb |          |          |         |
 | nsp15-CIT_pocket18_receptor.oeb |          |          |         |
@@ -26,9 +26,9 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | PLPro_pocket23_receptor.oeb     |          |          |         |
 |---------------------------------|----------|----------|---------|
 | CoV_pocket1_receptor.oeb        | Frontera | AM       | Done    |
-| CoV_pocket2_receptor.oeb        | Frontera | AM       |         |
-| CoV_pocket8_receptor.oeb        | Theta    | AM       |         |
-| CoV_pocket10_receptor.oeb       | Frontera | AM       |         |
+| CoV_pocket2_receptor.oeb        | Frontera | AM       | Partial |
+| CoV_pocket8_receptor.oeb        | Theta    | AM       | Done    |
+| CoV_pocket10_receptor.oeb       | Frontera | AM       | Partial |
 
 
 ## Runs

@@ -16,13 +16,40 @@ export OE_LICENSE=oe_license.txt
 
 chmod 0755 smi.sh
 
-idx=$((idx_start + uid))
-cnt=0
-while test $cnt -le $smi_per_task
-do
-    echo $idx
-    idx=$((idx + uids))
-    cnt=$((cnt + 1))
-done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $conda_dir $smi_fname $tgt_fname {}
+if test "$smi_per_task" -ne "0"
+then
+    idx=$((idx_start + uid))
+    cnt=0
+    while test $cnt -le $smi_per_task
+    do
+        echo $idx
+        idx=$((idx + uids))
+        cnt=$((cnt + 1))
+    done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $conda_dir $smi_fname $tgt_fname {}
+
+else
+
+    sidx=$uid
+    spec=$(head -n $((sidx+1)) specfile | tail -n 1 | xargs echo)
+    echo spec $spec 1>&2
+    while ! test -z "$spec"
+    do
+        idx_0=$(echo $spec | cut -f 1 -d ' ')
+        idx_1=$(echo $spec | cut -f 3 -d ' ')
+        idx=$idx_0
+        while test $idx -le $idx_1
+        do
+            echo $idx
+            idx=$((idx+1))
+        done
+        old=$spec
+        sidx=$((sidx + $uids))
+        spec=$(head -n $((sidx+1)) specfile | tail -n 1 | xargs echo)
+        echo spec $spec 1>&2
+        test "$spec" = "$old" && break
+    done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $conda_dir $smi_fname $tgt_fname {}
+fi
+
+
 
 
