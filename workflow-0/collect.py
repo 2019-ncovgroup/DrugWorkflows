@@ -35,8 +35,8 @@ for sid in sids:
         smi = smi.strip('"')
         oeb = os.path.basename(oeb)
         smi = os.path.basename(smi)
-      # oeb = oeb[:-4]
-      # smi = smi[:-4]
+        oeb = oeb[:-4]
+        smi = smi[:-4]
 
         idx_start = idx_start.strip('"')
         idx_count = idx_count.strip('"')
@@ -56,24 +56,26 @@ for sid in sids:
       # print('    ', uid, oeb, smi, idx_start, idx_count, cnt)
     if not oeb: print(sid)
     else      : print(sid, oeb, len(data[oeb]))
-print()
 
+print()
 for oeb in data:
-    if os.path.exists('%s.out' % oeb):
-        print('+ %s.out' % oeb)
-        with open('%s.out' % oeb, 'r') as fin:
+    fname = '%s.out' % oeb
+    if os.path.exists(fname):
+        print('+ %s' % fname)
+        with open(fname, 'r') as fin:
             for line in fin.readlines():
                 data[oeb].add(line)
 
+print()
 for oeb in data:
     tname = '%s.tmp' % oeb
+    fname = '%s.out' % oeb
     print('write %s' % tname)
     with open(tname, 'a') as fout:
         for line in sorted(list(data[oeb])):
             if 'SMILES invalid' not in line:
                 fout.write(line)
-    fname = '%s.out' % oeb
-    os.system('mv -v %s %s' % (tname, fname))
+    os.system('mv %s %s' % (tname, fname))
 
 print()
 
