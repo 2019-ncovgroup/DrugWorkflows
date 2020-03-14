@@ -4,39 +4,42 @@
 
 Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 
-* Nsp10_pocket1_receptor.oeb - Theta, AM, DONE
-* Nsp10_pocket3_receptor.oeb - 
-* Nsp10_pocket26_receptor.oeb - Comet, 
-
-* ADRP_pocket1_receptor.oeb
-* ADRP_pocket12_receptor.oeb
-* ADRP_pocket13_receptor.oeb
-
-* nsp15-CIT_pocket1_receptor.oeb
-* nsp15-CIT_pocket6_receptor.oeb
-* nsp15-CIT_pocket13_receptor.oeb
-* nsp15-CIT_pocket18_receptor.oeb
-* nsp15-CIT_pocket37_receptor.oeb
-
-* PLPro_pocket3_receptor.oeb
-* PLPro_pocket4_receptor.oeb
-* PLPro_pocket6_receptor.oeb
-* PLPro_pocket23_receptor.oeb
-
-* CoV_pocket1_receptor.oeb - Frontera, AM, DONE
-* CoV_pocket2_receptor.oeb - Frontera, AM, DONE
-* CoV_pocket8_receptor.oeb - Theta, AM
-* CoV_pocket10_receptor.oeb - Frontera, AM
+| OEB                             | Machine  | Assignee | State |
+|---------------------------------|----------|----------|-------|
+| Nsp10_pocket1_receptor.oeb      | Theta    | AM       | Done  |
+| Nsp10_pocket3_receptor.oeb      |          |          |       |
+| Nsp10_pocket26_receptor.oeb     | Comet    | MT       | Done  |
+|---------------------------------|----------|----------|-------|
+| ADRP_pocket1_receptor.oeb       | Comet    | MT       | Done  |
+| ADRP_pocket12_receptor.oeb      | Comet    | MT       | Done  |
+| ADRP_pocket13_receptor.oeb      | Comet    | MT       |       | 
+|---------------------------------|----------|----------|-------|
+| nsp15-CIT_pocket1_receptor.oeb  |          |          |       |
+| nsp15-CIT_pocket6_receptor.oeb  |          |          |       |
+| nsp15-CIT_pocket13_receptor.oeb |          |          |       |
+| nsp15-CIT_pocket18_receptor.oeb |          |          |       |
+| nsp15-CIT_pocket37_receptor.oeb |          |          |       |
+|---------------------------------|----------|----------|-------|
+| PLPro_pocket3_receptor.oeb      |          |          |       |
+| PLPro_pocket4_receptor.oeb      |          |          |       |
+| PLPro_pocket6_receptor.oeb      |          |          |       |
+| PLPro_pocket23_receptor.oeb     |          |          |       |
+|---------------------------------|----------|----------|-------|
+| CoV_pocket1_receptor.oeb        | Frontera | AM       | Done  |
+| CoV_pocket2_receptor.oeb        | Frontera | AM       | Done  |
+| CoV_pocket8_receptor.oeb        | Theta    | AM       |       |
+| CoV_pocket10_receptor.oeb       | Frontera | AM       |       |
 
 
 ## Runs
 
-| Run | command               | machine  | SMILES               | OEB                         |
-|-----|-----------------------|----------|----------------------|-----------------------------|
-| 1   | theta_dock_rp_loop.py | comet    | discovery_set_db.smi | Nsp10_pocket26_receptor.oeb |
-| 2   | theta_dock_rp_loop.py | comet    | discovery_set_db.smi | Nsp10_pocket26_receptor.oeb |
-| 3   | theta_dock_rp_loop.py | comet    | discovery_set_db.smi | ADRP_pocket1_receptor.oeb   |
-| 4   | theta_dock_rp_loop.py | comet    | discovery_set_db.smi | ADRP_pocket1_receptor.oeb   |
+| Run | command                    | machine  | SMILES               | OEB                         |
+|-----|----------------------------|----------|----------------------|-----------------------------|
+| 1   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | Nsp10_pocket26_receptor.oeb |
+| 2   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | Nsp10_pocket26_receptor.oeb |
+| 3   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | ADRP_pocket1_receptor.oeb   |
+| 4   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | ADRP_pocket1_receptor.oeb   |
+| 5   | theta_dock_rp_loop.py     | comet    |  discovery_set_db.smi | ADRP_pocket13_receptor.oeb |
 
 ## Data
 
