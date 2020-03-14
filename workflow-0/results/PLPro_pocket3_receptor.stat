@@ -1,0 +1,4 @@
+
+receptor  : PLPro_pocket3_receptor          [    310571]
+smiles    : discovery_set_d                 [    310782]
+missing   :                            0.1% [       211]
