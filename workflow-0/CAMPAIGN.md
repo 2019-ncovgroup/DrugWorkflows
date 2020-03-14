@@ -18,7 +18,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | nsp15-CIT_pocket6_receptor.oeb  | Theta    | AM       | Done    |   4.3 % |
 | nsp15-CIT_pocket13_receptor.oeb | Theta    | AM       | Partial |  69.1 % |
 | nsp15-CIT_pocket18_receptor.oeb | Theta    | MT       | Done    |         |
-| nsp15-CIT_pocket37_receptor.oeb | Frontera | IP       |         |         |
+| nsp15-CIT_pocket37_receptor.oeb | Frontera | IP       | Done    |         |
 |---------------------------------|----------|----------|---------|---------|
 | PLPro_pocket3_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
 | PLPro_pocket4_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
