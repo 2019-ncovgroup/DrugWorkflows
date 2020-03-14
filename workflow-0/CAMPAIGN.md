@@ -20,9 +20,9 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | nsp15-CIT_pocket18_receptor.oeb |          |          |       |
 | nsp15-CIT_pocket37_receptor.oeb |          |          |       |
 |---------------------------------|----------|----------|-------|
-| PLPro_pocket3_receptor.oeb      |          |          |       |
-| PLPro_pocket4_receptor.oeb      |          |          |       |
-| PLPro_pocket6_receptor.oeb      |          |          |       |
+| PLPro_pocket3_receptor.oeb      | Frontera | MT       |       |
+| PLPro_pocket4_receptor.oeb      | Frontera | MT       |       |
+| PLPro_pocket6_receptor.oeb      | Frontera | MT       |       |
 | PLPro_pocket23_receptor.oeb     |          |          |       |
 |---------------------------------|----------|----------|-------|
 | CoV_pocket1_receptor.oeb        | Frontera | AM       | Done  |
