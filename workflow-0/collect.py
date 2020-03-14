@@ -35,8 +35,8 @@ for sid in sids:
         smi = smi.strip('"')
         oeb = os.path.basename(oeb)
         smi = os.path.basename(smi)
-        oeb = oeb[:-4]
-        smi = smi[:-4]
+      # oeb = oeb[:-4]
+      # smi = smi[:-4]
 
         idx_start = idx_start.strip('"')
         idx_count = idx_count.strip('"')
