@@ -1,4 +1,4 @@
 
-receptor  : ADRP_pocket13_receptor.oeb      [    222454]
+receptor  : ADRP_pocket13_receptor          [    222454]
 smiles    : discovery_set_db                [    310782]
 missing   :                           28.4% [     88328]
