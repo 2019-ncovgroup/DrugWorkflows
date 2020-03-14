@@ -7,6 +7,9 @@ import glob
 data = dict()
 sids = sys.argv[1:]
 
+if len(sids) == 1 and os.path.isfile(sids[0]):
+    data[sids[0][:-4]] = set()
+
 print()
 for sid in sids:
   # print(sid)
@@ -25,7 +28,7 @@ for sid in sids:
                     smi, oeb             = elems[2], elems[3]
                     idx_start, idx_count = elems[5], elems[6]
                 except:
-                    print(line[idx:idx2])
+                    print(line[idx1:idx2])
                     raise
                 break
         if not oeb:
@@ -72,7 +75,7 @@ for oeb in data:
     fname = '%s.out' % oeb
     print('write %s' % tname)
     with open(tname, 'a') as fout:
-        for line in sorted(list(data[oeb])):
+        for line in sorted(list(data[oeb]), key=lambda x: int(x.split()[0])):
             if 'SMILES invalid' not in line:
                 fout.write(line)
     os.system('mv %s %s' % (tname, fname))

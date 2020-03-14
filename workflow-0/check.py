@@ -7,7 +7,11 @@ import sys
 import radical.utils as ru
 
 out = sys.argv[1].strip()
-inp = sys.argv[2].strip()
+
+if len(sys.argv) > 2:
+    inp = sys.argv[2].strip()
+else:
+    inp = '../data/discovery_set_db.smi'
 
 smi = os.path.basename(inp)[:-4]
 oeb = os.path.basename(out)[:-4]
@@ -15,13 +19,13 @@ oeb = os.path.basename(out)[:-4]
 num = int(ru.sh_callout('wc -l %s' % inp)[0].split()[0])
 
 rec = set()
-dup = list()
+dup = 0
 with open(out, 'r') as fin:
     try:
         for line in fin.readlines():
             idx = int(line.split(' ', 1)[0])
             if idx in rec:
-                dup.append(idx)
+                dup += 1
             rec.add(idx)
     except:
         print('failed: %s' % line)
@@ -36,14 +40,14 @@ for i in range(num):
     if i in rec:
         if rmin:
             if rmin == i - 1:
-                GAPS.append('%23d' % i)
+                GAPS.append('%23d' % rmin)
                 if 1 >= GAP:
-                    gaps.append('%23d' % i)
+                    gaps.append('%23d' % rmin)
                 rmin = None
                 rmax = None
             elif rmax:
                 gap = rmax - rmin + 1
-                GAPS.append('%10d - %10d' % (rmin, rmax)) 
+                GAPS.append('%10d - %10d' % (rmin, rmax))
                 if gap >= GAP:
                     gaps.append('%10d - %10d [%10d]'
                                % (rmin, rmax, rmax - rmin + 1))
@@ -67,6 +71,7 @@ with open('%s.stat' % oeb, 'w') as fout:
     fout.write('\n')
     fout.write('receptor  : %-30s  [%10d]\n' % (oeb, len(rec)))
     fout.write('smiles    : %-30s  [%10d]\n' % (smi, num))
+    fout.write('duplicates: %30.1f%% [%10d]\n' % (100.0 * dup  / num, dup ))
     fout.write('missing   : %30.1f%% [%10d]\n' % (100.0 * miss / num, miss))
   # first = True
   # for gap in gaps:

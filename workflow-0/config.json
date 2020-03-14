@@ -37,7 +37,7 @@
     },
 
     "localhost": {
-        "cpn"      : 2,
+        "cpn"      : 1,
         "conda"    : "/home/merzky/.miniconda3/",
         "pilot"    : {
             "resource"      : "local.localhost",
