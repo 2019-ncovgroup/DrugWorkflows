@@ -31,9 +31,10 @@ else
 
     sidx=$uid
     spec=$(head -n $((sidx+1)) specfile | tail -n 1 | xargs echo)
-    echo spec $spec 1>&2
     while ! test -z "$spec"
     do
+        spec=$(echo $spec | tr -d ':[][:alpha:]')
+        echo spec $spec 1>&2
         idx_0=$(echo $spec | cut -f 1 -d ' ')
         idx_1=$(echo $spec | cut -f 3 -d ' ')
         idx=$idx_0
@@ -45,8 +46,8 @@ else
         old=$spec
         sidx=$((sidx + $uids))
         spec=$(head -n $((sidx+1)) specfile | tail -n 1 | xargs echo)
-        echo spec $spec 1>&2
         test "$spec" = "$old" && break
+  # done | xargs -t -n 1 -P $cpn -I{} true ./smi.sh $conda_dir $smi_fname $tgt_fname {}
     done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $conda_dir $smi_fname $tgt_fname {}
 fi
 
