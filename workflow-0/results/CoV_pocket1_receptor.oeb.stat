@@ -1,4 +1,0 @@
-
-receptor  : CoV_pocket1_receptor.oeb        [      7965]
-smiles    : discovery_set_db                [    310782]
-missing   :                           97.4% [    302817]
