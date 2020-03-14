@@ -6,6 +6,7 @@
 - cp oe_license.txt to *here*
 - cp data/* Model-generation/input
 - export RADICAL_PILOT_DBURL=mongodb://giannis:radicalpass@149.165.170.227:29019/radical
+- export RADICAL_PROFILE="TRUE"
 - ./theta_dock_rp_loop.py localhost input/discovery_set_db.smi input/test.oeb 0 8 20 2000
 
   localhost : target (see config.json AND EDIT IT)

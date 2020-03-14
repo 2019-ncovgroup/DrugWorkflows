@@ -7,7 +7,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | OEB                             | Machine  | Assignee | State |
 |---------------------------------|----------|----------|-------|
 | Nsp10_pocket1_receptor.oeb      | Theta    | AM       | Done  |
-| Nsp10_pocket3_receptor.oeb      |          |          |       |
+| Nsp10_pocket3_receptor.oeb      | Frontera | MT       |       |
 | Nsp10_pocket26_receptor.oeb     | Comet    | MT       | Done  |
 |---------------------------------|----------|----------|-------|
 | ADRP_pocket1_receptor.oeb       | Comet    | MT       | Done  |

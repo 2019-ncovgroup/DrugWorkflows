@@ -38,9 +38,9 @@ git clone https://github.com/radical-cybertools/radical.analytics.git
 cd Model-generation; git checkout covid; git pull; cd ..
 
 ## install the covid branch for the RCT stack 
-cd radical.utils; git checkout covid; git pull; mv .git/ ..; pip install . --upgrade; mv ../.git; cd ..
-cd radical.saga;  git checkout covid; git pull; mv .git/ ..; pip install . --upgrade; mv ../.git; cd ..
-cd radical.pilot; git checkout covid; git pull; mv .git/ ..; pip install . --upgrade; mv ../.git; cd ..
+cd radical.utils; git checkout covid; git pull; mv .git/ ../; pip install . --upgrade; mv ../.git .; cd ..
+cd radical.saga;  git checkout covid; git pull; mv .git/ ../; pip install . --upgrade; mv ../.git .; cd ..
+cd radical.pilot; git checkout covid; git pull; mv .git/ ../; pip install . --upgrade; mv ../.git .; cd ..
 
 ## setup env for execution
 cd DrugWorfklows/workflow-0; cat README
