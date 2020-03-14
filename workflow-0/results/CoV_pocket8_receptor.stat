@@ -1,0 +1,4 @@
+
+receptor  : CoV_pocket8_receptor            [    298726]
+smiles    : discovery_set_db                [    310782]
+missing   :                            3.9% [     12056]

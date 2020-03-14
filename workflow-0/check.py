@@ -31,16 +31,19 @@ rmin = None
 rmax = None
 miss = 0
 gaps = list()
+GAPS = list()
 for i in range(num):
     if i in rec:
         if rmin:
             if rmin == i - 1:
+                GAPS.append('%23d' % i)
                 if 1 >= GAP:
                     gaps.append('%23d' % i)
                 rmin = None
                 rmax = None
             elif rmax:
                 gap = rmax - rmin + 1
+                GAPS.append('%10d - %10d' % (rmin, rmax)) 
                 if gap >= GAP:
                     gaps.append('%10d - %10d [%10d]'
                                % (rmin, rmax, rmax - rmin + 1))
@@ -56,17 +59,24 @@ for i in range(num):
     if not num % 1000:
         sys.stdout.write('.')
         sys.stdout.flush()
+if rmin:
+    gaps.append('%10d - %10d [%10d]'
+               % (rmin, num, num - rmin + 1))
 
 with open('%s.stat' % oeb, 'w') as fout:
     fout.write('\n')
     fout.write('receptor  : %-30s  [%10d]\n' % (oeb, len(rec)))
     fout.write('smiles    : %-30s  [%10d]\n' % (smi, num))
     fout.write('missing   : %30.1f%% [%10d]\n' % (100.0 * miss / num, miss))
-    first = True
-    for gap in gaps:
-        if first: fout.write('gaps >= %2d:         %s\n' % (GAP, gap))
-        else    : fout.write('          :         %s\n'  %       gap )
-        first = False
+  # first = True
+  # for gap in gaps:
+  #     if first: fout.write('gaps >= %2d:         %s\n' % (GAP, gap))
+  #     else    : fout.write('          :         %s\n'  %       gap )
+  #     first = False
+
+with open('%s.gaps' % oeb, 'w') as fout:
+    for gap in GAPS:
+        fout.write('%s\n' % gap)
 
 os.system('cat %s.stat' % oeb)
 

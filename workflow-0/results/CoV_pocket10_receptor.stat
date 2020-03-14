@@ -1,0 +1,4 @@
+
+receptor  : CoV_pocket10_receptor           [     99779]
+smiles    : discovery_set_db                [    310782]
+missing   :                           67.9% [    211003]
