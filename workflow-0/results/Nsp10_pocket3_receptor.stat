@@ -1,4 +1,4 @@
 
-receptor  : Nsp10_pocket3_receptor          [    226789]
+receptor  : Nsp10_pocket3_receptor          [    261501]
 smiles    : discovery_set_db                [    310782]
-missing   :                           27.0% [     83993]
+missing   :                           15.9% [     49281]
