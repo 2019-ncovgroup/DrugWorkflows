@@ -1,4 +1,4 @@
 
-receptor  : nsp15-CIT_pocket37_receptor     [     67693]
+receptor  : nsp15-CIT_pocket37_receptor     [    216807]
 smiles    : discovery_set_db                [    310782]
-missing   :                           78.2% [    243089]
+missing   :                           30.2% [     93975]
