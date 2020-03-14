@@ -18,7 +18,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | nsp15-CIT_pocket6_receptor.oeb  | Theta    | AM       |         |
 | nsp15-CIT_pocket13_receptor.oeb |          |          |         |
 | nsp15-CIT_pocket18_receptor.oeb |          |          |         |
-| nsp15-CIT_pocket37_receptor.oeb |          |          |         |
+| nsp15-CIT_pocket37_receptor.oeb | Frontera | IP       |         |
 |---------------------------------|----------|----------|---------|
 | PLPro_pocket3_receptor.oeb      | Frontera | MT       |         |
 | PLPro_pocket4_receptor.oeb      | Frontera | MT       |         |
