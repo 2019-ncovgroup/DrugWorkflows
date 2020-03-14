@@ -7,7 +7,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | OEB                             | Machine  | Assignee | State   | Missing |
 |---------------------------------|----------|----------|---------|---------|
 | Nsp10_pocket1_receptor.oeb      | Theta    | AM       | Done    |   1.6 % |
-| Nsp10_pocket3_receptor.oeb      | Frontera | MT       | Partial |  27.0 % |
+| Nsp10_pocket3_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
 | Nsp10_pocket26_receptor.oeb     | Comet    | MT       | Done    |   0.1 % |
 |---------------------------------|----------|----------|---------|---------|
 | ADRP_pocket1_receptor.oeb       | Comet    | MT       | Done    |   0.1 % |
