@@ -39,13 +39,14 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | 2   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | Nsp10_pocket26_receptor.oeb |
 | 3   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | ADRP_pocket1_receptor.oeb   |
 | 4   | theta_dock_rp_loop.py      | comet    | discovery_set_db.smi | ADRP_pocket1_receptor.oeb   |
-| 5   | theta_dock_rp_loop.py     | comet    |  discovery_set_db.smi | ADRP_pocket13_receptor.oeb |
+| 5   | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | ADRP_pocket13_receptor.oeb  |
 
 ## Data
 
-| Run | SID                                 | Idx    | # pilots | task/pilot | # Idx |
-|-----|-------------------------------------|--------|----------|------------|-------|
-| 1   | rp.session.two.mturilli.018334.0022 | 0      | 2        | 50         | 2000  |
-| 2   | rp.session.two.mturilli.018334.0023 | 200000 | 2        | 50         | 2000  |
-| 3   | rp.session.two.mturilli.018334.0024 | 0      | 2        | 50         | 2000  |
-| 4   | rp.session.two.mturilli.018334.0025 | 200000 | 2        | 50         | 2000  |
+| Run | SID                                                             | Idx    | # pilots | task/pilot | # Idx  |
+|-----|-----------------------------------------------------------------|--------|----------|------------|--------|
+| 1   | rp.session.two.mturilli.018334.0022                             | 0      | 2        | 50         | 2000   |
+| 2   | rp.session.two.mturilli.018334.0023                             | 200000 | 2        | 50         | 2000   |
+| 3   | rp.session.two.mturilli.018334.0024                             | 0      | 2        | 50         | 2000   |
+| 4   | rp.session.two.mturilli.018334.0025                             | 200000 | 2        | 50         | 2000   |
+| 5   | rp.session.login3.frontera.tacc.utexas.edu.mturilli.018335.0000 | 0      | 1        | 4          | 80000  |
