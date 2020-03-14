@@ -43,6 +43,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | 6   | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | Nsp10_pocket3_receptor.oeb  |
 | 7   | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | PLPro_pocket3_receptor.oeb  |
 | 8   | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | PLPro_pocket4_receptor.oeb  |
+| 9   | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | PLPro_pocket6_receptor.oeb  |
 
 ## Data
 
@@ -56,5 +57,6 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | 6   | rp.session.login2.frontera.tacc.utexas.edu.tg853783.018335.0000\* | 0      | 1        | 4          | 80000  |
 | 7   | rp.session.login4.frontera.tacc.utexas.edu.tg864504.018335.0000   | 0      | 1        | 4          | 40000  |
 | 8   | rp.session.login3.frontera.tacc.utexas.edu.mturilli.018335.0003   | 0      | 1        | 4          | 40000  |
+| 9   | rp.session.login2.frontera.tacc.utexas.edu.tg853783.018335.0001   | 0      | 1        | 4          | 40000  |
 
 * \* Partial, killed early by end of walltime
