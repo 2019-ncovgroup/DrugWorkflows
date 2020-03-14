@@ -56,8 +56,8 @@ for sid in sids:
       # print('    ', uid, oeb, smi, idx_start, idx_count, cnt)
     if not oeb: print(sid)
     else      : print(sid, oeb, len(data[oeb]))
-print()
 
+print()
 for oeb in data:
     if os.path.exists('%s.out' % oeb):
         print('+ %s.out' % oeb)
@@ -65,6 +65,7 @@ for oeb in data:
             for line in fin.readlines():
                 data[oeb].add(line)
 
+print()
 for oeb in data:
     tname = '%s.tmp' % oeb
     print('write %s' % tname)
@@ -73,7 +74,7 @@ for oeb in data:
             if 'SMILES invalid' not in line:
                 fout.write(line)
     fname = '%s.out' % oeb
-    os.system('mv -v %s %s' % (tname, fname))
+    os.system('mv %s %s' % (tname, fname))
 
 print()
 
