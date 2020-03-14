@@ -4,31 +4,31 @@
 
 Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 
-| OEB                             | Machine  | Assignee | State   |
-|---------------------------------|----------|----------|---------|
-| Nsp10_pocket1_receptor.oeb      | Theta    | AM       | Done    |
-| Nsp10_pocket3_receptor.oeb      | Frontera | MT       | Partial |
-| Nsp10_pocket26_receptor.oeb     | Comet    | MT       | Done    |
-|---------------------------------|----------|----------|---------|
-| ADRP_pocket1_receptor.oeb       | Comet    | MT       | Done    |
-| ADRP_pocket12_receptor.oeb      | Comet    | MT       | Done    |
-| ADRP_pocket13_receptor.oeb      | Comet    | MT       | Partial |
-|---------------------------------|----------|----------|---------|
-| nsp15-CIT_pocket1_receptor.oeb  | Theta    | AM       |         |
-| nsp15-CIT_pocket6_receptor.oeb  | Theta    | AM       |         |
-| nsp15-CIT_pocket13_receptor.oeb |          |          |         |
-| nsp15-CIT_pocket18_receptor.oeb |          |          |         |
-| nsp15-CIT_pocket37_receptor.oeb | Frontera | IP       |         |
-|---------------------------------|----------|----------|---------|
-| PLPro_pocket3_receptor.oeb      | Frontera | MT       |         |
-| PLPro_pocket4_receptor.oeb      | Frontera | MT       |         |
-| PLPro_pocket6_receptor.oeb      | Frontera | MT       |         |
-| PLPro_pocket23_receptor.oeb     |          |          |         |
-|---------------------------------|----------|----------|---------|
-| CoV_pocket1_receptor.oeb        | Frontera | AM       | Done    |
-| CoV_pocket2_receptor.oeb        | Frontera | AM       | Done    |
-| CoV_pocket8_receptor.oeb        | Theta    | AM       | Done    |
-| CoV_pocket10_receptor.oeb       | Frontera | AM       | Partial |
+| OEB                             | Machine  | Assignee | State   | Missing |
+|---------------------------------|----------|----------|---------|---------|
+| Nsp10_pocket1_receptor.oeb      | Theta    | AM       | Done    |   1.6 % |
+| Nsp10_pocket3_receptor.oeb      | Frontera | MT       | Partial |  27.0 % |
+| Nsp10_pocket26_receptor.oeb     | Comet    | MT       | Done    |   0.1 % |
+|---------------------------------|----------|----------|---------|---------|
+| ADRP_pocket1_receptor.oeb       | Comet    | MT       | Done    |   0.1 % |
+| ADRP_pocket12_receptor.oeb      | Comet    | MT       | Done    |         |
+| ADRP_pocket13_receptor.oeb      | Comet    | MT       | Partial |         |
+|---------------------------------|----------|----------|---------|---------|
+| nsp15-CIT_pocket1_receptor.oeb  | Theta    | AM       | Done    |   7.6 % |
+| nsp15-CIT_pocket6_receptor.oeb  | Theta    | AM       | Done    |   4.3 % |
+| nsp15-CIT_pocket13_receptor.oeb | Theta    | AM       | Partial |  69.1 % |
+| nsp15-CIT_pocket18_receptor.oeb |          |          |         |         |
+| nsp15-CIT_pocket37_receptor.oeb | Frontera | IP       |         |         |
+|---------------------------------|----------|----------|---------|---------|
+| PLPro_pocket3_receptor.oeb      | Frontera | MT       |         |         |
+| PLPro_pocket4_receptor.oeb      | Frontera | MT       |         |         |
+| PLPro_pocket6_receptor.oeb      | Frontera | MT       |         |         |
+| PLPro_pocket23_receptor.oeb     | Theta    | AM       |         |         |
+|---------------------------------|----------|----------|---------|---------|
+| CoV_pocket1_receptor.oeb        | Frontera | AM       | Done    |   4.4 % |
+| CoV_pocket2_receptor.oeb        | Frontera | AM       | Done    |   5.4 % |
+| CoV_pocket8_receptor.oeb        | Theta    | AM       | Done    |   3.9 % |
+| CoV_pocket10_receptor.oeb       | Frontera | AM       | Partial |  67.9 % |
 
 
 ## Runs
