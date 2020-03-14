@@ -58,11 +58,14 @@ if __name__ == '__main__':
 
         umgr.add_pilots(pilots)
 
+        uids = n_pilots * n_tasks
         for p in range(n_pilots):
 
             cuds = list()
 
             for t in range(n_tasks):
+
+                uid = p * n_tasks + t
 
                 idx = idx_start \
                     + (p * n_tasks * n_samples) \
@@ -74,7 +77,7 @@ if __name__ == '__main__':
                 cud.cpu_threads    = cpn
                 cud.executable     = './theta_dock.sh'
                 cud.arguments      =  [conda, smi_fname, tgt_fname,
-                                       cpn, idx, n_samples]
+                                       cpn, idx, n_samples, uid, uids]
                 cud.environment    =  {'OE_LICENSE': 'oe_license.txt'}
                 cud.input_staging  = [{'source': 'pilot:///Model-generation/input',
                                        'target': 'unit:///input',
