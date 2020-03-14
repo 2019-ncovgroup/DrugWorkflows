@@ -60,12 +60,10 @@ for i in range(num):
         if not rmin:
             rmin = i
         rmax = i
-    if not num % 1000:
-        sys.stdout.write('.')
-        sys.stdout.flush()
 if rmin:
-    gaps.append('%10d - %10d [%10d]'
-               % (rmin, num, num - rmin + 1))
+    GAPS.append('%10d - %10d' % (rmin, rmax))
+    gaps.append('%10d - %10d [%10d]' % (rmin, num, num - rmin + 1))
+
 
 with open('%s.stat' % oeb, 'w') as fout:
     fout.write('\n')
