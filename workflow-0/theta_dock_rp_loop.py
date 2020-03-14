@@ -24,8 +24,9 @@ if __name__ == '__main__':
     n_samples  = int(sys.argv[7])  # samples per task
     specfile   = ''
 
-    if n_samples == 0:
-        specfile = sys.argv[8]
+    if len(sys.argv) > 8:
+        n_samples = 0
+        specfile  = sys.argv[8]
 
     cfg        = ru.read_json('config.json')
     model      = '%s/Model-generation' % os.getcwd()
@@ -57,7 +58,6 @@ if __name__ == '__main__':
 
         if specfile:
             pdinit["input_staging"].append(specfile)
-
 
         print('%d pilots: %d cores on %d nodes' % (n_pilots, cores, cores/cpn))
 
