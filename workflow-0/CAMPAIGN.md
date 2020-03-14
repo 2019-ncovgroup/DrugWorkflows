@@ -12,7 +12,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 |---------------------------------|----------|----------|---------|---------|
 | ADRP_pocket1_receptor.oeb       | Comet    | MT       | Done    |   0.1 % |
 | ADRP_pocket12_receptor.oeb      | Comet    | MT       | Done    |         |
-| ADRP_pocket13_receptor.oeb      | Comet    | MT       | Partial |         |
+| ADRP_pocket13_receptor.oeb      | Comet    | MT       | Partial |  28.4 % |
 |---------------------------------|----------|----------|---------|---------|
 | nsp15-CIT_pocket1_receptor.oeb  | Theta    | AM       | Done    |   7.6 % |
 | nsp15-CIT_pocket6_receptor.oeb  | Theta    | AM       | Done    |   4.3 % |
@@ -21,7 +21,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | nsp15-CIT_pocket37_receptor.oeb | Frontera | IP       |         |         |
 |---------------------------------|----------|----------|---------|---------|
 | PLPro_pocket3_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
-| PLPro_pocket4_receptor.oeb      | Frontera | MT       | Done    |         |
+| PLPro_pocket4_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
 | PLPro_pocket6_receptor.oeb      | Frontera | MT       | Done    |         |
 | PLPro_pocket23_receptor.oeb     | Theta    | AM       |         |         |
 |---------------------------------|----------|----------|---------|---------|
