@@ -18,12 +18,12 @@ chmod 0755 smi.sh
 
 if test "$smi_per_task" -ne "0"
 then
-    idx=$((idx_start + uid))
+    idx=$((idx_start + uid * smi_per_task))
     cnt=0
     while test $cnt -le $smi_per_task
     do
         echo $idx
-        idx=$((idx + uids))
+        idx=$((idx + 1))
         cnt=$((cnt + 1))
     done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $conda_dir $smi_fname $tgt_fname {}
 
