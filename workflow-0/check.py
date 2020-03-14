@@ -68,11 +68,11 @@ with open('%s.stat' % oeb, 'w') as fout:
     fout.write('receptor  : %-30s  [%10d]\n' % (oeb, len(rec)))
     fout.write('smiles    : %-30s  [%10d]\n' % (smi, num))
     fout.write('missing   : %30.1f%% [%10d]\n' % (100.0 * miss / num, miss))
-    first = True
-    for gap in gaps:
-        if first: fout.write('gaps >= %2d:         %s\n' % (GAP, gap))
-        else    : fout.write('          :         %s\n'  %       gap )
-        first = False
+  # first = True
+  # for gap in gaps:
+  #     if first: fout.write('gaps >= %2d:         %s\n' % (GAP, gap))
+  #     else    : fout.write('          :         %s\n'  %       gap )
+  #     first = False
 
 with open('%s.gaps' % oeb, 'w') as fout:
     for gap in GAPS:
