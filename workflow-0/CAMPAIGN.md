@@ -22,7 +22,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 |---------------------------------|----------|----------|---------|---------|
 | PLPro_pocket3_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
 | PLPro_pocket4_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
-| PLPro_pocket6_receptor.oeb      | Frontera | MT       | Done    |         |
+| PLPro_pocket6_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
 | PLPro_pocket23_receptor.oeb     | Theta    | AM       | Done    |   0.1 % |
 |---------------------------------|----------|----------|---------|---------|
 | CoV_pocket1_receptor.oeb        | Frontera | AM       | Done    |   3.5 % |
