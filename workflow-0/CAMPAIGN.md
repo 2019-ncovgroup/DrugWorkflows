@@ -7,7 +7,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | OEB                             | Machine  | Assignee | State   | Missing |
 |---------------------------------|----------|----------|---------|---------|
 | ADRP_pocket1_receptor.oeb       | Comet    | MT       | Done    |   0.1 % |
-| ADRP_pocket12_receptor.oeb      | Frontera | MT       | Running |         |
+| ADRP_pocket12_receptor.oeb      | Frontera | MT       | Partial |  48.6 % |
 | ADRP_pocket13_receptor.oeb      | Comet    | MT       | Done    |   9.0 % |
 |---------------------------------|----------|----------|---------|---------|
 | Nsp10_pocket1_receptor.oeb      | Theta    | AM       | Done    |   1.6 % |
@@ -17,7 +17,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | nsp15-CIT_pocket1_receptor.oeb  | Theta    | AM       | Done    |   7.6 % |
 | nsp15-CIT_pocket6_receptor.oeb  | Theta    | AM       | Done    |   4.3 % |
 | nsp15-CIT_pocket13_receptor.oeb | Theta    | AM       | Done    |   0.1 % |
-| nsp15-CIT_pocket18_receptor.oeb | Frontera | MT       | Running |  53.1 % |
+| nsp15-CIT_pocket18_receptor.oeb | Frontera | MT       | Done    |   2.0 % |
 | nsp15-CIT_pocket37_receptor.oeb | Comet    | MT       | Running |  30.2 % |
 |---------------------------------|----------|----------|---------|---------|
 | PLPro_pocket3_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
