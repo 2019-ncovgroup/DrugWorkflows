@@ -7,18 +7,18 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | OEB                             | Machine  | Assignee | State   | Missing |
 |---------------------------------|----------|----------|---------|---------|
 | ADRP_pocket1_receptor.oeb       | Comet    | MT       | Done    |   0.1 % |
-| ADRP_pocket12_receptor.oeb      | Comet    | MT       | Done    |         |
-| ADRP_pocket13_receptor.oeb      | Comet    | MT       | Partial |  16.6 % |
+| ADRP_pocket12_receptor.oeb      | Frontera | MT       | Running |         |
+| ADRP_pocket13_receptor.oeb      | Comet    | MT       | Done    |   9.0 % |
 |---------------------------------|----------|----------|---------|---------|
 | Nsp10_pocket1_receptor.oeb      | Theta    | AM       | Done    |   1.6 % |
-| Nsp10_pocket3_receptor.oeb      | Frontera | MT       | Done    |  15.9 % |
+| Nsp10_pocket3_receptor.oeb      | Frontera | MT       | Running |  15.9 % |
 | Nsp10_pocket26_receptor.oeb     | Comet    | MT       | Done    |   0.1 % |
 |---------------------------------|----------|----------|---------|---------|
 | nsp15-CIT_pocket1_receptor.oeb  | Theta    | AM       | Done    |   7.6 % |
 | nsp15-CIT_pocket6_receptor.oeb  | Theta    | AM       | Done    |   4.3 % |
 | nsp15-CIT_pocket13_receptor.oeb | Theta    | AM       | Done    |   0.1 % |
-| nsp15-CIT_pocket18_receptor.oeb | Theta    | MT       | Done    |  53.1 % |
-| nsp15-CIT_pocket37_receptor.oeb | Frontera | IP       | Done    |  30.2 % |
+| nsp15-CIT_pocket18_receptor.oeb | Frontera | MT       | Running |  53.1 % |
+| nsp15-CIT_pocket37_receptor.oeb | Comet    | MT       | Running |  30.2 % |
 |---------------------------------|----------|----------|---------|---------|
 | PLPro_pocket3_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
 | PLPro_pocket4_receptor.oeb      | Frontera | MT       | Done    |   0.1 % |
@@ -48,6 +48,8 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | 11  | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | PLPro_pocket3_receptor.oeb       |
 | 12  | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | PLPro_pocket4_receptor.oeb       |
 | 13  | theta_dock_rp_loop.py      | Theta    | discovery_set_db.smi | nsp15-CIT_pocket18_receptor.oeb  |
+| 14  | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | ADRP_pocket12_receptor.oeb       |
+
 
 
 ## Data
@@ -67,5 +69,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | 11  | rp.session.login4.frontera.tacc.utexas.edu.tg864504.018335.0001   | 160000 | 1        | 4          | 40000  |
 | 12  | rp.session.login3.frontera.tacc.utexas.edu.mturilli.018335.0004   | 160000 | 1        | 4          | 40000  |
 | 13  | rp.session.thetalogin5.mturilli.018335.0005                       | 0      | 1        | 128        | 2500   |
+| 14  | rp.session.login3.frontera.tacc.utexas.edu.mturilli.018336.0000   | 0      | 1        | 4          | 40000  |
+
 
 * \* Partial, killed early by end of walltime
