@@ -1,6 +1,6 @@
 # Workflow-0 Campaign
 
-## Targets
+## discovery_set_db.smi
 
 Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 
@@ -30,6 +30,13 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | CoV_pocket8_receptor.oeb        | Theta    | AM       | Done    |   3.9 % |
 | CoV_pocket10_receptor.oeb       | Frontera | AM       | Partial |  67.9 % |
 
+## Enamine_REAL_diversity_set_15.5M.csv
+
+| OEB                             | Machine  | Assignee | State   | Missing |
+|---------------------------------|----------|----------|---------|---------|
+| ADRP_pocket1_receptor.oeb       | Frontera | MT       |         |         |
+
+# Logs
 
 ## Runs
 
@@ -50,8 +57,6 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | 13  | theta_dock_rp_loop.py      | Theta    | discovery_set_db.smi | nsp15-CIT_pocket18_receptor.oeb  |
 | 14  | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | ADRP_pocket12_receptor.oeb       |
 | 15  | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | ADRP_pocket12_receptor.oeb       |
-
-
 
 ## Data
 
