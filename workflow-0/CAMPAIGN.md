@@ -36,9 +36,10 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 |---------------------------------|----------|----------|---------|---------|
 | ADRP_pocket1_receptor.oeb       | Frontera | MT       |         |         |
 
-# Logs
+## Logs
 
-## Runs
+###  discovery_set_db.smi
+#### Runs
 
 | Run | command                    | machine  | SMILES               | OEB                              |
 |-----|----------------------------|----------|----------------------|----------------------------------|
@@ -58,7 +59,7 @@ Downloaded from https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
 | 14  | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | ADRP_pocket12_receptor.oeb       |
 | 15  | theta_dock_rp_loop.py      | Frontera | discovery_set_db.smi | ADRP_pocket12_receptor.oeb       |
 
-## Data
+#### Data
 
 | Run | SID                                                               | Idx    | # pilots | task/pilot | # Idx  |
 |-----|-------------------------------------------------------------------|--------|----------|------------|--------|
