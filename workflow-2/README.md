@@ -1,8 +1,8 @@
 # workflow-2
 
-## Installation (Summit)
+## Installation
 
-### Tensorflow/Keras and others
+### Tensorflow/Keras and others (Summit)
 
 ```
 (python3)
