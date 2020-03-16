@@ -65,6 +65,7 @@ def run_cvae(gpu_id, cm_file, hyper_dim=3, epochs=100):
     cvae = CVAE(input_shape[1:], hyper_dim) 
     
 #     callback = EmbeddingCallback(cm_data_train, cvae)
-    cvae.train(cm_data_train, validation_data=cm_data_val, batch_size = input_shape[0]/100, epochs=epochs) 
+    cvae.train(cm_data_train, validation_data=cm_data_val, batch_size =
+            input_shape[0]//100, epochs=epochs) 
     
     return cvae 

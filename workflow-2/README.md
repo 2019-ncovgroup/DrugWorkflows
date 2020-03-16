@@ -2,6 +2,21 @@
 
 ## Installation (Summit)
 
+### OpenMM
+
+by conda (PSC Bridges)
+```
+module load anaconda3
+module load cuda/9.2
+source /opt/packages/anaconda/anaconda3-5.2.0/etc/profile.d/conda.sh
+conda install -c omnia/label/cuda92 openmm
+```
+
+by source code (Summit)
+https://gist.github.com/lee212/4bbfe520c8003fbb91929731b8ea8a1e
+
+### Tensorflow/Keras and others
+
 ```
 (python3)
 . "/sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh"
