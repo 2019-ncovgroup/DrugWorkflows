@@ -2,19 +2,6 @@
 
 ## Installation (Summit)
 
-### OpenMM
-
-by conda (PSC Bridges)
-```
-module load anaconda3
-module load cuda/9.2
-source /opt/packages/anaconda/anaconda3-5.2.0/etc/profile.d/conda.sh
-conda install -c omnia/label/cuda92 openmm
-```
-
-by source code (Summit)
-https://gist.github.com/lee212/4bbfe520c8003fbb91929731b8ea8a1e
-
 ### Tensorflow/Keras and others
 
 ```
@@ -25,6 +12,19 @@ conda activate workflow-2
 conda install tensorflow-gpu keras swig numpy cython scipy matplotlib pytables h5py -y
 pip install MDAnalysis MDAnalysisTests parmed
 pip install radical.entk radical.pilot==1.1.1
+```
+
+### OpenMM
+
+by source code (Summit)
+https://gist.github.com/lee212/4bbfe520c8003fbb91929731b8ea8a1e
+
+by conda (PSC Bridges)
+```
+module load anaconda3
+module load cuda/9.2
+source /opt/packages/anaconda/anaconda3-5.2.0/etc/profile.d/conda.sh
+conda install -c omnia/label/cuda92 openmm
 ```
 
 ## Run
