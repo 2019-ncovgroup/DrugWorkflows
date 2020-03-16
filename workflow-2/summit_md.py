@@ -22,20 +22,20 @@ export RADICAL_ENTK_PROFILE=True
 '''
 
 
-md_counts = 120
+md_counts = 12
 ml_counts = 10
 node_counts = md_counts // 6
 
 
 HOME = os.environ.get('HOME')
-conda_path = os.environ.get('conda_path')
+conda_path = os.environ.get('CONDA_PREFIX')
 base_path = os.path.abspath('.') # '/gpfs/alpine/proj-shared/bip179/entk/hyperspace/microscope/experiments/'
 
 CUR_STAGE=0
 MAX_STAGE=10
 RETRAIN_FREQ = 5
 
-LEN_initial = 100
+LEN_initial = 10
 LEN_iter = 10 
 
 def generate_training_pipeline():
@@ -63,10 +63,12 @@ def generate_training_pipeline():
         for i in range(num_MD):
             t1 = Task()
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_exps/fs-pep/run_openmm.py
-            t1.pre_exec = ['. /sw/summit/python/2.7/anaconda2/5.3.0/etc/profile.d/conda.sh']
+            t1.pre_exec = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
             t1.pre_exec += ['module load cuda/9.1.85']
             t1.pre_exec += ['conda activate %s' % conda_path] 
-            t1.pre_exec += ['export PYTHONPATH=%s/MD_exps:$PYTHONPATH' % base_path] 
+            t1.pre_exec += ['export ' \
+                    + 'PYTHONPATH=%s/MD_exps:%s/MD_exps/MD_utils:$PYTHONPATH' %
+                    (base_path, base_path)] 
             t1.pre_exec += ['cd %s/MD_exps/fs-pep' % base_path] 
             t1.pre_exec += ['mkdir -p omm_runs_%d && cd omm_runs_%d' % (time_stamp+i, time_stamp+i)]
             t1.executable = ['%s/bin/python' % conda_path]  # run_openmm.py
@@ -121,7 +123,7 @@ def generate_training_pipeline():
         t2 = Task()
         # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_to_CVAE/MD_to_CVAE.py
         t2.pre_exec = [] 
-        t2.pre_exec += ['. /sw/summit/python/2.7/anaconda2/5.3.0/etc/profile.d/conda.sh']
+        t2.pre_exec += ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
         t2.pre_exec += ['conda activate %s' % conda_path] 
         t2.pre_exec += ['cd %s/MD_to_CVAE' % base_path]
         t2.executable = ['%s/bin/python' % conda_path]  # MD_to_CVAE.py
@@ -146,11 +148,13 @@ def generate_training_pipeline():
             t3 = Task()
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/CVAE_exps/train_cvae.py
             t3.pre_exec = []
-            t3.pre_exec += ['. /sw/summit/python/2.7/anaconda2/5.3.0/etc/profile.d/conda.sh']
+            t3.pre_exec += ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
             t3.pre_exec += ['module load cuda/9.1.85']
             t3.pre_exec += ['conda activate %s' % conda_path] 
 
-            t3.pre_exec += ['export PYTHONPATH=%s/CVAE_exps:$PYTHONPATH' % base_path]
+            t3.pre_exec += ['export ' \
+                    + 'PYTHONPATH=%s/CVAE_exps:%s/CVAE_exps/cvae:$PYTHONPATH' %
+                    (base_path, base_path)]
             t3.pre_exec += ['cd %s/CVAE_exps' % base_path]
             dim = i + 3 
             cvae_dir = 'cvae_runs_%.2d_%d' % (dim, time_stamp+i) 
@@ -183,11 +187,13 @@ def generate_training_pipeline():
         # Scaning for outliers and prepare the next stage of MDs 
         t4 = Task() 
         t4.pre_exec = [] 
-        t4.pre_exec += ['. /sw/summit/python/2.7/anaconda2/5.3.0/etc/profile.d/conda.sh']
+        t4.pre_exec += ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
         t4.pre_exec += ['module load cuda/9.1.85']
         t4.pre_exec += ['conda activate %s' % conda_path] 
 
-        t4.pre_exec += ['export PYTHONPATH=%s/CVAE_exps:$PYTHONPATH' % base_path] 
+        t4.pre_exec += ['export ' \
+                + 'PYTHONPATH=%s/CVAE_exps:%s/CVAE_exps/cvae:$PYTHONPATH' %
+                (base_path, base_path)] 
         t4.pre_exec += ['cd %s/Outlier_search' % base_path] 
         t4.executable = ['%s/bin/python' % conda_path] 
         t4.arguments = ['outlier_locator.py', '--md', '../MD_exps/fs-pep', '--cvae', '../CVAE_exps', '--pdb', '../MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb', 
@@ -222,7 +228,7 @@ def generate_training_pipeline():
         
         # --------------------------
         # MD stage
-        s1 = generate_MD_stage(num_MD=6 * 20)
+        s1 = generate_MD_stage(num_MD=md_counts)
         # Add simulating stage to the training pipeline
         p.add_stages(s1)
 
@@ -235,7 +241,7 @@ def generate_training_pipeline():
 
             # --------------------------
             # Learning stage
-            s3 = generate_ML_stage(num_ML=10) 
+            s3 = generate_ML_stage(num_ML=ml_counts) 
             # Add the learning stage to the pipeline
             p.add_stages(s3)
 
