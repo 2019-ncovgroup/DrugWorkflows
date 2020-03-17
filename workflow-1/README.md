@@ -3,6 +3,7 @@
 The following creates a conda environment as similar as possible to the one create for workflow-0. Lists of incompatible or missing packages below.
 
 ```
+PREFIX=$HOME
 module purge
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-ppc64le.sh -O $PREFIX/miniconda.sh
 chmod +x $PREFIX/miniconda.sh
