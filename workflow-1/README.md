@@ -15,7 +15,7 @@ conda config --add channels defaults \
              --add channels omnia/label/cuda101 \
              --add channels omnia-dev/label/cuda101
 conda update --yes --all
-conda create -n covid-19-1
+conda create -y -n covid-19-1
 conda activate covid-19-1
 conda install --yes ambertools atomicwrites attrs blas cudatoolkit fftw3f importlib_metadata libtiff \
                     more-itertools ninja olefile packaging pillow pluggy py pytest pandas psutil \
