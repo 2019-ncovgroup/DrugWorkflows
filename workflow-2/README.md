@@ -9,7 +9,7 @@
 . "/sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh"
 conda create -n workflow-2 python=3.6 -y
 conda activate workflow-2
-conda install tensorflow-gpu keras swig numpy cython scipy matplotlib pytables h5py -y
+conda install tensorflow-gpu keras scikit-learn swig numpy cython scipy matplotlib pytables h5py -y
 pip install MDAnalysis MDAnalysisTests parmed
 pip install radical.entk radical.pilot==1.1.1
 ```
