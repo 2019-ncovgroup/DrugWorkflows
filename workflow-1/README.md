@@ -12,13 +12,13 @@ conda update -y -n base -c defaults conda
 conda config --add channels defaults \
              --add channels conda-forge \
              --add channels omnia/label/cuda101 \
+             --add channels omnia-dev/label/cuda101
 conda update --yes --all
 conda create -n covid-19-1
 conda activate covid-19-1
 conda install --yes ambertools atomicwrites attrs blas cudatoolkit fftw3f importlib_metadata libtiff \
                     more-itertools ninja olefile packaging pillow pluggy py pytest pandas psutil \
-                    docopt setproctitle pymbar 
-conda install --yes -c omnia-dev/label/cuda101 openmm
+                    docopt setproctitle pymbar openmm
 ```
 ### Incompatible platform power9 Vs intel
 - mkl_fft
