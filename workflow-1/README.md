@@ -9,15 +9,9 @@ chmod +x $PREFIX/miniconda.sh
 $PREFIX/miniconda.sh -b -p $PREFIX/.miniconda3
 source $PREFIX/.miniconda3/bin/activate
 conda update -y -n base -c defaults conda
-conda config --add channels omnia \
+conda config --add channels defaults \
              --add channels conda-forge \
              --add channels omnia/label/cuda101 \
-             --add channels omnia-dev \
-             --add channels defaults \
-             --add channels acellera \
-             --add channels psi4 \
-             --add channels openeye \
-             --add channels pytorch
 conda update --yes --all
 conda create -n covid-19-1
 conda activate covid-19-1
