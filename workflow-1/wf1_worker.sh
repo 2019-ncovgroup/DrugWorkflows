@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/bin/bash -x
 
-# exec 3>&1 4>&2 >./log 2>&1
+touch start.$$
+
+eval "$prof"
+prof app_start
 
 conda=$1    ; shift
 work=$1     ; shift
@@ -14,18 +17,8 @@ unset CONDA_PREFIX
 unset CONDA_PYTHON_EXE
 unset CONDA_DEFAULT_ENV
 
-# env > env_1
-# set -x
-# echo "========== source $conda/etc/profile.d/conda.sh"
-# . $conda/etc/profile.d/conda.sh
-# echo '========== activate'
-# conda activate covid-19-1
-# echo '========== done'
-# set +x
-# env > env_2
-# 
-# which python
-# python -c 'import numpy; print(numpy.__file__)'
+. $conda/etc/profile.d/conda.sh
+conda activate covid-19-1
 
 while true
 do
@@ -37,6 +30,12 @@ do
     rank=''
     for f in $(ls -d $work/work_mmgbsa/* 2>/dev/null)
     do
+        # ---------------------------------------------------------
+        # NOTE: we don't do mmbgsa right now
+        break
+        # ---------------------------------------------------------
+
+
         echo "=   mmgbsa   claim  $f"
         rank=$(basename $f)
         mv $f $work/work_mmgbsa_active/$rank
@@ -48,6 +47,8 @@ do
             ./wf1_task.sh $conda $work mmgbsa $work/work_mmgbsa_active/$rank
             echo "=   minimize result: $?"
             rm $work/work_mmgbsa_active/$rank
+
+            # do *NOT* break here - we prefer mmbgsa work
         fi
     done
 
@@ -59,6 +60,7 @@ do
     do
         echo "=   minimize claim  $f"
         rank=$(basename $f)
+        touch $rank.tmp
         mv -v $f $work/work_minimize_active/$rank
         if test $? = 0
         then
@@ -74,8 +76,11 @@ do
                 echo "=   minimize result: negative"
                 rm $work/work_minimize_active/$rank
             fi
+            # break so we can switch to mmbgsa again
+            break
         else
             echo "=   failed: mv -v $f $work/work_minimize_active/$rank"
+            # do not break here, instead try to find some other rank to minimize
         fi
     done
 
@@ -86,5 +91,6 @@ do
 
 done
 
+prof app_stop
 echo "=   done ($active)"
 

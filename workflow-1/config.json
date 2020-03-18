@@ -2,7 +2,7 @@
 {
     "summit": {
         "cpn"      : 168,
-        "gpn"      :   1,
+        "gpn"      :   6,
         "conda"    : "/gpfs/alpine/med110/scratch/merzky1/covid/.miniconda3",
         "pilot"    : {
             "resource"      : "ornl.summit",
@@ -12,7 +12,10 @@
             "queue"         : "batch"
         },
         "task"    : {
-            "pre_exec"      : ["module load cuda"]
+            "pre_exec"      : ["module load cuda"],
+            "cpu_threads"   : 4,
+            "gpu_process_type": "POSIX",
+            "gpu_thread_type" : "CUDA"
         }
     },
 

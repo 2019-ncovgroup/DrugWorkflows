@@ -31,8 +31,9 @@ if __name__ == '__main__':
             print('=== run  Minimize  %s' % name)
             val = interface_functions.RunMinimization_(
                                  rank, rank, write=True, gpu=True)
+            print('=== run  Minimized %s: %s' % (name, val))
 
-            with open('%s/stats/%s.stat' % (work, name), 'a') as fout:
+            with open('%s/work_stats/%s.stat' % (work, name), 'a') as fout:
                 fout.write('energy: %s\n' % val)
 
             if val == np.nan or val >= 0:
