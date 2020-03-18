@@ -2,7 +2,7 @@
 {
     "summit": {
         "cpn"      : 168,
-        "gpn"      :   6,
+        "gpn"      :   1,
         "conda"    : "/gpfs/alpine/med110/scratch/merzky1/covid/.miniconda3",
         "pilot"    : {
             "resource"      : "ornl.summit",

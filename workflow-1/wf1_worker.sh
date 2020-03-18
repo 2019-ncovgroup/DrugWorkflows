@@ -1,19 +1,31 @@
 #!/bin/bash
 
-exec 3>&1 4>&2 >./log 2>&1
+# exec 3>&1 4>&2 >./log 2>&1
 
 conda=$1    ; shift
 work=$1     ; shift
 
-env > env_1
-set -x
-. $conda/etc/profile.d/conda.sh
-conda activate covid-19-1
-set +x
-env > env_2
+unset CONDA_SHLVL
+unset CONDA_PROMPT_MODIFIER
+unset CONDA_EXE
+unset _CE_CONDA
+unset CONDA_PREFIX_1
+unset CONDA_PREFIX
+unset CONDA_PYTHON_EXE
+unset CONDA_DEFAULT_ENV
 
-which python
-python -c 'import numpy; print(numpy.__file__)'
+# env > env_1
+# set -x
+# echo "========== source $conda/etc/profile.d/conda.sh"
+# . $conda/etc/profile.d/conda.sh
+# echo '========== activate'
+# conda activate covid-19-1
+# echo '========== done'
+# set +x
+# env > env_2
+# 
+# which python
+# python -c 'import numpy; print(numpy.__file__)'
 
 while true
 do
@@ -21,7 +33,6 @@ do
 
     # try to find a mmgbsa candidate
     echo "=   check $work/work_mmgbsa/*"
-    ls -d $work/work_mmgbsa/*
 
     rank=''
     for f in $(ls -d $work/work_mmgbsa/* 2>/dev/null)
@@ -42,7 +53,6 @@ do
 
     # if we do not find any mmgbsa rank anymore, check for minimization
     echo "=   check $work/work_minimize/*"
-    ls -d $work/work_minimize/*
 
     rank=''
     for f in $(ls -d $work/work_minimize/* 2>/dev/null)

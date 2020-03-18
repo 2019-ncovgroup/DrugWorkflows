@@ -50,8 +50,8 @@ if __name__ == '__main__':
     # prepare the ranks to work on
     ranks = sorted(list(glob.glob('%s/rank*' % dbase_path)))
 
-    # only use 1 for now
-    ranks = ranks[:1]
+    # only use 10 for now
+    ranks = ranks[:10]
 
     # if no stats file exist, no link exists in work_minimize or work_mmgbsa,
     # then create a link in work_minimize

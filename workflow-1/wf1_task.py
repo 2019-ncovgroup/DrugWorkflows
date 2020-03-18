@@ -12,13 +12,18 @@ from impress_md import interface_functions
 # ------------------------------------------------------------------------------
 #
 if __name__ == '__main__':
+    print('==== start')
 
     work = sys.argv[1]
     mode = sys.argv[2]
     rank = sys.argv[3]
 
+    print('==== work: [%s]' % work)
+    print('==== mode: [%s]' % mode)
+    print('==== rank: [%s]' % rank)
+
     name = os.path.basename(rank)
-    print(mode, name)
+    print('==== ', mode, name)
 
     if mode == 'minimize':
         try:
@@ -49,6 +54,10 @@ if __name__ == '__main__':
 
         except Exception as e:
             print('=== fail MMGBSA    %s [err=%s]' % (name, e))
+
+
+    else:
+        assert(False), '--%s--' % mode
 
 
 # ------------------------------------------------------------------------------
