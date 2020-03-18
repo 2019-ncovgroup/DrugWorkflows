@@ -5,11 +5,14 @@
         "gpn"      :   6,
         "conda"    : "/gpfs/alpine/med110/scratch/merzky1/covid/.miniconda3",
         "pilot"    : {
-            "resource"      : "ornl.summit_prte",
+            "resource"      : "ornl.summit",
             "runtime"       : 120,
             "cores"         : 0,
             "project"       : "med110",
             "queue"         : "batch"
+        },
+        "task"    : {
+            "pre_exec"      : ["module load cuda"]
         }
     },
 

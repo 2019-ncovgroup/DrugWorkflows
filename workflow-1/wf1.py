@@ -98,31 +98,32 @@ if __name__ == '__main__':
 
         for t in range(n_tasks):
 
-            cud = rp.ComputeUnitDescription()
-            cud.cpu_processes  = 1
-            cud.gpu_processes  = 1
-            cud.executable     = './wf1_worker.sh'
-            cud.arguments      =  [conda, work]
-            cud.environment    =  {'OE_LICENSE': 'oe_license.txt'}
-            cud.input_staging  = [{'source': 'pilot:///Model-generation/input',
-                                   'target': 'unit:///input',
-                                   'action': rp.LINK},
-                                  {'source': 'pilot:///Model-generation/impress_md',
-                                   'target': 'unit:///impress_md',
-                                   'action': rp.LINK},
-                                  {'source': 'pilot:///oe_license.txt',
-                                   'target': 'unit:///oe_license.txt',
-                                   'action': rp.LINK},
-                                  {'source': 'pilot:///wf1_worker.sh',
-                                   'target': 'unit:///wf1_worker.sh',
-                                   'action': rp.LINK},
-                                  {'source': 'pilot:///wf1_task.sh',
-                                   'target': 'unit:///wf1_task.sh',
-                                   'action': rp.LINK},
-                                  {'source': 'pilot:///wf1_task.py',
-                                   'target': 'unit:///wf1_task.py',
-                                   'action': rp.LINK},
-                                 ]
+            udinit = cfg['task']
+            udinit['cpu_processes'] = 1
+            udinit['gpu_processes'] = 1
+            udinit['executable']    = './wf1_worker.sh'
+            udinit['arguments']     =  [conda, work]
+            udinit['environment']   =  {'OE_LICENSE': 'oe_license.txt'}
+            udinit['input_staging'] = [{'source': 'pilot:///Model-generation/input',
+                                        'target': 'unit:///input',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///Model-generation/impress_md',
+                                        'target': 'unit:///impress_md',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///oe_license.txt',
+                                        'target': 'unit:///oe_license.txt',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///wf1_worker.sh',
+                                        'target': 'unit:///wf1_worker.sh',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///wf1_task.sh',
+                                        'target': 'unit:///wf1_task.sh',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///wf1_task.py',
+                                        'target': 'unit:///wf1_task.py',
+                                        'action': rp.LINK},
+                                      ]
+            cud = rp.ComputeUnitDescription(udinit)
             cuds.append(cud)
 
         umgr.submit_units(cuds)

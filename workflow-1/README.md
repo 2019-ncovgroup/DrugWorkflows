@@ -62,5 +62,6 @@ rm adpr_ena_db.tar.gz
 
 # Note that the application needs `module load cuda` to run
 
+export RADICAL_PILOT_DBURL=mongodb://giannis:radicalpass@149.165.170.227:29019/radical
 
 ```

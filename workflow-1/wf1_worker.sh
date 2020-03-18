@@ -1,10 +1,19 @@
 #!/bin/bash
 
+exec 3>&1 4>&2 >./log 2>&1
+
 conda=$1    ; shift
 work=$1     ; shift
 
+env > env_1
+set -x
 . $conda/etc/profile.d/conda.sh
 conda activate covid-19-1
+set +x
+env > env_2
+
+which python
+python -c 'import numpy; print(numpy.__file__)'
 
 while true
 do
