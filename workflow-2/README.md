@@ -16,10 +16,10 @@ pip install radical.entk radical.pilot==1.1.1
 
 ### OpenMM
 
-by source code (Summit)
+by source code (for linux ppc64le e.g. Summit)
 https://gist.github.com/lee212/4bbfe520c8003fbb91929731b8ea8a1e
 
-by conda (PSC Bridges)
+by conda (for linux 64 e.g. PSC Bridges)
 ```
 module load anaconda3
 module load cuda/9.2
