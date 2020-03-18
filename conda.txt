@@ -1,8 +1,6 @@
 PREFIX=$HOME
 
-if [ ! -d $PREFIX ]; then
-  mkdir -p $PREFIX;
-fi
+mkdir -p $PREFIX;
 
 wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $PREFIX/miniconda.sh
 chmod +x $PREFIX/miniconda.sh

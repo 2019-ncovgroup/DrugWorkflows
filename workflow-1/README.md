@@ -53,4 +53,14 @@ git clone --single-branch --branch covid https://github.com/aclyde11/Model-gener
 - torchvision
 ```
 conda install --yes -c jjhelmus pytorch torchvision
+
+# fetch data set
+cd $PREFIX
+wget https://www.dropbox.com/s/74ukvsx5888p79a/adpr_ena_db.tar.gz?dl=0 -O $PREFIX/adpr_ena_db.tar.gz
+tar zxvf adpr_ena_db.tar.gz
+rm adpr_ena_db.tar.gz
+
+# Note that the application needs `module load cuda` to run
+
+
 ```
