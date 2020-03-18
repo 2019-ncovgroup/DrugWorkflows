@@ -1,26 +1,71 @@
 #!/bin/bash
 
-conda_dir=$1    ; shift
-smi_fname=$1    ; shift
-tgt_fname=$1    ; shift
-cpn=$1          ; shift
-idx_start=$1    ; shift
-smi_per_task=$1 ; shift
+conda=$1    ; shift
+work=$1     ; shift
 
-idx_end=$((idx_start + smi_per_task))
+. $conda/etc/profile.d/conda.sh
+conda activate covid-19-1
 
-. $conda_dir/etc/profile.d/conda.sh
-conda activate covid-19-0
-
-export OE_LICENSE=oe_license.txt
-
-chmod 0755 wf1_task.sh
-
-idx=$idx_start
-while test $idx -le $idx_end
+while true
 do
-    echo $idx
-    idx=$((idx+1))
-done | xargs -t -n 1 -P $cpn -I{} ./wf1_task.sh $conda_dir $smi_fname $tgt_fname {}
+    active=
 
+    # try to find a mmgbsa candidate
+    echo "=   check $work/work_mmgbsa/*"
+    ls -d $work/work_mmgbsa/*
+
+    rank=''
+    for f in $(ls -d $work/work_mmgbsa/* 2>/dev/null)
+    do
+        echo "=   mmgbsa   claim  $f"
+        rank=$(basename $f)
+        mv $f $work/work_mmgbsa_active/$rank
+        if test $? = 0
+        then
+            echo "=   mmgbsa   action $f"
+            active=1
+            # we own ths rank now
+            ./wf1_task.sh $conda $work mmgbsa $work/work_mmgbsa_active/$rank
+            echo "=   minimize result: $?"
+            rm $work/work_mmgbsa_active/$rank
+        fi
+    done
+
+    # if we do not find any mmgbsa rank anymore, check for minimization
+    echo "=   check $work/work_minimize/*"
+    ls -d $work/work_minimize/*
+
+    rank=''
+    for f in $(ls -d $work/work_minimize/* 2>/dev/null)
+    do
+        echo "=   minimize claim  $f"
+        rank=$(basename $f)
+        mv -v $f $work/work_minimize_active/$rank
+        if test $? = 0
+        then
+            echo "=   minimize action $f"
+            active=2
+            # we own ths rank now
+            ./wf1_task.sh $conda $work minimize $work/work_minimize_active/$rank
+            if test $? = 0
+            then
+                echo "=   minimize result: mmgbsa"
+                mv $work/work_minimize_active/$rank $work/work_mmgbsa/$rank
+            else
+                echo "=   minimize result: negative"
+                rm $work/work_minimize_active/$rank
+            fi
+        else
+            echo "=   failed: mv -v $f $work/work_minimize_active/$rank"
+        fi
+    done
+
+    # if we found neither then all ranks are done and we finish
+    test -z $active && break
+
+    echo "=   cont ($active)"
+
+done
+
+echo "=   done ($active)"
 

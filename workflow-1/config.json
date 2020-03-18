@@ -1,0 +1,76 @@
+
+{
+    "summit": {
+        "cpn"      : 168,
+        "gpn"      :   6,
+        "conda"    : "/gpfs/alpine/med110/scratch/merzky1/covid/.miniconda3",
+        "pilot"    : {
+            "resource"      : "ornl.summit_prte",
+            "runtime"       : 120,
+            "cores"         : 0,
+            "project"       : "med110",
+            "queue"         : "batch"
+        }
+    },
+
+    "frontera": {
+        "cpn"      : 56,
+        "conda"    : "/scratch1/01083/tg803521/miniconda3/",
+        "pilot"    : {
+            "resource"      : "xsede.frontera",
+            "runtime"       : 120,
+            "cores"         : 0,
+            "project"       : "FTA-Jha",
+            "queue"         : "development"
+        }
+    },
+
+    "stampede2" : {
+        "cpn"      : 56,
+        "conda"    : "/home1/01083/tg803521/.miniconda3/",
+        "pilot"    : {
+            "resource"      : "xsede.stampede2",
+            "runtime"       : 60,
+            "cores"         : 128,
+            "project"       : "TG-MCB090174",
+            "queue"         : "compute"
+        }
+    },
+
+    "comet": {
+        "cpn"      : 24,
+        "conda"    : "/home/mturilli/.miniconda3/",
+        "pilot"    : {
+            "resource"      : "xsede.comet_ssh",
+            "runtime"       : 60,
+            "cores"         : 0,
+            "project"       : "TG-MCB090174",
+            "queue"         : "compute"
+        }
+    },
+
+    "localhost": {
+        "cpn"      : 1,
+        "gpn"      : 1,
+        "conda"    : "/home/merzky/.miniconda3/",
+        "pilot"    : {
+            "resource"      : "local.localhost",
+            "runtime"       : 60,
+            "cores"         : 0
+        }
+    },
+
+    "theta": {
+        "cpn"      : 64,
+        "conda"    : "/gpfs/mira-home/mturilli/.miniconda3/",
+        "pilot"    : {
+            "resource"      : "anl.theta",
+            "project"       : "CVD_Research",
+            "queue"         : "CVD_Research",
+          # "queue"         : "debug-flat-quad",
+            "runtime"       : 180,
+            "cores"         : 0
+        }
+    }
+}
+

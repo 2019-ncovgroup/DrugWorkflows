@@ -1,37 +1,32 @@
 #!/bin/bash
 
-conda_dir=$1    ; shift
-smi_fname=$1    ; shift
-tgt_fname=$1    ; shift
-idx=$1          ; shift
-len=1
+conda=$1 ; shift
+work=$1  ; shift
+mode=$1  ; shift
+rank=$1  ; shift
 
+. $conda/etc/profile.d/conda.sh
+conda activate covid-19-1
 
-. $conda_dir/etc/profile.d/conda.sh
-conda activate covid-19-0
+if test $mode = 'minimize'
+then
+    echo "==  python ./wf1_task.py minimize $work $rank"
+    python ./wf1_task.py minimize $work $rank
+    if test $? == 0
+    then
+        # energy <= 0, prepare for mmgbsa
+        echo "==  ok"
+        mv -v $rank $work/work_mmgbsa
+    else
+        echo "==  failed"
+        rm -v $rank
+    fi
 
-export export PYTHONPATH=`pwd`:$PYTHONPATH
-export CONDA_SHLVL=2
-export CONDA_PROMPT_MODIFIER=(covid-19-0)
-export CONDA_EXE=/home/mturilli/.miniconda3/bin/conda
-export _CE_CONDA=
-export CONDA_PREFIX_1=/home/mturilli/.miniconda3
-export CONDA_PREFIX=/home/mturilli/.miniconda3/envs/covid-19-0
-export CONDA_PYTHON_EXE=/home/mturilli/.miniconda3/bin/python
-export CONDA_DEFAULT_ENV=covid-19-0
-export PATH=/home/mturilli/.miniconda3/envs/covid-19-0/bin:$PATH
+elif test $mode = 'mmgbsa'
+then
+    echo "==  python ./wf1_task.py minimize $work $rank"
+    python ./wf1_task.py minimize $work $rank
+    rm -v $rank
 
-COMMAND="python ./wf1_task.py $smi_fname $tgt_fname $idx $len"
-
-cleanup(){
-  # echo "SIGTERM trap" >&2
-    kill %1 %2 2>/dev/null
-}
-
-trap cleanup TERM
-
-(sleep 60; echo "timeout"   >&2; kill $$        2>/dev/null) & export s_pid=$!
-($COMMAND; echo "completed" >&2; kill $$ $s_pid 2>/dev/null) &
-
-wait
+fi
 
