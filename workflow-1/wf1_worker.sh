@@ -1,6 +1,4 @@
-#!/bin/bash -x
-
-touch start.$$
+#!/bin/bash
 
 eval "$prof"
 prof app_start
@@ -60,7 +58,6 @@ do
     do
         echo "=   minimize claim  $f"
         rank=$(basename $f)
-        touch $rank.tmp
         mv -v $f $work/work_minimize_active/$rank
         if test $? = 0
         then

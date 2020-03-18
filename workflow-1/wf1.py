@@ -48,7 +48,7 @@ if __name__ == '__main__':
     ru.rec_makedir(dir_stats  )
 
     # prepare the ranks to work on
-    ranks = sorted(list(glob.glob('%s/rank*' % dbase_path)))  [:60]
+    ranks = sorted(list(glob.glob('%s/rank*' % dbase_path)))  # [:60]
 
     # if no stats file exist, no link exists in work_minimize or work_mmgbsa,
     # then create a link in work_minimize
@@ -98,9 +98,8 @@ if __name__ == '__main__':
             udinit = cfg['task']
             udinit['cpu_processes'] = 1
             udinit['gpu_processes'] = 1
-            udinit['executable']    = '/bin/date'
-          # udinit['executable']    = './wf1_worker.sh'
-          # udinit['arguments']     =  [conda, work]
+            udinit['executable']    = './wf1_worker.sh'
+            udinit['arguments']     =  [conda, work]
             udinit['environment']   =  {'OE_LICENSE': 'oe_license.txt'}
             udinit['input_staging'] = [{'source': 'pilot:///Model-generation/input',
                                         'target': 'unit:///input',
