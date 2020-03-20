@@ -18,7 +18,7 @@ chmod 0755 smi.sh
 
 if test "$smi_per_task" -ne "0"
 then
-    idx=$((idx_start + uid * smi_per_task))
+    idx=$idx_start
     cnt=0
     while test $cnt -le $smi_per_task
     do
