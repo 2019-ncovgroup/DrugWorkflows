@@ -11,10 +11,37 @@
             "project"       : "med110",
             "queue"         : "batch"
         },
-        "task"    : {
-            "pre_exec"      : ["module load cuda"],
-            "cpu_threads"   : 4,
-            "gpu_process_type": "POSIX",
+        "master" : {
+            "pre_exec"      : [
+                "module load cuda",
+                "unset PYTHONPATH",
+                "unset CONDA_EXE",
+                "unset CONDA_PREFIX",
+                "unset CONDA_SHLVL",
+                "unset CONDA_PYTHON_EXE",
+                "unset CONDA_DEFAULT_ENV",
+                ". /gpfs/alpine/med110/scratch/merzky1/covid/.miniconda3/etc/profile.d/conda.sh",
+                "conda activate covid-19-1"
+            ],
+            "cpu_threads"     : 4,
+            "gpu_process_type": "POSIX"
+        },
+
+        "worker": {
+            "pre_exec"      : [
+                "module load cuda",
+                "unset PYTHONPATH",
+                "unset CONDA_EXE",
+                "unset CONDA_PREFIX",
+                "unset CONDA_SHLVL",
+                "unset CONDA_PYTHON_EXE",
+                "unset CONDA_DEFAULT_ENV",
+                ". /gpfs/alpine/med110/scratch/merzky1/covid/.miniconda3/etc/profile.d/conda.sh",
+                "conda activate covid-19-1"
+            ],
+            "cpu_processes"   : 1,
+            "cpu_threads"     : 4,
+            "gpu_processes"   : 1,
             "gpu_thread_type" : "CUDA"
         }
     },
@@ -62,7 +89,38 @@
         "pilot"    : {
             "resource"      : "local.localhost",
             "runtime"       : 60,
-            "cores"         : 0
+            "cores"         : 0,
+            "access_schema" : "ssh"
+        },
+        "master" : {
+            "pre_exec"      : [
+                "unset PYTHONPATH",
+                "unset CONDA_EXE",
+                "unset CONDA_PREFIX",
+                "unset CONDA_SHLVL",
+                "unset CONDA_PYTHON_EXE",
+                "unset CONDA_DEFAULT_ENV",
+                ". /home/merzky/.miniconda3/etc/profile.d/conda.sh",
+                "conda activate covid-19-1"
+            ],
+            "cpu_threads"   : 4
+        },
+        "worker": {
+            "pre_exec"      : [
+              # "unset PYTHONPATH",
+              # "unset PYTHONNOUSERSITE",
+                "unset CONDA_EXE",
+                "unset CONDA_PREFIX",
+                "unset CONDA_SHLVL",
+                "unset CONDA_PYTHON_EXE",
+                "unset CONDA_DEFAULT_ENV",
+                ". /home/merzky/.miniconda3/etc/profile.d/conda.sh",
+                "conda activate covid-19-1"
+            ],
+            "cpu_processes"   : 1,
+            "cpu_threads"     : 4,
+            "gpu_processes"   : 1,
+            "gpu_thread_type" : "CUDA"
         }
     },
 
