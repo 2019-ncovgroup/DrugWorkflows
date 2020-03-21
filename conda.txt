@@ -1,4 +1,5 @@
-PREFIX=$HOME
+export PREFIX=$HOME
+export PYTHONNOUSERSITE=True
 
 mkdir -p $PREFIX;
 
