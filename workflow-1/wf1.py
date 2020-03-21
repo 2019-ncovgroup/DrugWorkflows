@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
         udinit = cfg['master']
         udinit['cpu_processes'] = 1
-        udinit['executable']    =  './wf1_master.py'
+        udinit['executable']    =  '$PWD/wf1_master.py'
         udinit['arguments']     =  [dbase, n_workers, target]
         udinit['environment']   =  {'OE_LICENSE': 'oe_license.txt'}
         udinit['input_staging'] = [{'source': 'pilot:///Model-generation/input',

@@ -30,7 +30,7 @@
         "worker": {
             "pre_exec"      : [
                 "module load cuda",
-                "unset PYTHONPATH",
+              # "unset PYTHONPATH",
                 "unset CONDA_EXE",
                 "unset CONDA_PREFIX",
                 "unset CONDA_SHLVL",

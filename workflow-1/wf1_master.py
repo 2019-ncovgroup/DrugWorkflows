@@ -217,9 +217,9 @@ class MyMaster(rp.task_overlay.Master):
         for rank in to_minimize:
             self.request('minimize', rank)
 
-        # submit all simulations tasks
-        for rank in to_simulate:
-            self.request('simulate', rank)
+      # # submit all simulations tasks
+      # for rank in to_simulate:
+      #     self.request('simulate', rank)
 
         # all eligible tasks are submitted - now we just wait for the results to
         # come back.  If minimization results are positive, we may need to
@@ -313,11 +313,11 @@ class MyMaster(rp.task_overlay.Master):
                     # no need to simulate this rank
                     self._log.debug('rank %s: min done', rank)
                     self._state[rank]['simulate'] = False
-                else:
-                    # got a positive energy: submit simulation
-                    self._log.debug('rank %s: req sim', rank)
-                    self._state[rank]['simulate'] = True
-                    self.request('simulate', rank)
+              # else:
+              #     # got a positive energy: submit simulation
+              #     self._log.debug('rank %s: req sim', rank)
+              #     self._state[rank]['simulate'] = True
+              #     self.request('simulate', rank)
 
             elif call == 'simulate':
 
