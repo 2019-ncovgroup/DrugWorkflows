@@ -50,7 +50,7 @@ if __name__ == '__main__':
 
         try:
             # O(10k)
-            interface_functions.RunMMGBSA_(rank, rank, gpu=True)
+            interface_functions.RunMMGBSA_(rank, rank, gpu=True, niters=5000)
 
         except Exception as e:
             print('=== fail MMGBSA    %s [err=%s]' % (name, e))

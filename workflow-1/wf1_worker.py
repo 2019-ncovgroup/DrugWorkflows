@@ -80,7 +80,7 @@ class MyWorker(rp.task_overlay.Worker):
                 val = iface.RunMinimization_(rank, rank, write=True, gpu=True)
 
             elif msg['call'] == 'simulate':
-                val = iface.RunMMGBSA_(rank, rank, gpu=True)
+                val = iface.RunMMGBSA_(rank, rank, gpu=True, niters=5000)
 
         except Exception as e:
             self._log.exception('call failed')
