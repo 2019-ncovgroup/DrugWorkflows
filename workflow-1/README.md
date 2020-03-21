@@ -3,7 +3,9 @@
 The following creates a conda environment as similar as possible to the one create for workflow-0. Lists of incompatible or missing packages below.
 
 ```
+export PYTHONNOUSERSITE=True
 PREFIX=$HOME
+mkdir -p $PREFIX
 module purge
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-ppc64le.sh -O $PREFIX/miniconda.sh
 chmod +x $PREFIX/miniconda.sh
@@ -20,6 +22,8 @@ conda activate covid-19-1
 conda install --yes atomicwrites attrs blas cudatoolkit fftw3f importlib_metadata libtiff \
                     more-itertools ninja olefile packaging pillow pluggy py pytest pandas psutil \
                     docopt setproctitle pymbar openmm
+conda install -c openeye openeye-toolkits
+conda install cudatoolkit=10.1.243
 
 # Must use branch covid of Model-generation
 git clone --single-branch --branch covid https://github.com/aclyde11/Model-generation.git
@@ -42,8 +46,8 @@ git clone --single-branch --branch covid https://github.com/aclyde11/Model-gener
 - packmol-memgen
 
 ### already satisfied in pip not in conda
-- parmed 
-- pdb4amber 
+- parmed
+- pdb4amber
 - pymsmt
 - pytraj
 - sander
