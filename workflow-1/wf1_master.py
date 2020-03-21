@@ -184,7 +184,13 @@ class MyMaster(rp.task_overlay.Master):
             else:
                 self._log.debug('sync [0]')
 
-            ru.write_json(self._state, self._fstate)
+            try:
+                ru.write_json(self._state, '%s.tmp' % self._fstate)
+                os.system('ls -l %s.tmp %s' % (self._fstate, self._fstate))
+                os.system('mv -v %s.tmp %s' % (self._fstate, self._fstate))
+                os.system('ls -l %s.tmp %s' % (self._fstate, self._fstate))
+            except:
+                self._log.exception('sync error')
 
 
     # --------------------------------------------------------------------------
