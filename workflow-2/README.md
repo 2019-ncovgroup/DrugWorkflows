@@ -11,7 +11,7 @@ conda create -n workflow-2 python=3.6 -y
 conda activate workflow-2
 conda install tensorflow-gpu keras scikit-learn swig numpy cython scipy matplotlib pytables h5py -y
 pip install MDAnalysis MDAnalysisTests parmed
-pip install radical.entk radical.pilot==1.1.1
+pip install radical.entk radical.pilot radical.saga radical.utils --upgrade
 ```
 
 ### OpenMM
@@ -25,6 +25,21 @@ module load anaconda3
 module load cuda/9.2
 source /opt/packages/anaconda/anaconda3-5.2.0/etc/profile.d/conda.sh
 conda install -c omnia/label/cuda92 openmm
+```
+
+### Latest stack info
+
+The following versions are verified on Summit for sucessful workflow-2 run
+
+```
+$ radical-stack
+
+  ...
+  
+  radical.entk         : 1.0.2
+  radical.pilot        : 1.2.1
+  radical.saga         : 1.2.0
+  radical.utils        : 1.2.1
 ```
 
 ## Run
