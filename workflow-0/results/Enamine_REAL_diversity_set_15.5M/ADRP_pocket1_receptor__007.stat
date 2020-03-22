@@ -1,5 +1,5 @@
 
-receptor  : ADRP_pocket1_receptor           [     89093]
+receptor  : ADRP_pocket1_receptor           [    130265]
 smiles    : Enamine_REAL_diversity_set_     [    131072]
 duplicates:                            0.0% [         0]
-missing   :                           32.0% [     41979]
+missing   :                            0.6% [       807]
