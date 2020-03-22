@@ -29,7 +29,7 @@ conda install -c omnia/label/cuda92 openmm
 
 ### Latest stack info
 
-The following versions are verified on Summit for sucessful workflow-2 run
+The following versions are verified on Summit for sucessful run of workflow-2
 
 ```
 $ radical-stack
