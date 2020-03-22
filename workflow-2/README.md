@@ -39,7 +39,7 @@ $ radical-stack
   radical.entk         : 1.0.2
   radical.pilot        : 1.2.1
   radical.saga         : 1.2.0
-  radical.utils        : 1.2.1
+  radical.utils        : 1.2.2
 ```
 
 ## Run
