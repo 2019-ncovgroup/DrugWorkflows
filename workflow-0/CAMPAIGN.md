@@ -68,19 +68,19 @@
 
 | OEB                                            | Machine  | Assignee | State   | Missing |
 |------------------------------------------------|----------|----------|---------|---------|
-| ADRP_pocket1_rank1579_370_pocket1_receptor.oeb | Frontera | MT       | Running |         |
-| ADRP_pocket1_rank1579_370_pocket2_receptor.oeb | Frontera | MT       | Running |         |
-| ADRP_pocket1_rank1579_471_pocket1_receptor.oeb | Frontera | MT       | Running |         |
-| ADRP_pocket1_rank1579_471_pocket6_receptor.oeb | Frontera | MT       | Pending |         |
-| ADRP_pocket1_rank1579_471_pocket7_receptor.oeb | Frontera | MT       | Pending |         |
-| ADRP_pocket1_rank1579_out_pocket1_receptor.oeb | Frontera | MT       | Pending |         |
-| ADRP_pocket1_rank2355_386_pocket4_receptor.oeb | Frontera | MT       | Pending |         |
-| ADRP_pocket1_rank2355_490_pocket3_receptor.oeb | Frontera | MT       | Pending |         |
-| ADRP_pocket1_rank2355_out_pocket1_receptor.oeb | Frontera | MT       | Pending |         |
-| ADRP_pocket1_rank2437_454_pocket4_receptor.oeb | Frontera | MT       | Pending |         |
-| ADRP_pocket1_rank2437_454_pocket7_receptor.oeb | Frontera | MT       | Pending |         |
-| ADRP_pocket1_rank2437_469_pocket1_receptor.oeb | Frontera | MT       | Pending |         |
-| ADRP_pocket1_rank2437_out_pocket3_receptor.oeb | Frontera | MT       | Pending |         |
+| ADRP_pocket1_rank1579_370_pocket1_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank1579_370_pocket2_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank1579_471_pocket1_receptor.oeb | Frontera | MT       | Partial | 43.7%   |
+| ADRP_pocket1_rank1579_471_pocket6_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank1579_471_pocket7_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank1579_out_pocket1_receptor.oeb | Frontera | MT       | Partial | 29.5%   |
+| ADRP_pocket1_rank2355_386_pocket4_receptor.oeb | Frontera | MT       | Partial | 35.2%   |
+| ADRP_pocket1_rank2355_490_pocket3_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank2355_out_pocket1_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank2437_454_pocket4_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank2437_454_pocket7_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank2437_469_pocket1_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank2437_out_pocket3_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket1_rank2437_out_pocket5_receptor.oeb | Frontera | AA       | Pending |         |
 | ADRP_pocket1_rank2437_out_pocket8_receptor.oeb | Frontera | AA       | Pending |         |
 | ADRP_pocket1_rank941_152_pocket12_receptor.oeb | Frontera | AA       | Pending |         |
