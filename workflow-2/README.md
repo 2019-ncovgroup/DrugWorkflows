@@ -42,6 +42,23 @@ $ radical-stack
   radical.utils        : 1.2.2
 ```
 
+### Shell variables
+
+#### RMQ (Mandatory)
+
+```
+export RMQ_HOSTNAME=two.radical-project.org; export RMQ_PORT=33239
+```
+
+#### Profiling (Optional)
+
+Profiling produces `*.json` and `*.prof` for additional info, if the following variables defined.
+
+```
+export RADICAL_PILOT_PROFILE=TRUE; 
+export RADICAL_ENTK_PROFILE=TRUE 
+```
+
 ## Run
 
 ```
