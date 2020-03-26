@@ -82,17 +82,17 @@
 | ADRP_pocket1_rank2437_469_pocket1_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket1_rank2437_out_pocket3_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket1_rank2437_out_pocket5_receptor.oeb | Frontera | AA       | Done    |  0.1%   |
-| ADRP_pocket1_rank2437_out_pocket8_receptor.oeb | Frontera | MT       | Done    |         |
-| ADRP_pocket1_rank941_152_pocket12_receptor.oeb | Frontera | MT       | Done    |         |
-| ADRP_pocket1_rank941_152_pocket4_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
-| ADRP_pocket1_rank941_411_pocket2_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
-| ADRP_pocket1_rank941_411_pocket3_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
-| ADRP_pocket1_rank941_out_pocket8_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
-| ADRP_pocket1_rank976_106_pocket1_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
-| ADRP_pocket1_rank976_107_pocket1_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
-| ADRP_pocket1_rank976_out_pocket13_receptor.oeb | Frontera | MT       | Done    |   0.1%  |
-| ADRP_pocket1_rank976_out_pocket1_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
-| ADRP_pocket1_rank976_out_pocket7_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
+| ADRP_pocket1_rank2437_out_pocket8_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank941_152_pocket12_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank941_152_pocket4_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank941_411_pocket2_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank941_411_pocket3_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank941_out_pocket8_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank976_106_pocket1_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank976_107_pocket1_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank976_out_pocket13_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank976_out_pocket1_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_rank976_out_pocket7_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
 
 ## discovery_set_db.smi - Third set of receptors
 
