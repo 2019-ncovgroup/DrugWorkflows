@@ -1,0 +1,64 @@
+
+{
+    "frontera": {
+        "cpn"      : 56,
+        "conda"    : "/scratch1/07305/rpilot/.miniconda3",
+        "user_ssh" : "rpilot",
+        "pilot"    : {
+            "resource"      : "tacc.frontera",
+            "runtime"       : 1440,
+            "cores"         : 0,
+            "project"       : "FTA-Jha",
+            "queue"         : "normal",
+            "access_schema" : "ssh"
+        }
+    },
+
+    "stampede2" : {
+        "cpn"      : 56,
+        "conda"    : "/home1/01083/tg803521/.miniconda3/",
+        "pilot"    : {
+            "resource"      : "xsede.stampede2",
+            "runtime"       : 60,
+            "cores"         : 128,
+            "project"       : "TG-MCB090174",
+            "queue"         : "compute"
+        }
+    },
+
+    "comet": {
+        "cpn"      : 24,
+        "conda"    : "/home/mturilli/.miniconda3/",
+        "pilot"    : {
+            "resource"      : "xsede.comet_ssh",
+            "runtime"       : 60,
+            "cores"         : 0,
+            "project"       : "TG-MCB090174",
+            "queue"         : "compute"
+        }
+    },
+
+    "localhost": {
+        "cpn"      : 1,
+        "conda"    : "/home/merzky/.miniconda3/",
+        "pilot"    : {
+            "resource"      : "local.localhost",
+            "runtime"       : 60,
+            "cores"         : 0
+        }
+    },
+
+    "theta": {
+        "cpn"      : 64,
+        "conda"    : "/gpfs/mira-home/mturilli/.miniconda3/",
+        "pilot"    : {
+            "resource"      : "anl.theta",
+            "project"       : "CVD_Research",
+            "queue"         : "CVD_Research",
+          # "queue"         : "debug-flat-quad",
+            "runtime"       : 180,
+            "cores"         : 0
+        }
+    }
+}
+
