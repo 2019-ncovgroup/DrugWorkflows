@@ -1,11 +1,23 @@
 from radical import entk
+import os
 
 class ESMACS(object):
 
     def __init__(self):
-        self.am = entk.AppManager()
+        self._set_rmq()
+        self.am = entk.AppManager(self.rmq_port, self.rmq_hostname)
         self.p = entk.Pipeline()
         self.s = entk.Stage()
+
+
+    def _set_rmq(self):
+        self.rmq_port = int(os.environ.get('RMQ_PORT', 5672))
+        self.rmq_hostname = os.environ.get('RMQ_HOSTNAME', 'localhost')
+
+
+    def set_resource(self, res_desc):
+        res_desc["schema"] = "local"
+        self.am.resource_desc = res_desc
 
 
     def raw_submission_esmacs_sh(self, rep_count=24):#mmpbsa(self):
@@ -60,6 +72,19 @@ class ESMACS(object):
             self.s.add_tasks(t)
 
 
+    def raw_submission_sim_sh(self, rep_count=24):
+        
+        
+        for i in range(1, rep_count + 1):
+            t = entk.Task()
+            t.pre_exec = []
+            t.executable = ''
+            t.post_exec = []
+            t.cpu_reqs = {}
+            t.gpu_reqs = {}
+            self.s.add_tasks(t)
+
+
     def run(self):
         self.am.workflow = [self.p]
         self.am.run()
@@ -70,10 +95,9 @@ if __name__ == "__main__":
     ### raw_submission_esmacs.sh
     esmacs = ESMACS()
     n_nodes = 24
-    esmacs.set_resource(res_dict = {
+    esmacs.set_resource(res_desc = {
         'resource': 'ornl.summit',
         'queue'   : 'batch',
-        'schema'  : 'local',
         'walltime': 10, #MIN
         'cpus'    : 168 * n_nodes,
         'gpus'    : 6 * n_nodes,
@@ -89,7 +113,6 @@ if __name__ == "__main__":
     esmacs.set_resource(res_dict = {
         'resource': 'ornl.summit',
         'queue'   : 'batch',
-        'schema'  : 'local',
         'walltime': 120, #MIN
         'cpus'    : 168 * n_nodes,
         'gpus'    : 6 * n_nodes,
