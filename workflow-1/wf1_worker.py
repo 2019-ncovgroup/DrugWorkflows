@@ -34,6 +34,8 @@ class MyWorker(rp.task_overlay.Worker):
         # `self._cfg`.
         rp.task_overlay.Worker.__init__(self, cfg)
 
+        self._prof.prof('worker_start', uid=self._uid)
+
 
     # --------------------------------------------------------------------------
     #
@@ -46,11 +48,18 @@ class MyWorker(rp.task_overlay.Worker):
         that incoming requests will trigger an async callback `self.request_cb`.
         '''
 
-        self._req_get = ru.zmq.Getter('to_req', self._info.req_addr_get,
-                                                cb=self.request_cb)
-        self._res_put = ru.zmq.Putter('to_res', self._info.res_addr_put)
+        self._req_get = ru.zmq.Getter('funcs_req_queue',
+                                      self._info.req_addr_get,
+                                      cb=self.request_cb, 
+                                      log=self._log, 
+                                      prof=self._prof)
+        self._res_put = ru.zmq.Putter('funcs_res_queue',
+                                      self._info.res_addr_put, 
+                                      log=self._log, 
+                                      prof=self._prof)
 
-        self._log.debug('initialized')
+        self._log.info('initialized: %s', self._info)
+        self._prof.prof('worker_init', uid=self._uid)
 
         # the worker can return custom information which will be made available
         # to the master.  This can be used to communicate, for example, worker
@@ -67,20 +76,25 @@ class MyWorker(rp.task_overlay.Worker):
         All other requests will immediately trigger an error response.
         '''
 
-        self._log.debug('got req: %s', msg)
-
         uid  = msg['uid']
         call = msg['call']
         rank = msg['rank']
         val  = np.NaN
         err  = None
+        rid  = rank.split('/')[-1]
+
+        self._log.info('req get %s %s: %s', call, rank, uid)
 
         try:
             if call == 'minimize':
+                self._prof.prof('worker_min_start', uid=self._uid, msg=rid)
                 val = iface.RunMinimization_(rank, rank, write=True, gpu=True)
+                self._prof.prof('worker_min_stop',  uid=self._uid, msg=rid)
 
             elif msg['call'] == 'simulate':
+                self._prof.prof('worker_sim_start', uid=self._uid, msg=rid)
                 val = iface.RunMMGBSA_(rank, rank, gpu=True, niters=5000)
+                self._prof.prof('worker_sim_stop',  uid=self._uid, msg=rid)
 
         except Exception as e:
             self._log.exception('call failed')
@@ -92,7 +106,7 @@ class MyWorker(rp.task_overlay.Worker):
                'res' : val,
                'err' : err}
 
-        self._log.debug('put res: %s', res)
+        self._log.info('res put %s %s: %s : %s : %s', call, rank, uid, val, err)
         self._res_put.put(res)
 
 
