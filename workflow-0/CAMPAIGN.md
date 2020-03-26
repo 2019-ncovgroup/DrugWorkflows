@@ -81,9 +81,9 @@
 | ADRP_pocket1_rank2437_454_pocket7_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket1_rank2437_469_pocket1_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket1_rank2437_out_pocket3_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
-| ADRP_pocket1_rank2437_out_pocket5_receptor.oeb | Frontera | AA       | Pending |         |
-| ADRP_pocket1_rank2437_out_pocket8_receptor.oeb | Frontera | AA       | Pending |         |
-| ADRP_pocket1_rank941_152_pocket12_receptor.oeb | Frontera | AA       | Pending |         |
+| ADRP_pocket1_rank2437_out_pocket5_receptor.oeb | Frontera | AA       | Done    |         |
+| ADRP_pocket1_rank2437_out_pocket8_receptor.oeb | Frontera | MT       | Runnin  |         |
+| ADRP_pocket1_rank941_152_pocket12_receptor.oeb | Frontera | MT       | Running |         |
 | ADRP_pocket1_rank941_152_pocket4_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
 | ADRP_pocket1_rank941_411_pocket2_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
 | ADRP_pocket1_rank941_411_pocket3_receptor.oeb  | Frontera | MT       | Done    |   0.1%  |
