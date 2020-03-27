@@ -109,7 +109,7 @@
 | Mpro-x0387.pdb.oeb | Frontera | AA       | Done    |  0.1%   |
 | Mpro-x0107.pdb.oeb | Frontera | AA       | Done    |  0.1%   |
 | Mpro-x0161.pdb.oeb | Frontera | AA       | Done    |  0.1%   |
-| Mpro-x0395.pdb.oeb | Frontera | AA       | Running |         |
+| Mpro-x0395.pdb.oeb | Frontera | AA       | Done    |  0.1%   |
 | Mpro-x0397.pdb.oeb | Frontera | AA       | Done    |  0.1%   |
 | Mpro-x0426.pdb.oeb | Frontera | AA       | Done    |  0.1%   |
 | Mpro-x0434.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
