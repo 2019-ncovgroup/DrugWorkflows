@@ -100,7 +100,7 @@ class MyWorker(rp.task_overlay.Worker):
         err  = None
         rid  = rank.split('/')[-1]
 
-        timeout = {'min':      15,
+        timeout = {'min':      30,
                    'sim': 60 * 30}[call]
 
         self._log.info('req get %s %s: %s', call, rank, uid)
@@ -137,10 +137,8 @@ class MyWorker(rp.task_overlay.Worker):
                 if start + timeout < time.time():
                     err = 'timeout'
                     self._prof.prof('worker_%s_tout' % call, uid=rid)
+                    proc.terminate()
                     break
-
-        if 'err' == 'timeout':
-            proc.kill()
 
         res = {'call': call,
                'rank': rank,
