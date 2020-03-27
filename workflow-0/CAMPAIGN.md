@@ -119,7 +119,7 @@
 | Mpro-x0946.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
 | Mpro-x0967.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
 | Mpro-x0991.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
-| Mpro-x0995.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x0995.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
 | Mpro-x1077.pdb.oeb | Frontera | MT       | Running |         |
 | Mpro-x1093.pdb.oeb | Frontera | MT       | Running |         |
 | Mpro-x1249.pdb.oeb | Frontera | MT       | Running |         |
