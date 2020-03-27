@@ -5,7 +5,7 @@ class ESMACS(object):
 
     def __init__(self):
         self._set_rmq()
-        self.am = entk.AppManager(self.rmq_port, self.rmq_hostname)
+        self.am = entk.AppManager(hostname=self.rmq_hostname, port=self.rmq_port)
         self.p = entk.Pipeline()
         self.s = entk.Stage()
 
@@ -70,6 +70,7 @@ class ESMACS(object):
                     }
 
             self.s.add_tasks(t)
+        self.p.add_stages(self.s)
 
 
     def raw_submission_sim_sh(self, rep_count=24):
