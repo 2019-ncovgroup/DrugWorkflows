@@ -39,7 +39,7 @@ class Request(object):
     #
     def __init__(self, work):
 
-        self._uid    = ru.generate_id('request')
+        self._uid    = ru.generate_id('req')
         self._work   = work
         self._state  = 'NEW'
         self._result = None
@@ -121,46 +121,57 @@ class MyMaster(rp.task_overlay.Master):
         # proper communication channels to the pilot agent.
         rp.task_overlay.Master.__init__(self)
 
+        self._prof.prof('master_start', uid=self._uid)
+
+        self._cfg['wf1'] = cfg
         self._cfg['wf1'] = cfg
 
-        # set up RU ZMQ Queues for request distribution and result collection
-        req_cfg = ru.Config(cfg={'channel'    : 'to_req',
-                                 'type'       : 'queue',
-                                 'uid'        : self._uid + '.req',
-                                 'path'       : os.getcwd(),
-                                 'stall_hwm'  : 0,
-                                 'bulk_size'  : 1})
+      # # set up RU ZMQ Queues for request distribution and result collection
+      # req_cfg = ru.Config(cfg={'channel'    : 'to_req',
+      #                          'type'       : 'queue',
+      #                          'uid'        : self._uid + '.req',
+      #                          'path'       : os.getcwd(),
+      #                          'stall_hwm'  : 0,
+      #                          'bulk_size'  : 1})
+      #
+      # res_cfg = ru.Config(cfg={'channel'    : 'to_res',
+      #                          'type'       : 'queue',
+      #                          'uid'        : self._uid + '.res',
+      #                          'path'       : os.getcwd(),
+      #                          'stall_hwm'  : 0,
+      #                          'bulk_size'  : 1})
+      #
+      # self._req_queue = ru.zmq.Queue(req_cfg)
+      # self._res_queue = ru.zmq.Queue(res_cfg)
 
-        res_cfg = ru.Config(cfg={'channel'    : 'to_res',
-                                 'type'       : 'queue',
-                                 'uid'        : self._uid + '.res',
-                                 'path'       : os.getcwd(),
-                                 'stall_hwm'  : 0,
-                                 'bulk_size'  : 1})
+        req_queue_cfg = cfg=ru.read_json('../funcs_req_queue.cfg')
+        res_queue_cfg = cfg=ru.read_json('../funcs_res_queue.cfg')
 
-        self._req_queue = ru.zmq.Queue(req_cfg)
-        self._res_queue = ru.zmq.Queue(res_cfg)
+        self._req_addr_put = req_queue_cfg['put']
+        self._req_addr_get = req_queue_cfg['get']
 
-        self._req_queue.start()
-        self._res_queue.start()
-
-        self._req_addr_put = str(self._req_queue.addr_put)
-        self._req_addr_get = str(self._req_queue.addr_get)
-
-        self._res_addr_put = str(self._res_queue.addr_put)
-        self._res_addr_get = str(self._res_queue.addr_get)
+        self._res_addr_put = res_queue_cfg['put']
+        self._res_addr_get = res_queue_cfg['get']
 
         # this master will put requests onto the request queue, and will get
         # responses from the response queue.  Note that the responses will be
         # delivered via an async callback (`self.result_cb`).
-        self._req_put = ru.zmq.Putter('to_req', self._req_addr_put)
-        self._res_get = ru.zmq.Getter('to_res', self._res_addr_get,
-                                                cb=self.result_cb)
+        self._req_put = ru.zmq.Putter('funcs_req_queue',
+                                      self._req_addr_put,
+                                      log=self._log,
+                                      prof=self._prof)
+        self._res_get = ru.zmq.Getter('funcs_req_queue',
+                                      self._res_addr_get,
+                                      cb=self.result_cb,
+                                      log=self._log,
+                                      prof=self._prof)
 
         # for the workers it is the opposite: they will get requests from the
         # request queue, and will send responses to the response queue.
         self._info = {'req_addr_get': self._req_addr_get,
                       'res_addr_put': self._res_addr_put}
+
+        self._log.debug('info: %s', self._info)
 
         # make sure the channels are up before allowing to submit requests
         time.sleep(1)
@@ -186,9 +197,9 @@ class MyMaster(rp.task_overlay.Master):
 
             try:
                 ru.write_json(self._state, '%s.tmp' % self._fstate)
-                os.system('ls -l %s.tmp %s' % (self._fstate, self._fstate))
-                os.system('mv -v %s.tmp %s' % (self._fstate, self._fstate))
-                os.system('ls -l %s.tmp %s' % (self._fstate, self._fstate))
+             #  os.system('ls -l %s.tmp %s' % (self._fstate, self._fstate))
+                os.system('mv    %s.tmp %s' % (self._fstate, self._fstate))
+             #  os.system('ls -l %s.tmp %s' % (self._fstate, self._fstate))
             except:
                 self._log.exception('sync error')
 
@@ -197,6 +208,8 @@ class MyMaster(rp.task_overlay.Master):
     #
     def run(self):
 
+        self._prof.prof('master_run_start', uid=self._uid)
+
         # insert workers into the agent.  The agent will schedule (place)
         # those workers and execute them.
         self.submit_workers()
@@ -204,28 +217,34 @@ class MyMaster(rp.task_overlay.Master):
         if not os.path.exists(self._fstate):
             self.sync()
 
-        self._state = ru.Config(cfg=ru.read_json(self._fstate))
+        try:
+            self._state = ru.Config(cfg=ru.read_json(self._fstate))
+        except:
+            self._state = dict()
 
         to_minimize = list()  # need to run minimization
         to_simulate = list()  # need to run mmgbsa simulations
 
         for rank in glob.glob('%s/rank*/' % self._dbase):
 
-            if rank not in self._state:
-                self._state[rank] = {'energy'  : None,  # unknown
-                                     'simulate': None}  # not done yet
 
-            info = self._state[rank]
+            rank = rank.rstrip('/')
+            rid  = rank.split('/')[-1]
+            if rid not in self._state:
+                self._state[rid] = {'energy'  : None,  # unknown
+                                    'simulate': None}  # not done yet
+
+            info = self._state[rid]
             if   info['energy'  ] is None: to_minimize.append(rank)
             elif info['simulate'] is True: to_simulate.append(rank)
 
         # submit all minimization tasks first
         for rank in to_minimize:
-            self.request('minimize', rank)
+            self.request('min', rank)
 
       # # submit all simulations tasks
       # for rank in to_simulate:
-      #     self.request('simulate', rank)
+      #     self.request('sim', rank)
 
         # all eligible tasks are submitted - now we just wait for the results to
         # come back.  If minimization results are positive, we may need to
@@ -240,6 +259,7 @@ class MyMaster(rp.task_overlay.Master):
             self._log.debug('wait: %d', len(self._req))
             time.sleep(5)
 
+        self._prof.prof('master_run_stop', uid=self._uid)
 
     # --------------------------------------------------------------------------
     #
@@ -258,7 +278,8 @@ class MyMaster(rp.task_overlay.Master):
         self._log.debug('submit %s' % descr)
 
         self.submit(self._info, descr, self._n_workers)
-        self.wait(count=self._n_workers)
+      # self.wait(count=self._n_workers)
+      # self.wait(count=1)
 
         self._log.debug('workers are up')
 
@@ -270,15 +291,19 @@ class MyMaster(rp.task_overlay.Master):
         submit a work request to the request queue
         '''
 
-        assert(call in ['minimize', 'simulate']), call
+        assert(call in ['min', 'sim']), call
+
+        rid  = rank.split('/')[-1]
+        self._prof.prof('master_%s_req' % call, uid=rid)
 
         # create request and add to bookkeeping dict.  That response object will
         # be updated once a response for the respective request UID arrives.
-        req = Request(work={'call'  : call,
-                            'rank'  : rank})
+        req = Request(work={'call': call,
+                            'rank': rank})
         with self._lock:
             self._req[req.uid] = req
 
+        self._log.info('req put %s %s: %s', call, rank, req.uid)
         # push the request message (here and dictionary) onto the request queue
         self._req_put.put(req.as_dict())
 
@@ -298,8 +323,10 @@ class MyMaster(rp.task_overlay.Master):
         uid  = msg['uid']
         res  = msg['res']
         err  = msg['err']
+        rid  = rank.split('/')[-1]
 
-        self._log.debug('rank %s result: %s = %s', rank, call, res)
+        self._prof.prof('master_%s_res' % call, uid=rid)
+        self._log.info('res get %s %s: %s : %s : %s', call, rank, uid, res, err)
 
         # check if the request was a minimize or simulate call.  For minimiz,
         # evaluate the returned anergy and decide if we need to submit an
@@ -310,26 +337,26 @@ class MyMaster(rp.task_overlay.Master):
 
             self._req[uid].set_result(res, err)
 
-            if call == 'minimize':
+            if call == 'min':
 
-                if res is None: self._state[rank]['energy'] = np.nan
-                else          : self._state[rank]['energy'] = res
+                if res is None: self._state[rid]['energy'] = np.nan
+                else          : self._state[rid]['energy'] = res
 
                 if res is None or res <= 0:
                     # no need to simulate this rank
-                    self._log.debug('rank %s: min done', rank)
-                    self._state[rank]['simulate'] = False
+                    self._log.debug('rank %s: min done', rid)
+                    self._state[rid]['simulate'] = False
               # else:
               #     # got a positive energy: submit simulation
-              #     self._log.debug('rank %s: req sim', rank)
-              #     self._state[rank]['simulate'] = True
-              #     self.request('simulate', rank)
+              #     self._log.debug('rank %s: req sim', rid)
+              #     self._state[rid]['simulate'] = True
+              #     self.request('sim', rank)
 
-            elif call == 'simulate':
+            elif call == 'sim':
 
                 # just record the result
-                self._log.debug('rank %s: sim done', rank)
-                self._state[rank]['simulate'] = False
+                self._log.debug('rank %s: sim done', rid)
+                self._state[rid]['simulate'] = False
 
             self.sync()
 
