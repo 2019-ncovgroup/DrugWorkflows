@@ -112,13 +112,13 @@
 | Mpro-x0395.pdb.oeb | Frontera | AA       | Pending |         |
 | Mpro-x0397.pdb.oeb | Frontera | AA       | Done    |  0.1%   |
 | Mpro-x0426.pdb.oeb | Frontera | AA       | Done    |  0.1%   |
-| Mpro-x0434.pdb.oeb | Frontera | MT       | Running |         |
-| Mpro-x0540.pdb.oeb | Frontera | MT       | Running |         |
-| Mpro-x0678.pdb.oeb | Frontera | MT       | Running |         |
-| Mpro-x0874.pdb.oeb | Frontera | MT       | Running |         |
-| Mpro-x0946.pdb.oeb | Frontera | MT       | Running |         |
-| Mpro-x0967.pdb.oeb | Frontera | MT       | Running |         |
-| Mpro-x0991.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x0434.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
+| Mpro-x0540.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
+| Mpro-x0678.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
+| Mpro-x0874.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
+| Mpro-x0946.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
+| Mpro-x0967.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
+| Mpro-x0991.pdb.oeb | Frontera | MT       | Done    |  0.1%   |
 | Mpro-x0995.pdb.oeb | Frontera | MT       | Running |         |
 | Mpro-x1077.pdb.oeb | Frontera | MT       | Running |         |
 | Mpro-x1093.pdb.oeb | Frontera | MT       | Running |         |
