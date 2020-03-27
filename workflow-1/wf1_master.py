@@ -124,6 +124,25 @@ class MyMaster(rp.task_overlay.Master):
         self._prof.prof('master_start', uid=self._uid)
 
         self._cfg['wf1'] = cfg
+        self._cfg['wf1'] = cfg
+
+      # # set up RU ZMQ Queues for request distribution and result collection
+      # req_cfg = ru.Config(cfg={'channel'    : 'to_req',
+      #                          'type'       : 'queue',
+      #                          'uid'        : self._uid + '.req',
+      #                          'path'       : os.getcwd(),
+      #                          'stall_hwm'  : 0,
+      #                          'bulk_size'  : 1})
+      #
+      # res_cfg = ru.Config(cfg={'channel'    : 'to_res',
+      #                          'type'       : 'queue',
+      #                          'uid'        : self._uid + '.res',
+      #                          'path'       : os.getcwd(),
+      #                          'stall_hwm'  : 0,
+      #                          'bulk_size'  : 1})
+      #
+      # self._req_queue = ru.zmq.Queue(req_cfg)
+      # self._res_queue = ru.zmq.Queue(res_cfg)
 
         req_queue_cfg = cfg=ru.read_json('../funcs_req_queue.cfg')
         res_queue_cfg = cfg=ru.read_json('../funcs_res_queue.cfg')
