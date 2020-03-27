@@ -101,25 +101,25 @@
 
 | OEB                | Machine  | Assignee | State   | Missing |
 |--------------------|----------|----------|---------|---------|
-| Mpro-x0104.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0354.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0072.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0305.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0195.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0387.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0107.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0161.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0395.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0397.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0426.pdb.oeb | Frontera | AA       | Pending |         |
-| Mpro-x0434.pdb.oeb | Frontera | MT       | Pending |         |
-| Mpro-x0540.pdb.oeb | Frontera | MT       | Pending |         |
-| Mpro-x0678.pdb.oeb | Frontera | MT       | Pending |         |
-| Mpro-x0874.pdb.oeb | Frontera | MT       | Pending |         |
-| Mpro-x0946.pdb.oeb | Frontera | MT       | Pending |         |
-| Mpro-x0967.pdb.oeb | Frontera | MT       | Pending |         |
-| Mpro-x0991.pdb.oeb | Frontera | MT       | Pending |         |
-| Mpro-x0995.pdb.oeb | Frontera | MT       | Pending |         |
-| Mpro-x1077.pdb.oeb | Frontera | MT       | Pending |         |
-| Mpro-x1093.pdb.oeb | Frontera | MT       | Pending |         |
-| Mpro-x1249.pdb.oeb | Frontera | MT       | Pending |         |
+| Mpro-x0104.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0354.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0072.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0305.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0195.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0387.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0107.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0161.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0395.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0397.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0426.pdb.oeb | Frontera | AA       | Done    |         |
+| Mpro-x0434.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x0540.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x0678.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x0874.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x0946.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x0967.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x0991.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x0995.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x1077.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x1093.pdb.oeb | Frontera | MT       | Running |         |
+| Mpro-x1249.pdb.oeb | Frontera | MT       | Running |         |
