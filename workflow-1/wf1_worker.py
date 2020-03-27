@@ -2,14 +2,12 @@
 
 import os
 import sys
+import time
 
-os.system('which python')
-print(os.environ.get('PYTHONPATH'))
-
-import numpy as np
+import numpy           as np
+import multiprocessing as mp
 
 from impress_md import interface_functions as iface
-
 
 import radical.utils as ru
 import radical.pilot as rp
@@ -34,6 +32,8 @@ class MyWorker(rp.task_overlay.Worker):
         # `self._cfg`.
         rp.task_overlay.Worker.__init__(self, cfg)
 
+        self._prof.prof('worker_start', uid=self._uid)
+
 
     # --------------------------------------------------------------------------
     #
@@ -46,16 +46,42 @@ class MyWorker(rp.task_overlay.Worker):
         that incoming requests will trigger an async callback `self.request_cb`.
         '''
 
-        self._req_get = ru.zmq.Getter('to_req', self._info.req_addr_get,
-                                                cb=self.request_cb)
-        self._res_put = ru.zmq.Putter('to_res', self._info.res_addr_put)
+        self._req_get = ru.zmq.Getter('funcs_req_queue',
+                                      self._info.req_addr_get,
+                                      cb=self.request_cb,
+                                      log=self._log,
+                                      prof=self._prof)
+        self._res_put = ru.zmq.Putter('funcs_res_queue',
+                                      self._info.res_addr_put,
+                                      log=self._log,
+                                      prof=self._prof)
 
-        self._log.debug('initialized')
+        self._log.info('initialized: %s', self._info)
+        self._prof.prof('worker_init', uid=self._uid)
+
+        self._queue = mp.Queue()
 
         # the worker can return custom information which will be made available
         # to the master.  This can be used to communicate, for example, worker
         # specific communication endpoints.
         return {'foo': 'bar'}
+
+
+
+    # --------------------------------------------------------------------------
+    #
+    def run_min(self, rid, rank1, rank2, write, gpu):
+
+        val = iface.RunMinimization_(rank1, rank2, write=write, gpu=gpu)
+        self._queue.put([rid, val])
+
+
+    # --------------------------------------------------------------------------
+    #
+    def run_sim(self, rid, rank1, rank2, gpu, niters):
+
+        val = iface.RunMMGBSA_(rank1, rank2, gpu=True, niters=niters)
+        self._queue.put([rid, val])
 
 
     # --------------------------------------------------------------------------
@@ -67,24 +93,52 @@ class MyWorker(rp.task_overlay.Worker):
         All other requests will immediately trigger an error response.
         '''
 
-        self._log.debug('got req: %s', msg)
-
         uid  = msg['uid']
         call = msg['call']
         rank = msg['rank']
         val  = np.NaN
         err  = None
+        rid  = rank.split('/')[-1]
+
+        timeout = {'min':      30,
+                   'sim': 60 * 30}[call]
+
+        self._log.info('req get %s %s: %s', call, rank, uid)
+
+        # make sure queue is empty
 
         try:
-            if call == 'minimize':
-                val = iface.RunMinimization_(rank, rank, write=True, gpu=True)
+            if call == 'min':
+                proc = mp.Process(target=self.run_min,
+                                  args=[rid, rank, rank, True, True])
 
-            elif msg['call'] == 'simulate':
-                val = iface.RunMMGBSA_(rank, rank, gpu=True, niters=5000)
+            elif msg['call'] == 'sim':
+                proc = mp.Process(target=self.run_sim,
+                                  args=[rid, rank, rank, True, 5000])
 
         except Exception as e:
-            self._log.exception('call failed')
             err = str(e)
+            self._log.exception('call failed')
+            self._prof.prof('worker_%s_fail'  % call, uid=rid)
+
+        proc.start()
+        start = time.time()
+        self._prof.prof('worker_%s_start'  % call, uid=rid)
+        while True:
+            try:
+                _rid, val = self._queue.get(block=True, timeout=1)
+                if _rid != rid:
+                    self._log.debug('unexpected queue data %s: %s', _rid, val)
+                    continue
+                else:
+                    self._prof.prof('worker_%s_stop' % call, uid=rid)
+                    break
+            except:
+                if start + timeout < time.time():
+                    err = 'timeout'
+                    self._prof.prof('worker_%s_tout' % call, uid=rid)
+                    proc.terminate()
+                    break
 
         res = {'call': call,
                'rank': rank,
@@ -92,7 +146,7 @@ class MyWorker(rp.task_overlay.Worker):
                'res' : val,
                'err' : err}
 
-        self._log.debug('put res: %s', res)
+        self._log.info('res put %s %s: %s : %s : %s', call, rank, uid, val, err)
         self._res_put.put(res)
 
 
