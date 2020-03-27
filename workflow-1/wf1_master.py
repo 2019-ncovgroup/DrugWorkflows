@@ -157,13 +157,13 @@ class MyMaster(rp.task_overlay.Master):
         # responses from the response queue.  Note that the responses will be
         # delivered via an async callback (`self.result_cb`).
         self._req_put = ru.zmq.Putter('funcs_req_queue',
-                                      self._req_addr_put, 
-                                      log=self._log, 
+                                      self._req_addr_put,
+                                      log=self._log,
                                       prof=self._prof)
         self._res_get = ru.zmq.Getter('funcs_req_queue',
                                       self._res_addr_get,
-                                      cb=self.result_cb, 
-                                      log=self._log, 
+                                      cb=self.result_cb,
+                                      log=self._log,
                                       prof=self._prof)
 
         # for the workers it is the opposite: they will get requests from the
@@ -240,11 +240,11 @@ class MyMaster(rp.task_overlay.Master):
 
         # submit all minimization tasks first
         for rank in to_minimize:
-            self.request('minimize', rank)
+            self.request('min', rank)
 
       # # submit all simulations tasks
       # for rank in to_simulate:
-      #     self.request('simulate', rank)
+      #     self.request('sim', rank)
 
         # all eligible tasks are submitted - now we just wait for the results to
         # come back.  If minimization results are positive, we may need to
@@ -291,15 +291,15 @@ class MyMaster(rp.task_overlay.Master):
         submit a work request to the request queue
         '''
 
-        assert(call in ['minimize', 'simulate']), call
+        assert(call in ['min', 'sim']), call
 
         rid  = rank.split('/')[-1]
-        self._prof.prof('master_%s_req' % call[0:3], uid=self._uid, msg=rid)
+        self._prof.prof('master_%s_req' % call, uid=rid)
 
         # create request and add to bookkeeping dict.  That response object will
         # be updated once a response for the respective request UID arrives.
-        req = Request(work={'call'  : call,
-                            'rank'  : rank})
+        req = Request(work={'call': call,
+                            'rank': rank})
         with self._lock:
             self._req[req.uid] = req
 
@@ -325,7 +325,7 @@ class MyMaster(rp.task_overlay.Master):
         err  = msg['err']
         rid  = rank.split('/')[-1]
 
-        self._prof.prof('master_%s_res' % call[0:3], uid=self._uid, msg=rid)
+        self._prof.prof('master_%s_res' % call, uid=rid)
         self._log.info('res get %s %s: %s : %s : %s', call, rank, uid, res, err)
 
         # check if the request was a minimize or simulate call.  For minimiz,
@@ -337,7 +337,7 @@ class MyMaster(rp.task_overlay.Master):
 
             self._req[uid].set_result(res, err)
 
-            if call == 'minimize':
+            if call == 'min':
 
                 if res is None: self._state[rid]['energy'] = np.nan
                 else          : self._state[rid]['energy'] = res
@@ -350,9 +350,9 @@ class MyMaster(rp.task_overlay.Master):
               #     # got a positive energy: submit simulation
               #     self._log.debug('rank %s: req sim', rid)
               #     self._state[rid]['simulate'] = True
-              #     self.request('simulate', rank)
+              #     self.request('sim', rank)
 
-            elif call == 'simulate':
+            elif call == 'sim':
 
                 # just record the result
                 self._log.debug('rank %s: sim done', rid)

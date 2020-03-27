@@ -135,6 +135,14 @@
             "runtime"       : 180,
             "cores"         : 0
         }
+    },
+
+    "min": {
+        "timeout" : 15
+    },
+
+    "sim": {
+        "timeout" : 15
     }
 }
 
