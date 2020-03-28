@@ -2,7 +2,29 @@
 
 ## ESMACS
 
+## Run with Radical Cybertools
+
+### replica of raw_submission_esmacs.sh
+
+```
+python wf3.py --task esmacs
+```
+
+### replica of raw_submission_sim.sh
+
+```
+python wf3.py --task sim
+```
+
+
 ## Installation
+
+### Radical Cybertools
+
+```
+pip install radical.entk
+```
+
 
 ### Ambertools19
 

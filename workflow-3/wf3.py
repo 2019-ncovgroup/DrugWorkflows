@@ -1,11 +1,13 @@
 from radical import entk
 import os
+import argparse, sys
 
 class ESMACS(object):
 
     def __init__(self):
+        self.set_argparse()
         self._set_rmq()
-        self.am = entk.AppManager(self.rmq_port, self.rmq_hostname)
+        self.am = entk.AppManager(hostname=self.rmq_hostname, port=self.rmq_port)
         self.p = entk.Pipeline()
         self.s = entk.Stage()
 
@@ -18,6 +20,16 @@ class ESMACS(object):
     def set_resource(self, res_desc):
         res_desc["schema"] = "local"
         self.am.resource_desc = res_desc
+
+
+    def set_argparse(self):
+        parser = argparse.ArgumentParser(description="ESMACS")
+        parser.add_argument("--task", "-t", help="esmacs or sim")
+        args = parser.parse_args()
+        self.args = args
+        if args.task is None:
+            parser.print_help()
+            sys.exit(-1)
 
 
     def raw_submission_esmacs_sh(self, rep_count=24):#mmpbsa(self):
@@ -70,6 +82,7 @@ class ESMACS(object):
                     }
 
             self.s.add_tasks(t)
+        self.p.add_stages(self.s)
 
 
     def raw_submission_sim_sh(self, rep_count=24):
@@ -77,11 +90,40 @@ class ESMACS(object):
         
         for i in range(1, rep_count + 1):
             t = entk.Task()
-            t.pre_exec = []
-            t.executable = ''
+            pre_exec = """
+             export OMP_NUM_THREADS=1
+             export COMP="com"
+             export  INPATH="$MEMBERWORK/chm155/inpath/$COMP"
+             source ~/.bash_profile
+             source ~/.bashrc
+             conda activate openmm
+             module load cuda gcc spectrum-mpi
+             cd $INPATH
+            """
+            t.pre_exec = [ x.strip() for x in pre_exec.split("\n") ]
+            t.pre_exec += [ 
+                    "export OUTPATH=\"$INPATH/rep{}\"".format(i),
+                    "mkdir -p $OUTPATH",
+                    "cd $OUTPATH",
+                    "rm -f traj.dcd sim.log"
+                    ]
+
+            t.executable = 'python'
+            t.arguments = [ '$INPATH/sim.py' ]
             t.post_exec = []
-            t.cpu_reqs = {}
-            t.gpu_reqs = {}
+
+            t.cpu_reqs = {
+                    'processes': 1,
+                    'process_type': None,
+                    'threads_per_process': 4,
+                    'thread_type': 'OpenMP'
+                    }
+            t.gpu_reqs = {
+                    'processes': 0,
+                    'process_type': None,
+                    'threads_per_process': 1,
+                    'thread_type': 'CUDA'
+                    }
             self.s.add_tasks(t)
 
 
@@ -94,30 +136,32 @@ if __name__ == "__main__":
 
     ### raw_submission_esmacs.sh
     esmacs = ESMACS()
-    n_nodes = 24
-    esmacs.set_resource(res_desc = {
-        'resource': 'ornl.summit',
-        'queue'   : 'batch',
-        'walltime': 10, #MIN
-        'cpus'    : 168 * n_nodes,
-        'gpus'    : 6 * n_nodes,
-        'project' : "CHM155_001"
-        })
-    esmacs.raw_submission_esmacs_sh(rep_count=24)
-    esmacs.run()
 
-    ### raw_submission_sim.sh
-    """
-    esmacs = ESMACS()
-    n_nodes = 4
-    esmacs.set_resource(res_dict = {
-        'resource': 'ornl.summit',
-        'queue'   : 'batch',
-        'walltime': 120, #MIN
-        'cpus'    : 168 * n_nodes,
-        'gpus'    : 6 * n_nodes,
-        'project' : "CHM155_001"
-        })
-    esmacs.raw_submission_sim_sh(rep_count=24)
-    esmacs.run()
-    """
+    if esmacs.args.task == "esmacs":
+
+        n_nodes = 24
+        esmacs.set_resource(res_desc = {
+            'resource': 'ornl.summit',
+            'queue'   : 'batch',
+            'walltime': 10, #MIN
+            'cpus'    : 168 * n_nodes,
+            'gpus'    : 6 * n_nodes,
+            'project' : "CHM155_001"
+            })
+        esmacs.raw_submission_esmacs_sh(rep_count=24)
+        esmacs.run()
+
+
+    elif esmacs.args.task == "sim":
+
+        n_nodes = 4
+        esmacs.set_resource(res_dict = {
+            'resource': 'ornl.summit',
+            'queue'   : 'batch',
+            'walltime': 120, #MIN
+            'cpus'    : 168 * n_nodes,
+            'gpus'    : 6 * n_nodes,
+            'project' : "CHM155_001"
+            })
+        esmacs.raw_submission_sim_sh(rep_count=24)
+        esmacs.run()
