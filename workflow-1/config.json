@@ -5,7 +5,7 @@
         "gpn"      :   6,
         "conda"    : "/gpfs/alpine/med110/scratch/merzky1/covid/.miniconda3",
         "pilot"    : {
-            "resource"      : "ornl.summit",
+            "resource"      : "ornl.summit_prte",
             "runtime"       : 60,
             "cores"         : 0,
             "project"       : "med110",
@@ -14,7 +14,7 @@
         "master" : {
             "pre_exec"      : [
                 "module load cuda",
-                "unset PYTHONPATH",
+              # "unset PYTHONPATH",
                 "unset CONDA_EXE",
                 "unset CONDA_PREFIX",
                 "unset CONDA_SHLVL",
@@ -23,6 +23,10 @@
                 ". /gpfs/alpine/med110/scratch/merzky1/covid/.miniconda3/etc/profile.d/conda.sh",
                 "conda activate covid-19-1"
             ],
+            "environment"     : {
+                "RADICAL_BASE"      : "/gpfs/alpine/med110/scratch/merzky1/radical.pilot.sandbox/tmp",
+                "RADICAL_BASE_DIR"  : "/gpfs/alpine/med110/scratch/merzky1/radical.pilot.sandbox/tmp"
+            },
             "cpu_threads"     : 4,
             "gpu_process_type": "POSIX"
         },
@@ -39,6 +43,10 @@
                 ". /gpfs/alpine/med110/scratch/merzky1/covid/.miniconda3/etc/profile.d/conda.sh",
                 "conda activate covid-19-1"
             ],
+            "environment"     : {
+                "RADICAL_BASE"      : "/gpfs/alpine/med110/scratch/merzky1/radical.pilot.sandbox/tmp",
+                "RADICAL_BASE_DIR"  : "/gpfs/alpine/med110/scratch/merzky1/radical.pilot.sandbox/tmp"
+            },
             "cpu_processes"   : 1,
             "cpu_threads"     : 4,
             "gpu_processes"   : 1,

@@ -6,8 +6,11 @@ import copy
 import glob
 import time
 import signal
+import shutil
 
-import numpy         as np
+os.environ['RADICAL_BASE_DIR'] = '/gpfs/alpine/med110/scratch/merzky1/radical.pilot.sandbox/tmp'
+
+# import numpy         as np
 import threading     as mt
 
 import radical.pilot as rp
@@ -197,8 +200,11 @@ class MyMaster(rp.task_overlay.Master):
 
             try:
                 ru.write_json(self._state, '%s.tmp' % self._fstate)
+                out, err, ret = ru.sh_callout('ls -la %s.tmp' % self._fstate)
+                self._log.debug('=== [%s] [%s]', out, err)
              #  os.system('ls -l %s.tmp %s' % (self._fstate, self._fstate))
-                os.system('mv    %s.tmp %s' % (self._fstate, self._fstate))
+                shutil.move('%s.tmp' % self._fstate, self._fstate)
+             #  os.system('mv    %s.tmp %s' % (self._fstate, self._fstate))
              #  os.system('ls -l %s.tmp %s' % (self._fstate, self._fstate))
             except:
                 self._log.exception('sync error')
@@ -273,7 +279,9 @@ class MyMaster(rp.task_overlay.Master):
 
         if not descr.get('environment'):
             descr['environment'] = dict()
+
         descr['environment']['PYTHONPATH'] = os.getcwd()
+        descr['environment']['OE_LICENSE'] = 'oe_license.txt'
 
         self._log.debug('submit %s' % descr)
 
@@ -339,7 +347,8 @@ class MyMaster(rp.task_overlay.Master):
 
             if call == 'min':
 
-                if res is None: self._state[rid]['energy'] = np.nan
+              # if res is None: self._state[rid]['energy'] = np.nan
+                if res is None: self._state[rid]['energy'] = -1000.0
                 else          : self._state[rid]['energy'] = res
 
                 if res is None or res <= 0:
@@ -386,9 +395,7 @@ if __name__ == '__main__':
 
     # simply terminate
     # FIXME: this needs to be cleaned up, should kill workers cleanly
-    sys.stdout.flush()
-    os.kill(os.getpid(), signal.SIGKILL)
-    os.kill(os.getpid(), signal.SIGTERM)
+    sys.exit(0)
 
 
 # ------------------------------------------------------------------------------
