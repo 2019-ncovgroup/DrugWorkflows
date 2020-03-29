@@ -2,7 +2,6 @@
 
 import os
 import sys
-import glob
 
 import radical.pilot as rp
 import radical.utils as ru
@@ -33,6 +32,7 @@ if __name__ == '__main__':
 
     session    = rp.Session()
     try:
+
         pmgr   = rp.PilotManager(session=session)
         umgr   = rp.UnitManager(session=session)
         pdinit = cfg['pilot']
@@ -52,43 +52,43 @@ if __name__ == '__main__':
         pilots = pmgr.submit_pilots(pdescs)
 
         umgr.add_pilots(pilots)
+        cuds  = list()
+        for i in range(1):
 
-        udinit = cfg['master']
-        udinit['cpu_processes'] = 1
-        udinit['executable']    =  '$PWD/wf1_master.py'
-        udinit['arguments']     =  [dbase, n_workers, target]
-        udinit['environment']   =  {'OE_LICENSE': 'oe_license.txt'}
-        udinit['input_staging'] = [{'source': 'pilot:///Model-generation/input',
-                                    'target': 'unit:///input',
-                                    'action': rp.LINK},
-                                   {'source': 'pilot:///config.json',
-                                    'target': 'unit:///config.json',
-                                    'action': rp.LINK},
-                                   {'source': 'pilot:///Model-generation/impress_md',
-                                    'target': 'unit:///impress_md',
-                                    'action': rp.LINK},
-                                   {'source': 'pilot:///oe_license.txt',
-                                    'target': 'unit:///oe_license.txt',
-                                    'action': rp.LINK},
-                                   {'source': 'pilot:///wf1_master.py',
-                                    'target': 'unit:///wf1_master.py',
-                                    'action': rp.LINK},
-                                   {'source': 'pilot:///wf1_worker.py',
-                                    'target': 'unit:///wf1_worker.py',
-                                    'action': rp.LINK},
-                                   {'source': 'pilot:///wf1_worker.sh',
-                                    'target': 'unit:///wf1_worker.sh',
-                                    'action': rp.LINK},
-                                  ]
+            udinit = cfg['master']
+            udinit['cpu_processes'] = 1
+            udinit['executable']    =  '$PWD/wf1_master.py'
+            udinit['arguments']     =  [dbase, n_workers, target]
+            udinit['input_staging'] = [{'source': 'pilot:///Model-generation/input',
+                                        'target': 'unit:///input',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///config.json',
+                                        'target': 'unit:///config.json',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///Model-generation/impress_md',
+                                        'target': 'unit:///impress_md',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///oe_license.txt',
+                                        'target': 'unit:///oe_license.txt',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///wf1_master.py',
+                                        'target': 'unit:///wf1_master.py',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///wf1_worker.py',
+                                        'target': 'unit:///wf1_worker.py',
+                                        'action': rp.LINK},
+                                       {'source': 'pilot:///wf1_worker.sh',
+                                        'target': 'unit:///wf1_worker.sh',
+                                        'action': rp.LINK},
+                                      ]
+            cud = rp.ComputeUnitDescription(udinit)
+            cuds.append(cud)
 
-        cud = rp.ComputeUnitDescription(udinit)
-
-        umgr.submit_units([cud])
+        umgr.submit_units(cuds)
         umgr.wait_units()
 
     finally:
         session.close(download=True)
-        pass
 
 
 # ------------------------------------------------------------------------------
