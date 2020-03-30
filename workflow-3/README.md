@@ -16,6 +16,12 @@ python wf3.py --task esmacs
 python wf3.py --task sim
 ```
 
+### esmacs_analysis
+
+```
+python wf3.py --task esmacs_analysis
+```
+
 
 ## Installation
 
