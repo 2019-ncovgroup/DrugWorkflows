@@ -160,31 +160,30 @@
 | ADRP_pocket12_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket13_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket1_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
-| CoV_pocket10_receptor.oeb      | Frontera | MT       | Running |         |
-| CoV_pocket1_receptor.oeb       | Frontera | MT       | Running |         |
-| CoV_pocket2_receptor.oeb       | Frontera | AA       | Pending |         |
-| CoV_pocket8_receptor.oeb       | Frontera | AA       | Pending |         |
-| Nsp10_pocket1_receptor.oeb     | Frontera | AA       | Pending |         |
-| Nsp10_pocket26_receptor.oeb    | Frontera | AA       | Pending |         |
-| Nsp10_pocket3_receptor.oeb     | Frontera | AA       | Pending |         |
-| nsp15-CIT_pocket13_receptor.oeb| Frontera | AA       | Pending |         |
-| nsp15-CIT_pocket18_receptor.oeb| Frontera | AA       | Pending |         |
-| nsp15-CIT_pocket1_receptor.oeb | Frontera | AA       | Pending |         |
-| nsp15-CIT_pocket37_receptor.oeb| Frontera | AA       | Pending |         |
-| nsp15-CIT_pocket6_receptor.oeb | Frontera | AA       | Pending |         |
-| nsp15_pocket13_receptor.oeb    | Frontera | AA       | Pending |         |
-| nsp15_pocket14_receptor.oeb    | Frontera | AA       | Pending |         |
-| nsp15_pocket1_receptor.oeb     | Frontera | AA       | Pending |         |
-| nsp15_pocket29_receptor.oeb    | Frontera | AA       | Pending |         |
-| nsp15_pocket2_receptor.oeb     | Frontera | AA       | Pending |         |
-| nsp15_pocket33_receptor.oeb    | Frontera | AA       | Pending |         |
-| nsp15_pocket36_receptor.oeb    | Frontera | AA       | Pending |         |
-| Nsp9_pocket2_receptor.oeb      | Frontera | AA       | Pending |         |
-| Nsp9_pocket7_receptor.oeb      | Frontera | AA       | Pending |         |
-| orf7a_pocket2_receptor.oeb     | Frontera | AA       | Pending |         |
-| PLPro_pocket23_receptor.oeb    | Frontera | AA       | Pending |         |
-| PLPro_pocket3_receptor.oeb     | Frontera | AA       | Pending |         |
-| PLPro_pocket4_receptor.oeb     | Frontera | AA       | Pending |         |
-| PLPro_pocket50_receptor.oeb    | Frontera | AA       | Pending |         |
-| PLPro_pocket6_receptor.oeb     | Frontera | AA       | Pending |         |
-
+| CoV_pocket10_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
+| CoV_pocket1_receptor.oeb       | Frontera | MT       | Done    |  0.1%   |
+| CoV_pocket2_receptor.oeb       | Frontera | AA       | Done    |  0.1%   |
+| CoV_pocket8_receptor.oeb       | Frontera | AA       | Done    |  0.1%   |
+| Nsp10_pocket1_receptor.oeb     | Frontera | AA       | Done    |  0.1%   |
+| Nsp10_pocket26_receptor.oeb    | Frontera | AA       | Done    |  0.1%   |
+| Nsp10_pocket3_receptor.oeb     | Frontera | AA       | Done    |  0.1%   |
+| nsp15-CIT_pocket13_receptor.oeb| Frontera | AA       | Done    |  0.1%   |
+| nsp15-CIT_pocket18_receptor.oeb| Frontera | AA       | Done    |  0.1%   |
+| nsp15-CIT_pocket1_receptor.oeb | Frontera | AA       | Done    |  0.1%   |
+| nsp15-CIT_pocket37_receptor.oeb| Frontera | AA       | Done    |  0.1%   |
+| nsp15-CIT_pocket6_receptor.oeb | Frontera | AA       | Done    |  0.1%   |
+| nsp15_pocket13_receptor.oeb    | Frontera | AA       | Done    |  0.1%   |
+| nsp15_pocket14_receptor.oeb    | Frontera | AA       | Done    |  0.1%   |
+| nsp15_pocket1_receptor.oeb     | Frontera | AA       | Done    |  0.1%   |
+| nsp15_pocket29_receptor.oeb    | Frontera | AA       | Done    |  0.1%   |
+| nsp15_pocket2_receptor.oeb     | Frontera | AA       | Done    |  0.1%   |
+| nsp15_pocket33_receptor.oeb    | Frontera | AA       | Done    |  0.1%   |
+| nsp15_pocket36_receptor.oeb    | Frontera | AA       | Done    |  0.1%   |
+| Nsp9_pocket2_receptor.oeb      | Frontera | AA       | Done    |  0.1%   |
+| Nsp9_pocket7_receptor.oeb      | Frontera | AA       | Done    |  0.1%   |
+| orf7a_pocket2_receptor.oeb     | Frontera | AA       | Done    |  0.1%   |
+| PLPro_pocket23_receptor.oeb    | Frontera | AA       | Done    |  0.1%   |
+| PLPro_pocket3_receptor.oeb     | Frontera | AA       | Done    |  0.1%   |
+| PLPro_pocket4_receptor.oeb     | Frontera | AA       | Done    |  0.1%   |
+| PLPro_pocket50_receptor.oeb    | Frontera | AA       | Done    |  14.1%  |
+| PLPro_pocket6_receptor.oeb     | Frontera | AA       | Done    |  0.1%   |
