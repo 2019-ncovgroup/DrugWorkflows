@@ -49,6 +49,7 @@ class ESMACS(object):
                     "export OUTPATH=\"$INPATH/rep{}".format(i),
                     "cd $OUTPATH" 
                     ]
+            # Amber
             t.executable = "MMPBSA.py.MPI"
             t.arguments = ("-O -i $INPATH/mmpbsa.in -sp " + \
                     "$INPATH/complex.prmtop -cp $INPATH/com.prmtop -rp " + \
@@ -109,7 +110,13 @@ class ESMACS(object):
                     ]
 
             t.executable = 'python'
-            t.arguments = [ '$INPATH/sim.py' ]
+            t.arguments = [ '$INPATH/sim_esmacs.py' ]
+            t.arguments += [ 
+                    'i=<STRUCTURES>',
+                    '-o=<TRAJECTORY>',
+                    '-c=<COMPONENT>',
+                    '-n=<NANOSECONDS>'
+                    ]
             t.post_exec = []
 
             t.cpu_reqs = {
