@@ -87,6 +87,9 @@ if __name__ == '__main__':
         umgr.submit_units(cuds)
         umgr.wait_units()
 
+    except:
+        pass
+
     finally:
         session.close(download=True)
 
