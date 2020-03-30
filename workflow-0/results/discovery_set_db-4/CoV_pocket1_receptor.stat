@@ -1,0 +1,5 @@
+
+receptor  : CoV_pocket1_receptor            [    310530]
+smiles    : discovery_set_db                [    310782]
+duplicates:                            0.0% [         0]
+missing   :                            0.1% [       252]

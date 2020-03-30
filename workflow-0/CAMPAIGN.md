@@ -132,34 +132,34 @@
 | OEB                            | Machine  | Assignee | State   | Missing |
 |--------------------------------|----------|----------|---------|---------|
 | 3CLPro_pocket1_receptor.oeb    | Frontera | MT       | Done    |  0.1%   |
-| 6vww_pocket100_receptor.oeb    | Frontera | MT       | Running |         |
-| 6vww_pocket108_receptor.oeb    | Frontera | MT       | Running |         |
-| 6vww_pocket11_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket130_receptor.oeb    | Frontera | MT       | Running |         |
-| 6vww_pocket135_receptor.oeb    | Frontera | MT       | Running |         |
-| 6vww_pocket13_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket143_receptor.oeb    | Frontera | MT       | Running |         |
-| 6vww_pocket154_receptor.oeb    | Frontera | MT       | Running |         |
-| 6vww_pocket156_receptor.oeb    | Frontera | MT       | Running |         |
-| 6vww_pocket157_receptor.oeb    | Frontera | MT       | Running |         |
-| 6vww_pocket17_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket18_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket1_receptor.oeb      | Frontera | MT       | Running |         |
-| 6vww_pocket22_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket23_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket37_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket3_receptor.oeb      | Frontera | MT       | Running |         |
-| 6vww_pocket57_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket62_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket6_receptor.oeb      | Frontera | MT       | Running |         |
-| 6vww_pocket71_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket8_receptor.oeb      | Frontera | MT       | Running |         |
-| 6vww_pocket9_receptor.oeb      | Frontera | MT       | Running |         |
-| ADRP-ADPR_pocket1_receptor.oeb | Frontera | MT       | Running |         |
-| ADRP-ADPR_pocket5_receptor.oeb | Frontera | MT       | Running |         |
-| ADRP_pocket12_receptor.oeb     | Frontera | MT       | Running |         |
-| ADRP_pocket13_receptor.oeb     | Frontera | MT       | Running |         |
-| ADRP_pocket1_receptor.oeb      | Frontera | MT       | Running |         |
+| 6vww_pocket100_receptor.oeb    | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket108_receptor.oeb    | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket11_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket130_receptor.oeb    | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket135_receptor.oeb    | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket13_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket143_receptor.oeb    | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket154_receptor.oeb    | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket156_receptor.oeb    | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket157_receptor.oeb    | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket17_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket18_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket1_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket22_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket23_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket37_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket3_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket57_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket62_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket6_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket71_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket8_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket9_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
+| ADRP-ADPR_pocket1_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP-ADPR_pocket5_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket12_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket13_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket1_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
 | CoV_pocket10_receptor.oeb      | Frontera | MT       | Running |         |
 | CoV_pocket1_receptor.oeb       | Frontera | MT       | Running |         |
 | CoV_pocket2_receptor.oeb       | Frontera | AA       | Pending |         |
