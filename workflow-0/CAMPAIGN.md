@@ -160,9 +160,9 @@
 | ADRP_pocket12_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket13_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket1_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
-| CoV_pocket10_receptor.oeb      | Frontera | MT       | Running |         |
-| CoV_pocket1_receptor.oeb       | Frontera | MT       | Running |         |
-| CoV_pocket2_receptor.oeb       | Frontera | AA       | Pending |         |
+| CoV_pocket10_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
+| CoV_pocket1_receptor.oeb       | Frontera | MT       | Done    |  0.1%   |
+| CoV_pocket2_receptor.oeb       | Frontera | AA       | Done    |  0.1%   |
 | CoV_pocket8_receptor.oeb       | Frontera | AA       | Pending |         |
 | Nsp10_pocket1_receptor.oeb     | Frontera | AA       | Pending |         |
 | Nsp10_pocket26_receptor.oeb    | Frontera | AA       | Pending |         |
