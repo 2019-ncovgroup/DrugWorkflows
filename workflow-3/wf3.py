@@ -127,6 +127,23 @@ class ESMACS(object):
             self.s.add_tasks(t)
 
 
+    def esmacs_analysis_py(self, energy_files, replicas=None, traj_type="one"):
+        t = entk.Task()
+        t.executable = 'python'
+        t.arguments = [ 'esmacs_analysis.py', '-i={}'.format(energy_files) ]
+        if replicas:
+            t.arguments += [ '-r={}'.format(replicas) ]
+        t.arguments += [ '-t={}'.format(traj_type) ]
+        
+        t.cpu_reqs = {
+                    'processes': 1,
+                    'process_type': None,
+                    'threads_per_process': 4,
+                    'thread_type': 'OpenMP'
+                    }
+        self.s.add_tasks(t)
+
+
     def run(self):
         self.am.workflow = [self.p]
         self.am.run()
@@ -165,3 +182,19 @@ if __name__ == "__main__":
             })
         esmacs.raw_submission_sim_sh(rep_count=24)
         esmacs.run()
+
+    
+    elif esmacs.args.task == "esmacs_analysis":
+
+        n_nodes = 1
+        esmacs.set_resource(res_dict = {
+            'resource': 'ornl.summit',
+            'queue'   : 'batch',
+            'walltime': 10, #MIN
+            'cpus'    : 168 * n_nodes,
+            'gpus'    : 6 * n_nodes,
+            'project' : "CHM155_001"
+            })
+        esmacs.esmacs_analysis_py()
+        esmacs.run()
+
