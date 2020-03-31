@@ -195,4 +195,4 @@
 
 | OEB                               | Machine  | Assignee | State   | Missing |
 |-----------------------------------|----------|----------|---------|---------|
-| ADRP-ADPR_pocket1_receptor.oeb    | Frontera | MT       | Running |         |
+| ADRP-ADPR_pocket1_receptor.oeb    | Frontera | MT       | Done    | 1.3%    |
