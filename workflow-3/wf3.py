@@ -179,7 +179,7 @@ if __name__ == "__main__":
     elif esmacs.args.task == "sim":
 
         n_nodes = 4
-        esmacs.set_resource(res_dict = {
+        esmacs.set_resource(res_desc = {
             'resource': 'ornl.summit',
             'queue'   : 'batch',
             'walltime': 120, #MIN
@@ -194,7 +194,7 @@ if __name__ == "__main__":
     elif esmacs.args.task == "esmacs_analysis":
 
         n_nodes = 1
-        esmacs.set_resource(res_dict = {
+        esmacs.set_resource(res_desc = {
             'resource': 'ornl.summit',
             'queue'   : 'batch',
             'walltime': 10, #MIN
