@@ -11,16 +11,13 @@ class ESMACS(object):
         self.p = entk.Pipeline()
         self.s = entk.Stage()
 
-
     def _set_rmq(self):
-        self.rmq_port = int(os.environ.get('RMQ_PORT', 5672))
-        self.rmq_hostname = os.environ.get('RMQ_HOSTNAME', 'localhost')
-
+        self.rmq_port = int(os.environ.get('RMQ_PORT', 33239))
+        self.rmq_hostname = os.environ.get('RMQ_HOSTNAME', 'two.radical-project.org')
 
     def set_resource(self, res_desc):
         res_desc["schema"] = "local"
         self.am.resource_desc = res_desc
-
 
     def set_argparse(self):
         parser = argparse.ArgumentParser(description="ESMACS")
@@ -31,9 +28,7 @@ class ESMACS(object):
             parser.print_help()
             sys.exit(-1)
 
-
     def raw_submission_esmacs_sh(self, rep_count=24):#mmpbsa(self):
-
 
         for i in range(1, rep_count + 1):
             t = entk.Task()
@@ -42,14 +37,13 @@ class ESMACS(object):
                     "module load cuda/10.1.243 gcc/6.4.0",
                     "module load spectrum-mpi/10.3.1.2-20200121",
                     "export CUDA_HOME=/sw/summit/cuda/10.1.243",
-                    "export INPATH=\"$MEMBERWORK/chm155/inpath\"", # TODO: parameterized
-                    "source /gpfs/alpine/scratch/apbhati/chm155/AmberTools19/amber18/amber.sh", #TODO: parameterized
+                    "export INPATH=\"$MEMBERWORK/med110/inpath\"", # TODO: parameterized
+                    "source /ccs/home/litan/DrugWorkflows/workflow-3/amber18/amber.sh", #TODO: parameterized
                     "export LD_LIBRARY_PATH=\"/sw/summit/cuda/10.1.243/lib:${LD_LIBRARY_PATH}\"",
-                    "cd $INPATH",
-                    "export OUTPATH=\"$INPATH/rep{}".format(i),
-                    "cd $OUTPATH" 
+                    "mkdir -p $INPATH; cd $INPATH",
+                    "export OUTPATH=$INPATH/rep{}".format(i),
+                    "mkdir -p $OUTPATH; cd $OUTPATH"
                     ]
-            # Amber
             t.executable = "MMPBSA.py.MPI"
             t.arguments = ("-O -i $INPATH/mmpbsa.in -sp " + \
                     "$INPATH/complex.prmtop -cp $INPATH/com.prmtop -rp " + \
@@ -85,19 +79,16 @@ class ESMACS(object):
             self.s.add_tasks(t)
         self.p.add_stages(self.s)
 
-
     def raw_submission_sim_sh(self, rep_count=24):
-        
-        
+
         for i in range(1, rep_count + 1):
             t = entk.Task()
             pre_exec = """
              export OMP_NUM_THREADS=1
              export COMP="com"
-             export  INPATH="$MEMBERWORK/chm155/inpath/$COMP"
-             source ~/.bash_profile
-             source ~/.bashrc
-             conda activate openmm
+             export INPATH="$MEMBERWORK/med110/inpath/$COMP"
+             source ~/module.sh
+             conda activate workflow-3
              module load cuda gcc spectrum-mpi
              cd $INPATH
             """
@@ -110,13 +101,7 @@ class ESMACS(object):
                     ]
 
             t.executable = 'python'
-            t.arguments = [ '$INPATH/sim_esmacs.py' ]
-            t.arguments += [ 
-                    'i=<STRUCTURES>',
-                    '-o=<TRAJECTORY>',
-                    '-c=<COMPONENT>',
-                    '-n=<NANOSECONDS>'
-                    ]
+            t.arguments = [ '$INPATH/sim.py' ]
             t.post_exec = []
 
             t.cpu_reqs = {
@@ -133,8 +118,8 @@ class ESMACS(object):
                     }
             self.s.add_tasks(t)
 
-
     def esmacs_analysis_py(self, energy_files, replicas=None, traj_type="one"):
+
         t = entk.Task()
         t.executable = 'python'
         t.arguments = [ 'esmacs_analysis.py', '-i={}'.format(energy_files) ]
@@ -150,7 +135,6 @@ class ESMACS(object):
                     }
         self.s.add_tasks(t)
 
-
     def run(self):
         self.am.workflow = [self.p]
         self.am.run()
@@ -158,7 +142,6 @@ class ESMACS(object):
 
 if __name__ == "__main__":
 
-    ### raw_submission_esmacs.sh
     esmacs = ESMACS()
 
     if esmacs.args.task == "esmacs":
@@ -170,27 +153,25 @@ if __name__ == "__main__":
             'walltime': 10, #MIN
             'cpus'    : 168 * n_nodes,
             'gpus'    : 6 * n_nodes,
-            'project' : "CHM155_001"
+            'project' : 'MED110'
             })
         esmacs.raw_submission_esmacs_sh(rep_count=24)
         esmacs.run()
 
-
     elif esmacs.args.task == "sim":
 
         n_nodes = 4
-        esmacs.set_resource(res_dict = {
+        esmacs.set_resource(res_desc = {
             'resource': 'ornl.summit',
             'queue'   : 'batch',
             'walltime': 120, #MIN
             'cpus'    : 168 * n_nodes,
             'gpus'    : 6 * n_nodes,
-            'project' : "CHM155_001"
+            'project' : 'MED110'
             })
         esmacs.raw_submission_sim_sh(rep_count=24)
         esmacs.run()
 
-    
     elif esmacs.args.task == "esmacs_analysis":
 
         n_nodes = 1
@@ -200,8 +181,7 @@ if __name__ == "__main__":
             'walltime': 10, #MIN
             'cpus'    : 168 * n_nodes,
             'gpus'    : 6 * n_nodes,
-            'project' : "CHM155_001"
+            'project' : "MED110"
             })
         esmacs.esmacs_analysis_py()
         esmacs.run()
-
