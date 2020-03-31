@@ -193,6 +193,6 @@
 - oebs: https://anl.box.com/s/zw7euszrfkmi4hhp2ao5upaf58bb0ina
 - Results: https://github.com/2019-ncovgroup/DrugWorkflows/tree/devel/workflow-0/results/enamine_real_diversity_set_db-2
 
-| OEB                               | Machine  | Assignee | State     | Missing |
-|-----------------------------------|----------|----------|-----------|---------|
-| ADRP-ADPR_pocket1_receptor.oeb    | Frontera | MT       | Submitted |         |
+| OEB                               | Machine  | Assignee | State   | Missing |
+|-----------------------------------|----------|----------|---------|---------|
+| ADRP-ADPR_pocket1_receptor.oeb    | Frontera | MT       | Running |         |
