@@ -39,6 +39,10 @@ conda activate wf-3
 pip install radical.entk
 ```
 
+### mpi4py
+```
+conda install mpi4py -y
+```
 
 ### Ambertools19
 
