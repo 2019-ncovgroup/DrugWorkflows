@@ -1,5 +1,5 @@
 # The following is probably not necessary but I did not have time to test
-rm -rf ~/.local
+mv ~/.local ~/.local_OLD 
 ln -s /dev/null ~/.local
 
 # Create workflow-1 environment
