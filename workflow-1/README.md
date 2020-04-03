@@ -7,6 +7,7 @@ export PYTHONNOUSERSITE=True
 PREFIX=$HOME
 mkdir -p $PREFIX
 module purge
+** For x86 systems replace below wget command with wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $PREFIX/miniconda.sh (rest of the commands will be the same)
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-ppc64le.sh -O $PREFIX/miniconda.sh
 chmod +x $PREFIX/miniconda.sh
 $PREFIX/miniconda.sh -b -p $PREFIX/.miniconda3
