@@ -7,13 +7,12 @@ export PYTHONNOUSERSITE=True
 PREFIX=$HOME
 mkdir -p $PREFIX
 module purge
-wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-ppc64le.sh -O $PREFIX/miniconda.sh
+wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $PREFIX/miniconda.sh
 chmod +x $PREFIX/miniconda.sh
 $PREFIX/miniconda.sh -b -p $PREFIX/.miniconda3
 source $PREFIX/.miniconda3/bin/activate
 conda update -y -n base -c defaults conda
-conda config --add channels defaults \
-             --add channels conda-forge \
+conda config --add channels conda-forge \
              --add channels omnia-dev/label/cuda101 \
              --add channels omnia/label/cuda101
 conda update --yes --all
@@ -25,35 +24,32 @@ conda install --yes atomicwrites attrs blas fftw3f importlib_metadata libtiff \
                     docopt setproctitle pymbar openmm
 conda install --yes -c openeye openeye-toolkits
 
-# Clone RTC stack
+# Install RCT dependencies
+conda install --yes apache-libcloud msgpack-python pyzmq munch regex netifaces \
+                    colorama pymongo python-hostlist setproctitle ntplib pytest \
+                    pylint flake8 coverage mock wheel future setproctitle pudb parse
+
+# Clone RCT stack
 git clone --single-branch --branch project/covid-19 https://github.com/radical-cybertools/radical.utils.git
 git clone --single-branch --branch project/covid-19 https://github.com/radical-cybertools/radical.saga.git
 git clone --single-branch --branch project/covid-19 https://github.com/radical-cybertools/radical.pilot.git
 git clone --single-branch --branch project/covid-19 https://github.com/radical-cybertools/radical.entk.git
 git clone --single-branch --branch project/covid-19 https://github.com/radical-cybertools/radical.analytics.git
 
-# Clone workflow
-git clone --single-branch --branch covid https://github.com/aclyde11/Model-generation.git
-git clone https://github.com/2019-ncovgroup/DrugWorfklows.git
-
-# Install RTC dependences
-conda install --yes apache-libcloud msgpack-python pyzmq munch regex netifaces \
-                    colorama pymongo python-hostlist setproctitle ntplib pytest \
-                    pylint flake8 coverage mock wheel future setproctitle pudb parse
-
-# The following is probably not necessary but I did not have time to test
-rm -rf ~/.local
-ln -s /dev/null ~/.local
-
-# Install RTC stack
+# Install RCT stack
 cd radical.utils; pip install . --upgrade; cd ..
 cd radical.saga; pip install . --upgrade; cd ..
 cd radical.pilot; pip install . --upgrade; cd ..
 
+# Clone workflow
+git clone --single-branch --branch covid https://github.com/aclyde11/Model-generation.git
+git clone https://github.com/2019-ncovgroup/DrugWorfklows.git
+tar -czf workflow.tar.gz Model-generation/ DrugWorfklows/
+
 # Pack covid-19-1, and move to and set it up on SuperMUC
 conda install --yes conda-pack 
 conda pack -n covid-19-1
-scp covid-19-1.tar.gz <user_id>@skx.supermuc.lrz.de:
+scp covid-19-1.tar.gz workflow.tar.gz <user_id>@skx.supermuc.lrz.de:
 ssh <user_id>@skx.supermuc.lrz.de
 mkdir covid-19-1
 tar -xzf covid-19-1.tar.gz -C covid-19-1/
@@ -62,3 +58,6 @@ conda-unpack
 
 # Test the env
 radical-stack
+
+# Unzip the workflow
+tar -xzf workflow.tar.gz
