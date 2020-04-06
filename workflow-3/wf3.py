@@ -49,6 +49,7 @@ class ESMACS(object):
                     "export OUTPATH=\"$INPATH/rep{}".format(i),
                     "cd $OUTPATH" 
                     ]
+            # Amber
             t.executable = "MMPBSA.py.MPI"
             t.arguments = ("-O -i $INPATH/mmpbsa.in -sp " + \
                     "$INPATH/complex.prmtop -cp $INPATH/com.prmtop -rp " + \
@@ -109,7 +110,13 @@ class ESMACS(object):
                     ]
 
             t.executable = 'python'
-            t.arguments = [ '$INPATH/sim.py' ]
+            t.arguments = [ '$INPATH/sim_esmacs.py' ]
+            t.arguments += [ 
+                    'i=<STRUCTURES>',
+                    '-o=<TRAJECTORY>',
+                    '-c=<COMPONENT>',
+                    '-n=<NANOSECONDS>'
+                    ]
             t.post_exec = []
 
             t.cpu_reqs = {
@@ -125,6 +132,23 @@ class ESMACS(object):
                     'thread_type': 'CUDA'
                     }
             self.s.add_tasks(t)
+
+
+    def esmacs_analysis_py(self, energy_files, replicas=None, traj_type="one"):
+        t = entk.Task()
+        t.executable = 'python'
+        t.arguments = [ 'esmacs_analysis.py', '-i={}'.format(energy_files) ]
+        if replicas:
+            t.arguments += [ '-r={}'.format(replicas) ]
+        t.arguments += [ '-t={}'.format(traj_type) ]
+        
+        t.cpu_reqs = {
+                    'processes': 1,
+                    'process_type': None,
+                    'threads_per_process': 4,
+                    'thread_type': 'OpenMP'
+                    }
+        self.s.add_tasks(t)
 
 
     def run(self):
@@ -155,7 +179,7 @@ if __name__ == "__main__":
     elif esmacs.args.task == "sim":
 
         n_nodes = 4
-        esmacs.set_resource(res_dict = {
+        esmacs.set_resource(res_desc = {
             'resource': 'ornl.summit',
             'queue'   : 'batch',
             'walltime': 120, #MIN
@@ -165,3 +189,19 @@ if __name__ == "__main__":
             })
         esmacs.raw_submission_sim_sh(rep_count=24)
         esmacs.run()
+
+    
+    elif esmacs.args.task == "esmacs_analysis":
+
+        n_nodes = 1
+        esmacs.set_resource(res_desc = {
+            'resource': 'ornl.summit',
+            'queue'   : 'batch',
+            'walltime': 10, #MIN
+            'cpus'    : 168 * n_nodes,
+            'gpus'    : 6 * n_nodes,
+            'project' : "CHM155_001"
+            })
+        esmacs.esmacs_analysis_py()
+        esmacs.run()
+
