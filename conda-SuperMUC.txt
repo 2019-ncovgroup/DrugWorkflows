@@ -2,9 +2,12 @@
 mv ~/.local ~/.local_OLD 
 ln -s /dev/null ~/.local
 
-# Create workflow-1 environment
 export PYTHONNOUSERSITE=True
-PREFIX=$HOME
+export PREFIX=$HOME
+export WF1_CONDA_ENV=ve.rp
+
+# Create workflow-1 environment
+
 mkdir -p $PREFIX
 module purge
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $PREFIX/miniconda.sh
@@ -16,8 +19,8 @@ conda config --add channels conda-forge \
              --add channels omnia-dev/label/cuda101 \
              --add channels omnia/label/cuda101
 conda update --yes --all
-conda create -y -n covid-19-1
-conda activate covid-19-1
+conda create --yes -n $WF1_CONDA_ENV
+conda activate $WF1_CONDA_ENV
 conda install --yes cudatoolkit=10.1.243
 conda install --yes atomicwrites attrs blas fftw3f importlib_metadata libtiff \
                     more-itertools ninja olefile packaging pillow pluggy py pytest pandas psutil \
@@ -41,19 +44,25 @@ cd radical.utils; pip install . --upgrade; cd ..
 cd radical.saga; pip install . --upgrade; cd ..
 cd radical.pilot; pip install . --upgrade; cd ..
 
+# Get MongoDB
+wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-suse12-4.2.5.tgz
+tar -zxvf $PREFIX/mongodb-linux-x86_64-suse12-4.2.5.tgz
+cp $PREFIX/mongodb-linux-x86_64-suse12-4.2.5/bin/* $PREFIX/.miniconda3/envs/$WF1_CONDA_ENV/bin/
+
 # Clone workflow
 git clone --single-branch --branch covid https://github.com/aclyde11/Model-generation.git
 git clone https://github.com/2019-ncovgroup/DrugWorfklows.git
 tar -czf workflow.tar.gz Model-generation/ DrugWorfklows/
 
-# Pack covid-19-1, and move to and set it up on SuperMUC
+# Pack conda environment, and move to and set it up on SuperMUC
 conda install --yes conda-pack 
-conda pack -n covid-19-1
-scp covid-19-1.tar.gz workflow.tar.gz <user_id>@skx.supermuc.lrz.de:
+conda pack -n $WF1_CONDA_ENV
+scp $WF1_CONDA_ENV.tar.gz workflow.tar.gz <user_id>@skx.supermuc.lrz.de:
+
 ssh <user_id>@skx.supermuc.lrz.de
-mkdir covid-19-1
-tar -xzf covid-19-1.tar.gz -C covid-19-1/
-source covid-19-1/bin/activate
+mkdir $WF1_CONDA_ENV
+tar -xzf $WF1_CONDA_ENV.tar.gz -C $WF1_CONDA_ENV/
+source $WF1_CONDA_ENV/bin/activate
 conda-unpack
 
 # Test the env
@@ -61,3 +70,15 @@ radical-stack
 
 # Unzip the workflow
 tar -xzf workflow.tar.gz
+
+# Set MongoDB
+mkdir mongodb
+# mongod --fork --dbpath ~/mongodb --logpath ~/mongodb/log --bind_ip `hostname -f`
+# mongo --host `hostname -f`
+# > use rct_test
+# > db.createUser({user: "rct", pwd: "rct_test", roles: ["readWrite"]})
+# > exit
+# export RADICAL_PILOT_DBURL="mongodb://rct:rct_test@`hostname -f`/rct_test"
+# Kill process: ps aux | grep mongod | grep -v grep | cut -c 10-16 | xargs kill
+#               rm ~/mongodb/mongod.lock
+
