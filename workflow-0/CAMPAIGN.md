@@ -205,10 +205,10 @@
 | OEB                             | Machine  | Assignee | State   | Missing |
 |---------------------------------|----------|----------|---------|---------|
 | ADRP_pocket1_receptor.oeb       | Frontera | MT       | Done    | 15.7%   |
-| ADRP_pocket12_receptor.oeb      | Frontera | MT       | Pending |         |
-| ADRP_pocket13_receptor.oeb      | Frontera | MT       | Pending |         |
-| Nsp10_pocket1_receptor.oeb      | Frontera | MT       | Pending |         |
-| Nsp10_pocket3_receptor.oeb      | Frontera | MT       | Pending |         |
+| ADRP_pocket12_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
+| ADRP_pocket13_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
+| Nsp10_pocket1_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
+| Nsp10_pocket3_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
 | Nsp10_pocket26_receptor.oeb     | Frontera | MT       | Pending |         |
 | nsp15-CIT_pocket1_receptor.oeb  | Frontera | MT       | Pending |         |
 | nsp15-CIT_pocket6_receptor.oeb  | Frontera | MT       | Pending |         |
