@@ -213,9 +213,9 @@
 | nsp15-CIT_pocket1_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
 | nsp15-CIT_pocket6_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
 | nsp15-CIT_pocket13_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
-| nsp15-CIT_pocket18_receptor.oeb | Frontera | MT       | Running |         |
-| nsp15-CIT_pocket37_receptor.oeb | Frontera | MT       | Running |         |
-| PLPro_pocket3_receptor.oeb      | Frontera | MT       | Running |         |
+| nsp15-CIT_pocket18_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| nsp15-CIT_pocket37_receptor.oeb | Frontera | MT       | Done    |  0.1%   |
+| PLPro_pocket3_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
 | PLPro_pocket4_receptor.oeb      | Frontera | MT       | Running |         |
 | PLPro_pocket6_receptor.oeb      | Frontera | MT       | Running |         |
 | PLPro_pocket23_receptor.oeb     | Frontera | MT       | Running |         |
