@@ -196,3 +196,30 @@
 | OEB                               | Machine  | Assignee | State   | Missing |
 |-----------------------------------|----------|----------|---------|---------|
 | ADRP-ADPR_pocket1_receptor.oeb    | Frontera | MT       | Done    | 1.3%    |
+
+## discovery_set_db.smi - First set of receptors - rerun with new code
+
+- oebs: https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
+- Results: https://github.com/2019-ncovgroup/workflow-0-results/discovery_set_db-1-1
+
+| OEB                             | Machine  | Assignee | State   | Missing |
+|---------------------------------|----------|----------|---------|---------|
+| ADRP_pocket1_receptor.oeb       | Frontera | MT       | Done    | 15.7%   |
+| ADRP_pocket12_receptor.oeb      | Frontera | MT       | Pending |         |
+| ADRP_pocket13_receptor.oeb      | Frontera | MT       | Pending |         |
+| Nsp10_pocket1_receptor.oeb      | Frontera | MT       | Pending |         |
+| Nsp10_pocket3_receptor.oeb      | Frontera | MT       | Pending |         |
+| Nsp10_pocket26_receptor.oeb     | Frontera | MT       | Pending |         |
+| nsp15-CIT_pocket1_receptor.oeb  | Frontera | MT       | Pending |         |
+| nsp15-CIT_pocket6_receptor.oeb  | Frontera | MT       | Pending |         |
+| nsp15-CIT_pocket13_receptor.oeb | Frontera | MT       | Pending |         |
+| nsp15-CIT_pocket18_receptor.oeb | Frontera | MT       | Pending |         |
+| nsp15-CIT_pocket37_receptor.oeb | Frontera | MT       | Pending |         |
+| PLPro_pocket3_receptor.oeb      | Frontera | MT       | Pending |         |
+| PLPro_pocket4_receptor.oeb      | Frontera | MT       | Pending |         |
+| PLPro_pocket6_receptor.oeb      | Frontera | MT       | Pending |         |
+| PLPro_pocket23_receptor.oeb     | Frontera | MT       | Pending |         |
+| CoV_pocket1_receptor.oeb        | Frontera | MT       | Pending |         |
+| CoV_pocket2_receptor.oeb        | Frontera | MT       | Pending |         |
+| CoV_pocket8_receptor.oeb        | Frontera | MT       | Pending |         |
+| CoV_pocket10_receptor.oeb       | Frontera | MT       | Pending |         |
