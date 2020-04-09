@@ -204,7 +204,7 @@
 
 | OEB                             | Machine  | Assignee | State   | Missing |
 |---------------------------------|----------|----------|---------|---------|
-| ADRP_pocket1_receptor.oeb       | Frontera | MT       | Partial | 15.7%   |
+| ADRP_pocket1_receptor.oeb       | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket12_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket13_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
 | Nsp10_pocket1_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
@@ -223,7 +223,7 @@
 | CoV_pocket2_receptor.oeb        | Frontera | MT       | Done    |  0.1%   |
 | CoV_pocket8_receptor.oeb        | Frontera | MT       | Done    |  0.1%   |
 | CoV_pocket10_receptor.oeb       | Frontera | MT       | Done    |  0.1%   |
-| ADRP_ADPR_pocket1_receptor.oeb  | Frontera | MT       | Running |         |
-| 3CLPro_pocket1_receptor.oeb     | Frontera | MT       | Running |         |
+| ADRP_ADPR_pocket1_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
+| 3CLPro_pocket1_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
 | PLPro_pocket1_receptor.oeb      | Frontera | MT       | Missing |         |
 
