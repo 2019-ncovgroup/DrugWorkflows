@@ -229,7 +229,7 @@
 | 6vww_pocket156_receptor.oeb     | Frontera | MT       | Pending |         |
 | 6vww_pocket157_receptor.oeb     | Frontera | MT       | Pending |         |
 | ADRP_ADPR_pocket1_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
-| ADRP-ADPR_pocket5_receptor.oeb  | Frontera | MT       | Running |         |
+| ADRP-ADPR_pocket5_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket1_receptor.oeb       | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket12_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket13_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
@@ -252,8 +252,8 @@
 | nsp15_pocket29_receptor.oeb     | Frontera | MT       | Pending |         |
 | nsp15_pocket33_receptor.oeb     | Frontera | MT       | Pending |         |
 | nsp15_pocket36_receptor.oeb     | Frontera | MT       | Pending |         |
-| Nsp9_pocket2_receptor.oeb       | Frontera | MT       | Running |         |
-| Nsp9_pocket7_receptor.oeb       | Frontera | MT       | Running |         |
+| Nsp9_pocket2_receptor.oeb       | Frontera | MT       | Done    |  0.1%   |
+| Nsp9_pocket7_receptor.oeb       | Frontera | MT       | Done    |  0.1%   |
 | orf7a_pocket2_receptor.oeb      | Frontera | MT       | Pending |         |
 | PLPro_pocket1_receptor.oeb      | Frontera | MT       | Missing |         |
 | PLPro_pocket3_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
