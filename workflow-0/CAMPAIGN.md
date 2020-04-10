@@ -1,5 +1,15 @@
 # Workflow-0 Campaign
 
+## Enamine_REAL_diversity_set_15.5M.smi - ADRP-ADPR_pocket1_receptor.oeb - HR - rerun with new code
+
+- oebs: https://anl.box.com/s/zw7euszrfkmi4hhp2ao5upaf58bb0ina
+- Results: https://github.com/2019-ncovgroup/DrugWorkflows/tree/devel/workflow-0/results/enamine_real_diversity_set_db-2-1
+
+| OEB                               | Machine  | Assignee | State   | Missing |
+|-----------------------------------|----------|----------|---------|---------|
+| ADRP-ADPR_pocket1_receptor.oeb    | Frontera | MT       | Running |         |
+
+
 ## discovery_set_db.smi - Fourth set of receptors - HR - rerun with new code
 
 - oebs: https://anl.app.box.com/s/m9aw6c7lfv6kv2eshgoaj6jphtc8vyz1
