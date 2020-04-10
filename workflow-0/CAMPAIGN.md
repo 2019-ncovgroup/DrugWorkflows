@@ -63,7 +63,7 @@
 | PLPro_pocket4_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
 | PLPro_pocket6_receptor.oeb      | Frontera | MT       | Done    |  0.1%   |
 | PLPro_pocket23_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
-| PLPro_pocket50_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| PLPro_pocket50_receptor.oeb     | Frontera | MT       | Done    |  9  %   |
 
 ## Enamine_REAL_diversity_set_15.5M.smi - ADRP-ADPR_pocket1_receptor.oeb - HR
 
