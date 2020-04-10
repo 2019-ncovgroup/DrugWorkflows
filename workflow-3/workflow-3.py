@@ -74,6 +74,9 @@ class ESMACS(object):
                     "export OMP_NUM_THREADS=1",
                     ". /ccs/home/litan/miniconda2/etc/profile.d/conda.sh",
                     "conda activate wf3",
+                    #"conda clean --packages",
+                    #"conda install -y cython matplotlib",
+                    #"pip install docopt futures --user",
                     "module load cuda/10.1.243 gcc/7.4.0 spectrum-mpi/10.3.1.2-20200121",
                     "export CUDA_HOME=/sw/summit/cuda/10.1.243",
                     "export INPATH=\"$MEMBERWORK/med110/inpath\"", # TODO: parameterized
@@ -83,22 +86,10 @@ class ESMACS(object):
                     "export OUTPATH=$INPATH/com/rep{}".format(i),
                     "cd $OUTPATH"
                     ]
-            t.executable = "MMPBSA.py.MPI"
-            t.arguments = ("-O -i $INPATH/esmacs.in -sp " + \
-                    "$INPATH/com_sol.prmtop -cp $INPATH/com.prmtop -rp " + \
-                    "$INPATH/apo.prmtop -lp $INPATH/lig.prmtop -y traj.dcd " + \
-                    "> mmpbsa.log").split()
-            post_exec = """cat _MMPBSA_complex_gb.mdout.{0..39} > _MMPBSA_complex_gb.mdout.all
-                cat _MMPBSA_complex_gb_surf.dat.{0..39} > _MMPBSA_complex_gb_surf.dat.all
-                cat _MMPBSA_complex_pb.mdout.{0..39} > _MMPBSA_complex_pb.mdout.all
-                cat _MMPBSA_ligand_gb.mdout.{0..39} > _MMPBSA_ligand_gb.mdout.all
-                cat _MMPBSA_ligand_gb_surf.dat.{0..39} > _MMPBSA_ligand_gb_surf.dat.all
-                cat _MMPBSA_ligand_pb.mdout.{0..39} > _MMPBSA_ligand_pb.mdout.all
-                cat _MMPBSA_receptor_gb.mdout.{0..39} > _MMPBSA_receptor_gb.mdout.all
-                cat _MMPBSA_receptor_gb_surf.dat.{0..39} > _MMPBSA_receptor_gb_surf.dat.all
-                cat _MMPBSA_receptor_pb.mdout.{0..39} > _MMPBSA_receptor_pb.mdout.all
-                rm _MMPBSA_*.{0..39} reference.frc *.pdb *.inpcrd *.mdin* *.out"""
-            t.post_exec = [ x.strip() for x in post_exec.split("\n") ]
+
+            t.executable = '/ccs/home/litan/miniconda3/envs/wf3/bin/python3.7'
+            t.arguments = ['$INPATH/esmacs.py', '-i$INPATH', '-r{}'.format(i)]
+            t.post_exec = []
 
             t.cpu_reqs = {
                     'processes': 1,
