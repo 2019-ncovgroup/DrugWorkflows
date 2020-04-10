@@ -29,8 +29,8 @@
 | 6vww_pocket135_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
 | 6vww_pocket143_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
 | 6vww_pocket154_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
-| 6vww_pocket156_receptor.oeb     | Frontera | MT       | Running |         |
-| 6vww_pocket157_receptor.oeb     | Frontera | MT       | Running |         |
+| 6vww_pocket156_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
+| 6vww_pocket157_receptor.oeb     | Frontera | MT       | Done    |  0.1%   |
 | ADRP_ADPR_pocket1_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
 | ADRP-ADPR_pocket5_receptor.oeb  | Frontera | MT       | Done    |  0.1%   |
 | ADRP_pocket1_receptor.oeb       | Frontera | MT       | Done    |  0.1%   |
