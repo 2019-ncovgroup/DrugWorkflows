@@ -5,7 +5,7 @@ Moving data from an HPC machine to google drive imposes several loops. Here a wo
 * Create a google client_id following these instructions: https://rclone.org/drive/#making-your-own-client-id
 * Configure rclone on the thirdparty machine by running `rclone config`. This executes an question/answer-based config utility.
 * Important: 
-  * if the thirdparty machine is headless, do *not* follow the installation instructions relative to `autoconfigure`, they are obsolete and will drive you down a useless rabbit hole. Answer `n` to the `autonconfigure` question and cut and past the link that the configuration utility gives you in your browser and proceed to authenticate the application with the gmail credentials that you have used to share the google-drive COVID space.
+  * if the thirdparty machine is headless, do *not* follow the installation instructions relative to `autoconfigure` on the rclone website, they are obsolete and will lead you down a useless rabbit hole. See instructions below instead.
   * SA = Service Account in google lingo. Do not use it, it will give you a different google drive space than the one of your usual account. 
 
 Installation and configuration steps:
