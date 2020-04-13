@@ -1,15 +1,15 @@
 # rclone and google drive
 
-Moving data from an HPC machine to google drive imposes several loops. Here a workaround for machines that have a connection towards Internet (will not work on SuperMUC-NG):
-* Install `rclone` (https://rclone.org/) on a thirdparty machine.
+Moving data between HPC machines and Google Drive imposes several hops:
+* Install `rclone` (https://rclone.org/) on a third party machine.
 * Create a google client_id following these instructions: https://rclone.org/drive/#making-your-own-client-id
-* Configure rclone on the thirdparty machine by running `rclone config`. This executes an question/answer-based config utility.
+* Configure rclone on the third party machine by running `rclone config`.
 * Important: 
-  * if the thirdparty machine is headless, do *not* follow the installation instructions relative to `autoconfigure` on the rclone website, they are obsolete and will lead you down a useless rabbit hole. See instructions below instead.
+  * if the third party machine is headless, do *not* follow the installation instructions relative to `autoconfigure` on the rclone website, they are obsolete and will lead you down a useless rabbit hole. See instructions below instead.
   * SA = Service Account in google lingo. Do not use it, it will give you a different google drive space than the one of your usual account. 
 
 Installation and configuration steps:
-* Install on your thirdparty machine. If you use two.radical-project this is already done
+* Install on your third party machine (already done on two.radical-project):
   ```
   curl https://rclone.org/install.sh | sudo bash
   ```
@@ -25,7 +25,7 @@ Installation and configuration steps:
     q) Quit config
     n/s/q>
     ```
-  * This is the name of the remote endpoint you will use in commands like `rclose ls <name_remote_endpoint>:`. Enter `gdrive` or whatever you prefer:
+  * This is the name of the remote endpoint you will use in commands like `rclone ls <name_remote_endpoint>:`. Enter `gdrive` or whatever you prefer:
     ```
     name>
     ```
@@ -43,7 +43,7 @@ Installation and configuration steps:
        \ "google photos"
     [...]
     ```
-  * Create your content ID following the instructions or use the ID you have already created. The default is the credential used by rclone and likely the one already used by thousands of people. This will make `rclone` very slow so *use your own*:
+  * Create your content ID following the instructions. The default is the credential used by rclone and likely the one already used by thousands of people. This will make `rclone` very slow so *use your own*:
     ```
     ** See help for drive backend at: https://rclone.org/drive/ **
     
@@ -101,7 +101,7 @@ Installation and configuration steps:
     n) No (default)
     y/n> 
     ```
-  * IMPORTANT: Enter `n` if the thirdparty machine is headless:
+  * IMPORTANT: Enter `n` if the third party machine is headless:
     ```
     Remote config
     Use auto config?
@@ -164,10 +164,18 @@ Installation and configuration steps:
   ```
   rclone ls gdrive:
   ```
-* If it works, mount your rclone google-drive endpoint via FUSE on a folder in your home directory and put it in background as it does not return. Note you have to use `--drive-shared-with-me` otherwise you will not see the files/folders of the `shared with me` section of your google drive.
+* If it works, mount your rclone google drive endpoint via FUSE on a folder in your home directory and put it in background. Note you have to use `--drive-shared-with-me` otherwise you will not see the files/folders of the `shared with me` section of your google drive. If you want to be able to seek files opened for write and open files for both read AND write (i.e., overwrite existing files), use also `--vfs-cache-mode writes`:
   ```
   mkdir ~/gdrive
   rclone --drive-shared-with-me mount gdrive: gdrive &
+  ```
+  If you want to be able to seek files opened for write and open files for both read AND write (i.e., overwrite existing files), use also `--vfs-cache-mode writes` (see https://rclone.org/commands/rclone_mount/#file-caching). This will make google drive behave more like a filesystem but do not expect the reliability of a real file system:
+  ```
+  rclone --drive-shared-with-me mount gdrive: gdrive --vfs-cache-mode writes
+  ```
+  If you want to demonize `rclone mount` you can use `--deamon` or systemd (see https://github.com/rclone/rclone/wiki/rclone-fstab-mount-helper-script#systemd):
+  ```
+  rclone --drive-shared-with-me mount gdrive: gdrive --vfs-cache-mode writes --daemon
   ```
 * Test the mount by listing the directory in which you mounted run rclone remote endpoint. NOTE: files and folders of the `shared with me` section are available in the root of your remote mount point, not under a dedicated folder.
   ```
