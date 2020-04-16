@@ -75,9 +75,18 @@ for oeb in data:
     fname = '%s.out' % oeb
     print('write %s' % tname)
     with open(tname, 'a') as fout:
-        for line in sorted(list(data[oeb]), key=lambda x: int(x.split()[0])):
+        valid = list()
+        for line in list(data[oeb]):
             if 'SMILES invalid' not in line:
-                fout.write(line)
+                try:
+                    cnt = int(line.split()[0])
+                except:
+                    print('cannot parse [%s]' % line)
+                    continue
+                valid.append([cnt, line])
+
+        for entry in sorted(valid, key=lambda x: x[0]):
+            fout.write(line)
     os.system('mv %s %s' % (tname, fname))
 
 print()
