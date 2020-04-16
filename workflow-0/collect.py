@@ -3,6 +3,7 @@
 import os
 import sys
 import glob
+import time
 
 data = dict()
 sids = sys.argv[1:]
@@ -53,6 +54,7 @@ for sid in sids:
         with open('%s/STDOUT' % os.path.dirname(task), 'r') as fin:
             for line in fin.readlines():
                 if 'test,pl_pro' not in line:
+                  # print('skip line:', line.strip())
                     continue
                 data[oeb].add(line)
                 cnt += 1
@@ -81,12 +83,11 @@ for oeb in data:
                 try:
                     cnt = int(line.split()[0])
                 except:
-                    print('cannot parse [%s]' % line)
                     continue
                 valid.append([cnt, line])
 
         for entry in sorted(valid, key=lambda x: x[0]):
-            fout.write(line)
+            fout.write(entry[1])
     os.system('mv %s %s' % (tname, fname))
 
 print()
