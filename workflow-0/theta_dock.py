@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import re
 import sys
 import pandas as pd
 
@@ -22,17 +23,25 @@ if __name__ == '__main__':
 
     docker, receptor = interface_functions.get_receptr(target_filoe)
 
-    for pos in range(start_idx, start_idx + n_smiles):
+#    for pos in range(start_idx, start_idx + n_smiles):
+#
+#        smiles      = smiles_files.iloc[pos, 0]
+#        ligand_name = smiles_files.iloc[pos, 1]
+#        score, res  = interface_functions.RunDocking_(
+#                smiles, None, None, dbase_name, target_name,
+#                pos=pos, write=True, receptor_file=None,
+#                name=ligand_name, docking_only=True,
+#                dock_obj=docker, recept=receptor)
+#        print(pos, res, end='')
 
+    pdb_name = re.sub("_receptor.oeb", "", target_filoe)
+    
+    for pos in range(start_idx, start_idx + n_smiles):
         smiles      = smiles_files.iloc[pos, 0]
         ligand_name = smiles_files.iloc[pos, 1]
         score, res  = interface_functions.RunDocking_(
-                smiles, None, None, dbase_name, target_name,
-                pos=pos, write=True, receptor_file=None,
-                name=ligand_name, docking_only=True,
-                dock_obj=docker, recept=receptor)
+            smiles, docker, pos=pos, name=ligand_name, target_name=pdb_name)
         print(pos, res, end='')
-
 
 # ------------------------------------------------------------------------------
 
