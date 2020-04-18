@@ -4,6 +4,7 @@ GAP = 10
 
 import os
 import sys
+import time
 import radical.utils as ru
 
 out = sys.argv[1].strip()
@@ -16,7 +17,7 @@ else:
 smi = os.path.basename(inp)[:-4]
 oeb = os.path.basename(out)[:-4]
 
-num = int(ru.sh_callout('wc -l %s' % inp)[0].split()[0])
+tot = int(ru.sh_callout('wc -l %s' % inp)[0].split()[0])
 
 rec = set()
 dup = 0
@@ -36,8 +37,11 @@ rmax = None
 miss = 0
 gaps = list()
 GAPS = list()
-for i in range(num):
+ok  = list()
+nok  = list()
+for i in range(tot):
     if i in rec:
+        ok.append(i)
         if rmin:
             if rmin == i - 1:
                 GAPS.append('%23d' % rmin)
@@ -57,20 +61,27 @@ for i in range(num):
                 assert(0), [rmin, rmax, i]
     else:
         miss += 1
+        nok.append(i)
         if not rmin:
             rmin = i
         rmax = i
 if rmin:
     GAPS.append('%10d - %10d' % (rmin, rmax))
-    gaps.append('%10d - %10d [%10d]' % (rmin, num, num - rmin + 1))
+    gaps.append('%10d - %10d [%10d]' % (rmin, tot, tot - rmin + 1))
 
+# print('tot : ', tot)
+# print('dup : ', dup)
+# print('miss: ', miss)
+# print('rec : ', len(rec))
+# print('ok  : ', len(ok))
+# print('nok : ', len(nok))
 
 with open('%s.stat' % oeb, 'w') as fout:
     fout.write('\n')
     fout.write('receptor  : %-30s  [%10d]\n' % (oeb, len(rec)))
-    fout.write('smiles    : %-30s  [%10d]\n' % (smi, num))
-    fout.write('duplicates: %30.1f%% [%10d]\n' % (100.0 * dup  / num, dup ))
-    fout.write('missing   : %30.1f%% [%10d]\n' % (100.0 * miss / num, miss))
+    fout.write('smiles    : %-30s  [%10d]\n' % (smi, tot))
+    fout.write('duplicates: %30.1f%% [%10d]\n' % (100.0 * dup  / tot, dup ))
+    fout.write('missing   : %30.1f%% [%10d]\n' % (100.0 * miss / tot, miss))
   # first = True
   # for gap in gaps:
   #     if first: fout.write('gaps >= %2d:         %s\n' % (GAP, gap))

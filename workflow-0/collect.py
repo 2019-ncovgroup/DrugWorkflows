@@ -3,6 +3,7 @@
 import os
 import sys
 import glob
+import time
 
 data = dict()
 sids = sys.argv[1:]
@@ -53,6 +54,7 @@ for sid in sids:
         with open('%s/STDOUT' % os.path.dirname(task), 'r') as fin:
             for line in fin.readlines():
                 if 'test,pl_pro' not in line:
+                  # print('skip line:', line.strip())
                     continue
                 data[oeb].add(line)
                 cnt += 1
@@ -75,9 +77,17 @@ for oeb in data:
     fname = '%s.out' % oeb
     print('write %s' % tname)
     with open(tname, 'a') as fout:
-        for line in sorted(list(data[oeb]), key=lambda x: int(x.split()[0])):
+        valid = list()
+        for line in list(data[oeb]):
             if 'SMILES invalid' not in line:
-                fout.write(line)
+                try:
+                    cnt = int(line.split()[0])
+                except:
+                    continue
+                valid.append([cnt, line])
+
+        for entry in sorted(valid, key=lambda x: x[0]):
+            fout.write(entry[1])
     os.system('mv %s %s' % (tname, fname))
 
 print()

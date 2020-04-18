@@ -3,6 +3,7 @@
 import os
 import re
 import sys
+import re
 import pandas as pd
 
 from impress_md import interface_functions
@@ -20,6 +21,8 @@ if __name__ == '__main__':
     n_smiles     = int(sys.argv[4])
     dbase_name   = 'test'
     target_name  = 'pl_pro'
+    pdb_name = re.sub("_receptor.oeb", "", target_filoe).split("/")[-1]
+
 
     docker, receptor = interface_functions.get_receptr(target_filoe)
 

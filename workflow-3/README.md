@@ -81,3 +81,9 @@ make -j 40 install
 CC=gcc CXX=g++ FC=gfortran ./configure --with-python `which python` -nofftw3 --no-updates -nosse -mpi -cuda gnu
 make -j 40 install
 ```
+
+### OpenMM
+
+```
+conda install -y -c omnia-dev/label/cuda101 openmm=7.4.0=py36_cuda101_0
+```
