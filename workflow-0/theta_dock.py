@@ -2,6 +2,7 @@
 
 import os
 import sys
+import re
 import pandas as pd
 
 from impress_md import interface_functions
@@ -19,6 +20,8 @@ if __name__ == '__main__':
     n_smiles     = int(sys.argv[4])
     dbase_name   = 'test'
     target_name  = 'pl_pro'
+    pdb_name = re.sub("_receptor.oeb", "", target_filoe).split("/")[-1]
+
 
     docker, receptor = interface_functions.get_receptr(target_filoe)
 
@@ -27,10 +30,7 @@ if __name__ == '__main__':
         smiles      = smiles_files.iloc[pos, 0]
         ligand_name = smiles_files.iloc[pos, 1]
         score, res  = interface_functions.RunDocking_(
-                smiles, None, None, dbase_name, target_name,
-                pos=pos, write=True, receptor_file=None,
-                name=ligand_name, docking_only=True,
-                dock_obj=docker, recept=receptor)
+                smiles, docker, pos=pos, name=ligand_name, target_name=pdb_name)
         print(pos, res, end='')
 
 
