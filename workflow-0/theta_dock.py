@@ -18,12 +18,11 @@ if __name__ == '__main__':
     target_filoe = sys.argv[2]
     start_idx    = int(sys.argv[3])
     n_smiles     = int(sys.argv[4])
-    dbase_name   = 'test'
-    target_name  = 'pl_pro'
+    has_ligand   = bool(sys.argv[5])
     pdb_name = re.sub("_receptor.oeb", "", target_filoe).split("/")[-1]
+    
 
-
-    docker, receptor = interface_functions.get_receptr(target_filoe)
+    docker, receptor = interface_functions.get_receptr(target_filoe, has_ligand=has_ligand)
 
     for pos in range(start_idx, start_idx + n_smiles):
 
