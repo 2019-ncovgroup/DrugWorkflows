@@ -3,12 +3,12 @@
 import os
 import sys
 import pandas as pd
-
+import numpy as np
 from openeye import oechem
 from impress_md import interface_functions
 
 def get_root_protein_name(file_name):
-   return file_name.split("/")[-1]
+   return file_name.split("/")[-1].split(".")[0]
 
 def get_smiles_col(col_names):
     return int(np.where(['smile' in s.lower() for s in col_names])[0][0])
@@ -47,11 +47,12 @@ if __name__ == '__main__':
     pdb_name = get_root_protein_name(target_file)
 
     smiles_file = pd.read_csv(input_smiles_file)
-    smiles_col = get_smiles_col(smiles_file.columns.tolist())
-    name_col = get_ligand_name_col(smiles_file.columns.tolist())
+    columns = smiles_file.columns.tolist()
+    smiles_col = get_smiles_col(columns)
+    name_col = get_ligand_name_col(columns)
 
     docker, receptor = interface_functions.get_receptor(target_file, use_hybrid=use_hybrid, high_resolution=high_resolution)
-    
+
     for pos in range(start_idx, start_idx + n_smiles):
         smiles = smiles_file.iloc[pos, smiles_col]
         ligand_name = smiles_file.iloc[pos, name_col]
@@ -62,8 +63,15 @@ if __name__ == '__main__':
                                                 target_name=pdb_name,
                                                 force_flipper=force_flipper)
         
-        print(pos, res, end='')
-        if ofs is not None:
+        print(res, end='')
+        if ofs is not None and ligand is not None:
+            for i, col in enumerate(columns):
+                value = str(smiles_file.iloc[pos, i]).strip()
+                if col.lower() != 'smiles' and 'na' not in value.lower() and len(value) > 1:
+                    try:
+                        oechem.OESetSDData(ligand, col, value)
+                    except ValueError:
+                        pass
             oechem.OEWriteMolecule(ofs, ligand)
 
     if ofs is not None:
