@@ -5,7 +5,6 @@
 #target_file       = sys.argv[2]
 #start_idx         = int(sys.argv[3])
 #n_smiles          = int(sys.argv[4])
-#output_poses      = sys.argv[5]
 
 conda_dir=$1    ; shift
 
@@ -14,7 +13,6 @@ smi_fname=$1    ; shift
 tgt_fname=$1    ; shift
 idx=$1          ; shift
 len=1
-oposes=$1       ; shift
 
 . $conda_dir/etc/profile.d/conda.sh
 conda activate covid-19-0
@@ -30,7 +28,7 @@ export CONDA_PYTHON_EXE=/home/mturilli/.miniconda3/bin/python
 export CONDA_DEFAULT_ENV=covid-19-0
 export PATH=/home/mturilli/.miniconda3/envs/covid-19-0/bin:$PATH
 
-COMMAND="python ./theta_dock.py $smi_fname $tgt_fname $idx $len $oposes"
+COMMAND="python ./theta_dock.py $smi_fname $tgt_fname $idx $len"
 
 cleanup(){
   # echo "SIGTERM trap" >&2

@@ -17,17 +17,17 @@ if __name__ == '__main__':
     target      =     sys.argv[2]   # target HPC machine
     smi_fname   =     sys.argv[3]   # file with smiles
     tgt_fname   =     sys.argv[4]   # target receptor
-    o_poses     =     sys.argv[5]   # output poses for theta_dock.py??
+    # o_poses     =     sys.argv[5]   # output poses for theta_dock.py??
 
-    idx_start   = int(sys.argv[6])  # start index of smi file
-    n_pilots    = int(sys.argv[7])  # number of pilots
-    n_tasks     = int(sys.argv[8])  # tasks per pilot (1 task = 1 CU)
-    n_samples   = int(sys.argv[9])  # samples per task
+    idx_start   = int(sys.argv[5])  # start index of smi file
+    n_pilots    = int(sys.argv[6])  # number of pilots
+    n_tasks     = int(sys.argv[7])  # tasks per pilot (1 task = 1 CU)
+    n_samples   = int(sys.argv[8])  # samples per task
     specfile    = ''                # gaps file from previous runs
 
-    if len(sys.argv) > 10:
+    if len(sys.argv) > 9:
         n_samples = 0
-        specfile  = sys.argv[10]
+        specfile  = sys.argv[9]
 
     # Staging directories on the remote machine
     r_smi_dir = '/scratch1/07305/rpilot/Model-generation/input'
