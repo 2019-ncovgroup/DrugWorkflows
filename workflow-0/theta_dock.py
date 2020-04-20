@@ -28,10 +28,8 @@ if __name__ == '__main__':
     target_file = sys.argv[2]
     start_idx    = int(sys.argv[3])
     n_smiles     = int(sys.argv[4])
-    output_poses = sys.argv[5]
+    output_poses = True
     
-    if "none" in output_poses.lower():
-        output_poses = None
    
     ## setting don't change
     use_hybrid = True
@@ -39,8 +37,9 @@ if __name__ == '__main__':
     high_resolution = True
 
     #set logging if used
-    if output_poses is not None:
-        ofs = oechem.oemolostream(output_poses)
+    if output_poses:
+        ofs = oechem.oemolostream()
+        ofs.SetFormat(oechem.OEFormat_SDF)
     else:
         ofs = None
 
@@ -82,8 +81,8 @@ if __name__ == '__main__':
                                                 target_name=pdb_name,
                                                 force_flipper=force_flipper)
         
-        print(res, end='')
-        if ofs is not None and ligand is not None:
+        #print(res, end='')
+        if ofs and ligand is not None:
             for i, col in enumerate(columns):
                 value = str(smiles_file.iloc[pos, i]).strip()
                 if col.lower() != 'smiles' and 'na' not in value.lower() and len(value) > 1:
