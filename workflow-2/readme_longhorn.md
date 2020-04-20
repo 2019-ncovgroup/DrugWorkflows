@@ -1,91 +1,88 @@
-`updated on: 03-22-2020`
+`updated on: 04-20-2020`
 
 # Longhorn for workflow-2
 
 
 ## Environment installation
-
-```bash
+```shell script
 module load gcc/7.3.0
 
 export PYTHONNOUSERSITE=True
-export PREFIX=$HOME
+
 wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-ppc64le.sh -O ~/miniconda.sh
-chmod +x $PREFIX/miniconda.sh
-$PREFIX/miniconda.sh -b -p $PREFIX/.miniconda3
-source $PREFIX/.miniconda3/bin/activate
+chmod +x $HOME/miniconda.sh
+$HOME/miniconda.sh -b -p $HOME/.miniconda3
+source $HOME/.miniconda3/bin/activate
 conda update -y -n base -c defaults conda
 conda config --add channels conda-forge \
-             --add channels omnia-dev/label/cuda101 \
              --add channels omnia/label/cuda101 \
+             --add channels omnia-dev/label/cuda101 \
              --add channels anaconda
-conda create -y -n covid-19-2 python=3.6
-conda activate covid-19-2
+conda create -y -n ve.rp python=3.6
+conda activate ve.rp
 
-conda install -y -c anaconda tensorflow-gpu
-conda install -y cython keras scikit-learn swig scipy matplotlib pytables h5py
+conda install -y cython scikit-learn swig scipy matplotlib pytables h5py
+conda install -y -c anaconda tensorflow-gpu'<2.0.0'
+conda install -y keras'<=2.2.4'
 conda install -y openmm=7.4.0=py36_cuda101_0
 pip install MDAnalysis MDAnalysisTests parmed
 ```
 
 ## RCT installation
-*NOTE:* picked branches might be changed according to the latest updates
-
-```bash
-pip install radical.utils==1.2.2
-pip install git+https://github.com/radical-cybertools/radical.saga.git@hotfix/longhorn
-pip install git+https://github.com/radical-cybertools/radical.pilot.git@fix/srun_placement
-pip install radical.entk
+```shell script
+pip install radical.pilot radical.entk
 ```
 
 ## DrugWorkflows dev-code
-
-```bash
+```shell script
 git clone --single-branch --branch devel https://github.com/2019-ncovgroup/DrugWorkflows.git
 cd DrugWorkflows/workflow-2
 ```
 
-## Changes in `summit_md.py`
-
-Paths and corresponding updates for tasks parameters
-```python
-conda_base_path = f'{os.environ.get("HOME")}/.miniconda3'
-conda_path = f'{conda_base_path}/envs/covid-19-2'
-
-TASK_PRE_EXEC_BASE = [
-    'source %s/bin/activate' % conda_base_path,
-    'conda activate %s' % conda_path]
-TASK_PRE_EXEC_MODULES = [
-    'module load gcc/7.3.0',
-    'module load openmpi/3.1.2',
-    'module load cuda/10.1']
-
+## Changes for resource config
+```shell script
+# for local copy: <path>/.radical/pilot/configs/resource_local.json
 ...
-t1.pre_exec = TASK_PRE_EXEC_BASE + TASK_PRE_EXEC_MODULES
-... 
-t2.pre_exec = TASK_PRE_EXEC_BASE
+        "mpi_launch_method"           : "MPIRUN",
+        "pre_bootstrap_0"             : ["module load gcc/7.3.0",
+                                         "module load openmpi/3.1.2",
+                                         "module --expert load xl",
+                                         "source $HOME/.miniconda3/etc/profile.d/conda.sh"],
 ...
-t3.pre_exec = TASK_PRE_EXEC_BASE + TASK_PRE_EXEC_MODULES
+        "python_dist"                 : "anaconda",
+        "virtenv"                     : "ve.rp",
+        "virtenv_mode"                : "use",
+        "rp_version"                  : "installed",
 ...
-t4.pre_exec = TASK_PRE_EXEC_BASE + TASK_PRE_EXEC_MODULES
 ```
 
-```python
-import radical.pilot as rp
+## Changes in `<resource_machine>_md.py`
 
-t1/3/4.cpu_reqs = {...
-                   'process_type': rp.MPI,
-                   ...}
+Tasks parameters
+```python
+TASK_PRE_EXEC_MODULES = [
+    'module load cuda/10.1',
+    'export OMPI_LD_PRELOAD_POSTPEND_DISTRO=/opt/ibm/spectrum_mpi/lib/libpami_cudahook.so',
+    'export LD_PRELOAD="/opt/ibm/spectrum_mpi/lib/pami_noib/libpami.so $OMPI_LD_PRELOAD_POSTPEND_DISTRO $LD_PRELOAD"']
+TASK_PRE_EXEC_ENV = [
+    "export TACC_SPECTRUM_ENV=`/usr/local/bin/build_env.pl | sed -e's/\(\S\S*\)=\S\S* / -x \\1/g'`"]
+...
+t1.pre_exec = TASK_PRE_EXEC_MODULES + ... + TASK_PRE_EXEC_ENV
+t1.executable = ['$TACC_SPECTRUM_ENV python']
+t3.pre_exec = TASK_PRE_EXEC_MODULES + ... + TASK_PRE_EXEC_ENV
+t3.executable = ['$TACC_SPECTRUM_ENV python']
+t4.pre_exec = TASK_PRE_EXEC_MODULES + ... + TASK_PRE_EXEC_ENV
+t4.executable = ['$TACC_SPECTRUM_ENV python']
 ```
 
 Longhorn resource description
 ```python
 NODE_COUNTS = 2
-res_dict = {'resource': 'xsede.longhorn',
+res_dict = {'resource': 'local.longhorn',
             'project': 'FTA-Jha',
-            'queue': 'v100',
+            'queue': 'development',
             'schema': 'local',
-            'walltime': 60 * 6,
+            'walltime': 60 * 2,  # max 2 hours and 2 nodes for development queue
             'cpus': 40 * NODE_COUNTS,
             'gpus': 4 * NODE_COUNTS}
 ```
@@ -95,6 +92,7 @@ res_dict = {'resource': 'xsede.longhorn',
 ```bash
 export RMQ_HOSTNAME=two.radical-project.org 
 export RMQ_PORT=33239
+
 export RADICAL_PILOT_PROFILE=True
 export RADICAL_ENTK_PROFILE=True
 
