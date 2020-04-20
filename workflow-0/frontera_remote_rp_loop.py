@@ -41,7 +41,7 @@ if __name__ == '__main__':
     cpn         = cfg[target]['cpn']
 
     idx         = idx_start
-    smiles      = pd.read_csv('%s/%s' % (model, smi_fname), sep=' ', header=None)
+    smiles      = pd.read_csv('%s/%s' % (model, smi_fname))#, sep=' ')#, header=None)
     
     assert(idx_start < smiles.shape[0]), [idx_start, smiles.shape[0]]
 
