@@ -6,7 +6,7 @@
         "user_ssh" : "rpilot",
         "pilot"    : {
             "resource"      : "tacc.frontera",
-            "runtime"       : 120,
+            "runtime"       : 60,
             "cores"         : 0,
             "project"       : "FTA-Jha",
             "queue"         : "development",

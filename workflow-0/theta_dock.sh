@@ -8,6 +8,7 @@ idx_start=$1    ; shift
 smi_per_task=$1 ; shift
 uid=$1          ; shift
 uids=$1         ; shift
+oposes=$1       ; shift
 
 . $conda_dir/etc/profile.d/conda.sh
 conda activate covid-19-0
@@ -25,7 +26,7 @@ then
         echo $idx
         idx=$((idx + 1))
         cnt=$((cnt + 1))
-    done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $conda_dir $smi_fname $tgt_fname {}
+    done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $conda_dir $smi_fname $tgt_fname {} $oposes
 
 else
 
@@ -48,7 +49,7 @@ else
         spec=$(head -n $((sidx+1)) specfile | tail -n 1 | xargs echo)
         test "$spec" = "$old" && break
   # done | xargs -t -n 1 -P $cpn -I{} true ./smi.sh $conda_dir $smi_fname $tgt_fname {}
-    done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $conda_dir $smi_fname $tgt_fname {}
+    done | xargs -t -n 1 -P $cpn -I{} ./smi.sh $conda_dir $smi_fname $tgt_fname {} $oposes
 fi
 
 
