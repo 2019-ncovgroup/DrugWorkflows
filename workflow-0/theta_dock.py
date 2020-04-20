@@ -39,6 +39,7 @@ if __name__ == '__main__':
     #set logging if used
     if output_poses:
         ofs = oechem.oemolostream()
+        ofs.SetFormat(oechem.OEFormat_SDF)
     else:
         ofs = None
 
