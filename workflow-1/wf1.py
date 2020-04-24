@@ -38,7 +38,7 @@ if __name__ == '__main__':
         pdinit = cfg['pilot']
 
         pdinit["cores"]        += nodes * cpn
-        pdinit["gpus"]          = nodes * gpn
+     #  pdinit["gpus"]          = nodes * gpn
         pdinit["exit_on_error"] = True
         pdinit["input_staging"] = [model,
                                    'wf1_master.py',
@@ -86,9 +86,6 @@ if __name__ == '__main__':
 
         umgr.submit_units(cuds)
         umgr.wait_units()
-
-    except:
-        pass
 
     finally:
         session.close(download=True)

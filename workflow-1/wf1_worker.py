@@ -3,6 +3,7 @@
 import os
 import sys
 import time
+import queue
 
 import numpy           as np
 import multiprocessing as mp
@@ -71,17 +72,23 @@ class MyWorker(rp.task_overlay.Worker):
     # --------------------------------------------------------------------------
     #
     def run_min(self, rid, rank1, rank2, write, gpu):
-
-        val = iface.RunMinimization_(rank1, rank2, write=write, gpu=gpu)
-        self._queue.put([rid, val])
+        
+        try:
+            val = iface.RunMinimization_(rank1, rank2, write=write, gpu=gpu)
+            self._queue.put([rid, val, None])
+        except Exception as e:
+            self._queue.put([rid, None, str(e)])
 
 
     # --------------------------------------------------------------------------
     #
     def run_sim(self, rid, rank1, rank2, gpu, niters):
 
-        val = iface.RunMMGBSA_(rank1, rank2, gpu=True, niters=niters)
-        self._queue.put([rid, val])
+        try:
+            val = iface.RunMMGBSA_(rank1, rank2, gpu=True, niters=niters)
+            self._queue.put([rid, val, None])
+        except Exception as e:
+            self._queue.put([rid, None, str(e)])
 
 
     # --------------------------------------------------------------------------
@@ -101,7 +108,7 @@ class MyWorker(rp.task_overlay.Worker):
         rid  = rank.split('/')[-1]
 
         timeout = {'min':      30,
-                   'sim': 60 * 30}[call]
+                   'sim': 60 * 60}[call]
 
         self._log.info('req get %s %s: %s', call, rank, uid)
 
@@ -112,7 +119,7 @@ class MyWorker(rp.task_overlay.Worker):
                 proc = mp.Process(target=self.run_min,
                                   args=[rid, rank, rank, True, True])
 
-            elif msg['call'] == 'sim':
+            elif call == 'sim':
                 proc = mp.Process(target=self.run_sim,
                                   args=[rid, rank, rank, True, 5000])
 
@@ -126,19 +133,35 @@ class MyWorker(rp.task_overlay.Worker):
         self._prof.prof('worker_%s_start'  % call, uid=rid)
         while True:
             try:
-                _rid, val = self._queue.get(block=True, timeout=1)
+                _rid, val, err = self._queue.get(block=True, timeout=1)
+                self._log.debug('result: [%s] [%s] [%s]', _rid, val, err)
+
                 if _rid != rid:
                     self._log.debug('unexpected queue data %s: %s', _rid, val)
                     continue
+
                 else:
-                    self._prof.prof('worker_%s_stop' % call, uid=rid)
+                    if err:
+                        self._prof.prof('worker_%s_fail' % call, uid=rid)
+
+                    else:
+                        self._prof.prof('worker_%s_stop' % call, uid=rid)
+
                     break
-            except:
+
+            except queue.Empty:
+
                 if start + timeout < time.time():
                     err = 'timeout'
                     self._prof.prof('worker_%s_tout' % call, uid=rid)
                     proc.terminate()
                     break
+
+            except Exception as e:
+                self._log.exception('oops')
+                self._prof.prof('worker_%s_fail' % call, uid=rid)
+                err = str(e)
+                break
 
         res = {'call': call,
                'rank': rank,

@@ -22,8 +22,8 @@ conda activate covid-19-1
 conda install --yes atomicwrites attrs blas cudatoolkit fftw3f importlib_metadata libtiff \
                     more-itertools ninja olefile packaging pillow pluggy py pytest pandas psutil \
                     docopt setproctitle pymbar openmm
-conda install -c openeye openeye-toolkits
-conda install cudatoolkit=10.1.243
+conda install --yes -c openeye openeye-toolkits
+conda install --yes cudatoolkit=10.1.243
 
 # Must use branch covid of Model-generation
 git clone --single-branch --branch covid https://github.com/aclyde11/Model-generation.git

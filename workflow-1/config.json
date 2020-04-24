@@ -55,38 +55,57 @@
     },
 
     "frontera": {
-        "cpn"      : 56,
+        "cpn"      : 16,
+        "gpn"      :  4,
         "conda"    : "/scratch1/01083/tg803521/miniconda3/",
         "pilot"    : {
-            "resource"      : "xsede.frontera",
+            "resource"      : "tacc.frontera_rtx",
             "runtime"       : 120,
             "cores"         : 0,
             "project"       : "FTA-Jha",
-            "queue"         : "development"
-        }
-    },
+            "queue"         : "rtx"
+        },
 
-    "stampede2" : {
-        "cpn"      : 56,
-        "conda"    : "/home1/01083/tg803521/.miniconda3/",
-        "pilot"    : {
-            "resource"      : "xsede.stampede2",
-            "runtime"       : 60,
-            "cores"         : 128,
-            "project"       : "TG-MCB090174",
-            "queue"         : "compute"
-        }
-    },
+        "master" : {
+            "pre_exec"      : [
+                "module load cuda",
+              # "unset PYTHONPATH",
+                "unset CONDA_EXE",
+                "unset CONDA_PREFIX",
+                "unset CONDA_SHLVL",
+                "unset CONDA_PYTHON_EXE",
+                "unset CONDA_DEFAULT_ENV",
+                ". /scratch1/01083/tg803521/miniconda3/etc/profile.d/conda.sh",
+                "conda activate covid-19-1"
+            ],
+            "environment"     : {
+                "RADICAL_BASE"      : "/scratch1/01083/tg803521/covid-19-0/tmp",
+                "RADICAL_BASE_DIR"  : "/scratch1/01083/tg803521/covid-19-0/tmp"
+            },
+            "cpu_threads"     : 1,
+            "gpu_process_type": "POSIX"
+        },
 
-    "comet": {
-        "cpn"      : 24,
-        "conda"    : "/home/mturilli/.miniconda3/",
-        "pilot"    : {
-            "resource"      : "xsede.comet_ssh",
-            "runtime"       : 60,
-            "cores"         : 0,
-            "project"       : "TG-MCB090174",
-            "queue"         : "compute"
+        "worker": {
+            "pre_exec"      : [
+                "module load cuda",
+             #  "unset PYTHONPATH",  # needed for md_impress
+                "unset CONDA_EXE",
+                "unset CONDA_PREFIX",
+                "unset CONDA_SHLVL",
+                "unset CONDA_PYTHON_EXE",
+                "unset CONDA_DEFAULT_ENV",
+                ". /scratch1/01083/tg803521/miniconda3/etc/profile.d/conda.sh",
+                "conda activate covid-19-1"
+            ],
+            "environment"     : {
+                "RADICAL_BASE"      : "/scratch1/01083/tg803521/covid-19-0/tmp",
+                "RADICAL_BASE_DIR"  : "/scratch1/01083/tg803521/covid-19-0/tmp"
+            },
+            "cpu_processes"   : 1,
+            "cpu_threads"     : 1,
+            "gpu_processes"   : 1,
+            "gpu_thread_type" : "CUDA"
         }
     },
 
