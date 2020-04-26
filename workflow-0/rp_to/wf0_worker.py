@@ -66,40 +66,48 @@ class MyWorker(rp.task_overlay.Worker):
     #
     def pre_exec(self):
 
-        workload          = self._cfg.workload
-        rank              = self._uid
+        try:
+            self._log.debug('pre_exec')
 
-        localf            = workload.localf
-        target_file       = 'input_dir/' + workload.receptor
-        smiles_file       = 'input_dir/' + workload.smiles
-        sdf               = workload.sdf
+            workload          = self._cfg.workload
+            rank              = self._uid
 
-        basename          = ".".join(sdf.split(".")[:-1])
-        file_ending       =          sdf.split(".")[ -1]
-        output_poses      = basename + "_" + str(rank) + "." + file_ending
+            localf            = workload.localf
+            target_file       = 'input_dir/' + workload.receptor
+            smiles_file       = 'input_dir/' + workload.smiles
+            sdf               = workload.sdf
 
-        # setting don't change
-        use_hybrid      = True
-        high_resolution = True
+            basename          = ".".join(sdf.split(".")[:-1])
+            file_ending       =          sdf.split(".")[ -1]
+            output_poses      = basename + "_" + str(rank) + "." + file_ending
 
-        # set logging if used
-        if localf:
-            localf += "tmp_" + str(rank) + ".sdf"
-            self.ofs = oechem.oemolostream(localf)
-        else:
-            self.ofs = oechem.oemolostream(output_poses)
-        self.ofs_lock = mp.Lock()
+            # setting don't change
+            use_hybrid      = True
+            high_resolution = True
 
-        self.pdb_name      = self.get_root_protein_name(target_file)
-        self.smiles_file   = pd.read_csv(smiles_file)
-        self.columns       = self.smiles_file.columns.tolist()
-        self.smiles_col    = self.get_smiles_col(self.columns)
-        self.name_col      = self.get_ligand_name_col(self.columns)
-        self.force_flipper = workload.force_flipper
-        self.verbose       = workload.verbose
+            # set logging if used
+            if localf:
+                localf += "tmp_" + str(rank) + ".sdf"
+                self.ofs = oechem.oemolostream(localf)
+                print('1', self.ofs)
+            else:
+                self.ofs = oechem.oemolostream(output_poses)
 
-        self.docker, _ = iface.get_receptor(target_file, use_hybrid=use_hybrid,
-                                            high_resolution=high_resolution)
+            self.ofs_lock      = mp.Lock()
+            self.pdb_name      = self.get_root_protein_name(target_file)
+            self.smiles_file   = pd.read_csv(smiles_file)
+            self.columns       = self.smiles_file.columns.tolist()
+            self.smiles_col    = self.get_smiles_col(self.columns)
+            self.name_col      = self.get_ligand_name_col(self.columns)
+            self.force_flipper = workload.force_flipper
+            self.verbose       = workload.verbose
+
+            self.docker, _ = iface.get_receptor(target_file, use_hybrid=use_hybrid,
+                                                high_resolution=high_resolution)
+
+        except Exception:
+            self._log.exception('pre_exec failed')
+            raise
 
 
     # --------------------------------------------------------------------------
@@ -107,7 +115,6 @@ class MyWorker(rp.task_overlay.Worker):
     def hello(self, pos):
 
         # TODO: move smiles, ligand_name into args
-
         smiles             = self.smiles_file.iloc[pos, self.smiles_col]
         ligand_name        = self.smiles_file.iloc[pos, self.name_col]
         score, res, ligand = iface.RunDocking_(smiles,
