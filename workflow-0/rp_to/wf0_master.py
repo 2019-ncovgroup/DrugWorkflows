@@ -78,6 +78,8 @@ class MyMaster(rp.task_overlay.Master):
         # result callbacks can return new work items
         new_requests = list()
         for r in requests:
+            sys.stdout.write('result_cb %s: %s [%s]\n' % (r.uid, r.state, r.result))
+            sys.stdout.flush()
             print('result_cb %s: %s [%s]' % (r.uid, r.state, r.result))
           # print('work: %s' % r.work)
 
