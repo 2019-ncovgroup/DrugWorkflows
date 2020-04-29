@@ -47,6 +47,8 @@ class MyMaster(rp.task_overlay.Master):
     #
     def create_work_items(self):
 
+        self._prof.prof('create_start')
+
         world_size = self._cfg.n_masters
         rank       = self._cfg.idx
         workload   = self._cfg.workload
@@ -55,18 +57,21 @@ class MyMaster(rp.task_overlay.Master):
         # resulting pos indexes as task batches
         smiles_file = pd.read_csv('input_dir/' + workload.smiles)
 
-        poss = np.array_split(list(range(smiles_file.shape[0])), world_size)[rank]
+        pos  = rank
+        npos = int(smiles_file.shape[0])
+        print('npos:', npos)
+        while pos < npos:
 
-        i = 0
-        for pos in poss:
-            i += 1
-            if i > 1024:
-                break
-
-            item = {'mode':  'call',
-                    'data': {'method': 'hello',
-                             'kwargs': {'pos': int(pos)}}}
+            uid  = 'request.%06d' % pos
+            item = {'uid' :   uid, 
+                    'mode':  'call',
+                    'data': {'method': 'dock',
+                             'kwargs': {'pos': pos, 
+                                        'uid': uid}}}
             self.request(item)
+            pos += world_size
+
+        self._prof.prof('create_stop')
 
         return
 
@@ -84,7 +89,7 @@ class MyMaster(rp.task_overlay.Master):
           # count = r.work['data']['kwargs']['count']
           # if count < 10:
           #     new_requests.append({'mode': 'call',
-          #                          'data': {'method': 'hello',
+          #                          'data': {'method': 'dock',
           #                                   'kwargs': {'count': count + 100}}})
 
         return new_requests
@@ -96,7 +101,7 @@ if __name__ == '__main__':
 
     # This master script runs as a task within a pilot allocation.  The purpose
     # of this master is to (a) spawn a set or workers within the same
-    # allocation, (b) to distribute work items (`hello` function calls) to those
+    # allocation, (b) to distribute work items (`dock` function calls) to those
     # workers, and (c) to collect the responses again.
     cfg_fname    = 'wf0.cfg'
     cfg          = ru.Config(cfg=ru.read_json(cfg_fname))

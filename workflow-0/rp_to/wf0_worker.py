@@ -24,7 +24,7 @@ import radical.pilot as rp
 class MyWorker(rp.task_overlay.Worker):
     '''
     This class provides the required functionality to execute work requests.
-    In this simple example, the worker only implements a single call: `hello`.
+    In this simple example, the worker only implements a single call: `dock`.
     '''
 
 
@@ -34,7 +34,7 @@ class MyWorker(rp.task_overlay.Worker):
 
         rp.task_overlay.Worker.__init__(self, cfg)
 
-        self.register_call('hello', self.hello)
+        self.register_call('dock', self.dock)
 
 
     # --------------------------------------------------------------------------
@@ -112,7 +112,9 @@ class MyWorker(rp.task_overlay.Worker):
 
     # --------------------------------------------------------------------------
     #
-    def hello(self, pos):
+    def dock(self, pos, uid):
+
+        self._prof.prof('dock_start', uid=uid)
 
         # TODO: move smiles, ligand_name into args
         smiles             = self.smiles_file.iloc[pos, self.smiles_col]
@@ -141,12 +143,15 @@ class MyWorker(rp.task_overlay.Worker):
                         out.append([i, 'value error'])
                         pass
 
+            self._prof.prof('dock_io_start', uid=uid)
             with self.ofs_lock:
                 oechem.OEWriteMolecule(self.ofs, ligand)
+            self._prof.prof('dock_io_stop', uid=uid)
         else:
             out.append([None, 'skip'])
 
-        self._log.debug(out)
+      # self._log.debug(out)
+        self._prof.prof('dock_stop', uid=uid)
         return out
 
 
