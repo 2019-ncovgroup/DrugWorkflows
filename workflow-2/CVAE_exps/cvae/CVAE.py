@@ -1,9 +1,10 @@
 import os, sys, h5py
-
+from tfrecord_data import input_fn
+import tensorflow as tf
 # from keras.optimizers import RMSprop
 
 from vae_conv import conv_variational_autoencoder
-# sys.path.append('$HOME/Research/molecules/molecules_git/build/lib')
+# sys.path.append('/home/hm0/Research/molecules/molecules_git/build/lib')
 # from molecules.ml.unsupervised import VAE
 # from molecules.ml.unsupervised import EncoderConvolution2D
 # from molecules.ml.unsupervised import DecoderConvolution2D
@@ -48,6 +49,22 @@ def CVAE(input_shape, latent_dim=3):
     autoencoder.model.summary()
     return autoencoder
 
+def run_cvae_tfrecords(gpu_id, cm_file, hyper_dim=3, epochs=100, batch_size=1000): 
+    os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
+    #os.environ["CUDA_VISIBLE_DEVICES"]=str(gpu_id) 
+    #train_dataset = input_fn(batch_size, filename=cm_file, is_training=True, params=None) 
+    #val_dataset = input_fn(batch_size, filename=cm_file, is_training=False, params=None)
+   # print(type(train_dataset))    
+   # cvae = CVAE(train_dataset.shape[1:], hyper_dim) 
+    
+    cvae = CVAE([314,314,1], hyper_dim)
+    cvae.set_tfrecords(cm_file)
+    
+#     callback = EmbeddingCallback(cm_data_train, cvae)
+    cvae.train([], batch_size = batch_size, epochs=epochs) 
+    
+    return cvae 
+
 def run_cvae(gpu_id, cm_file, hyper_dim=3, epochs=100): 
     # read contact map from h5 file 
     cm_h5 = h5py.File(cm_file, 'r', libver='latest', swmr=True)
@@ -55,17 +72,18 @@ def run_cvae(gpu_id, cm_file, hyper_dim=3, epochs=100):
 
     # splitting data into train and validation
     train_val_split = int(0.8 * len(cm_data_input))
-    cm_data_train, cm_data_val = cm_data_input[:train_val_split], cm_data_input[train_val_split:] 
-    input_shape = cm_data_train.shape
+    #cm_data_train, cm_data_val = cm_data_input[:train_val_split], cm_data_input[train_val_split:] 
+    cm_data_train = cm_data_input[:train_val_split]
+    input_shape = cm_data_input.shape
+    del(cm_data_input)
     cm_h5.close()
     
     os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"]=str(gpu_id) 
+    #os.environ["CUDA_VISIBLE_DEVICES"]=str(gpu_id) 
     
     cvae = CVAE(input_shape[1:], hyper_dim) 
     
 #     callback = EmbeddingCallback(cm_data_train, cvae)
-    cvae.train(cm_data_train, validation_data=cm_data_val, batch_size =
-            input_shape[0]//100, epochs=epochs) 
+    cvae.train(cm_data_train, batch_size = 64, epochs=epochs) 
     
     return cvae 
