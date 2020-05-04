@@ -132,12 +132,13 @@ class MyWorker(rp.task_overlay.Worker):
                     if value and 'na' not in value.lower():
                         try:
                             oechem.OESetSDData(ligand, col, value)
-                            out.append([i, 'ok'])
+                          # out.append([i, 'ok'])
                         except ValueError:
-                            out.append([i, 'err_value'])
+                          # out.append([i, 'err_value'])
                             pass
                     else:
-                        out.append([i, 'no_value'])
+                        pass
+                      # out.append([i, 'no_value'])
 
             self._prof.prof('dock_io_start', uid=uid)
 
