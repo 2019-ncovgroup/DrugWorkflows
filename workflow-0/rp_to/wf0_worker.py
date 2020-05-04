@@ -6,8 +6,8 @@ import time
 import argparse
 
 import multiprocessing as mp
-import pandas          as pd
-import numpy           as np
+# import pandas          as pd
+# import numpy           as np
 
 from   openeye    import oechem
 from   impress_md import interface_functions as iface
@@ -38,23 +38,6 @@ class MyWorker(rp.task_overlay.Worker):
     def get_root_protein_name(self, file_name):
 
         return file_name.split("/")[-1].split(".")[0]
-
-
-    # --------------------------------------------------------------------------
-    #
-    def get_smiles_col(self, col_names):
-
-        return int(np.where(['smile' in s.lower() for s in col_names])[0][0])
-
-
-    # --------------------------------------------------------------------------
-    #
-    def get_ligand_name_col(self, col_names):
-
-        return int(np.where(['id'    in s.lower() or
-                             'title' in s.lower() or
-                             "name"  in s.lower()
-                             for s in col_names])[0][0])
 
 
     # --------------------------------------------------------------------------
@@ -90,14 +73,18 @@ class MyWorker(rp.task_overlay.Worker):
 
             self.ofs_lock      = mp.Lock()
             self.pdb_name      = self.get_root_protein_name(target_file)
-            self.smiles_file   = pd.read_csv(smiles_file)
-            self.columns       = self.smiles_file.columns.tolist()
-            self.smiles_col    = self.get_smiles_col(self.columns)
-            self.name_col      = self.get_ligand_name_col(self.columns)
+
+            self._fin          = open(smiles_file, 'r')
+            self.columns       = self._cfg.columns
+            self.smiles_col    = self._cfg.smi_col
+            self.name_col      = self._cfg.lig_col
+            self.idxs          = self._cfg.idxs
+
             self.force_flipper = workload.force_flipper
             self.verbose       = workload.verbose
 
-            self.docker, _ = iface.get_receptor(target_file, use_hybrid=use_hybrid,
+            self.docker, _ = iface.get_receptor(target_file,
+                                                use_hybrid=use_hybrid,
                                                 high_resolution=high_resolution)
 
         except Exception:
@@ -107,13 +94,26 @@ class MyWorker(rp.task_overlay.Worker):
 
     # --------------------------------------------------------------------------
     #
-    def dock(self, pos, uid):
+    def get_data(self, off):
+
+        self._fin.seek(off)
+        line   = self._fin.readline()
+      # ccount = line.count(',')  # FIXME: CVS parse on incorrect counts
+        data   = line.split(',')
+        return data
+
+
+    # --------------------------------------------------------------------------
+    #
+    def dock(self, pos, off, uid):
 
         self._prof.prof('dock_start', uid=uid)
 
         # TODO: move smiles, ligand_name into args
-        smiles             = self.smiles_file.iloc[pos, self.smiles_col]
-        ligand_name        = self.smiles_file.iloc[pos, self.name_col]
+        data        = self.get_data(off)
+        smiles      = data[self._cfg.smi_col]
+        ligand_name = data[self._cfg.lig_col]
+
         score, res, ligand = iface.RunDocking_(smiles,
                                                dock_obj=self.docker,
                                                pos=pos,
@@ -126,22 +126,26 @@ class MyWorker(rp.task_overlay.Worker):
 
         out = list()
         if self.ofs and ligand is not None:
-            for i, col in enumerate(self.columns):
-                value = str(self.smiles_file.iloc[pos, i]).strip()
-                if col.lower() != 'smiles'  and \
-                  'na' not in value.lower() and \
-                   len(value) > 1:
-                    try:
-                        oechem.OESetSDData(ligand, col, value)
-                        out.append([i, 'ok'])
-                    except ValueError:
-                        out.append([i, 'value error'])
-                        pass
+            for i, col in enumerate(self._cfg.columns):
+                if col.lower() != 'smiles':
+                    value = data[i].strip()
+                    if value and 'na' not in value.lower():
+                        try:
+                            oechem.OESetSDData(ligand, col, value)
+                            out.append([i, 'ok'])
+                        except ValueError:
+                            out.append([i, 'err_value'])
+                            pass
+                    else:
+                        out.append([i, 'no_value'])
 
             self._prof.prof('dock_io_start', uid=uid)
+
             with self.ofs_lock:
                 oechem.OEWriteMolecule(self.ofs, ligand)
+
             self._prof.prof('dock_io_stop', uid=uid)
+
         else:
             out.append([None, 'skip'])
 

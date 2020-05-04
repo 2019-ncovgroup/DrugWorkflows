@@ -6,8 +6,8 @@ import sys
 import radical.utils as ru
 import radical.pilot as rp
 
-import pandas  as pd
-import numpy   as np
+# import pandas  as pd
+# import numpy   as np
 
 
 # This script has to run as a task within an pilot allocation, and is
@@ -42,6 +42,51 @@ class MyMaster(rp.task_overlay.Master):
 
         print('%s: cfg from %s to %s' % (self._uid, cfg.idx, cfg.n_masters))
 
+        self.parse_csv()
+
+
+    # --------------------------------------------------------------------------
+    #
+    def parse_csv(self):
+
+        workload = self._cfg.workload
+        fname    = 'input_dir/' + workload.smiles
+        header   = None
+        idxs     = list()
+
+        # build indexes
+        with open(fname) as fin:
+            while True:
+                idxs.append(fin.tell())
+                line = fin.readline()
+                if not line  : break
+                if not header: header = line
+
+
+        idxs.pop(0)  # header
+        idxs.pop()   # EOF
+
+        self._idxs        = idxs
+        self._cfg.columns = header.strip('\n').split(',')
+
+        self._cfg.smi_col = -1
+        self._cfg.lig_col = -1
+
+        for idx,col in enumerate(self._cfg.columns):
+            if 'smile' in col.lower():
+                self._cfg.smi_col = idx
+                break
+
+        for idx,col in enumerate(self._cfg.columns):
+            if 'id'    in col.lower() or \
+               'title' in col.lower() or \
+               'name'  in col.lower():
+                self._cfg.lig_col = idx
+                break
+
+        assert(self._cfg.smi_col >= 0)
+        assert(self._cfg.lig_col >= 0)
+
 
     # --------------------------------------------------------------------------
     #
@@ -51,14 +96,12 @@ class MyMaster(rp.task_overlay.Master):
 
         world_size = self._cfg.n_masters
         rank       = self._cfg.idx
-        workload   = self._cfg.workload
 
-        # read the smi file for this master's index range, and send the
+        # check the smi file for this master's index range, and send the
         # resulting pos indexes as task batches
-        smiles_file = pd.read_csv('input_dir/' + workload.smiles)
 
         pos  = rank
-        npos = int(smiles_file.shape[0])
+        npos = len(self._idxs)
         print('npos:', npos)
         while pos < npos:
 
@@ -67,6 +110,7 @@ class MyMaster(rp.task_overlay.Master):
                     'mode':  'call',
                     'data': {'method': 'dock',
                              'kwargs': {'pos': pos,
+                                        'off': self._idxs[pos],
                                         'uid': uid}}}
             self.request(item)
             pos += world_size
