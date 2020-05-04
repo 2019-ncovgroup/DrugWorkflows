@@ -53,7 +53,8 @@ if __name__ == '__main__':
                                  {'source': workload.input_dir,
                                   'target': 'input_dir',
                                   'action': rp.LINK,
-                                  'flags' : rp.DEFAULT_FLAGS}]
+                                  'flags' : rp.DEFAULT_FLAGS}
+                                ]
             tds.append(td)
 
         pmgr  = rp.PilotManager(session=session)

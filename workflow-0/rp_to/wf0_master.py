@@ -63,17 +63,15 @@ class MyMaster(rp.task_overlay.Master):
         while pos < npos:
 
             uid  = 'request.%06d' % pos
-            item = {'uid' :   uid, 
+            item = {'uid' :   uid,
                     'mode':  'call',
                     'data': {'method': 'dock',
-                             'kwargs': {'pos': pos, 
+                             'kwargs': {'pos': pos,
                                         'uid': uid}}}
             self.request(item)
             pos += world_size
 
         self._prof.prof('create_stop')
-
-        return
 
 
     # --------------------------------------------------------------------------
