@@ -114,6 +114,7 @@ if __name__ == '__main__':
 
     # add data staging to worker: link input_dir, impress_dir, and oe_license
     descr['arguments']     = ['wf0_worker.py']
+    descr['cpu_threads']   = 1
     descr['input_staging'] = [
                                {'source': '%s/wf0_worker.py' % os.getcwd(),
                                 'target': 'wf0_worker.py',

@@ -37,7 +37,8 @@ if __name__ == '__main__':
         for i in range(n_masters):
             td = rp.ComputeUnitDescription(cfg.master_descr)
             td.executable     = "python3"
-            td.arguments      = [master, i]
+            td.arguments      = ['wf0_master.py', i]
+            td.cpu_threads    = 1
             td.input_staging  = [{'source': master,
                                   'target': 'wf0_master.py',
                                   'action': rp.TRANSFER,
