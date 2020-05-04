@@ -3,10 +3,7 @@
 import os
 import sys
 import time
-
-
 import argparse
-import os
 
 import multiprocessing as mp
 import pandas          as pd
@@ -26,7 +23,6 @@ class MyWorker(rp.task_overlay.Worker):
     This class provides the required functionality to execute work requests.
     In this simple example, the worker only implements a single call: `dock`.
     '''
-
 
     # --------------------------------------------------------------------------
     #
@@ -48,7 +44,6 @@ class MyWorker(rp.task_overlay.Worker):
     #
     def get_smiles_col(self, col_names):
 
-        print(col_names)
         return int(np.where(['smile' in s.lower() for s in col_names])[0][0])
 
 
@@ -82,8 +77,8 @@ class MyWorker(rp.task_overlay.Worker):
             output_poses      = basename + "_" + str(rank) + "." + file_ending
 
             # setting don't change
-            use_hybrid      = True
-            high_resolution = True
+            use_hybrid        = workload.use_hybrid
+            high_resolution   = workload.high_resolution
 
             # set logging if used
             if localf:
