@@ -2,6 +2,7 @@
 
 import os
 import sys
+import glob
 
 import radical.utils as ru
 import radical.pilot as rp
@@ -212,6 +213,12 @@ if __name__ == '__main__':
 
     # simply terminate
     # FIXME: clean up workers
+
+    # collect sdf files
+    tgt = '%s.sdf' % workload.name
+    for src in sorted(glob.glob('worker.*/out.sdf')):
+        print('collect %s' % src)
+        os.system('sh -c "cat %s >> %s"' % (f, tgt))
 
 
 # ------------------------------------------------------------------------------

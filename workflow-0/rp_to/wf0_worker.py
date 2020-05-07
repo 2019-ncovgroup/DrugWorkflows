@@ -51,8 +51,8 @@ class MyWorker(rp.task_overlay.Worker):
             rank              = self._uid
 
             localf            = workload.localf
-            target_file       = 'input_dir/' + workload.receptor
-            smiles_file       = 'input_dir/' + workload.smiles
+            target_file       = 'input_dir/receptorsV5.1/' + workload.receptor
+            smiles_file       = 'input_dir/'               + workload.smiles
             sdf               = workload.sdf
 
             basename          = ".".join(sdf.split(".")[:-1])
