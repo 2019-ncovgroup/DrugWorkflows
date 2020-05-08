@@ -3,14 +3,52 @@
 import os
 import sys
 import glob
+import pprint
 
 import radical.utils as ru
 import radical.pilot as rp
 
 
+p_map = dict()  # pilot: [task, task, ...]
+
+
+def unit_state_cb(unit, state):
+
+    print('unit state: %s -> %s' % (unit.uid, state))
+
+    pilot = None
+    if state in rp.FINAL:
+        for p in p_map:
+            for u in p_map[p]:
+                if u.uid == unit.uid:
+                    pilot = p
+                    break
+            if pilot:
+                break
+
+    if not pilot:
+        print('pmap error for %s: %s' % (unit.uid, pprint.pformat(p_map)))
+
+    to_cancel = True
+    for u in p_map[pilot]:
+        if u.state not in rp.FINAL:
+            to_cancel = False
+            break
+
+    if to_cancel:
+        print('cancel pilot %s' % pilot.uid)
+        pilot.cancel()
+    else:
+        print('cancel remains active: %s' % pilot.uid)
+
+    return True
+
+
 # ------------------------------------------------------------------------------
 #
 if __name__ == '__main__':
+
+    global p_map
 
     cfg_file  = sys.argv[1]
     rec_file  = sys.argv[2]
@@ -37,6 +75,8 @@ if __name__ == '__main__':
         session = rp.Session()
         pmgr    = rp.PilotManager(session=session)
         umgr    = rp.UnitManager(session=session)
+
+        umgr.register_callback(unit_state_cb)
 
         for receptor in receptors:
 
@@ -95,12 +135,14 @@ if __name__ == '__main__':
               #                       'flags' : rp.DEFAULT_FLAGS}]
                 tds.append(td)
 
-            task = umgr.submit_units(tds)
+            tasks = umgr.submit_units(tds)
+            p_map[pilot] = tasks
 
         # all pilots and masters submittet - wait for all to finish
         umgr.wait_units()
+
     finally:
-        if session: 
+        if session:
             session.close(download=True)
 
 
