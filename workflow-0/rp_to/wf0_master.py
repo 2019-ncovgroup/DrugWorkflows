@@ -216,7 +216,7 @@ if __name__ == '__main__':
 
     # collect sdf files
     tgt = '%s.sdf' % workload.name
-    for src in sorted(glob.glob('worker.*/out.sdf')):
+    for src in sorted(glob.glob('worker.*/*.sdf')):
         print('collect %s' % src)
         os.system('sh -c "cat %s >> %s"' % (f, tgt))
 

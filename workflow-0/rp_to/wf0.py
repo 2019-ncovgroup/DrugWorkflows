@@ -89,10 +89,10 @@ if __name__ == '__main__':
                                       'action': rp.LINK,
                                       'flags' : rp.DEFAULT_FLAGS}
                                     ]
-              # td.output_staging = [{'source': '%s.sdf'      % (workload.name),
-              #                       'target': '%s.%02d.sdf' % (workload.name, i),
-              #                       'action': rp.TRANSFER,
-              #                       'flags' : rp.DEFAULT_FLAGS}]
+                td.output_staging = [{'source': '%s.sdf'      % (workload.name),
+                                      'target': '%s.%02d.sdf' % (workload.name, i),
+                                      'action': rp.TRANSFER,
+                                      'flags' : rp.DEFAULT_FLAGS}]
                 tds.append(td)
 
             task = umgr.submit_units(tds)
