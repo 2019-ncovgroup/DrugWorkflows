@@ -12,6 +12,8 @@ import radical.pilot as rp
 p_map = dict()  # pilot: [task, task, ...]
 
 
+# ------------------------------------------------------------------------------
+#
 def unit_state_cb(unit, state):
 
     print('unit state: %s -> %s' % (unit.uid, state))
@@ -51,26 +53,38 @@ if __name__ == '__main__':
     global p_map
 
     cfg_file  = sys.argv[1]
-    rec_file  = sys.argv[2]
-    smiles    = sys.argv[3]
-
+    run_file  = sys.argv[2]
     session   = None
-
-    assert(smiles.endswith('.csv'))
-
     try:
 
         cfg       = ru.Config(cfg=ru.read_json(cfg_file))
         rec_path  = 'input/receptorsV5.1/'
-        receptors = list()
+        smi_path  = 'input/'
+        runs      = list()
 
-        with open(rec_file, 'r') as fin:
+        with open(run_file, 'r') as fin:
             for line in fin.readlines():
                 line  = line.strip()
                 elems = line.split()
-                if elems[0] != '#':
-                    assert(os.path.isfile('%s/%s.oeb' % (rec_path, elems[0])))
-                    receptors.append(elems[0])
+                if len(elems) != 4:
+                    continue
+                if elems[0] == '#':
+                    continue
+
+                receptor = elems[0]
+                smiles   = elems[1]
+                nodes    = elems[2]
+                runtime  = elems[3]
+
+                assert(receptor)
+                assert(smiles)
+                assert(nodes)
+                assert(runtime)
+
+                assert(os.path.isfile('%s/%s.oeb' % (rec_path, receptor)))
+                assert(os.path.isfile('%s/%s.oeb' % (smi_path, smiles)))
+
+                runs.append([receptor, smiles, nodes, runtime])
 
         session = rp.Session()
         pmgr    = rp.PilotManager(session=session)
@@ -78,17 +92,16 @@ if __name__ == '__main__':
 
         umgr.register_callback(unit_state_cb)
 
-        for receptor in receptors:
+        for receptor, smiles, nodes, runtime in runs:
 
-            print('=== %s' % receptor)
+            print('=== %30s  %s' % (receptor, smiles))
 
-            cfg.workload.receptor = '%s.oeb' % receptor
-            cfg.workload.smiles   = smiles
-            cfg.workload.name     = '%s_-_%s' % (receptor, smiles[:-4])
+            cfg.workload.receptor = '%s.oeb'  % receptor
+            cfg.workload.smiles   = '%s.csv'  % receptor
+            cfg.workload.name     = '%s_-_%s' % (receptor, smiles)
 
             ru.write_json(cfg, 'wf0.%s.cfg' % receptor)
 
-            nodes     = cfg.nodes
             cpn       = cfg.cpn
             gpn       = cfg.gpn
             n_masters = cfg.n_masters
@@ -97,7 +110,7 @@ if __name__ == '__main__':
             pd = rp.ComputePilotDescription(cfg.pilot_descr)
             pd.cores   = nodes * cpn
             pd.gpus    = nodes * gpn
-            pd.runtime = cfg.runtime
+            pd.runtime = runtime
 
             pilot = pmgr.submit_pilots(pd)
             pid   = pilot.uid
