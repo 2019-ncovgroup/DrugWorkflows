@@ -215,10 +215,7 @@ if __name__ == '__main__':
     # FIXME: clean up workers
 
     # collect sdf files
-    tgt = '%s.sdf' % workload.name
-    for src in sorted(glob.glob('worker.*/*.sdf')):
-        print('collect %s' % src)
-        os.system('sh -c "cat %s >> %s"' % (f, tgt))
+    os.system('sh -c "cat worker.*/*.sdf | gzip > %s.sdf.gz"' % workload.name)
 
 
 # ------------------------------------------------------------------------------

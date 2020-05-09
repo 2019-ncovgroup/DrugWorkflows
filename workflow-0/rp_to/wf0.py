@@ -9,6 +9,7 @@ import radical.utils as ru
 import radical.pilot as rp
 
 
+global p_map
 p_map = dict()  # pilot: [task, task, ...]
 
 
@@ -16,20 +17,22 @@ p_map = dict()  # pilot: [task, task, ...]
 #
 def unit_state_cb(unit, state):
 
+    global p_map
+
+    if state not in rp.FINAL:
+        return True
+
     print('unit state: %s -> %s' % (unit.uid, state))
-
     pilot = None
-    if state in rp.FINAL:
-        for p in p_map:
-            for u in p_map[p]:
-                if u.uid == unit.uid:
-                    pilot = p
-                    break
-            if pilot:
+    for p in p_map:
+        for u in p_map[p]:
+            if u.uid == unit.uid:
+                pilot = p
                 break
+        if pilot:
+            break
 
-    if not pilot:
-        print('pmap error for %s: %s' % (unit.uid, pprint.pformat(p_map)))
+    assert(pilot), [pilot.uid, unit.uid, pprint.pformat(pilot.as_dict())]
 
     to_cancel = True
     for u in p_map[pilot]:
@@ -50,8 +53,6 @@ def unit_state_cb(unit, state):
 #
 if __name__ == '__main__':
 
-    global p_map
-
     cfg_file  = sys.argv[1]
     run_file  = sys.argv[2]
     session   = None
@@ -63,6 +64,7 @@ if __name__ == '__main__':
         runs      = list()
 
         with open(run_file, 'r') as fin:
+
             for line in fin.readlines():
                 line  = line.strip()
                 elems = line.split()
@@ -71,18 +73,18 @@ if __name__ == '__main__':
                 if elems[0] == '#':
                     continue
 
-                receptor = elems[0]
-                smiles   = elems[1]
-                nodes    = elems[2]
-                runtime  = elems[3]
+                receptor = str(elems[0])
+                smiles   = str(elems[1])
+                nodes    = int(elems[2])
+                runtime  = int(elems[3])
 
                 assert(receptor)
                 assert(smiles)
                 assert(nodes)
                 assert(runtime)
 
-                assert(os.path.isfile('%s/%s.oeb' % (rec_path, receptor)))
-                assert(os.path.isfile('%s/%s.oeb' % (smi_path, smiles)))
+                assert(os.path.isfile('%s/%s.oeb' % (rec_path, receptor))), [rec_path, receptor]
+                assert(os.path.isfile('%s/%s.csv' % (smi_path, smiles))),   [smi_path, smiles]
 
                 runs.append([receptor, smiles, nodes, runtime])
 
@@ -95,12 +97,19 @@ if __name__ == '__main__':
         for receptor, smiles, nodes, runtime in runs:
 
             print('=== %30s  %s' % (receptor, smiles))
+            name = '%s_-_%s' % (receptor, smiles)
+
+            if os.path.exists('results/%s.sdf.gz' % name):
+                print('skip %s' % name)
+                continue
 
             cfg.workload.receptor = '%s.oeb'  % receptor
-            cfg.workload.smiles   = '%s.csv'  % receptor
-            cfg.workload.name     = '%s_-_%s' % (receptor, smiles)
+            cfg.workload.smiles   = '%s.csv'  % smiles
+            cfg.workload.name     = name
+            cfg.nodes             = nodes
+            cfg.runtime           = runtime
 
-            ru.write_json(cfg, 'wf0.%s.cfg' % receptor)
+            ru.write_json(cfg, 'configs/wf0.%s.cfg' % name)
 
             cpn       = cfg.cpn
             gpn       = cfg.gpn
@@ -133,7 +142,7 @@ if __name__ == '__main__':
                                       'target': 'wf0_worker.py',
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS},
-                                     {'source': 'wf0.%s.cfg' % receptor,
+                                     {'source': 'configs/wf0.%s.cfg' % name,
                                       'target': 'wf0.cfg',
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS},
@@ -142,8 +151,8 @@ if __name__ == '__main__':
                                       'action': rp.LINK,
                                       'flags' : rp.DEFAULT_FLAGS}
                                     ]
-                td.output_staging = [{'source': '%s.sdf'      % (workload.name),
-                                      'target': '%s.%02d.sdf' % (workload.name, i),
+                td.output_staging = [{'source': '%s.sdf.gz'         % name,
+                                      'target': 'results/%s.sdf.gz' % name,
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS}]
                 tds.append(td)
