@@ -17,6 +17,8 @@ p_map = dict()  # pilot: [task, task, ...]
 #
 def unit_state_cb(unit, state):
 
+    # terminate pilots once all masters running it are completed,
+
     global p_map
 
     if state not in rp.FINAL:
@@ -32,6 +34,7 @@ def unit_state_cb(unit, state):
         if pilot:
             break
 
+    # every master should be associated with one pilot
     assert(pilot), [pilot.uid, unit.uid, pprint.pformat(pilot.as_dict())]
 
     to_cancel = True
@@ -44,7 +47,7 @@ def unit_state_cb(unit, state):
         print('cancel pilot %s' % pilot.uid)
         pilot.cancel()
     else:
-        print('cancel remains active: %s' % pilot.uid)
+        print('pilot remains active: %s' % pilot.uid)
 
     return True
 
@@ -53,14 +56,15 @@ def unit_state_cb(unit, state):
 #
 if __name__ == '__main__':
 
-    cfg_file  = sys.argv[1]
-    run_file  = sys.argv[2]
+    cfg_file  = sys.argv[1]  # resource and workload config
+    run_file  = sys.argv[2]  # runs for this campaign
     session   = None
+
     try:
 
         cfg       = ru.Config(cfg=ru.read_json(cfg_file))
-        rec_path  = 'input/receptorsV5.1/'
-        smi_path  = 'input/'
+        rec_path  = 'input/receptorsV5.1/'    # FIXME
+        smi_path  = 'input/'                  # FIXME
         runs      = list()
 
         with open(run_file, 'r') as fin:
@@ -83,8 +87,8 @@ if __name__ == '__main__':
                 assert(nodes)
                 assert(runtime)
 
-                assert(os.path.isfile('%s/%s.oeb' % (rec_path, receptor))), [rec_path, receptor]
-                assert(os.path.isfile('%s/%s.csv' % (smi_path, smiles))),   [smi_path, smiles]
+                assert(os.path.isfile('%s/%s.oeb' % (rec_path, receptor)))
+                assert(os.path.isfile('%s/%s.csv' % (smi_path, smiles)))
 
                 runs.append([receptor, smiles, nodes, runtime])
 
@@ -94,6 +98,10 @@ if __name__ == '__main__':
 
         umgr.register_callback(unit_state_cb)
 
+        # for each run in the campaign:
+        #   - create pilot of requested size and runtime
+        #   - create cfg with requested receptor and smiles
+        #   - submit configured number of masters with that cfg on that pilot
         for receptor, smiles, nodes, runtime in runs:
 
             print('=== %30s  %s' % (receptor, smiles))
@@ -160,7 +168,7 @@ if __name__ == '__main__':
             tasks = umgr.submit_units(tds)
             p_map[pilot] = tasks
 
-        # all pilots and masters submittet - wait for all to finish
+        # all pilots and masters submitted - wait for them to finish
         umgr.wait_units()
 
     finally:

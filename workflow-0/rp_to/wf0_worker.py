@@ -67,7 +67,6 @@ class MyWorker(rp.task_overlay.Worker):
             if localf:
                 localf += "tmp_" + str(rank) + ".sdf"
                 self.ofs = oechem.oemolostream(localf)
-                print('1', self.ofs)
             else:
                 self.ofs = oechem.oemolostream(output_poses)
 
@@ -120,10 +119,6 @@ class MyWorker(rp.task_overlay.Worker):
                                                name=ligand_name,
                                                target_name=self.pdb_name,
                                                force_flipper=self.force_flipper)
-
-      # if self.verbose:
-      #     print("RANK {}:".format(rank), res, end='')
-
         out = list()
         if self.ofs and ligand is not None:
             for i, col in enumerate(self._cfg.columns):
