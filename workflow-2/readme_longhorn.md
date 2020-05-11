@@ -1,4 +1,4 @@
-`updated on: 05-06-2020`
+`updated on: 05-11-2020`
 
 # Longhorn@TACC for workflow-2
 
@@ -45,14 +45,23 @@ File: `<path>/.radical/pilot/configs/resource_local.json`
         "virtenv_mode"                : "use",
         "rp_version"                  : "installed",
 ```
-`MPIRUN` (v\#3 with RC MVAPICH2)
+`MPIRUN` (\#4 with IBM Spectrum MPI - to use Horovod)
 ```shell script
         "task_launch_method"          : "MPIRUN",
         "mpi_launch_method"           : "MPIRUN",
         "pre_bootstrap_0"             : ["module reset",
-                                         "module use /home/01255/siliu/mvapich2-gdr/modulefiles/",
-                                         "module load mvapich2-gdr/2.3.3",
                                          "module load conda/4.8.3"],
+```
+`MPIRUN` (\#3 with RC MVAPICH2)
+```shell script
+        "task_launch_method"          : "MPIRUN",
+        "mpi_launch_method"           : "MPIRUN",
+        "pre_bootstrap_0"             : ["module reset",
+                                         "module load conda/4.8.3",
+                                         "module use /home/01255/siliu/mvapich2-gdr/modulefiles/",
+                                         "module load mvapich2-gdr/2.3.3"],
+        "pre_bootstrap_1"             : ["module use /home/01255/siliu/mvapich2-gdr/modulefiles/",
+                                         "module load mvapich2-gdr/2.3.3"],
 ```
 
 ## Changes in run script
