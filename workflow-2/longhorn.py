@@ -247,16 +247,16 @@ def generate_training_pipeline():
         
         # --------------------------
         # MD stage
-        #s1 = generate_MD_stage(num_MD=md_counts)
+        s1 = generate_MD_stage(num_MD=md_counts)
         # Add simulating stage to the training pipeline
-        #p.add_stages(s1)
+        p.add_stages(s1)
 
         if CUR_STAGE % RETRAIN_FREQ == 0: 
             # --------------------------
             # Aggregate stage
-            #s2 = generate_aggregating_stage() 
+            s2 = generate_aggregating_stage() 
             # Add the aggregating stage to the training pipeline
-            #p.add_stages(s2)
+            p.add_stages(s2)
 
             # --------------------------
             # Learning stage
