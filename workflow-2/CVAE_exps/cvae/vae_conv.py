@@ -16,6 +16,12 @@ from keras import backend as K;
 from keras import objectives;
 import warnings;
 
+# resolves the issue related to CUDNN_STATUS_INTERNAL_ERROR
+import tensorflow as tf
+gpu_devices = tf.config.experimental.list_physical_devices('GPU')
+for device in gpu_devices:
+    tf.config.experimental.set_memory_growth(device, True)
+
 # save history from log;        
 class LossHistory(Callback):
     def on_train_begin(self, logs={}):
