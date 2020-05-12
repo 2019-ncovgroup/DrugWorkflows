@@ -1,4 +1,4 @@
-`updated on: 05-11-2020`
+`updated on: 05-12-2020`
 
 # Longhorn@TACC for workflow-2
 
@@ -36,8 +36,14 @@ git clone --single-branch --branch devel https://github.com/2019-ncovgroup/DrugW
 cd DrugWorkflows/workflow-2
 ```
 
-## Changes in resource config 
+## Changes in resource config
+```shell script
+mkdir -p $HOME/.radical/pilot/configs/
+wget -q https://raw.githubusercontent.com/radical-cybertools/radical.pilot/devel/src/radical/pilot/configs/resource_tacc.json -O $HOME/.radical/pilot/configs/resource_local.json
+```
+
 File: `<path>/.radical/pilot/configs/resource_local.json`
+Machine: `longhorn`
 ```shell script
 # python and virtual environment
         "python_dist"                 : "anaconda",
@@ -67,7 +73,7 @@ File: `<path>/.radical/pilot/configs/resource_local.json`
 ## Changes in run script
 File: `<resource_machine>_md.py`
 
-Tasks parameters (`MPIRUN` version)
+Tasks parameters (`MPIRUN` version with Spectrum MPI stack)
 ```python
 TASK_PRE_EXEC_MODULES = [
     'module load cuda/10.1',
@@ -78,7 +84,7 @@ TASK_PRE_EXEC_MODULES = [
 TASK_PRE_EXEC_ENV = [
     "export TACC_SPECTRUM_ENV=`/usr/local/bin/build_env.pl | sed -e's/\(\S\S*\)=\S\S* / -x \\1/g'`"]
 ...
-tX.pre_exec = TASK_PRE_EXEC_MODULES + ... + TASK_PRE_EXEC_ENV
+tX.pre_exec = TASK_PRE_EXEC_MODULES[:] + ... + TASK_PRE_EXEC_ENV[:]
 tX.executable = ['$TACC_SPECTRUM_ENV python']
 ```
 
