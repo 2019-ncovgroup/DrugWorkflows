@@ -321,8 +321,10 @@ def openmm_simulate_charmm_npt_z(top_file, pdb_file, check_point=None, GPU_index
     simulation.step(nsteps)
 
 
-def openmm_simulate_amber_npt(top_file, pdb_file, check_point, GPU_index=0,
+def openmm_simulate_amber_npt(pdb_file, top_file, 
+        check_point=None, GPU_index=0,
         output_traj="output.dcd", output_log="output.log", output_cm=None,
+        temperature=300*u.kelvin, 
         report_time=10*u.picoseconds, sim_time=10*u.nanoseconds):
     """
     Start and run an OpenMM NVT simulation with Langevin integrator at 2 fs 
@@ -364,8 +366,8 @@ def openmm_simulate_amber_npt(top_file, pdb_file, check_point, GPU_index=0,
     system = top.createSystem(nonbondedMethod=app.PME, nonbondedCutoff=1*u.nanometer,
                               constraints=app.HBonds)
     dt = 0.002*u.picoseconds
-    integrator = omm.LangevinIntegrator(300*u.kelvin, 1/u.picosecond, dt)
-    system.addForce(omm.MonteCarloBarostat(1*u.bar, 300*u.kelvin))
+    integrator = omm.LangevinIntegrator(temperature*u.kelvin, 1/u.picosecond, dt)
+    system.addForce(omm.MonteCarloBarostat(1*u.bar, temperature*u.kelvin))
 
     try:
         platform = omm.Platform_getPlatformByName("CUDA")
