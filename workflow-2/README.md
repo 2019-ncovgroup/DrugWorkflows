@@ -1,5 +1,8 @@
 # workflow-2
 
+* For Longhorn [README](readme_longhorn.md)
+* For adrp on Longhorn [wf2/adrp branch](../../../wf2/adrp/workflow-2)
+
 ## Installation
 
 ### Tensorflow/Keras and others (Summit)
