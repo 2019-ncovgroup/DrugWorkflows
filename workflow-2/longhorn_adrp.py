@@ -333,11 +333,12 @@ if __name__ == '__main__':
     # resource is 'local.localhost' to execute locally
     res_dict = {
         'resource': 'local.longhorn',
-        'project': 'FTA-Jha',
-        'queue': 'development',
+        'project': proj_id,
+        'queue': queue,
         'schema': 'local',
-        'walltime': 60 * 2,
-        'cpus': 40 * 2
+        'walltime': 60 * hrs_wt,
+        'cpus': 40 * 2,
+        'gpus': N_jobs_MD // 4
     }
 
     # Create Application Manager
