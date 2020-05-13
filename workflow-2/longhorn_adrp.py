@@ -337,7 +337,7 @@ if __name__ == '__main__':
         'queue': queue,
         'schema': 'local',
         'walltime': 60 * hrs_wt,
-        'cpus': N_jobs_MD // 40 * 10
+        'cpus': N_jobs_MD // 4 * 40
     }
 
     # Create Application Manager
