@@ -283,12 +283,12 @@ def generate_training_pipeline():
     def func_on_true(): 
         global CUR_STAGE, MAX_STAGE
         
-        if CUR_STAGE != 0: 
-            # --------------------------
-            # MD stage
-            s1 = generate_MD_stage(num_MD=N_jobs_MD)
-            # Add simulating stage to the training pipeline
-            p.add_stages(s1)
+        #if CUR_STAGE != 0: 
+        # --------------------------
+        # MD stage
+        s1 = generate_MD_stage(num_MD=N_jobs_MD)
+        # Add simulating stage to the training pipeline
+        p.add_stages(s1)
 
         if CUR_STAGE % RETRAIN_FREQ == 0: 
             # --------------------------

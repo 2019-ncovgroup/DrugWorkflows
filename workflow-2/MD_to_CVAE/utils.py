@@ -17,7 +17,7 @@ def read_h5py_file(h5_file):
     return cm_h5[u'contact_maps'] 
 
 
-def cm_to_cvae(cm_data_lists): 
+def cm_to_cvae(cm_data_lists, padding=2): 
     """
     A function converting the 2d upper triangle information of contact maps 
     read from hdf5 file to full contact map and reshape to the format ready 
@@ -29,7 +29,7 @@ def cm_to_cvae(cm_data_lists):
     cm_data_full = np.array([triu_to_full(cm_data) for cm_data in cm_all.T]) 
 
     # padding if odd dimension occurs in image 
-    pad_f = lambda x: (0,0) if x%2 == 0 else (0,1) 
+    pad_f = lambda x: (0,0) if x%padding == 0 else (0,padding-x%padding) 
     padding_buffer = [(0,0)] 
     for x in cm_data_full.shape[1:]: 
         padding_buffer.append(pad_f(x))

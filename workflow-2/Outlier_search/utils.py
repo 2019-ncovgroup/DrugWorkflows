@@ -23,7 +23,7 @@ def read_h5py_file(h5_file):
     return cm_h5[u'contact_maps'] 
 
 
-def cm_to_cvae(cm_data_lists): 
+def cm_to_cvae(cm_data_lists, padding=2): 
     """
     A function converting the 2d upper triangle information of contact maps 
     read from hdf5 file to full contact map and reshape to the format ready 
@@ -35,7 +35,7 @@ def cm_to_cvae(cm_data_lists):
     cm_data_full = np.array([triu_to_full(cm_data) for cm_data in cm_all.T]) 
 
     # padding if odd dimension occurs in image 
-    pad_f = lambda x: (0,0) if x%2 == 0 else (0,1) 
+    pad_f = lambda x: (0,0) if x%padding == 0 else (0,padding-x%padding) 
     padding_buffer = [(0,0)] 
     for x in cm_data_full.shape[1:]: 
         padding_buffer.append(pad_f(x))
@@ -92,6 +92,7 @@ def outliers_from_cvae(model_weight, cvae_input, hyper_dim=3, eps=0.35):
     K.clear_session()
     return outlier_list
 
+
 def predict_from_cvae(model_weight, cvae_input, hyper_dim=3): 
     os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"]=str(0)  
@@ -102,8 +103,30 @@ def predict_from_cvae(model_weight, cvae_input, hyper_dim=3):
     K.clear_session()
     return cm_predict
 
+
 def outliers_from_latent(cm_predict, eps=0.35): 
     db = DBSCAN(eps=eps, min_samples=10).fit(cm_predict)
     db_label = db.labels_
-    outlier_list = np.where(db_label == -1)
+    outlier_list = np.array(np.where(db_label == -1)).flatten()
     return outlier_list
+
+
+def outliers_from_latent_ranked(cm_predict, eps=.5):
+    # run DBSCAN 
+    db = DBSCAN(eps=eps, min_samples=10).fit(cm_predict)
+    db_labels = db.labels_ 
+#     print(1, sum(db_labels==-1))
+    # get indices for each group, outliers and edgy 
+    outlier_list = np.array(np.where(db_labels == -1)).flatten()
+    core_indices = db.core_sample_indices_
+    edgy_pnts = [i for i, label in enumerate(db_labels) if label != -1 and i not in core_indices]
+#     print(2,len(edgy_pnts))
+    # distance calculation 
+    dist_list = np.empty(len(outlier_list))
+    for i, outlier in enumerate(outlier_list):
+        dist = [np.linalg.norm(cm_predict[outlier] - cm_predict[ind]) for ind in edgy_pnts]
+        dist_list[i] = min(dist)
+#     print(3)
+    # rank outliers according to dist 
+    rank_outlier_list = [outlier for _, outlier in sorted(zip(dist_list, outlier_list))]
+    return rank_outlier_list	
