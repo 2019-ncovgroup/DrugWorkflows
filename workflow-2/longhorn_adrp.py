@@ -105,12 +105,16 @@ def generate_training_pipeline():
             # specify the pdb_file and top_file for each run  
             # pick initial point of simulation 
             if initial_MD or i >= len(outlier_list): 
+                pdb_file = os.path.join(input_prot_path[0], 'prot.pdb') 
+                top_file = os.path.join(input_prot_path[0], 'prot.prmtop') 
+                """
                 if i % 2 == 0: 
                     pdb_file = os.path.join(input_prot_path[0], 'prot.pdb') 
                     top_file = os.path.join(input_prot_path[0], 'prot.prmtop') 
                 else: 
                     pdb_file = os.path.join(input_comp_path[i//2%n_comp], 'comp.pdb') 
                     top_file = os.path.join(input_comp_path[i//2%n_comp], 'comp.prmtop') 
+                """
             # Outlier situation with restarting simulation from pdb file 
             elif outlier_list[i].endswith('pdb'): 
                 pdb_file = outlier_list[i]
