@@ -3,6 +3,18 @@
 * For Longhorn [README](readme_longhorn.md)
 * For adrp on Longhorn [wf2/adrp branch](../../../wf2/adrp/workflow-2)
 
+## fs-peptide on Longhorn
+
+```
+python longhorn.py
+```
+
+## adrp on longhorn
+
+```
+python longhorn_adrp.py
+```
+
 ## Installation
 
 ### Tensorflow/Keras and others (Summit)
