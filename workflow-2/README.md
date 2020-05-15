@@ -64,9 +64,12 @@ export RADICAL_ENTK_PROFILE=TRUE
 
 ## Run
 
+It will require writable space before running the main script. Output files are stored in sub-directories. Locate the wf-2 repo at $MEMBERWORK/<PROJECTID>/ and run the script on Summit. $HOME becomes readable only system when a job is running.
+
 ```
 $ python summit_md.py
 ```
+
 
 ## Prerequisites
 
