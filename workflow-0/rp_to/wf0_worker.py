@@ -45,34 +45,24 @@ class MyWorker(rp.task_overlay.Worker):
     def pre_exec(self):
 
         try:
-            self._log.debug('pre_exec')
 
-            workload          = self._cfg.workload
-            rank              = self._uid
+            workload           = self._cfg.workload
+            rank               = self._uid
 
-            localf            = workload.localf
-            target_file       = 'input_dir/receptorsV5.1/' + workload.receptor
-            smiles_file       = 'input_dir/'               + workload.smiles
-            sdf               = workload.sdf
+            self._log.debug('pre_exec (%s)', workload.output)
 
-            basename          = ".".join(sdf.split(".")[:-1])
-            file_ending       =          sdf.split(".")[ -1]
-            output_poses      = basename + "_" + str(rank) + "." + file_ending
+            receptor_file      = 'input_dir/receptorsV5.1/' + workload.receptor
+            smiles_file        = 'input_dir/'               + workload.smiles
+            output             = './out.'                   + workload.output
 
-            # setting don't change
-            use_hybrid        = workload.use_hybrid
-            high_resolution   = workload.high_resolution
+            self.verbose       = workload.verbose
+            self.force_flipper = workload.force_flipper
+            use_hybrid         = workload.use_hybrid
+            high_resolution    = workload.high_resolution
 
-            # set logging if used
-            if localf:
-                localf += "tmp_" + str(rank) + ".sdf"
-                self.ofs = oechem.oemolostream(localf)
-                print('1', self.ofs)
-            else:
-                self.ofs = oechem.oemolostream(output_poses)
-
+            self.ofs           = oechem.oemolostream(output)
             self.ofs_lock      = mp.Lock()
-            self.pdb_name      = self.get_root_protein_name(target_file)
+            self.pdb_name      = self.get_root_protein_name(receptor_file)
 
             self._fin          = open(smiles_file, 'r')
             self.columns       = self._cfg.columns
@@ -80,10 +70,7 @@ class MyWorker(rp.task_overlay.Worker):
             self.name_col      = self._cfg.lig_col
             self.idxs          = self._cfg.idxs
 
-            self.force_flipper = workload.force_flipper
-            self.verbose       = workload.verbose
-
-            self.docker, _ = iface.get_receptor(target_file,
+            self.docker, _ = iface.get_receptor(receptor_file,
                                                 use_hybrid=use_hybrid,
                                                 high_resolution=high_resolution)
 

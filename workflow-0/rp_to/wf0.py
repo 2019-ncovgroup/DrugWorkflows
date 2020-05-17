@@ -6,6 +6,7 @@ import glob
 import pprint
 
 import radical.utils as ru
+import radical.saga  as rs
 import radical.pilot as rp
 
 
@@ -94,14 +95,45 @@ if __name__ == '__main__':
 
         umgr.register_callback(unit_state_cb)
 
+        subs = dict()
+        d    = rs.filesystem.Directory('ssh://frontera/scratch1/07305/rpilot/workflow-0-results')
+        ls   = [str(u).split('/')[-1] for u in d.list()]
+
+        workload  = cfg.workload
+
         for receptor, smiles, nodes, runtime in runs:
 
             print('=== %30s  %s' % (receptor, smiles))
-            name = '%s_-_%s' % (receptor, smiles)
+            name = '%s_-_%s'     % (receptor, smiles)
+            tgt  = '%s.%s.gz'    % (name, workload.output)
+            rec  = False
 
-            if os.path.exists('results/%s.sdf.gz' % name):
-                print('skip %s' % name)
-                continue
+            if tgt in ls:
+                if workload.recompute:
+                    rec += 1
+                    d.move(tgt, tgt + '.bak')
+                else:
+                    print('skip      1 %s' % name)
+                    continue
+
+            if smiles in ls:
+                if smiles not in subs:
+                    subs[smiles] = [str(u).split('/')[-1]  for u in d.list('%s/*' % smiles)]
+                if tgt in subs[smiles]:
+                    if workload.recompute:
+                        rec += 2
+                        d.move('%s/%s'     % (smiles, tgt), 
+                               '%s/%s.bak' % (smiles, tgt))
+                    else:
+                        print('skip      2 %s' % name)
+                        continue
+
+          # if os.path.exists('results/%s.%s.gz' % (name, wofkload.output)):
+          #     print('skip      3 %s' % name)
+          #     continue
+
+            if rec: print('recompute %d %s' % (rec, name))
+            else  : print('compute   2 %s'  %       name)
 
             cfg.workload.receptor = '%s.oeb'  % receptor
             cfg.workload.smiles   = '%s.csv'  % smiles
@@ -114,7 +146,6 @@ if __name__ == '__main__':
             cpn       = cfg.cpn
             gpn       = cfg.gpn
             n_masters = cfg.n_masters
-            workload  = cfg.workload
 
             pd = rp.ComputePilotDescription(cfg.pilot_descr)
             pd.cores   = nodes * cpn
@@ -151,8 +182,8 @@ if __name__ == '__main__':
                                       'action': rp.LINK,
                                       'flags' : rp.DEFAULT_FLAGS}
                                     ]
-                td.output_staging = [{'source': '%s.sdf.gz'         % name,
-                                      'target': 'results/%s.sdf.gz' % name,
+                td.output_staging = [{'source': '%s.%s.gz'         % (name, workload.output),
+                                      'target': 'results/%s.%s.gz' % (name, workload.output),
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS}]
                 tds.append(td)
