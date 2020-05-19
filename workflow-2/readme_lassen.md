@@ -74,8 +74,8 @@ pip install --no-cache-dir --force-reinstall --ignore-installed --no-binary :all
 	libzmq.so.5 => /p/gpfs1/$USER/libzmq-4.3.2/install/lib/libzmq.so.5 (0x00002000000c0000)
 ```
 
-## RADICAL-Pilot config
-`mkdir -p $HOME/.radical/pilot/configs/`
+## RADICAL-Pilot setup
+User config dir: `mkdir -p $HOME/.radical/pilot/configs/`
 
 Resource config file: `$HOME/.radical/pilot/configs/resource_llnl.json`:
 ```shell script
@@ -183,6 +183,7 @@ conda activate ve.rp
 
 ### Running jobs
 https://computing.llnl.gov/tutorials/lc_resources/#RunningJobs
+https://hpc.llnl.gov/training/tutorials/using-lcs-sierra-system#Running
 
 ### MyLC (dashboard)
 https://lc.llnl.gov/lorenz/mylc/mylc.cgi
