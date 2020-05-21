@@ -107,5 +107,7 @@ rm -rf CVAE_exps/cvae_runs_*
 rm -rf MD_exps/VHP_exp/omm_runs_*
 rm -rf MD_exps/fs-pep/omm_runs_*
 rm -rf Outlier_search/outlier_pdbs/*
+rm -rf Outlier_search/eps_record.json
+rm -rf Outlier_search/restart_points.json
 ```
 
