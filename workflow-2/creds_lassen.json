@@ -1,0 +1,11 @@
+{
+    "rabbitmq": {
+        "hostname": "",
+        "port": "",
+        "username": "",
+        "password": ""
+    },
+    "mongodb": {
+        "url": "mongodb://<user>:<pass>@<host>:<port>/<db>"
+    }
+}
