@@ -21,8 +21,8 @@ Use a branch to isolate a system without affecting others in the workflow-2. Eac
 | ------ | --- | ------ | ------ | --- |
 | adrp   | longhorn | [README](../../wf2/adrp/workflow-2/readme_longhorn.md) | [wf2/adrp branch](../../wf2/adrp/workflow-2) | `python longhorn_adrp.py` |
 | adrp   | lassen | [README](../../wf2/adrp/workflow-2/readme_lassen.md) | [wf2/adrp branch](../../wf2/adrp/workflow-2) | `python lassen_adrp.py` |
-| adrp   | summit | [README](../../wf2/adrp/workflow-2/readme.md) | [wf2/adrp branch](../../wf2/adrp/workflow-2) | `python summit_md.py` |
-| plpro   | summit | [README](../../wf2/plpro/workflow-2/readme.md) | [wf2/plpro branch](../../wf2/plpro/workflow-2) | `python summit_md.py` |
+| adrp   | summit | [README](../../wf2/adrp/workflow-2/README.md) | [wf2/adrp branch](../../wf2/adrp/workflow-2) | `python summit_md.py` |
+| plpro   | summit | [README](../../wf2/plpro/workflow-2/README.md) | [wf2/plpro branch](../../wf2/plpro/workflow-2) | `python summit_md.py` |
 
 ## Installation
 
