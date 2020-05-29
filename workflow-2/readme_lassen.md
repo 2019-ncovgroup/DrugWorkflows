@@ -10,6 +10,8 @@ GPFS work directory: `/p/gpfs1/$USER` (IBM's Spectrum Scale file system)
 Bank: `cv19-a01` ("shares")
 
 ## Environment installation
+- IBM PowerAI in LC: https://lc.llnl.gov/confluence/display/lc/ibm+powerai+in+lc
+- Alternative (or at some points as additional) installation:
 ```shell script
 export PREFIX=/p/gpfs1/$USER
 
@@ -275,6 +277,7 @@ export AMBERHOME=/usr/workspace/cv_ddmd/$USER/amber20_src
 
 ### Running jobs
 https://computing.llnl.gov/tutorials/lc_resources/#RunningJobs
+
 https://hpc.llnl.gov/training/tutorials/using-lcs-sierra-system#Running
 
 ### MyLC (dashboard)
