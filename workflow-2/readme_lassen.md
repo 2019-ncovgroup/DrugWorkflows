@@ -2,6 +2,23 @@
 
 # Lassen@LLNL
 
+## Test result of ADRP
+
+```
+ls /p/gpfs1/titov1/to_share
+eps_record.json           omm_runs_adrp_1589843465  omm_runs_adrp_1589844391  omm_runs_adrp_1589847656  omm_runs_adrp_1590350779      omm_runs_rank1579_1590443308  omm_runs_rank2355_1590443314  omm_runs_rank2437_1590442128  omm_runs_rank2437_1590463593  omm_runs_rank941_1590446442  unit.000003  unit.000013
+omm_runs_adrp_1589842585  omm_runs_adrp_1589843466  omm_runs_adrp_1589845339  omm_runs_adrp_1589847657  omm_runs_adrp_1590442123      omm_runs_rank1579_1590446439  omm_runs_rank2355_1590446440  omm_runs_rank2437_1590442129  omm_runs_rank2437_1590463594  omm_runs_rank941_1590462101  unit.000004
+omm_runs_adrp_1589842586  omm_runs_adrp_1589843468  omm_runs_adrp_1589845340  omm_runs_adrp_1589847658  omm_runs_adrp_1590443307      omm_runs_rank1579_1590462098  omm_runs_rank2355_1590446445  omm_runs_rank2437_1590443310  omm_runs_rank2437_1590465761  omm_runs_rank941_1590463592  unit.000005
+omm_runs_adrp_1589842587  omm_runs_adrp_1589844384  omm_runs_adrp_1589845341  omm_runs_adrp_1589847659  omm_runs_adrp_1590446438      omm_runs_rank1579_1590463589  omm_runs_rank2355_1590462099  omm_runs_rank2437_1590443312  omm_runs_rank2437_1590465762  omm_runs_rank941_1590465760  unit.000006
+omm_runs_adrp_1589842588  omm_runs_adrp_1589844385  omm_runs_adrp_1589845342  omm_runs_adrp_1589847660  omm_runs_adrp_1590462097      omm_runs_rank1579_1590465757  omm_runs_rank2355_1590463590  omm_runs_rank2437_1590443313  omm_runs_rank2437_1590688291  omm_runs_rank941_1590688292  unit.000007
+omm_runs_adrp_1589842589  omm_runs_adrp_1589844386  omm_runs_adrp_1589845343  omm_runs_adrp_1589847661  omm_runs_adrp_1590463588      omm_runs_rank1579_1590688289  omm_runs_rank2355_1590465758  omm_runs_rank2437_1590446441  omm_runs_rank2437_1590688293  outlier_pdbs                 unit.000008
+omm_runs_adrp_1589842590  omm_runs_adrp_1589844387  omm_runs_adrp_1589845344  omm_runs_adrp_1589847662  omm_runs_adrp_1590465756      omm_runs_rank2355_1590350776  omm_runs_rank2355_1590688290  omm_runs_rank2437_1590446443  omm_runs_rank2437_1590688294  restart_points.json          unit.000009
+omm_runs_adrp_1589842591  omm_runs_adrp_1589844388  omm_runs_adrp_1589845345  omm_runs_adrp_1590350773  omm_runs_adrp_1590688288      omm_runs_rank2355_1590442125  omm_runs_rank2355_1590688295  omm_runs_rank2437_1590446444  omm_runs_rank941_1590350780   unit.000000                  unit.000010
+omm_runs_adrp_1589842592  omm_runs_adrp_1589844389  omm_runs_adrp_1589845346  omm_runs_adrp_1590350775  omm_runs_rank1579_1590350774  omm_runs_rank2355_1590442130  omm_runs_rank2437_1590350778  omm_runs_rank2437_1590462102  omm_runs_rank941_1590442127   unit.000001                  unit.000011
+omm_runs_adrp_1589843462  omm_runs_adrp_1589844390  omm_runs_adrp_1589847655  omm_runs_adrp_1590350777  omm_runs_rank1579_1590442124  omm_runs_rank2355_1590443309  omm_runs_rank2437_1590442126  omm_runs_rank2437_1590462103  omm_runs_rank941_1590443311   unit.000002                  unit.000012
+
+```
+
 ## Login ([docs](https://lc.llnl.gov/confluence/display/LC/SSH+Guide+for+Livermore+Computing))
 ```shell script
 ssh -l <lcusername> lassen.llnl.gov
