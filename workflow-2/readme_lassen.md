@@ -92,6 +92,15 @@ pip install --no-cache-dir --force-reinstall --ignore-installed --no-binary :all
 (ve.rp) [:libzmq-4.3.2]$ ldd /p/gpfs1/$USER/.miniconda3/envs/ve.rp/lib/python3.7/site-packages/zmq/backend/cython/socket.cpython-37m-powerpc64le-linux-gnu.so | grep zmq
 	libzmq.so.5 => /p/gpfs1/$USER/libzmq-4.3.2/install/lib/libzmq.so.5 (0x00002000000c0000)
 ```
+MongoDB connection
+
+Instance of MongoDB that is outside of LLNL could be accessed by using ssh 
+tunneling from the login node (it is not accessible from compute nodes directly)
+```shell script
+[lassen0001] ssh -NfL *:1082:localhost:27017 <login_name>@<mongo_server> -i ~/.ssh/id_ed25519
+# thus MongoDB URL will be as following:
+# "mongodb://<db_user>:<db_pass>@lassen0001:1082/<db_name>"
+```
 
 ## RADICAL-Pilot setup
 User config dir: `mkdir -p $HOME/.radical/pilot/configs/`
