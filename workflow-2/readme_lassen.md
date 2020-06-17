@@ -68,44 +68,20 @@ pip install MDAnalysis MDAnalysisTests parmed
 ```
 RCT installation
 ```shell script
+conda install pyzmq
+```
+```shell script
 pip install git+https://github.com/radical-cybertools/radical.utils.git@devel
 pip install git+https://github.com/radical-cybertools/radical.saga.git@devel
-pip install git+https://github.com/radical-cybertools/radical.pilot.git@hotfix/lassen
+pip install git+https://github.com/radical-cybertools/radical.pilot.git@devel
 pip install git+https://github.com/radical-cybertools/radical.entk.git@devel
-```
-ZMQ installation
-```shell script
-cd /p/gpfs1/$USER
-
-wget https://github.com/zeromq/libzmq/archive/v4.3.2.tar.gz
-tar zxf v4.3.2.tar.gz
-cd libzmq-4.3.2/
-./autogen.sh
-./configure --prefix=`pwd -P`/install
-make -j
-make install
-export LD_LIBRARY_PATH=`pwd -P`/install/lib:$LD_LIBRARY_PATH
-export LD_RUN_PATH=`pwd -P`/install/lib:$LD_RUN_PATH
-pip install --no-cache-dir --force-reinstall --ignore-installed --no-binary :all: --install-option="--zmq=`pwd -P`/install" pyzmq
-```
-```shell script
-(ve.rp) [:libzmq-4.3.2]$ ldd /p/gpfs1/$USER/.miniconda3/envs/ve.rp/lib/python3.7/site-packages/zmq/backend/cython/socket.cpython-37m-powerpc64le-linux-gnu.so | grep zmq
-	libzmq.so.5 => /p/gpfs1/$USER/libzmq-4.3.2/install/lib/libzmq.so.5 (0x00002000000c0000)
-```
-MongoDB connection
-
-Instance of MongoDB that is outside of LLNL could be accessed by using ssh 
-tunneling from the login node (it is not accessible from compute nodes directly)
-```shell script
-[lassen0001] ssh -NfL *:1082:localhost:27017 <login_name>@<mongo_server> -i ~/.ssh/id_ed25519
-# thus MongoDB URL will be as following:
-# "mongodb://<db_user>:<db_pass>@lassen0001:1082/<db_name>"
 ```
 
 ## RADICAL-Pilot setup
 User config dir: `mkdir -p $HOME/.radical/pilot/configs/`
 
-Resource config file: `$HOME/.radical/pilot/configs/resource_llnl.json`:
+Resource config file: `$HOME/.radical/pilot/configs/resource_llnl.json` 
+(it overwrites pre-set configuration with our conda-env parameters):
 ```shell script
 {
     "lassen": {
@@ -118,6 +94,7 @@ Resource config file: `$HOME/.radical/pilot/configs/resource_llnl.json`:
             "job_manager_endpoint"    : "lsf://localhost/",
             "filesystem_endpoint"     : "file://localhost/"
         },
+        "forward_tunnel_endpoint"     : "`hostname -f`",
         "cores_per_node"              : 40,
         "gpus_per_node"               : 4,
         "sockets_per_node"            : 2,
