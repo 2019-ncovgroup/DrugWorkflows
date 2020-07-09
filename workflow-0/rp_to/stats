@@ -1,0 +1,22 @@
+CRBD-ACE2_6VW1_BH_1_F_-_Orderable_zinc_db_enaHLL        [pilot.0000] [820737] smi:  6685315        0  6685315 [100.0%] rate:  108.0 /s run: 1031.9 m 17.2 h
+CRBD-ACE2_6VW1_AE_1_F_-_Orderable_zinc_db_enaHLL        [pilot.0001] [820738] smi:  6685315   160310  6525005 [ 97.6%] rate:   91.2 /s run: 1191.8 m 19.9 h est: 1221.1 m 20.4 h rem:   29.3 m  0.5 h
+helicase_m1_pocket1_-_Orderable_zinc_db_enaHLL          [pilot.0002] [820739] smi:  6685315   703318  5981997 [ 89.5%] rate:   83.9 /s run: 1187.9 m 19.8 h est: 1327.5 m 22.1 h rem:  139.7 m  2.3 h
+helicase_m1_pocket2_-_Orderable_zinc_db_enaHLL          [pilot.0003] [820740] smi:  6685315        0  6685315 [100.0%] rate:  204.7 /s run:  544.4 m  9.1 h
+helicase_m3_pocket1_-_Orderable_zinc_db_enaHLL          [pilot.0004] [820741] smi:  6685315  1370504  5314811 [ 79.5%] rate:   76.0 /s run: 1165.9 m 19.4 h est: 1466.6 m 24.4 h rem:  300.7 m  5.0 h
+helicase_m3_pocket2_-_Orderable_zinc_db_enaHLL          [pilot.0005] [820742] smi:  6685315        0  6685315 [100.0%] rate:  234.4 /s run:  475.4 m  7.9 h
+CRBD-ACE2_6VW1_BH_1_F_-_UMICH_nucleotideSmiles          [pilot.0006] [820743] smi:  1406069        0  1406069 [100.0%] rate:   43.8 /s run:  535.5 m  8.9 h
+CRBD-ACE2_6VW1_AE_1_F_-_UMICH_nucleotideSmiles          [pilot.0007] [820744] smi:  1406069        0  1406069 [100.0%] rate:   43.1 /s run:  544.3 m  9.1 h
+helicase_m1_pocket1_-_UMICH_nucleotideSmiles            [pilot.0008] [820745] smi:  1406069        0  1406069 [100.0%] rate:   42.8 /s run:  547.8 m  9.1 h
+helicase_m1_pocket2_-_UMICH_nucleotideSmiles            [pilot.0009] [820746] smi:  1406069        0  1406069 [100.0%] rate:   44.3 /s run:  528.5 m  8.8 h
+helicase_m3_pocket1_-_UMICH_nucleotideSmiles            [pilot.0010] [820747] smi:  1406069        0  1406069 [100.0%] rate:   42.9 /s run:  546.3 m  9.1 h
+helicase_m3_pocket2_-_UMICH_nucleotideSmiles            [pilot.0011] [820748] smi:  1406069        0  1406069 [100.0%] rate:   49.6 /s run:  472.7 m  7.9 h
+CRBD-ACE2_6VW1_BH_1_F_-_UMICH_nucleosidesEnum           [pilot.0012] [820749] smi:      700        0      700 [100.0%] rate:    0.5 /s run:   22.6 m  0.4 h
+CRBD-ACE2_6VW1_AE_1_F_-_UMICH_nucleosidesEnum           [pilot.0013] [820750] smi:      700        0      700 [100.0%] rate:    0.5 /s run:   23.4 m  0.4 h
+helicase_m1_pocket1_-_UMICH_nucleosidesEnum             [pilot.0014] [820751] smi:      700        0      700 [100.0%] rate:    0.5 /s run:   24.5 m  0.4 h
+helicase_m1_pocket2_-_UMICH_nucleosidesEnum             [pilot.0015] [820752] smi:      700        0      700 [100.0%] rate:    0.7 /s run:   15.6 m  0.3 h
+helicase_m3_pocket1_-_UMICH_nucleosidesEnum             [pilot.0016] [820753] smi:      700        0      700 [100.0%] rate:    0.4 /s run:   26.5 m  0.4 h
+helicase_m3_pocket2_-_UMICH_nucleosidesEnum             [pilot.0017] [820754] smi:      700        0      700 [100.0%] rate:    0.8 /s run:   15.0 m  0.2 h
+ADRP_6W02_A_1_H_-_UMICH_nucleotideSmiles                [pilot.0018] [820755] smi:  1406069        0  1406069 [100.0%] rate:   57.1 /s run:  410.6 m  6.8 h
+RDRP_7BV1_A_1_F_-_Orderable_zinc_db_enaHLL              [pilot.0019] [820756] smi:  6685315  3250866  3434449 [ 51.4%] rate:   93.7 /s run:  610.9 m 10.2 h est: 1189.1 m 19.8 h rem:  578.2 m  9.6 h
+RDRP_7BV2_A_1_F_-_Orderable_zinc_db_enaHLL              [pilot.0020] [820757] smi:  6685315  3666681  3018634 [ 45.2%] rate:   83.1 /s run:  605.8 m 10.1 h est: 1341.6 m 22.4 h rem:  735.8 m 12.3 h
+RDRP_7BV2_A_3_F_-_Orderable_zinc_db_enaHLL              [pilot.0021] [820758] smi:  6685315  3696666  2988649 [ 44.7%] rate:   82.7 /s run:  602.6 m 10.0 h est: 1347.9 m 22.5 h rem:  745.3 m 12.4 h
