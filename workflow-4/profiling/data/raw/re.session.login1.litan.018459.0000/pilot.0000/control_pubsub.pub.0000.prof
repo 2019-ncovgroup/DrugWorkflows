@@ -1,0 +1,13 @@
+#time,event,comp,thread,uid,state,msg
+1594918724.0547473,sync_abs,control_pubsub.pub.0000,Thread-1,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1594918724.054487:1594918724.05929:ntp
+#time,event,comp,thread,uid,state,msg
+1594918724.7411027,sync_abs,control_pubsub.pub.0000,Thread-1,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1594918724.7410028:1594918724.7458057:ntp
+#time,event,comp,thread,uid,state,msg
+1594918725.3986332,sync_abs,control_pubsub.pub.0000,Thread-1,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1594918725.3985302:1594918725.4033332:ntp
+#time,event,comp,thread,uid,state,msg
+1594918726.0874720,sync_abs,control_pubsub.pub.0000,Thread-1,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1594918726.08737:1594918726.0921729:ntp
+#time,event,comp,thread,uid,state,msg
+1594918726.7392888,sync_abs,control_pubsub.pub.0000,Thread-1,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1594918726.73919:1594918726.743993:ntp
+#time,event,comp,thread,uid,state,msg
+1594918727.2262790,sync_abs,control_pubsub.pub.0000,Thread-5,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1594918727.22618:1594918727.230983:ntp
+1594920632.9679446,put,control_pubsub.pub.0000,Thread-7,control_pubsub.pub.0000,,{'cmd': 'terminate', 'arg': None}

@@ -1,0 +1,17 @@
+{
+    "bulk_size": 0,
+    "channel": "pmgr_launching_queue",
+    "cmgr": "cmgr.0001",
+    "heartbeat": {
+        "addr_pub": "tcp://10.134.0.31:40831",
+        "addr_sub": "tcp://10.134.0.31:35165",
+        "interval": 1.0,
+        "timeout": 60.0
+    },
+    "kind": "queue",
+    "log_level": "error",
+    "path": "/gpfs/alpine/med110/scratch/litan/ties/re.session.login1.litan.018459.0000",
+    "sid": "re.session.login1.litan.018459.0000",
+    "stall_hwm": 0,
+    "uid": "pmgr_launching_queue"
+}

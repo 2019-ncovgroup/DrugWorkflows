@@ -1,0 +1,86 @@
+#time,event,comp,thread,uid,state,msg
+1594918726.6449187,sync_abs,update.0000,MainThread,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1594918726.6445422:1594918726.6493452:ntp
+1594918726.6461844,comp_start,update.0000,MainThread,update.0000,,
+#time,event,comp,thread,uid,state,msg
+1594918726.7361979,sync_abs,update.0000,MainThread,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1594918726.7360919:1594918726.7408948:ntp
+1594918726.7362542,init1,update.0000,MainThread,update.0000,,/gpfs/alpine/med110/scratch/litan/radical.pilot.sandbox/re.session.login1.litan.018459.0000/pilot.0000
+1594918727.0638914,component_init,update.0000,Thread-1,,,
+1594918728.1213102,update_pushed,update.0000,Thread-4,,,bulk size: 1
+1594918768.3542445,update_pushed,update.0000,Thread-3,,,bulk size: 39
+1594918770.2402196,update_pushed,update.0000,Thread-4,,,bulk size: 102
+1594918837.0916944,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594918838.3606377,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594918980.1221778,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594918981.5679781,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594918992.6514790,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594918994.6226361,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919038.7576795,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919040.7159305,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919052.9954474,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919054.7714796,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919061.4162366,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919062.8202095,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919075.3490305,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919076.8755994,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919078.9587212,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919080.9195330,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919091.0890601,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919092.9733503,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919105.7222037,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919107.0287702,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919152.0257149,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919153.1212366,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919160.6455069,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919162.1704869,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919196.4226081,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919198.2514493,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919218.6684594,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919220.3158741,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919254.2401919,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919255.3958204,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919293.4199009,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919294.4820905,update_pushed,update.0000,Thread-4,,,bulk size: 5
+1594919327.3878870,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919328.5611968,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919334.7027030,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919336.6098332,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919345.6239481,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919346.6645892,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919442.4039829,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919443.8167849,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919459.5355783,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919460.8752460,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919515.5360518,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919516.9803846,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919542.8865557,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919544.0522082,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919602.1957633,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919604.1644008,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919609.6109180,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919611.2131033,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919621.0360520,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919622.2654731,update_pushed,update.0000,Thread-4,,,bulk size: 3
+1594919828.6260777,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919830.5473325,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594919835.9227924,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594919837.5978847,update_pushed,update.0000,Thread-4,,,bulk size: 5
+1594920119.2924581,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594920120.9687302,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594920218.7566006,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594920220.1244476,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594920302.9007554,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594920304.2632678,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594920369.0106220,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594920370.3828425,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594920381.0297790,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594920382.4364538,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594920435.4105434,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594920436.5399308,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594920446.6314094,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594920448.5938361,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594920460.6534498,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594920462.6504917,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594920596.7361100,update_pushed,update.0000,Thread-3,,,bulk size: 1
+1594920597.8481183,update_pushed,update.0000,Thread-4,,,bulk size: 2
+1594920633.2369752,component_final,update.0000,Thread-2,,,
+1594920633.2370243,END,update.0000,Thread-2,,,
