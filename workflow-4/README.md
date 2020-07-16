@@ -33,9 +33,8 @@ Note that installation of the NAMD binaries on Summit are not needed, since we a
 The main script requires to be placed at a writable space before running. Output files are stored in sub-directories of the current directory. Locate this code repository at $MEMBERWORK/{{PROJECTID}}/ and run the script there. $HOME directory does not work when running the script since it becomes a read-only filesystem when a job is running.
 
 ```
-$ . /ccs/home/litan/miniconda3/etc/profile.d/conda.sh
-$ conda activate wf4
-$ python workflow-4.py
+$ python workflow-4.py -t com
+$ python workflow-4.py -t lig
 ```
 
 ## Performance
