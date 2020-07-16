@@ -1,0 +1,18 @@
+source leaprc.protein.ff14SBonlysc
+source leaprc.water.tip3p
+source leaprc.gaff
+
+loadamberparams ../../../a0-a50/hybrid.frcmod
+loadoff ../../../a0-a50/hybrid.lib
+apo = loadpdb ../../../ADRP_6W02_A_1_H.pdb
+lig = loadpdb ../../../a0-a50/hybrid.pdb
+
+com = combine { apo lig }
+alignaxes com
+addions com Cl- 0.0
+addions com Na+ 0.0
+solvatebox com TIP3PBOX 14
+
+savepdb com complex.pdb
+saveamberparm com complex.prmtop complex.inpcrd
+quit
