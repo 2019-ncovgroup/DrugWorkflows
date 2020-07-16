@@ -40,10 +40,10 @@ $ python workflow-4.py
 
 ## Performance
 
-1. Use average time to completion (TTX) of workflows running on Summit, unit: second.
+1. Use average time to completion (TTX) of workflows running on Summit, unit: minute.
 2. Use JSRUN performance numbers as the baseline.
 
-| System | baseline | RCT EnTK | Slowdown |
-| ------ | -------- | -------- | -------- |
-| com    |          |          |          |
-| lig    |          |          |          |
+| System        | baseline | RCT EnTK | Slowdown |
+| ------------- | -------- | -------- | -------- |
+| com (65-node) |     14.2 |          |          |
+| lig (13-node) |     13.7 |          |          |
