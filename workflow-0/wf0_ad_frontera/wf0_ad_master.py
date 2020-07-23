@@ -37,6 +37,7 @@ class MyMaster(rp.task_overlay.Master):
     #
     def __init__(self, cfg):
 
+        print('ctor 1')
         # initialized the task overlay base class.  That base class will ensure
         # proper communication channels to the pilot agent.
         rp.task_overlay.Master.__init__(self, cfg=cfg)
@@ -51,7 +52,8 @@ class MyMaster(rp.task_overlay.Master):
     def parse_csv(self):
 
         workload = self._cfg.workload
-        fname    = 'input_dir/' + workload.smiles
+        print(workload)
+        fname    = 'input_dir/' + workload.smiles + '.csv'
         header   = None
         idxs     = list()
 
@@ -101,18 +103,50 @@ class MyMaster(rp.task_overlay.Master):
         # check the smi file for this master's index range, and send the
         # resulting pos indexes as task batches
 
+
+        protein = '3CLPro_6LU7_AB_1_F'
+
+        # fields=${mol2_to_box.py 3CLPro_6LU7_AB_1_F_box.mol2}
+        # export DC_PROTEIN=3CLPro_6LU7_AB_1_F
+        # export DC_CENTER=${fields[0]}
+        # export DC_POINTS=${fields[1]}
+
+        home   = os.environ['HOME']
+        wf0    = 'projects/covid/DrugWorfklows/workflow-0/wf0_ad_frontera'
+        dcad   = 'DataCrunching/ProcessingScripts/Autodock'
+        path1  = '%s/%s/%s' % (home, wf0, dcad)
+        out, err, ret = ru.sh_callout('%s/mol2_to_box.py input_dir/%s/%s_box.mol2'
+                                     % (path1, protein, protein))
+        assert(not ret), err
+
+        center, points = out.strip().split(' ', 1)
+        assert(center)
+        assert(points)
+
         pos  = rank
         npos = len(self._idxs)
-        print('npos:', npos)
         while pos < npos:
 
+            if pos < 7879:
+                pos += 1
+                continue
+
+            if pos >= 7900:
+                break
+
+            # def autodock(self, uid, smiles_idx, protein, center, points,
+            #                    residues=None):
             uid  = 'request.%06d' % pos
             item = {'uid' :   uid,
                     'mode':  'call',
-                    'data': {'method': 'dock',
-                             'kwargs': {'pos': pos,
-                                        'off': self._idxs[pos],
-                                        'uid': uid}}}
+                    'data': {'method': 'autodock',
+                             'kwargs': {'uid'       : uid,
+                                        'pos'       : pos,
+                                        'off'       : self._idxs[pos],
+                                        'protein'   : protein,
+                                        'center'    : center,
+                                        'points'    : points,
+                                        'residues'  : None}}}
             self.request(item)
             pos += world_size
 
@@ -132,7 +166,7 @@ class MyMaster(rp.task_overlay.Master):
           # count = r.work['data']['kwargs']['count']
           # if count < 10:
           #     new_requests.append({'mode': 'call',
-          #                          'data': {'method': 'dock',
+          #                          'data': {'method': 'autodock',
           #                                   'kwargs': {'count': count + 100}}})
 
         return new_requests
@@ -140,29 +174,32 @@ class MyMaster(rp.task_overlay.Master):
 
 # ------------------------------------------------------------------------------
 #
-if __name__ == '__main__':
+def main():
+
+    print('main')
 
     # This master script runs as a task within a pilot allocation.  The purpose
     # of this master is to (a) spawn a set or workers within the same
-    # allocation, (b) to distribute work items (`dock` function calls) to those
-    # workers, and (c) to collect the responses again.
+    # allocation, (b) to distribute work items (`autodock` function calls) to
+    # those workers, and (c) to collect the responses again.
     cfg_fname    = 'wf0.cfg'
     cfg          = ru.Config(cfg=ru.read_json(cfg_fname))
     cfg.idx      = int(sys.argv[1])
 
     # FIXME: worker startup should be moved into master
     workload   = cfg.workload
+    rec        = cfg.workload.receptor
     n_nodes    = cfg.nodes
     cpn        = cfg.cpn
     gpn        = cfg.gpn
     descr      = cfg.worker_descr
 
-    # add data staging to worker: link input_dir, impress_dir, and oe_license
-    descr['arguments']     = ['wf0_worker.py']
+    # add data staging to worker
+    descr['arguments']     = ['wf0_ad_worker.py']
     descr['cpu_threads']   = 1
     descr['input_staging'] = [
-                               {'source': '%s/wf0_worker.py' % os.getcwd(),
-                                'target': 'wf0_worker.py',
+                               {'source': '%s/wf0_ad_worker.py' % os.getcwd(),
+                                'target': 'wf0_ad_worker.py',
                                 'action': rp.COPY,
                                 'flags' : rp.DEFAULT_FLAGS,
                                 'uid'   : 'sd.0'},
@@ -171,21 +208,31 @@ if __name__ == '__main__':
                                 'action': rp.COPY,
                                 'flags' : rp.DEFAULT_FLAGS,
                                 'uid'   : 'sd.1'},
+                               {'source': '%s/wf0_ad_helper_1.sh' % os.getcwd(),
+                                'target': 'wf0_ad_helper_1.sh',
+                                'action': rp.LINK,
+                                'flags' : rp.DEFAULT_FLAGS,
+                                'uid'   : 'sd.2'},
+                               {'source': '%s/wf0_ad_prep.sh' % os.getcwd(),
+                                'target': 'wf0_ad_prep.sh',
+                                'action': rp.LINK,
+                                'flags' : rp.DEFAULT_FLAGS,
+                                'uid'   : 'sd.3'},
+                               {'source': '%s/wf0_ad_prep.tar' % os.getcwd(),
+                                'target': 'wf0_ad_prep.tar',
+                                'action': rp.LINK,
+                                'flags' : rp.DEFAULT_FLAGS,
+                                'uid'   : 'sd.4'},
                                {'source': workload.input_dir,
                                 'target': 'input_dir',
                                 'action': rp.LINK,
                                 'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.2'},
-                               {'source': workload.impress_dir,
-                                'target': 'impress_md',
+                                'uid'   : 'sd.5'},
+                               {'source': 'input_dir/%s/%s.pdbqt' % (rec, rec),
+                                'target': './',
                                 'action': rp.LINK,
                                 'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.3'},
-                               {'source': workload.oe_license,
-                                'target': 'oe_license.txt',
-                                'action': rp.LINK,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.4'},
+                                'uid'   : 'sd.6'},
                               ]
 
     # one node is used by master.  Alternatively (and probably better), we could
@@ -197,6 +244,7 @@ if __name__ == '__main__':
     # create a master class instance - this will establish communitation to the
     # pilot agent
     master = MyMaster(cfg)
+    print(1)
 
     # insert `n` worker tasks into the agent.  The agent will schedule (place)
     # those workers and execute them.  Insert one smaller worker (see above)
@@ -207,7 +255,9 @@ if __name__ == '__main__':
     # wait until `m` of those workers are up
     # This is optional, work requests can be submitted before and will wait in
     # a work queue.
-  # master.wait(count=nworkers)
+    print('wait')
+    master.wait(count=n_workers + 1)
+    print('run')
 
     master.run()
 
@@ -215,9 +265,21 @@ if __name__ == '__main__':
     # FIXME: clean up workers
 
     # collect sdf files
-    ext = workload.output
-    os.system('sh -c "cat worker.*/out.%s | gzip > %s.%s.gz"'
-             % (workload.output, workload.name, ext))
+  # ext = workload.output
+  # os.system('sh -c "cat worker.*/out.%s | gzip > %s.%s.gz"'
+  #          % (workload.output, workload.name, ext))
+
+
+# ------------------------------------------------------------------------------
+#
+if __name__ == '__main__':
+
+    try:
+        main()
+
+    except Exception as e:
+        print('ERROR: %s' % e)
+        raise
 
 
 # ------------------------------------------------------------------------------

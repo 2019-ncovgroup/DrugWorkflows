@@ -71,11 +71,10 @@ if __name__ == '__main__':
         with open(run_file, 'r') as fin:
 
             for line in fin.readlines():
-                line  = line.strip()
+
                 elems = line.split()
-                if len(elems) != 4:
-                    continue
-                if elems[0] == '#':
+
+                if not elems or elems[0] == '#':
                     continue
 
                 receptor = str(elems[0])
@@ -88,10 +87,17 @@ if __name__ == '__main__':
                 assert(nodes)
                 assert(runtime)
 
-                assert(os.path.isfile('%s/%s.oeb' % (rec_path, receptor)))
-                assert(os.path.isfile('%s/%s.csv' % (smi_path, smiles)))
+                smi = '%s/%s.csv'         % (cfg.workload.smi_path, smiles)
+                rec = '%s/%s/%s_box.mol2' % (cfg.workload.rec_path,
+                                             receptor, receptor)
 
-                runs.append([receptor, smiles, nodes, runtime])
+                assert(os.path.isfile(rec)), rec
+                assert(os.path.isfile(smi)), smi
+
+                box, err, ret = ru.sh_callout('python3 ./mol2_to_box.py %s' % rec)
+                assert(not ret), err
+
+                runs.append([receptor, smiles, nodes, runtime, box])
 
         session = rp.Session()
         pmgr    = rp.PilotManager(session=session)
@@ -105,14 +111,13 @@ if __name__ == '__main__':
         #   - create cfg with requested receptor and smiles
         #   - submit configured number of masters with that cfg on that pilot
         subs = dict()
-        d    = rs.filesystem.Directory('ssh://frontera/scratch1/07305/rpilot/workflow-0-results')
+        d    = rs.filesystem.Directory(cfg.workload.results)
         ls   = [str(u).split('/')[-1] for u in d.list()]
 
         workload  = cfg.workload
 
-        for receptor, smiles, nodes, runtime in runs:
+        for receptor, smiles, nodes, runtime, box in runs:
 
-            print('=== %30s  %s' % (receptor, smiles))
             name = '%s_-_%s'     % (receptor, smiles)
             tgt  = '%s.%s.gz'    % (name, workload.output)
             rec  = False
@@ -122,33 +127,35 @@ if __name__ == '__main__':
                     rec += 1
                     d.move(tgt, tgt + '.bak')
                 else:
-                    print('skip      1 %s' % name)
+                    print('skip        %-30s [remote result]' % name)
                     continue
 
             if smiles in ls:
                 if smiles not in subs:
                     subs[smiles] = [str(u).split('/')[-1]  for u in d.list('%s/*' % smiles)]
+
                 if tgt in subs[smiles]:
                     if workload.recompute:
                         rec += 2
                         d.move('%s/%s'     % (smiles, tgt),
                                '%s/%s.bak' % (smiles, tgt))
                     else:
-                        print('skip      2 %s' % name)
+                        print('skip        %-30s [remote smiles result]' % name)
                         continue
 
-          # if os.path.exists('results/%s.%s.gz' % (name, wofkload.output)):
-          #     print('skip      3 %s' % name)
-          #     continue
+            if os.path.exists('results/%s.%s.gz' % (name, workload.output)):
+                print('skip        %-30s [local result]' % name)
+                continue
 
-            if rec: print('recompute %d %s' % (rec, name))
-            else  : print('compute   2 %s'  %       name)
+            if rec: print('recompute %d %-30s' % (rec, name))
+            else  : print('compute     %-30s'  %       name)
 
-            cfg.workload.receptor = '%s.oeb'  % receptor
-            cfg.workload.smiles   = '%s.csv'  % smiles
             cfg.workload.name     = name
+            cfg.workload.receptor = receptor
+            cfg.workload.smiles   = smiles
             cfg.nodes             = nodes
             cfg.runtime           = runtime
+            cfg.box               = box
 
             ru.write_json(cfg, 'configs/wf0.%s.cfg' % name)
 
@@ -171,15 +178,27 @@ if __name__ == '__main__':
             for i in range(n_masters):
                 td = rp.ComputeUnitDescription(cfg.master_descr)
                 td.executable     = "python3"
-                td.arguments      = ['wf0_master.py', i]
+                td.arguments      = ['wf0_ad_master.py', i]
                 td.cpu_threads    = 1
                 td.pilot          = pid
                 td.input_staging  = [{'source': cfg.master,
-                                      'target': 'wf0_master.py',
+                                      'target': 'wf0_ad_master.py',
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS},
                                      {'source': cfg.worker,
-                                      'target': 'wf0_worker.py',
+                                      'target': 'wf0_ad_worker.py',
+                                      'action': rp.TRANSFER,
+                                      'flags' : rp.DEFAULT_FLAGS},
+                                     {'source': cfg.helper_1,
+                                      'target': 'wf0_ad_helper_1.sh',
+                                      'action': rp.TRANSFER,
+                                      'flags' : rp.DEFAULT_FLAGS},
+                                     {'source': cfg.prep,
+                                      'target': 'wf0_ad_prep.sh',
+                                      'action': rp.TRANSFER,
+                                      'flags' : rp.DEFAULT_FLAGS},
+                                     {'source': cfg.tar,
+                                      'target': 'wf0_ad_prep.tar',
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS},
                                      {'source': 'configs/wf0.%s.cfg' % name,
@@ -191,10 +210,11 @@ if __name__ == '__main__':
                                       'action': rp.LINK,
                                       'flags' : rp.DEFAULT_FLAGS}
                                     ]
-                td.output_staging = [{'source': '%s.%s.gz'         % (name, workload.output),
-                                      'target': 'results/%s.%s.gz' % (name, workload.output),
+                td.output_staging = [{'source': '%s.tgz' % (name),
+                                      'target': '%s.tgz' % (name),
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS}]
+                td.post_exec = ['tar zcvf %s.tgz *.sdf' % name]
                 tds.append(td)
 
             tasks = umgr.submit_units(tds)
