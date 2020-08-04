@@ -61,7 +61,8 @@ if __name__ == '__main__':
 
         cfg       = ru.Config(cfg=ru.read_json(cfg_file))
         rec_path  = 'input/receptorsV5.1/'
-        smi_path  = 'input/'
+        rec_path  = 'input/receptorsV6/'
+        smi_path  = 'input/smiles/'
         runs      = list()
 
         with open(run_file, 'r') as fin:

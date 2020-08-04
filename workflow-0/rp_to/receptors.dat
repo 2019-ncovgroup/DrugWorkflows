@@ -1,7 +1,23 @@
 #
 # receptor                        smiles                    nodes   runtime
 
-  ADRP_6W02_A_1_H               UMICH_nucleosidesEnum    4   1800
+3CLPro_6lu7_A_1                   Orderable_zinc_db_enaHLL     128 2400
+3CLPro_6w63_A                     Orderable_zinc_db_enaHLL     128 2400
+3CLPro_6wqf_A_1                   Orderable_zinc_db_enaHLL     128 2400
+NSP10-16_6w4h_A_1                 Orderable_zinc_db_enaHLL     128 2400
+NSP10-16_6w61_A_1                 Orderable_zinc_db_enaHLL     128 2400
+NSP10-16_6w75_A                   Orderable_zinc_db_enaHLL     128 2400
+NSP10-16_6wjt_A_1                 Orderable_zinc_db_enaHLL     128 2400
+NSP10-16_6wkq_A_1                 Orderable_zinc_db_enaHLL     128 2400
+NSP10-16_6wq3_A_1                 Orderable_zinc_db_enaHLL     128 2400
+NSP10-16_6wvn_A_1                 Orderable_zinc_db_enaHLL     128 2400
+NSP15-6x1b_A_1                    Orderable_zinc_db_enaHLL     128 2400
+NSP15_6wxc_Tipi_A_1               Orderable_zinc_db_enaHLL     128 2400
+gly_adrp
+
+
+
+# ADRP_6W02_A_1_H               UMICH_nucleosidesEnum    4   1800
 # ADRP_6W02_A_1_H               UMICH_nucleotideSmiles   128 1800
 
 ## # repeat with flopper=false

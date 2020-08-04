@@ -51,8 +51,9 @@ class MyWorker(rp.task_overlay.Worker):
 
             self._log.debug('pre_exec (%s)', workload.output)
 
-            receptor_file      = 'input_dir/receptorsV5.1/' + workload.receptor
-            smiles_file        = 'input_dir/'               + workload.smiles
+          # receptor_file      = 'input_dir/receptorsV5.1/' + workload.receptor
+            receptor_file      = 'input_dir/receptorsV6/'   + workload.receptor
+            smiles_file        = 'input_dir/smiles/'        + workload.smiles
             output             = './out.'                   + workload.output
 
             self.verbose       = workload.verbose
