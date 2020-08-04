@@ -1,0 +1,7 @@
+#time,event,comp,thread,uid,state,msg
+1596474156.0776618,sync_abs,agent_schedule_pubsub,MainThread,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1596474156.0772474:1596474156.1542795:ntp
+1596474156.0817895,bridge_start,agent_schedule_pubsub,MainThread,agent_schedule_pubsub,,
+#time,event,comp,thread,uid,state,msg
+1596474156.0832024,sync_abs,agent_schedule_pubsub,MainThread,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1596474156.083072:1596474156.160104:ntp
+1596474156.0832453,init3,agent_schedule_pubsub,MainThread,agent_schedule_pubsub,,/gpfs/alpine/med110/scratch/litan/radical.pilot.sandbox/re.session.login5.litan.018477.0016/pilot.0000
+1596475706.7094951,term,agent_schedule_pubsub,Thread-2,agent_schedule_pubsub,,

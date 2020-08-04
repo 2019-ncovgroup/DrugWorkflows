@@ -1,0 +1,9 @@
+#time,event,comp,thread,uid,state,msg
+1596474155.1306562,sync_abs,cmgr.0000,MainThread,,,batch1.summit.olcf.ornl.gov:10.134.0.41:1596474155.1303475:1596474155.2073796:ntp
+1596474155.1309338,init2,cmgr.0000,MainThread,cmgr.0000,,/gpfs/alpine/med110/scratch/litan/radical.pilot.sandbox/re.session.login5.litan.018477.0016/pilot.0000
+1596474155.1868894,start_bridges_start,cmgr.0000,MainThread,cmgr.0000,,
+1596474160.6851385,start_bridges_stop,cmgr.0000,MainThread,cmgr.0000,,
+1596474160.6851921,start_components_start,cmgr.0000,MainThread,cmgr.0000,,
+1596474164.4076602,start_components_stop,cmgr.0000,MainThread,cmgr.0000,,
+1596475645.8778138,close,cmgr.0000,Thread-7,cmgr.0000,,
+1596475646.7420239,close,cmgr.0000,Thread-6,cmgr.0000,,

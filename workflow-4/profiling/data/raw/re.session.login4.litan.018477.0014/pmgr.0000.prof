@@ -1,0 +1,12 @@
+#time,event,comp,thread,uid,state,msg
+1596465644.6381001,sync_abs,pmgr.0000,MainThread,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596465644.6374037:1596465644.6646428:ntp
+1596465644.6387997,init1,pmgr.0000,MainThread,pmgr.0000,,/gpfs/alpine/med110/scratch/litan/ties/re.session.login4.litan.018477.0014
+1596465644.6433017,component_init,pmgr.0000,Thread-4,,,
+1596465649.2563479,setup_done,pmgr.0000,MainThread,pmgr.0000,,
+1596465650.4027736,advance,pmgr.0000,MainThread,pilot.0000,NEW,
+1596465650.4416471,advance,pmgr.0000,MainThread,pilot.0000,PMGR_LAUNCHING_PENDING,
+1596465650.4420311,put,pmgr.0000,MainThread,pilot.0000,PMGR_LAUNCHING_PENDING,pmgr_launching_queue.put.0000
+1596465650.5012939,advance,pmgr.0000,Thread-11,pilot.0000,PMGR_LAUNCHING,
+1596465657.1083696,advance,pmgr.0000,Thread-11,pilot.0000,PMGR_ACTIVE_PENDING,
+1596465729.3960423,advance,pmgr.0000,Thread-9,pilot.0000,PMGR_ACTIVE,
+1596467600.8836510,advance,pmgr.0000,Thread-11,pilot.0000,CANCELED,
