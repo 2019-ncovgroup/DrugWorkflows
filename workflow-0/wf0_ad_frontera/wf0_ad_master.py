@@ -46,49 +46,33 @@ class MyMaster(rp.task_overlay.Master):
 
         self.parse_csv()
 
+        # prepare local storage
+        out, err, ret = ru.sh_callout("sh ./wf0_ad_prep.sh")
+        self._log.debug('=== prep: %s\nout: %s\nerr: %s', ret, out, err)
+
 
     # --------------------------------------------------------------------------
     #
     def parse_csv(self):
 
         workload = self._cfg.workload
-        print(workload)
         fname    = 'input_dir/' + workload.smiles + '.csv'
-        header   = None
-        idxs     = list()
 
         # build indexes
+        self._idxs = list()
         with open(fname) as fin:
             while True:
-                idxs.append(fin.tell())
+                self._idxs.append(fin.tell())
                 line = fin.readline()
-                if not line  : break
-                if not header: header = line
+                if line.startswith('SMILES,'): continue  # header
+                if not line                  : break     # EOF
 
+        self._idxs.pop()   # EOF
 
-        idxs.pop(0)  # header
-        idxs.pop()   # EOF
-
-        self._idxs        = idxs
-        self._cfg.columns = header.strip('\n').split(',')
-
-        self._cfg.smi_col = -1
-        self._cfg.lig_col = -1
-
-        for idx,col in enumerate(self._cfg.columns):
-            if 'smile' in col.lower():
-                self._cfg.smi_col = idx
-                break
-
-        for idx,col in enumerate(self._cfg.columns):
-            if 'id'    in col.lower() or \
-               'title' in col.lower() or \
-               'name'  in col.lower():
-                self._cfg.lig_col = idx
-                break
-
-        assert(self._cfg.smi_col >= 0)
-        assert(self._cfg.lig_col >= 0)
+        # not all SMILES files have headers,
+        # so we hardcode the SMILES and NAME columns
+        self._cfg.smi_col = 0
+        self._cfg.lig_col = 1
 
 
     # --------------------------------------------------------------------------
@@ -111,12 +95,8 @@ class MyMaster(rp.task_overlay.Master):
         # export DC_CENTER=${fields[0]}
         # export DC_POINTS=${fields[1]}
 
-        home   = os.environ['HOME']
-        wf0    = 'projects/covid/DrugWorfklows/workflow-0/wf0_ad_frontera'
-        dcad   = 'DataCrunching/ProcessingScripts/Autodock'
-        path1  = '%s/%s/%s' % (home, wf0, dcad)
-        out, err, ret = ru.sh_callout('%s/mol2_to_box.py input_dir/%s/%s_box.mol2'
-                                     % (path1, protein, protein))
+        out, err, ret = ru.sh_callout('./mol2_to_box.py input_dir/%s/%s_box.mol2'
+                                     % (protein, protein))
         assert(not ret), err
 
         center, points = out.strip().split(' ', 1)
@@ -127,12 +107,12 @@ class MyMaster(rp.task_overlay.Master):
         npos = len(self._idxs)
         while pos < npos:
 
-            if pos < 7879:
-                pos += 1
-                continue
-
-            if pos >= 7900:
-                break
+          # if pos < 7800:
+          #     pos += 1
+          #     continue
+          #
+          # if pos >= 1024 * 128:
+          #     break
 
             # def autodock(self, uid, smiles_idx, protein, center, points,
             #                    residues=None):
@@ -263,11 +243,6 @@ def main():
 
     # simply terminate
     # FIXME: clean up workers
-
-    # collect sdf files
-  # ext = workload.output
-  # os.system('sh -c "cat worker.*/out.%s | gzip > %s.%s.gz"'
-  #          % (workload.output, workload.name, ext))
 
 
 # ------------------------------------------------------------------------------

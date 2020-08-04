@@ -10,7 +10,9 @@ rm -rf /tmp/sbox_* /tmp/*.lck /tmp/tools/
 #
 # unpack autotools
 #
-tar -C "/tmp/" -xf "$(pwd)/wf0_ad_prep.tar"
+tar  -C "/tmp/" -xf "$RP_UNIT_SANDBOX/wf0_ad_prep.tar"
+echo "HOSTNAME: $(hostname -f) $(ls -l /tmp/tools/bin/pythonsh)"
+
 
 
 # # ------------------------------------------------------------------------------

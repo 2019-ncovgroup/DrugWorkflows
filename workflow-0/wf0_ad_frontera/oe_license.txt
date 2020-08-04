@@ -1,165 +1,0 @@
-################# ACADEMIC LICENSE ##################################
-#                                                                   #
-#   This file is a license for OpenEye Scientific Software.  Any    #
-#   modifications to this file may invalidate the license.          #
-#                                                                   #
-#   The Laboratory of Rick Stevens                                  #
-#   University of Chicago                                           #
-#                                                                   #
-#   Tue Mar 31 09:47:39 2020                                        #
-#####################################################################
-#PRODUCT: bioisostere
-#EXP_DATE: 2021 04 01
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: c5b1c87f41a52aec48c3f628fad1c1f980d626e9c410cf959caa2fb4578fcd68
-#PRODUCT: docking
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: ed8a2a67b99f6f3e57cef7921dea89dad4d6fe1814ec1b88a9690497db7a3b54
-#PRODUCT: eon
-#EXP_DATE: 2021 04 01
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: d6e3e9281acb7e6561ab7993772d1ed6a1637ffb802fb2ff3e168af2a986d6d7
-#PRODUCT: fastrocs
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 34da48306a7d7bd24f0131440a1935c24acf17e1f159d85ea1c1514c3321ded6
-#PRODUCT: filter
-#EXP_DATE: 2021 04 01
-#FEATURES: toolkit;python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: a383574b6156beada7a55c109463acb98b116a8e4273fa1c7b6f42677a6a2047
-#PRODUCT: fred2
-#EXP_DATE: 2021 04 01
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: df421d9b66ca26589f29fba906335f6402cef1cb2a89daf3f49911d8292ea45b
-#PRODUCT: grapheme
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 26a4086e30437565393cd1d5a87ebf52ae8f5324e7d044b1ab332bed169b5ffc
-#PRODUCT: graphsim
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 0fe13f12a778e2d11116d3841fbc7e97cd16b23ae386e942bc92e68f8e7d7abf
-#PRODUCT: iupac
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: f8ad61d67960cd814301c3d81191394f7e981e0cc1301d6ae6be0b3e71f80938
-#PRODUCT: oechem
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: e2d0b29700418b6cab905421f7373b1fe17dd877489fd77b667bb80f68604269
-#PRODUCT: oedepict
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 4513bc1eb96e2f6fa2d3de4ee3ef86c402e35e66021ee163756c7cca9b203561
-#PRODUCT: oemedchem
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: af9532d86c8b69c0b6fdb5c396f7145f3dde6c2ba997fbc43fd7937514f7a6c5
-#PRODUCT: omega
-#EXP_DATE: 2021 04 01
-#FEATURES: gas-phase;toolkit;python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 87f85bbf3610058d395c1ebb57d86f983d76d31dffe8bfd170e846ed410a5f06
-#PRODUCT: omega-db
-#EXP_DATE: 2021 04 01
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 10239ee99da3da197df748647d96be316fcc0ca318223bec54bebe77809ed727
-#PRODUCT: posit
-#EXP_DATE: 2021 04 01
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 4a2dddf9905adcd67be20fcd4d90ba94fa6d3ccb90089009658285c7fdf02d0d
-#PRODUCT: quacpac
-#EXP_DATE: 2021 04 01
-#FEATURES: beta;python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 771cdd0896b1c3cf7f60a5d4a96f41f373917839b69aac07f8c3e7efdaaccd74
-#PRODUCT: rocs
-#EXP_DATE: 2021 04 01
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: d74fa4c727ebcbcb356f4a0b146dbe8500485e59aeb66af0e692aa4fc98e60d8
-#PRODUCT: shape
-#EXP_DATE: 2021 04 01
-#FEATURES: molecules;grids;python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 8886c0a3c41d6e69740460158260b339d552b964c58bfd4708f4d23caf9713d2
-#PRODUCT: spicoli
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: cb3abea6faa36b6a575ef0b9f11ba373de821a014d1096ef07157e855a3c8b27
-#PRODUCT: sprucetk
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 1689923b0e83f66762cd93f40e739b5158afff7b60367827f86d5849ecebb282
-#PRODUCT: spruce
-#EXP_DATE: 2021 04 01
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: dac0ce71bfd76f17c094c3a57303206d13d1ea6dc98b990f2bf5a2bb02aa3d21
-#PRODUCT: szmap
-#EXP_DATE: 2021 04 01
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 48625764e215b90e2c82ad0b2c9dcd5ea9ec7f5e698832b9abfffa448fa2934f
-#PRODUCT: szmaptk
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: c1d96ba2925d91acaf5f0d97495846d584a8f4a9047b81586bf682d14e1d186a
-#PRODUCT: szybki
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: ce6460c75c2860891e88ed4d1c39b2652ffe68b495b886833e72abf810373535
-#PRODUCT: case
-#EXP_DATE: 2021 04 01
-#FEATURES: python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 623297cf764879ebcffa88e24a4426680abf4f75f9808cff85a254485bd34254
-#PRODUCT: vida
-#EXP_DATE: 2021 04 01
-#FEATURES: script line
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: 00f3350b3d727169126fb8d4575e9640defb387bf6bc7e3d602a697850870285
-#PRODUCT: zap
-#EXP_DATE: 2021 04 01
-#FEATURES: basic toolkit;protein pka;perfect charge;python;java;clr
-#LICENSEE: The Laboratory of Rick Stevens
-#SITE: University of Chicago
-LICENSE_KEY: b9aa8003337ae812d1d4631f0a9934b0eee1f6475be8c011e2dbad954818ab50
-

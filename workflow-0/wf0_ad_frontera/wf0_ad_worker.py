@@ -50,6 +50,10 @@ class MyWorker(rp.task_overlay.Worker):
 
         try:
 
+            print('=== in-code pre_exec')
+            out, err, ret = ru.sh_callout('./wf0_ad_prep.sh')
+            self._log.debug('=== prep: %s\nOUT: %s\nERR: %s', ret, out, err)
+
             workload           = self._cfg.workload
             rank               = self._uid
 
@@ -104,14 +108,18 @@ class MyWorker(rp.task_overlay.Worker):
 
         self._fin.seek(off)
         line   = self._fin.readline()
+      
       # ccount = line.count(',')  # FIXME: CVS parse on incorrect counts
-        data   = line.split(',')
+
+        if ',' in line: data = line.split(',')
+        else          : data = line.split()
+
         return data
 
 
     # --------------------------------------------------------------------------
     #
-    def prepare_task(self, task):
+    def task_pre_exec(self, task):
 
         self._log.debug('==== 2 prep 1')
 
@@ -132,6 +140,24 @@ class MyWorker(rp.task_overlay.Worker):
         self._log.debug('==== 2 prep 3')
         assert(not ret2), err2
 
+
+
+    # --------------------------------------------------------------------------
+    #
+    def task_post_exec(self, task):
+
+        pass
+
+      # self._log.debug('==== post 1')
+      #
+      # pos   = task['data']['kwargs']['pos']
+      # pwd   = '/tmp/sbox_%s' % pos
+      # tmp   = '%s/%s.sdf' % (pwd, pos)
+      # tgt   = 'all.sdf'
+      #
+      # out, err, ret = ru.sh_callout('cat %s >> %s' % (tmp, tgt), shell=True)
+      #
+      # self._log.debug('==== post 2 %s', [out, err, ret])
 
 
     # --------------------------------------------------------------------------
@@ -160,14 +186,8 @@ class MyWorker(rp.task_overlay.Worker):
         smiles      = data[self._cfg.smi_col]
 
         sid         = pos
-        results     = '%s/../' % orig  # master sandbox
-        sdf         = '%s/%s.sdf' % (results, sid)
-
+        sdf         = '%s/%s.sdf' % (orig, pos)
         pythonsh    = '/tmp/tools/bin/pythonsh'
-
-        if os.path.isfile(sdf):
-            # we have this result already so skip
-            return 'EXISTS'
 
         # FIXME: constant - stage
       # cp $protein.pdbqt .     # TODO AM: why?  Does a link work?
@@ -249,11 +269,13 @@ class MyWorker(rp.task_overlay.Worker):
 
 
         cmd10 = ('echo ">  <AutodockScore>" >> %s' % sdf
-             +  ' ; grep "USER    Estimated Free Energy of Binding    =" %s.dlg' % sid
-             +  ' | grep -v "DOCKED: USER"'
-             +  ' | head --lines=1'
-             +  ' | awk "{print $8}" >> %s' % sdf
-             +  ' ; printf "\n>  <TITLE>\n%s\n\n$$$$\n" >> %s' % (sid, sdf)
+              + ' ; grep "USER    Estimated Free Energy of Binding    =" %s.dlg' % sid
+              + ' | grep -v "DOCKED: USER"'
+              + ' | head --lines=1'
+              + ' | cut -f 2 -d "="'
+              + ' | xargs echo '
+              + ' | cut -f 1 -d " " >> %s' % sdf
+              + ' ; printf "\n>  <TITLE>\n%s\n\n\\$\\$\\$\\$\n" >> %s' % (sid, sdf)
         )
         out10, err10, ret10 = ru.sh_callout(cmd10, shell=True)
         self._log.debug('==== 10 %s', cmd10)

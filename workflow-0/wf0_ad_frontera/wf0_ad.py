@@ -205,16 +205,20 @@ if __name__ == '__main__':
                                       'target': 'wf0.cfg',
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS},
+                                     {'source': 'mol2_to_box.py',
+                                      'target': 'mol2_to_box.py',
+                                      'action': rp.TRANSFER,
+                                      'flags' : rp.DEFAULT_FLAGS},
                                      {'source': workload.input_dir,
                                       'target': 'input_dir',
                                       'action': rp.LINK,
                                       'flags' : rp.DEFAULT_FLAGS}
                                     ]
-                td.output_staging = [{'source': '%s.tgz' % (name),
-                                      'target': '%s.tgz' % (name),
+                td.output_staging = [{'source': '%s.tgz'         % (name),
+                                      'target': 'results/%s.tgz' % (name),
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS}]
-                td.post_exec = ['tar zcvf %s.tgz *.sdf' % name]
+                td.post_exec = ['tar zcvf %s.tgz *.sdf worker.*/*.sdf' % name]
                 tds.append(td)
 
             tasks = umgr.submit_units(tds)
