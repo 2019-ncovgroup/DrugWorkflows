@@ -85,7 +85,7 @@ class ESMACS_TIES(object):
                 t.post_exec = []
                 t.cpu_reqs = {
                     'processes': 1,
-                    'process_type': 'MPI',#None
+                    'process_type': None,#'MPI'
                     'threads_per_process': 140,#amounts to 35 cores per node (out of 41 usable cores)
                     'thread_type': 'OpenMP'
                 }
@@ -105,7 +105,7 @@ class ESMACS_TIES(object):
                 t.post_exec = []
                 t.cpu_reqs = {
                     'processes': 1,
-                    'process_type': 'MPI',#None
+                    'process_type': None,#'MPI'
                     'threads_per_process': 140,#amounts to 35 cores per node (out of 41 usable cores)
                     'thread_type': 'OpenMP'
                 }
@@ -125,7 +125,7 @@ class ESMACS_TIES(object):
                 t.post_exec = []
                 t.cpu_reqs = {
                     'processes': 1,
-                    'process_type': 'MPI',#None
+                    'process_type': None,#'MPI'
                     'threads_per_process': 140,#amounts to 35 cores per node (out of 41 usable cores)
                     'thread_type': 'OpenMP'
                 }
@@ -175,7 +175,7 @@ class ESMACS_TIES(object):
                 t.post_exec = []
                 t.cpu_reqs = {
                     'processes': 1,
-                    'process_type': 'MPI',#None
+                    'process_type': None,#'MPI'
                     'threads_per_process': 28,#amounts to 7 cores per node (out of 41 usable cores)
                     'thread_type': 'OpenMP'
                 }
@@ -195,7 +195,7 @@ class ESMACS_TIES(object):
                 t.post_exec = []
                 t.cpu_reqs = {
                     'processes': 1,
-                    'process_type': 'MPI',#None
+                    'process_type': None,#'MPI'
                     'threads_per_process': 28,#amounts to 7 cores per node (out of 41 usable cores)
                     'thread_type': 'OpenMP'
                 }
@@ -215,7 +215,7 @@ class ESMACS_TIES(object):
                 t.post_exec = []
                 t.cpu_reqs = {
                     'processes': 1,
-                    'process_type': 'MPI',#None
+                    'process_type': None,#'MPI'
                     'threads_per_process': 28,#amounts to 7 cores per node (out of 41 usable cores)
                     'thread_type': 'OpenMP'
                 }

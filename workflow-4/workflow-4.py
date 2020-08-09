@@ -70,7 +70,7 @@ class TIES(object):
                     t.post_exec = []
                     t.cpu_reqs = {
                         'processes': 1,
-                        'process_type': 'MPI',#None
+                        'process_type': None,#'MPI'
                         'threads_per_process': 164,#42#4#4*42
                         'thread_type': 'OpenMP'
                     }
@@ -90,7 +90,7 @@ class TIES(object):
                     t.post_exec = []
                     t.cpu_reqs = {
                         'processes': 1,
-                        'process_type': 'MPI',#None
+                        'process_type': None,#'MPI'
                         'threads_per_process': 164,#42#4#4*42
                         'thread_type': 'OpenMP'
                     }
@@ -110,7 +110,7 @@ class TIES(object):
                     t.post_exec = []
                     t.cpu_reqs = {
                         'processes': 1,
-                        'process_type': 'MPI',#None
+                        'process_type': None,#'MPI'
                         'threads_per_process': 164,#42#4#4*42
                         'thread_type': 'OpenMP'
                     }
@@ -139,7 +139,7 @@ class TIES(object):
                     t.post_exec = []
                     t.cpu_reqs = {
                         'processes': 1,
-                        'process_type': 'MPI',#None
+                        'process_type': None,#'MPI'
                         'threads_per_process': 28,#42#164#4#4*42
                         'thread_type': 'OpenMP'
                     }
@@ -159,7 +159,7 @@ class TIES(object):
                     t.post_exec = []
                     t.cpu_reqs = {
                         'processes': 1,
-                        'process_type': 'MPI',#None
+                        'process_type': None,#'MPI'
                         'threads_per_process': 28,#42#164#4#4*42
                         'thread_type': 'OpenMP'
                     }
@@ -179,7 +179,7 @@ class TIES(object):
                     t.post_exec = []
                     t.cpu_reqs = {
                         'processes': 1,
-                        'process_type': 'MPI',#None
+                        'process_type': None,#'MPI'
                         'threads_per_process': 28,#42#164#4#4*42
                         'thread_type': 'OpenMP'
                     }
@@ -199,7 +199,7 @@ if __name__ == "__main__":
 
     ties = TIES()
 
-    n_nodes = 65#13#65#5#int(namd.args.replicas)
+    n_nodes = 65#13#5#int(namd.args.replicas)
     ties.set_resource(res_desc = {
         'resource': 'ornl.summit',
         'queue'   : 'debug',
