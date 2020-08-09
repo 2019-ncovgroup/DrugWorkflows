@@ -1,0 +1,14 @@
+#time,event,comp,thread,uid,state,msg
+1596977135.3912439,sync_abs,control_pubsub.pub.0000,Thread-1,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596977135.390196:1596977135.396632:ntp
+#time,event,comp,thread,uid,state,msg
+1596977136.9552953,sync_abs,control_pubsub.pub.0000,Thread-4,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596977136.9542317:1596977136.9606676:ntp
+#time,event,comp,thread,uid,state,msg
+1596977140.3563037,sync_abs,control_pubsub.pub.0000,Thread-1,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596977140.355772:1596977140.362208:ntp
+#time,event,comp,thread,uid,state,msg
+1596977228.3005898,sync_abs,control_pubsub.pub.0000,Thread-1,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596977228.3000283:1596977228.3067503:ntp
+#time,event,comp,thread,uid,state,msg
+1596977228.8704648,sync_abs,control_pubsub.pub.0000,Thread-1,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596977228.8696847:1596977228.8764067:ntp
+#time,event,comp,thread,uid,state,msg
+1596977229.5273893,sync_abs,control_pubsub.pub.0000,Thread-1,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596977229.5264773:1596977229.5331993:ntp
+1596980924.0963688,put,control_pubsub.pub.0000,MainThread,control_pubsub.pub.0000,,{'cmd': 'cancel_pilots', 'arg': {'pmgr': 'pmgr.0000', 'uids': ['pilot.0000']}}
+1596981047.7569294,put,control_pubsub.pub.0000,MainThread,control_pubsub.pub.0000,,{'cmd': 'cancel_pilots', 'arg': {'pmgr': 'pmgr.0000', 'uids': ['pilot.0000']}}

@@ -1,0 +1,7 @@
+#time,event,comp,thread,uid,state,msg
+1597009712.4729846,sync_abs,umgr_reschedule_pubsub,MainThread,,,login5.summit.olcf.ornl.gov:10.134.0.35:1597009712.472105:1597009712.505753:ntp
+1597009712.4768205,bridge_start,umgr_reschedule_pubsub,MainThread,umgr_reschedule_pubsub,,
+#time,event,comp,thread,uid,state,msg
+1597009712.4796569,sync_abs,umgr_reschedule_pubsub,MainThread,,,login5.summit.olcf.ornl.gov:10.134.0.35:1597009712.4784555:1597009712.5121036:ntp
+1597009712.4796855,init3,umgr_reschedule_pubsub,MainThread,umgr_reschedule_pubsub,,/autofs/nccs-svm1_home1/litan/DrugWorkflows/workflow-4/re.session.login5.litan.018483.0008
+1597014656.8411498,term,umgr_reschedule_pubsub,Thread-2,umgr_reschedule_pubsub,,
