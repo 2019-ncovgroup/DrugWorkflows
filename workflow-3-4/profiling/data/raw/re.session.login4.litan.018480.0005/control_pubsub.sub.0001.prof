@@ -1,3 +1,0 @@
-#time,event,comp,thread,uid,state,msg
-1596717727.7169814,sync_abs,control_pubsub.sub.0001,Thread-13,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596717727.7160158:1596717727.7357607:ntp
-1596717736.1417763,call_cb,control_pubsub.sub.0001,Thread-14,control_pubsub.sub.0001,,_cancel_monitor_cb

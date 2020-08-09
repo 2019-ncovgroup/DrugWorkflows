@@ -1,2 +1,0 @@
-#time,event,comp,thread,uid,state,msg
-1596919158.2041035,sync_abs,heartbeat.pub.0002,Thread-12,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596919158.2031949:1596919158.2881908:ntp
