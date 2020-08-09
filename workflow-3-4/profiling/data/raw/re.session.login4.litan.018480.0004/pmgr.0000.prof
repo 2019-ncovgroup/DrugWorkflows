@@ -1,0 +1,12 @@
+#time,event,comp,thread,uid,state,msg
+1596711628.2909532,sync_abs,pmgr.0000,MainThread,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596711628.289817:1596711628.307658:ntp
+1596711628.2920723,init1,pmgr.0000,MainThread,pmgr.0000,,/autofs/nccs-svm1_home1/litan/DrugWorkflows/workflow-4/re.session.login4.litan.018480.0004
+1596711628.2995384,component_init,pmgr.0000,Thread-4,,,
+1596711631.2859216,setup_done,pmgr.0000,MainThread,pmgr.0000,,
+1596711632.4124475,advance,pmgr.0000,MainThread,pilot.0000,NEW,
+1596711632.4511108,advance,pmgr.0000,MainThread,pilot.0000,PMGR_LAUNCHING_PENDING,
+1596711632.4513807,put,pmgr.0000,MainThread,pilot.0000,PMGR_LAUNCHING_PENDING,pmgr_launching_queue.put.0000
+1596711632.5017135,advance,pmgr.0000,Thread-11,pilot.0000,PMGR_LAUNCHING,
+1596711639.0422325,advance,pmgr.0000,Thread-11,pilot.0000,PMGR_ACTIVE_PENDING,
+1596711711.4197872,advance,pmgr.0000,Thread-9,pilot.0000,PMGR_ACTIVE,
+1596715296.7891746,advance,pmgr.0000,Thread-11,pilot.0000,CANCELED,

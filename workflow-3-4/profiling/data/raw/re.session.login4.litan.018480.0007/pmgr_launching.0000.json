@@ -1,0 +1,18 @@
+{
+    "base": "/autofs/nccs-svm1_home1/litan/DrugWorkflows/workflow-4",
+    "cmgr": "cmgr.0001",
+    "count": 1,
+    "db_poll_sleeptime": 10.0,
+    "dburl": "mongodb://litan:sccDg7PxE3UjhA5L@129.114.17.185:27017/rct-test",
+    "heartbeat": {
+        "addr_pub": "tcp://10.134.0.34:40217",
+        "addr_sub": "tcp://10.134.0.34:40797",
+        "interval": 1.0,
+        "timeout": 60.0
+    },
+    "kind": "pmgr_launching",
+    "owner": "pmgr.0000",
+    "path": "/autofs/nccs-svm1_home1/litan/DrugWorkflows/workflow-4/re.session.login4.litan.018480.0007",
+    "sid": "re.session.login4.litan.018480.0007",
+    "uid": "pmgr_launching.0000"
+}
