@@ -66,7 +66,7 @@ class TIES(object):
                         "cd /gpfs/alpine/scratch/litan/med110/ties/com/replica-confs"
                         ]
                     t.executable = '/gpfs/alpine/world-shared/bip115/NAMD_binaries/summit/NAMD_LATEST_Linux-POWER-MPI-smp-Summit/namd2'
-                    t.arguments = ['+ppn', '41', '--tclmain', 'eq0.conf', '{}'.format(l), '{}'.format(i)]#'+replicas', '5', '+pemap', ' 0-83:4,88-171:4', '+commap', ' 0'
+                    t.arguments = ['+ppn', '42', '--tclmain', 'eq0.conf', '{}'.format(l), '{}'.format(i)]#'+replicas', '5', '+pemap', ' 0-83:4,88-171:4', '+commap', ' 0'
                     t.post_exec = []
                     t.cpu_reqs = {
                         'processes': 1,
@@ -86,7 +86,7 @@ class TIES(object):
                         "cd /gpfs/alpine/scratch/litan/med110/ties/com/replica-confs"
                         ]
                     t.executable = '/gpfs/alpine/world-shared/bip115/NAMD_binaries/summit/NAMD_LATEST_Linux-POWER-MPI-smp-Summit/namd2'
-                    t.arguments = ['+ppn', '41', '--tclmain', 'eq1.conf', '{}'.format(l), '{}'.format(i)]#'+replicas', '5', '+pemap', ' 0-83:4,88-171:4', '+commap', ' 0'
+                    t.arguments = ['+ppn', '42', '--tclmain', 'eq1.conf', '{}'.format(l), '{}'.format(i)]#'+replicas', '5', '+pemap', ' 0-83:4,88-171:4', '+commap', ' 0'
                     t.post_exec = []
                     t.cpu_reqs = {
                         'processes': 1,
@@ -106,7 +106,7 @@ class TIES(object):
                         "cd /gpfs/alpine/scratch/litan/med110/ties/com/replica-confs"
                         ]
                     t.executable = '/gpfs/alpine/world-shared/bip115/NAMD_binaries/summit/NAMD_LATEST_Linux-POWER-MPI-smp-Summit/namd2'
-                    t.arguments = ['+ppn', '41', '--tclmain', 'sim1.conf', '{}'.format(l), '{}'.format(i)]#'+replicas', '5', '+pemap', ' 0-83:4,88-171:4', '+commap', ' 0'
+                    t.arguments = ['+ppn', '42', '--tclmain', 'sim1.conf', '{}'.format(l), '{}'.format(i)]#'+replicas', '5', '+pemap', ' 0-83:4,88-171:4', '+commap', ' 0'
                     t.post_exec = []
                     t.cpu_reqs = {
                         'processes': 1,
