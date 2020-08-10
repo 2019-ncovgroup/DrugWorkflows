@@ -82,13 +82,23 @@ class MyMaster(rp.task_overlay.Master):
         self._prof.prof('create_start')
 
         world_size = self._cfg.n_masters
+        name       = self._cfg.name
         rank       = self._cfg.idx
 
         # check the smi file for this master's index range, and send the
         # resulting pos indexes as task batches
 
+        protein = self._cfg.workload.receptor
 
-        protein = '3CLPro_6LU7_AB_1_F'
+        # read list of known indicees
+        res   = self._cfg.workload.results
+        known = list()
+        fidx  = '%s/%s.idx' % (res, name)
+        if os.path.is_file(fidx):
+            with open(fidx, 'r') as fin:
+                for line in fin.readlines():
+                    idx, state = line.split()
+                    known.append(int(idx))
 
         # fields=${mol2_to_box.py 3CLPro_6LU7_AB_1_F_box.mol2}
         # export DC_PROTEIN=3CLPro_6LU7_AB_1_F
@@ -106,6 +116,9 @@ class MyMaster(rp.task_overlay.Master):
         pos  = rank
         npos = len(self._idxs)
         while pos < npos:
+
+            if pos in known:
+                continue
 
           # if pos < 7800:
           #     pos += 1

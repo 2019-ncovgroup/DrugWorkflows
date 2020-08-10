@@ -2,6 +2,7 @@
 
 import os
 import sys
+import copy
 import glob
 import pprint
 
@@ -111,41 +112,61 @@ if __name__ == '__main__':
         #   - create cfg with requested receptor and smiles
         #   - submit configured number of masters with that cfg on that pilot
         subs = dict()
-        d    = rs.filesystem.Directory(cfg.workload.results)
-        ls   = [str(u).split('/')[-1] for u in d.list()]
+      # d    = rs.filesystem.Directory(cfg.workload.results)
+      # ls   = [str(u).split('/')[-1] for u in d.list()]
 
         workload  = cfg.workload
+        cpn       = cfg.cpn
+        gpn       = cfg.gpn
 
+        pds = list()
         for receptor, smiles, nodes, runtime, box in runs:
+
+            pd = rp.ComputePilotDescription(copy.deepcopy(cfg.pilot_descr))
+            pd.cores   = nodes * cpn
+            pd.gpus    = nodes * gpn
+            pd.runtime = runtime
+            pds.append(pd)
+
+        pilots = pmgr.submit_pilots(pds)
+        umgr.add_pilots(pilots)
+
+
+        pidx = 0
+        for receptor, smiles, nodes, runtime, box in runs:
+
+            pilot = pilots[pidx]
+            pid   = pilot.uid
+            pidx += 1
 
             name = '%s_-_%s'     % (receptor, smiles)
             tgt  = '%s.%s.gz'    % (name, workload.output)
             rec  = False
 
-            if tgt in ls:
-                if workload.recompute:
-                    rec += 1
-                    d.move(tgt, tgt + '.bak')
-                else:
-                    print('skip        %-30s [remote result]' % name)
-                    continue
-
-            if smiles in ls:
-                if smiles not in subs:
-                    subs[smiles] = [str(u).split('/')[-1]  for u in d.list('%s/*' % smiles)]
-
-                if tgt in subs[smiles]:
-                    if workload.recompute:
-                        rec += 2
-                        d.move('%s/%s'     % (smiles, tgt),
-                               '%s/%s.bak' % (smiles, tgt))
-                    else:
-                        print('skip        %-30s [remote smiles result]' % name)
-                        continue
-
-            if os.path.exists('results/%s.%s.gz' % (name, workload.output)):
-                print('skip        %-30s [local result]' % name)
-                continue
+          # if tgt in ls:
+          #     if workload.recompute:
+          #         rec += 1
+          #         d.move(tgt, tgt + '.bak')
+          #     else:
+          #         print('skip        %-30s [remote result]' % name)
+          #         continue
+          #
+          # if smiles in ls:
+          #     if smiles not in subs:
+          #         subs[smiles] = [str(u).split('/')[-1]  for u in d.list('%s/*' % smiles)]
+          #
+          #     if tgt in subs[smiles]:
+          #         if workload.recompute:
+          #             rec += 2
+          #             d.move('%s/%s'     % (smiles, tgt),
+          #                    '%s/%s.bak' % (smiles, tgt))
+          #         else:
+          #             print('skip        %-30s [remote smiles result]' % name)
+          #             continue
+          #
+          # if os.path.exists('results/%s.%s.gz' % (name, workload.output)):
+          #     print('skip        %-30s [local result]' % name)
+          #     continue
 
             if rec: print('recompute %d %-30s' % (rec, name))
             else  : print('compute     %-30s'  %       name)
@@ -159,24 +180,12 @@ if __name__ == '__main__':
 
             ru.write_json(cfg, 'configs/wf0.%s.cfg' % name)
 
-            cpn       = cfg.cpn
-            gpn       = cfg.gpn
             n_masters = cfg.n_masters
-
-            pd = rp.ComputePilotDescription(cfg.pilot_descr)
-            pd.cores   = nodes * cpn
-            pd.gpus    = nodes * gpn
-            pd.runtime = runtime
-
-            pilot = pmgr.submit_pilots(pd)
-            pid   = pilot.uid
-
-            umgr.add_pilots(pilot)
 
             tds = list()
 
             for i in range(n_masters):
-                td = rp.ComputeUnitDescription(cfg.master_descr)
+                td = rp.ComputeUnitDescription(copy.deepcopy(cfg.master_descr))
                 td.executable     = "python3"
                 td.arguments      = ['wf0_ad_master.py', i]
                 td.cpu_threads    = 1
