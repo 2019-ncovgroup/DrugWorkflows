@@ -94,11 +94,13 @@ class MyMaster(rp.task_overlay.Master):
         res   = self._cfg.workload.results
         known = list()
         fidx  = '%s/%s.idx' % (res, name)
-        if os.path.is_file(fidx):
+        if os.path.isfile(fidx):
             with open(fidx, 'r') as fin:
-                for line in fin.readlines():
-                    idx, state = line.split()
-                    known.append(int(idx))
+                with open('./known.idx', 'w') as fout:
+                    for line in fin.readlines():
+                        idx, state = line.split()
+                        known.append(int(idx))
+                        fout.write('%d\n' % int(idx))
 
         # fields=${mol2_to_box.py 3CLPro_6LU7_AB_1_F_box.mol2}
         # export DC_PROTEIN=3CLPro_6LU7_AB_1_F
@@ -113,12 +115,16 @@ class MyMaster(rp.task_overlay.Master):
         assert(center)
         assert(points)
 
+        reqs = list()
         pos  = rank
         npos = len(self._idxs)
         while pos < npos:
 
             if pos in known:
+                self.log('create: %d known', pos)
                 continue
+
+           self.log('create: %d', pos)
 
           # if pos < 7800:
           #     pos += 1
@@ -140,8 +146,18 @@ class MyMaster(rp.task_overlay.Master):
                                         'center'    : center,
                                         'points'    : points,
                                         'residues'  : None}}}
-            self.request(item)
+
+            reqs.append(item)
+
+            if len(reqs) > 1024:
+                self.request(reqs)
+                reqs = list()
+
             pos += world_size
+
+        # push remaining requests
+        if reqs:
+            self.request(reqs)
 
         self._prof.prof('create_stop')
 
