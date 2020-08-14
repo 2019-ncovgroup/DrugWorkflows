@@ -129,7 +129,7 @@ class MyMaster(rp.task_overlay.Master):
                 self.log('create: %8d skip', pos)
                 continue
 
-           self.log('create: %8d new', pos)
+            self.log('create: %8d new', pos)
 
           # if pos < 7800:
           #     pos += 1
