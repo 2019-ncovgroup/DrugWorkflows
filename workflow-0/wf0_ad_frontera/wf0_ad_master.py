@@ -91,16 +91,21 @@ class MyMaster(rp.task_overlay.Master):
         protein = self._cfg.workload.receptor
 
         # read list of known indicees
-        res   = self._cfg.workload.results
         known = list()
-        fidx  = '%s/%s.idx' % (res, name)
+        fidx  = '%s/%s.idx' % (self._cfg.workload.indexes, name)
         if os.path.isfile(fidx):
             with open(fidx, 'r') as fin:
-                with open('./known.idx', 'w') as fout:
-                    for line in fin.readlines():
-                        idx, state = line.split()
-                        known.append(int(idx))
-                        fout.write('%d\n' % int(idx))
+                for line in fin.readlines():
+                    line = line.strip()
+                    if not line.endswith('.idx'):
+                        self._log.error('invalid idx [%s]', line)
+                    idx = int(line[:-4])
+                    known.append(idx)
+
+        # write known indexes for debugging
+        with open('./known.idx', 'w') as fout:
+            for idx in known:
+                fout.write('%d\n' % int(idx))
 
         # fields=${mol2_to_box.py 3CLPro_6LU7_AB_1_F_box.mol2}
         # export DC_PROTEIN=3CLPro_6LU7_AB_1_F
@@ -121,10 +126,10 @@ class MyMaster(rp.task_overlay.Master):
         while pos < npos:
 
             if pos in known:
-                self.log('create: %d known', pos)
+                self.log('create: %8d skip', pos)
                 continue
 
-           self.log('create: %d', pos)
+           self.log('create: %8d new', pos)
 
           # if pos < 7800:
           #     pos += 1
@@ -135,7 +140,7 @@ class MyMaster(rp.task_overlay.Master):
 
             # def autodock(self, uid, smiles_idx, protein, center, points,
             #                    residues=None):
-            uid  = 'request.%06d' % pos
+            uid  = 'request.%08d' % pos
             item = {'uid' :   uid,
                     'mode':  'call',
                     'data': {'method': 'autodock',
