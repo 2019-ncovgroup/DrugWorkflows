@@ -77,6 +77,7 @@ if __name__ == '__main__':
 
                 if not elems or elems[0] == '#':
                     continue
+                print(elems)
 
                 receptor = str(elems[0])
                 smiles   = str(elems[1])

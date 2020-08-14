@@ -82,7 +82,7 @@ class MyMaster(rp.task_overlay.Master):
         self._prof.prof('create_start')
 
         world_size = self._cfg.n_masters
-        name       = self._cfg.name
+        name       = self._cfg.workload.name
         rank       = self._cfg.idx
 
         # check the smi file for this master's index range, and send the
@@ -93,19 +93,17 @@ class MyMaster(rp.task_overlay.Master):
         # read list of known indicees
         known = list()
         fidx  = '%s/%s.idx' % (self._cfg.workload.indexes, name)
+        self._log.debug('fidx: %s', fidx)
+
         if os.path.isfile(fidx):
             with open(fidx, 'r') as fin:
                 for line in fin.readlines():
                     line = line.strip()
-                    if not line.endswith('.idx'):
+                    if not line.endswith('.sdf'):
                         self._log.error('invalid idx [%s]', line)
+                        continue
                     idx = int(line[:-4])
                     known.append(idx)
-
-        # write known indexes for debugging
-        with open('./known.idx', 'w') as fout:
-            for idx in known:
-                fout.write('%d\n' % int(idx))
 
         # fields=${mol2_to_box.py 3CLPro_6LU7_AB_1_F_box.mol2}
         # export DC_PROTEIN=3CLPro_6LU7_AB_1_F
@@ -120,16 +118,29 @@ class MyMaster(rp.task_overlay.Master):
         assert(center)
         assert(points)
 
-        reqs = list()
-        pos  = rank
-        npos = len(self._idxs)
-        while pos < npos:
 
-            if pos in known:
-                self.log('create: %8d skip', pos)
-                continue
+        known   = set(known)
+        all_pos = set(range(0, len(self._idxs))
+        new_pos = all_pos.difference(known)
+        npos    = len(new_pos)
+        i       = rank
+        reqs    = list()
 
-            self.log('create: %8d new', pos)
+        # write known indexes for debugging
+        with open('./known.idx', 'w') as fout:
+            for idx in known:
+                fout.write('%d\n' % int(idx))
+
+        # write known indexes for debugging
+        with open('./new.idx', 'w') as fout:
+            for idx in new_pos:
+                fout.write('%d\n' % idx)
+
+        while i < npos:
+
+            pos  = new_pos[i]
+            off  = self._idxs[pos]
+            i   += world_size
 
           # if pos < 7800:
           #     pos += 1
@@ -138,15 +149,13 @@ class MyMaster(rp.task_overlay.Master):
           # if pos >= 1024 * 128:
           #     break
 
-            # def autodock(self, uid, smiles_idx, protein, center, points,
-            #                    residues=None):
-            uid  = 'request.%08d' % pos
+            uid  = 'request.%09d' % pos
             item = {'uid' :   uid,
                     'mode':  'call',
                     'data': {'method': 'autodock',
                              'kwargs': {'uid'       : uid,
                                         'pos'       : pos,
-                                        'off'       : self._idxs[pos],
+                                        'off'       : off,
                                         'protein'   : protein,
                                         'center'    : center,
                                         'points'    : points,
@@ -158,7 +167,6 @@ class MyMaster(rp.task_overlay.Master):
                 self.request(reqs)
                 reqs = list()
 
-            pos += world_size
 
         # push remaining requests
         if reqs:
