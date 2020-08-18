@@ -229,8 +229,6 @@ if __name__ == '__main__':
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS}]
                 td.post_exec = ['tar zcvf %s.tgz *.sdf worker.*/*.sdf' % name]
-                import pprint
-                pprint.pprint(td.as_dict())
                 tds.append(td)
 
             tasks = umgr.submit_units(tds)
