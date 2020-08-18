@@ -4,24 +4,24 @@
 #
 #   3CLPro_6LU7_AB_1_F              Orderable_zinc_db_enaHLL        512     1440
 
-#   3CLPro_6LU7_AB_2_F              Orderable_zinc_db_enaHLL_allids 8        600
+    3CLPro_6LU7_AB_2_F              Orderable_zinc_db_enaHLL_allids 8        600
 
-    3CLPro_6LU7_AB_1_F              Orderable_zinc_db_enaHLL_allids 512     1440
+  # 3CLPro_6LU7_AB_1_F              Orderable_zinc_db_enaHLL_allids 512     1440
 # # 3CLPro_6LU7_AB_2_F              Orderable_zinc_db_enaHLL_allids 512     1440
-    3CLPro_7BQY_A_1_F               Orderable_zinc_db_enaHLL_allids 512     1440
+  # 3CLPro_7BQY_A_1_F               Orderable_zinc_db_enaHLL_allids 512     1440
 # # 3CLPro_7BQY_A_2_F               Orderable_zinc_db_enaHLL_allids 512     1440
-    CRBD-ACE2_6VW1_BH_1_F           Orderable_zinc_db_enaHLL_allids 512     1440
-    NSP10-16_6W61_AB_1_F            Orderable_zinc_db_enaHLL_allids 512     1440
-    NSP10-16_6W61_AB_2_F            Orderable_zinc_db_enaHLL_allids 512     1440
-    NSP10_6W61_B_1_F                Orderable_zinc_db_enaHLL_allids 512     1440
-    NSP15_6W01_AB_1_F               Orderable_zinc_db_enaHLL_allids 512     1440
-    NSP16_6W61_A_1_H                Orderable_zinc_db_enaHLL_allids 512     1440
-    PLPro_6W9C_A_1_F                Orderable_zinc_db_enaHLL_allids 512     1440
-    PLPro_6W9C_A_2_F                Orderable_zinc_db_enaHLL_allids 512     1440
-    PLPro_6W9C_A_3_F                Orderable_zinc_db_enaHLL_allids 512     1440
-    PLPro_6W9C_A_4_F                Orderable_zinc_db_enaHLL_allids 512     1440
-    PLPro_6W9C_AB_1_F               Orderable_zinc_db_enaHLL_allids 512     1440
-    PLPro_6W9C_ABC_1_F              Orderable_zinc_db_enaHLL_allids 512     1440
+  # CRBD-ACE2_6VW1_BH_1_F           Orderable_zinc_db_enaHLL_allids 512     1440
+  # NSP10-16_6W61_AB_1_F            Orderable_zinc_db_enaHLL_allids 512     1440
+  # NSP10-16_6W61_AB_2_F            Orderable_zinc_db_enaHLL_allids 512     1440
+  # NSP10_6W61_B_1_F                Orderable_zinc_db_enaHLL_allids 512     1440
+  # NSP15_6W01_AB_1_F               Orderable_zinc_db_enaHLL_allids 512     1440
+  # NSP16_6W61_A_1_H                Orderable_zinc_db_enaHLL_allids 512     1440
+  # PLPro_6W9C_A_1_F                Orderable_zinc_db_enaHLL_allids 512     1440
+  # PLPro_6W9C_A_2_F                Orderable_zinc_db_enaHLL_allids 512     1440
+  # PLPro_6W9C_A_3_F                Orderable_zinc_db_enaHLL_allids 512     1440
+  # PLPro_6W9C_A_4_F                Orderable_zinc_db_enaHLL_allids 512     1440
+  # PLPro_6W9C_AB_1_F               Orderable_zinc_db_enaHLL_allids 512     1440
+  # PLPro_6W9C_ABC_1_F              Orderable_zinc_db_enaHLL_allids 512     1440
 #   PLPro_6W9C_BC_1_F               Orderable_zinc_db_enaHLL_allids 512     1440
 #   PLPro_6W9C_CA_1_F               Orderable_zinc_db_enaHLL_allids 512     1440
   

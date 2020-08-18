@@ -65,7 +65,7 @@ if __name__ == '__main__':
 
         cfg       = ru.Config(cfg=ru.read_json(cfg_file))
         rec_path  = 'input/receptorsV5.1/'    # FIXME
-        smi_path  = 'input/'                  # FIXME
+        smi_path  = 'input/smiles/'           # FIXME
         runs      = list()
 
         with open(run_file, 'r') as fin:
@@ -88,6 +88,8 @@ if __name__ == '__main__':
                 assert(nodes)
                 assert(runtime)
 
+                print('%s/%s.oeb' % (rec_path, receptor))
+                print('%s/%s.csv' % (smi_path, smiles))
                 assert(os.path.isfile('%s/%s.oeb' % (rec_path, receptor)))
                 assert(os.path.isfile('%s/%s.csv' % (smi_path, smiles)))
 

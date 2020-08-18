@@ -59,9 +59,9 @@ class MyWorker(rp.task_overlay.Worker):
 
             self._log.debug('pre_exec (%s)', workload.output)
 
-            receptor_file      = 'input_dir/receptorsV5.1/%s' % workload.receptor
-            smiles_file        = 'input_dir/%s.csv'           % workload.smiles
-            output             = './out.%s'                   % workload.output
+            receptor_file      = 'inputs/receptorsV5.1/%s' % workload.receptor
+            smiles_file        = 'inputs/%s.csv'           % workload.smiles
+            output             = './out.%s'                % workload.output
 
             self.verbose       = workload.verbose
             self.force_flipper = workload.force_flipper

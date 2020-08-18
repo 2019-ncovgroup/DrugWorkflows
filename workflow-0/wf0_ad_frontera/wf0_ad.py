@@ -77,7 +77,7 @@ if __name__ == '__main__':
 
                 if not elems or elems[0] == '#':
                     continue
-                print(elems)
+                print('\t'.join(elems))
 
                 receptor = str(elems[0])
                 smiles   = str(elems[1])
@@ -119,16 +119,16 @@ if __name__ == '__main__':
         workload  = cfg.workload
         cpn       = cfg.cpn
         gpn       = cfg.gpn
-
+      
         pds = list()
         for receptor, smiles, nodes, runtime, box in runs:
-
+      
             pd = rp.ComputePilotDescription(copy.deepcopy(cfg.pilot_descr))
             pd.cores   = nodes * cpn
             pd.gpus    = nodes * gpn
             pd.runtime = runtime
             pds.append(pd)
-
+      
         pilots = pmgr.submit_pilots(pds)
         umgr.add_pilots(pilots)
 
@@ -219,8 +219,8 @@ if __name__ == '__main__':
                                       'target': 'mol2_to_box.py',
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS},
-                                     {'source': workload.input_dir,
-                                      'target': 'input_dir',
+                                     {'source': workload.inputs,
+                                      'target': 'inputs',
                                       'action': rp.LINK,
                                       'flags' : rp.DEFAULT_FLAGS}
                                     ]
@@ -229,6 +229,8 @@ if __name__ == '__main__':
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS}]
                 td.post_exec = ['tar zcvf %s.tgz *.sdf worker.*/*.sdf' % name]
+                import pprint
+                pprint.pprint(td.as_dict())
                 tds.append(td)
 
             tasks = umgr.submit_units(tds)

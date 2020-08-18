@@ -56,7 +56,7 @@ class MyMaster(rp.task_overlay.Master):
     def parse_csv(self):
 
         workload = self._cfg.workload
-        fname    = 'input_dir/' + workload.smiles + '.csv'
+        fname    = 'inputs/' + workload.smiles + '.csv'
 
         # build indexes
         self._idxs = list()
@@ -110,7 +110,7 @@ class MyMaster(rp.task_overlay.Master):
         # export DC_CENTER=${fields[0]}
         # export DC_POINTS=${fields[1]}
 
-        out, err, ret = ru.sh_callout('./mol2_to_box.py input_dir/%s/%s_box.mol2'
+        out, err, ret = ru.sh_callout('./mol2_to_box.py inputs/%s/%s_box.mol2'
                                      % (protein, protein))
         assert(not ret), err
 
@@ -120,7 +120,7 @@ class MyMaster(rp.task_overlay.Master):
 
 
         known   = set(known)
-        all_pos = set(range(0, len(self._idxs))
+        all_pos = set(range(0, len(self._idxs)))
         new_pos = all_pos.difference(known)
         npos    = len(new_pos)
         i       = rank
@@ -130,6 +130,9 @@ class MyMaster(rp.task_overlay.Master):
         with open('./known.idx', 'w') as fout:
             for idx in known:
                 fout.write('%d\n' % int(idx))
+
+        # index access needs list, not set
+        new_pos = list(new_pos)
 
         # write known indexes for debugging
         with open('./new.idx', 'w') as fout:
@@ -245,12 +248,12 @@ def main():
                                 'action': rp.LINK,
                                 'flags' : rp.DEFAULT_FLAGS,
                                 'uid'   : 'sd.4'},
-                               {'source': workload.input_dir,
-                                'target': 'input_dir',
+                               {'source': workload.inputs,
+                                'target': 'inputs',
                                 'action': rp.LINK,
                                 'flags' : rp.DEFAULT_FLAGS,
                                 'uid'   : 'sd.5'},
-                               {'source': 'input_dir/%s/%s.pdbqt' % (rec, rec),
+                               {'source': 'inputs/%s/%s.pdbqt' % (rec, rec),
                                 'target': './',
                                 'action': rp.LINK,
                                 'flags' : rp.DEFAULT_FLAGS,
