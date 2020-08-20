@@ -1,5 +1,9 @@
 # workflow-2
 
+## with molecules for pytorch resnet
+
+[README](../../wf2/molecules/workflow-2/README_molecules.md)
+
 ## Availability
 
 | System      | HPC Resource    | Status | Available date from |
