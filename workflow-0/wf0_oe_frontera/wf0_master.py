@@ -101,11 +101,14 @@ class MyMaster(rp.task_overlay.Master):
         # check the smi file for this master's index range, and send the
         # resulting pos indexes as task batches
 
+        idxs = list()
         pos  = rank
         npos = len(self._idxs)
+        items = list()
         print('npos:', npos)
         while pos < npos:
 
+            idxs.append(str(pos))
             uid  = 'request.%06d' % pos
             item = {'uid' :   uid,
                     'mode':  'call',
@@ -115,6 +118,12 @@ class MyMaster(rp.task_overlay.Master):
                                         'uid': uid}}}
             self.request(item)
             pos += world_size
+            items.append(item)
+
+
+
+        with open('new.idx', 'w') as fout:
+            fout.write('\n'.join(idxs))
 
         self._prof.prof('create_stop')
 
@@ -201,6 +210,7 @@ if __name__ == '__main__':
     # insert `n` worker tasks into the agent.  The agent will schedule (place)
     # those workers and execute them.  Insert one smaller worker (see above)
     # NOTE: this assumes a certain worker size / layout
+    print('cpn: %d' % cpn)
     master.submit(descr=descr, count=n_workers, cores=cpn,     gpus=gpn)
     master.submit(descr=descr, count=1,         cores=cpn - 1, gpus=gpn)
 

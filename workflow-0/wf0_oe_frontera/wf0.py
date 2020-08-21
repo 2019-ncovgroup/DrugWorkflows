@@ -64,7 +64,7 @@ if __name__ == '__main__':
     try:
 
         cfg       = ru.Config(cfg=ru.read_json(cfg_file))
-        rec_path  = 'input/receptorsV5.1/'    # FIXME
+        rec_path  = 'input/receptors.v7/'    # FIXME
         smi_path  = 'input/smiles/'           # FIXME
         runs      = list()
 
@@ -146,6 +146,13 @@ if __name__ == '__main__':
             if rec: print('recompute %d %s' % (rec, name))
             else  : print('compute   2 %s'  %       name)
 
+            cpn       = cfg.cpn
+            gpn       = cfg.gpn
+            n_masters = cfg.n_masters
+
+            # FIXME
+            cfg.cpn = 30
+
             cfg.workload.receptor = '%s.oeb'  % receptor
             cfg.workload.smiles   = '%s.csv'  % smiles
             cfg.workload.name     = name
@@ -153,10 +160,6 @@ if __name__ == '__main__':
             cfg.runtime           = runtime
 
             ru.write_json(cfg, 'configs/wf0.%s.cfg' % name)
-
-            cpn       = cfg.cpn
-            gpn       = cfg.gpn
-            n_masters = cfg.n_masters
 
             pd = rp.ComputePilotDescription(cfg.pilot_descr)
             pd.cores   = nodes * cpn

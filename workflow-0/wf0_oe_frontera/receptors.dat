@@ -1,8 +1,28 @@
 #
 # receptor                        smiles                    nodes   runtime
 
-  ADRP_6W02_A_1_H               UMICH_nucleosidesEnum    4   1800
+# ADRP_6W02_A_1_H               UMICH_nucleosidesEnum    4   1800
 # ADRP_6W02_A_1_H               UMICH_nucleotideSmiles   128 1800
+
+# PLPro_6W9C_A_1_F                 Orderable_zinc_db_enaHLL        2    30
+
+  PLPro_6W9C_A_1_F                 Orderable_zinc_db_enaHLL      128  1800
+  PLPro_6W9C_A_2_F                 Orderable_zinc_db_enaHLL      128  1800
+  PLPro_6W9C_A_3_F                 Orderable_zinc_db_enaHLL      128  1800
+  PLPro_6W9C_A_4_F                 Orderable_zinc_db_enaHLL      128  1800
+  PLPro_7JIR_A_1_H                 Orderable_zinc_db_enaHLL      128  1800
+  PLPro_7JIT_A_1_H                 Orderable_zinc_db_enaHLL      128  1800
+  PLPro_7JIV_A_1_H                 Orderable_zinc_db_enaHLL      128  1800
+  PLPro_7JIW_A_1_H                 Orderable_zinc_db_enaHLL      128  1800
+                         
+  PLPro_6W9C_A_1_F                 mcule_ultimate_200204_VJL3jM  128  1800
+  PLPro_6W9C_A_2_F                 mcule_ultimate_200204_VJL3jM  128  1800
+  PLPro_6W9C_A_3_F                 mcule_ultimate_200204_VJL3jM  128  1800
+  PLPro_6W9C_A_4_F                 mcule_ultimate_200204_VJL3jM  128  1800
+  PLPro_7JIR_A_1_H                 mcule_ultimate_200204_VJL3jM  128  1800
+  PLPro_7JIT_A_1_H                 mcule_ultimate_200204_VJL3jM  128  1800
+  PLPro_7JIV_A_1_H                 mcule_ultimate_200204_VJL3jM  128  1800
+  PLPro_7JIW_A_1_H                 mcule_ultimate_200204_VJL3jM  128  1800
 
 ## # repeat with flopper=false
 ##   NSUN2_NAN_A_1_F               Orderable_zinc_db_enaHLL 128 1800
