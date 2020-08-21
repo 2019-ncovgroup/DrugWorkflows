@@ -129,19 +129,20 @@ def generate_training_pipeline():
         # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_to_CVAE/MD_to_CVAE.py
         t2.pre_exec = [] 
         t2.pre_exec += ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
-        t2.pre_exec += [f'conda activate {conda_pytorch}'] 
+        t2.pre_exec += [f'conda activate {conda_pytorch}']
         # preprocessing for molecules' script, it needs files in a single
         # directory
         # the following pre-processing does:
         # 1) find all (.dcd) files from openmm results
         # 2) create a temp directory
         # 3) symlink them in the temp directory
-        list_of_dcds = glob.glob(f'{base_path}/MD_exps/fs-pep/omm_runs/*.dcd')
+        list_of_dcds = glob.glob(f'{base_path}/MD_exps/fs-pep/omm_runs*/*.dcd')
         aggregated_temp_path = tempfile.mkdtemp(dir=f'{base_path}/MD_to_CVAE',
                 prefix='{}-'.format(len(list_of_dcds)))
         for i in list_of_dcds:
-            os.symlink(i, '{}/{}'.format(aggregated_temp_path,
-                os.path.basename(i)))
+            new_name_from_omm_directory = os.path.basename(os.path.dirname(i))
+            os.symlink(i, '{}/{}.dcd'.format(aggregated_temp_path,
+                new_name_from_omm_directory))
 
         sparse_matrix_path = f'{aggregated_temp_path}/fs-pep.h5'
         t2.executable = [f'{conda_pytorch}/bin/python']  # MD_to_CVAE.py
@@ -174,12 +175,14 @@ def generate_training_pipeline():
             t3 = Task()
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/CVAE_exps/train_cvae.py
             t3.pre_exec = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
-            t3.pre_exec += ['conda activate %s' % conda_pytorch] 
             t3.pre_exec += [
                     'module load gcc/7.4.0',
                     'module load cuda/10.1.243',
-                    'module load hdf5/1.10.4'
+                    'module load hdf5/1.10.4',
+                    'export LANG=en_US.utf-8',
+                    'export LC_ALL=en_US.utf-8'
                     ]
+            t3.pre_exec += ['conda activate %s' % conda_pytorch] 
 
             dim = i + 3 
             cvae_dir = 'cvae_runs_%.2d_%d' % (dim, time_stamp+i) 
@@ -341,7 +344,7 @@ if __name__ == '__main__':
             'resource': 'ornl.summit',
             'queue'   : 'batch',
             'schema'  : 'local',
-            'walltime': 60 * 2,
+            'walltime': 60 * 1,
             'cpus'    : 42 * 4 * node_counts,
             'gpus'    : 6 * node_counts,
             'project' : 'MED110'
