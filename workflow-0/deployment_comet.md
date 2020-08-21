@@ -1,4 +1,4 @@
-# recipe to deploy W0 on Comet
+# Deploy W0 on Comet
 
 Assumes launching it via gsissh from the RADICAL jetstream machine.
 
