@@ -1,4 +1,6 @@
-# recipe to deploy W0 on Comet. Assumes launching it via gsissh from the RADICAL jetstream machine
+# recipe to deploy W0 on Comet
+
+Assumes launching it via gsissh from the RADICAL jetstream machine.
 
 ```
 ssh w0comet@129.114.17.185
