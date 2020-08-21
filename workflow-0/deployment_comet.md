@@ -6,9 +6,7 @@ Assumes launching it via gsissh from the RADICAL jetstream machine.
 ssh w0comet@129.114.17.185
 ```
 
-## Deployment on 129.114.17.185
-
-Install RCT stack in a conda env:
+## Deploy RCT on 129.114.17.185
 
 ```
 export PYTHONNOUSERSITE=True
@@ -32,9 +30,7 @@ pip install git+https://github.com/radical-cybertools/radical.saga.git@project/c
 pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/covid-19
 ```
 
-## Deployment on Comet
-
-Install RCT and OpenEye stack in a **static** conda env within RP sandbox
+## Deploy RCT on Comet
 
 ```
 myproxy-logon -s myproxy.xsede.org -l user_name -t 72
@@ -69,4 +65,13 @@ conda install --yes apache-libcloud msgpack-python pyzmq munch regex netifaces \
 pip install git+https://github.com/radical-cybertools/radical.utils.git@project/covid-19
 pip install git+https://github.com/radical-cybertools/radical.saga.git@project/covid-19
 pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/covid-19
+```
+
+# Deploy W0 repository on Comet
+
+```
+cd /oasis/scratch/comet/$USER/temp_project/radical.pilot.sandbox
+git clone --single-branch --branch covid https://github.com/aclyde11/Model-generation.git
+git clone --single-branch --branch devel https://github.com/2019-ncovgroup/DrugWorfklows.git
+```
 ```
