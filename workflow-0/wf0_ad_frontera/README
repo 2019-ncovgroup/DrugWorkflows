@@ -1,0 +1,4 @@
+the remote conda env needs openbabel installed:
+
+    conda install -c openbabel openbabel
+
