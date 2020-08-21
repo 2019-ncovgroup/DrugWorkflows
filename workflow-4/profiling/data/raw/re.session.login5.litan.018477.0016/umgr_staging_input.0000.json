@@ -1,0 +1,21 @@
+{
+    "base": "/gpfs/alpine/med110/scratch/litan/ties",
+    "bulk_collection_size": 100,
+    "bulk_collection_time": 1.0,
+    "cmgr": "cmgr.0002",
+    "count": 1,
+    "db_poll_sleeptime": 1.0,
+    "dburl": "mongodb://litan:sccDg7PxE3UjhA5L@129.114.17.185:27017/rct-test",
+    "heartbeat": {
+        "addr_pub": "tcp://10.134.0.35:33031",
+        "addr_sub": "tcp://10.134.0.35:36329",
+        "interval": 1.0,
+        "timeout": 60.0
+    },
+    "kind": "umgr_staging_input",
+    "owner": "umgr.0000",
+    "path": "/gpfs/alpine/med110/scratch/litan/ties/re.session.login5.litan.018477.0016",
+    "scheduler": "round_robin",
+    "sid": "re.session.login5.litan.018477.0016",
+    "uid": "umgr_staging_input.0000"
+}

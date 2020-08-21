@@ -1,0 +1,17 @@
+{
+    "bulk_size": 0,
+    "channel": "control_pubsub",
+    "cmgr": "cmgr.0000",
+    "heartbeat": {
+        "addr_pub": "tcp://10.134.0.34:39903",
+        "addr_sub": "tcp://10.134.0.34:41015",
+        "interval": 1.0,
+        "timeout": 60.0
+    },
+    "kind": "pubsub",
+    "log_level": "error",
+    "path": "/gpfs/alpine/med110/scratch/litan/ties/re.session.login4.litan.018477.0014",
+    "sid": "re.session.login4.litan.018477.0014",
+    "stall_hwm": 1,
+    "uid": "control_pubsub"
+}

@@ -1,5 +1,29 @@
 # workflow-2
 
+## Availability
+
+| System      | HPC Resource    | Status | Available date from |
+| ----------- | --------------- | ------ | ------------------- |
+| adrp        | longhorn        | Ready  | May 12th, 2020 |
+| plpro       | longhorn        | -      | |
+| adrp        | lassen          | Ready  | May 28th, 2020 |
+| plpro       | lassen          | -      | |
+| adrp        | summit          | Ready  | |
+| plpro       | summit          | Ready* | May 12th, 2020 |
+
+*plpro is waiting for new implementation of CVAE
+
+## Instruction and Branch
+
+Use a branch to isolate a system without affecting others in the workflow-2. Each branch has separate README and a python script to run.
+
+| System | HPC | Document | Branch | Run | 
+| ------ | --- | ------ | ------ | --- |
+| adrp   | longhorn | [README](../../wf2/adrp/workflow-2/readme_longhorn.md) | [wf2/adrp branch](../../wf2/adrp/workflow-2) | `python longhorn_adrp.py` |
+| adrp   | lassen | [README](../../wf2/adrp/workflow-2/readme_lassen.md) | [wf2/adrp branch](../../wf2/adrp/workflow-2) | `python lassen_adrp.py` |
+| adrp   | summit | [README](../../wf2/adrp/workflow-2/README.md) | [wf2/adrp branch](../../wf2/adrp/workflow-2) | `python summit_md.py` |
+| plpro   | summit | [README](../../wf2/plpro/workflow-2/README.md) | [wf2/plpro branch](../../wf2/plpro/workflow-2) | `python summit_md.py` |
+
 ## Installation
 
 ### Tensorflow/Keras and others (Summit)
@@ -61,9 +85,12 @@ export RADICAL_ENTK_PROFILE=TRUE
 
 ## Run
 
+It will require writable space before running the main script. Output files are stored in sub-directories. Locate the wf-2 repo at $MEMBERWORK/{{PROJECTID}}/ and run the script on Summit. $HOME becomes readable only system when a job is running.
+
 ```
 $ python summit_md.py
 ```
+
 
 ## Prerequisites
 
@@ -101,5 +128,7 @@ rm -rf CVAE_exps/cvae_runs_*
 rm -rf MD_exps/VHP_exp/omm_runs_*
 rm -rf MD_exps/fs-pep/omm_runs_*
 rm -rf Outlier_search/outlier_pdbs/*
+rm -rf Outlier_search/eps_record.json
+rm -rf Outlier_search/restart_points.json
 ```
 
