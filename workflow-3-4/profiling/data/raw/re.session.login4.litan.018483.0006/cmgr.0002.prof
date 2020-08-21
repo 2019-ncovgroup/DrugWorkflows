@@ -1,0 +1,8 @@
+#time,event,comp,thread,uid,state,msg
+1596977222.7745366,sync_abs,cmgr.0002,Thread-12,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596977222.7735686:1596977222.7802906:ntp
+1596977222.7761605,init2,cmgr.0002,Thread-12,cmgr.0002,,/autofs/nccs-svm1_home1/litan/DrugWorkflows/workflow-4/re.session.login4.litan.018483.0006
+1596977223.8293238,start_bridges_start,cmgr.0002,Thread-12,cmgr.0002,,
+1596977227.2772801,start_bridges_stop,cmgr.0002,Thread-12,cmgr.0002,,
+1596977227.2776124,start_components_start,cmgr.0002,Thread-12,cmgr.0002,,
+1596977229.9808242,start_components_stop,cmgr.0002,Thread-12,cmgr.0002,,
+1596980920.5586584,close,cmgr.0002,Thread-12,cmgr.0002,,

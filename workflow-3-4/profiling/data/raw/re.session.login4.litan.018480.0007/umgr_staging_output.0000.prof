@@ -1,0 +1,9 @@
+#time,event,comp,thread,uid,state,msg
+1596752730.8769145,sync_abs,umgr_staging_output.0000,MainThread,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596752730.8676548:1596752730.9351547:ntp
+1596752730.8785288,comp_start,umgr_staging_output.0000,MainThread,umgr_staging_output.0000,,
+#time,event,comp,thread,uid,state,msg
+1596752731.4047198,sync_abs,umgr_staging_output.0000,MainThread,,,login4.summit.olcf.ornl.gov:10.134.0.34:1596752731.4007897:1596752731.4682896:ntp
+1596752731.4047773,init1,umgr_staging_output.0000,MainThread,umgr_staging_output.0000,,/autofs/nccs-svm1_home1/litan/DrugWorkflows/workflow-4/re.session.login4.litan.018480.0007
+1596752731.4305265,component_init,umgr_staging_output.0000,Thread-1,,,
+1596756238.2071519,component_final,umgr_staging_output.0000,Thread-3,,,
+1596756238.2086787,END,umgr_staging_output.0000,Thread-3,,,

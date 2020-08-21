@@ -1,0 +1,17 @@
+{
+    "bulk_size": 0,
+    "channel": "umgr_staging_input_queue",
+    "cmgr": "cmgr.0002",
+    "heartbeat": {
+        "addr_pub": "tcp://10.134.0.35:40559",
+        "addr_sub": "tcp://10.134.0.35:43555",
+        "interval": 1.0,
+        "timeout": 60.0
+    },
+    "kind": "queue",
+    "log_level": "error",
+    "path": "/autofs/nccs-svm1_home1/litan/DrugWorkflows/workflow-4/re.session.login5.litan.018483.0008",
+    "sid": "re.session.login5.litan.018483.0008",
+    "stall_hwm": 0,
+    "uid": "umgr_staging_input_queue"
+}

@@ -32,17 +32,12 @@ conda install --yes apache-libcloud msgpack-python pyzmq munch regex netifaces \
                     colorama pymongo python-hostlist setproctitle ntplib pytest \
                     pylint flake8 coverage mock wheel future setproctitle pudb parse
 
-# Clone RCT stack
-git clone --single-branch --branch project/covid-19 https://github.com/radical-cybertools/radical.utils.git
-git clone --single-branch --branch project/covid-19 https://github.com/radical-cybertools/radical.saga.git
-git clone --single-branch --branch project/covid-19 https://github.com/radical-cybertools/radical.pilot.git
-git clone --single-branch --branch project/covid-19 https://github.com/radical-cybertools/radical.entk.git
-git clone --single-branch --branch project/covid-19 https://github.com/radical-cybertools/radical.analytics.git
-
 # Install RCT stack
-cd radical.utils; pip install . --upgrade; cd ..
-cd radical.saga; pip install . --upgrade; cd ..
-cd radical.pilot; pip install . --upgrade; cd ..
+pip install git+https://github.com/radical-cybertools/radical.utils.git@project/covid-19
+pip install git+https://github.com/radical-cybertools/radical.saga.git@project/covid-19
+pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/covid-19
+# pip install git+https://github.com/radical-cybertools/radical.entk.git@devel
+# pip install git+https://github.com/radical-cybertools/radical.analytics.git@devel
 
 # Get MongoDB
 wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-suse12-4.2.5.tgz
@@ -78,7 +73,5 @@ mkdir mongodb
 # > use rct_test
 # > db.createUser({user: "rct", pwd: "rct_test", roles: ["readWrite"]})
 # > exit
-# export RADICAL_PILOT_DBURL="mongodb://rct:rct_test@`hostname -f`/rct_test"
 # Kill process: ps aux | grep mongod | grep -v grep | cut -c 10-16 | xargs kill
 #               rm ~/mongodb/mongod.lock
-
