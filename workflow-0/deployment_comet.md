@@ -1,13 +1,14 @@
 # recipe to deploy W0 on Comet. Assumes launching it via gsissh from the RADICAL jetstream machine
-# ================================================================================================
 
+```
 ssh w0_comet@129.114.17.185
+```
 
-# Deployment on 129.114.17.185
-# ----------------------------
+## Deployment on 129.114.17.185
 
-# Install RCT stack in a conda env
+Install RCT stack in a conda env:
 
+```
 export PYTHONNOUSERSITE=True
 export PREFIX=$HOME
 export WF0_CONDA_ENV=ve.rp
@@ -27,12 +28,13 @@ conda install --yes apache-libcloud msgpack-python pyzmq munch regex netifaces \
 pip install git+https://github.com/radical-cybertools/radical.utils.git@project/covid-19
 pip install git+https://github.com/radical-cybertools/radical.saga.git@project/covid-19
 pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/covid-19
+```
 
-# Deployment on Comet
-# -------------------
+## Deployment on Comet
 
-# Install RCT and OpenEye stack in a **static** conda env within RP sandbox
+Install RCT and OpenEye stack in a **static** conda env within RP sandbox
 
+```
 myproxy-logon -s myproxy.xsede.org -l user_name -t 72
 gsissh comet.sdsc.xsede.org
 cd /oasis/scratch/comet/$USER/temp_project/radical.pilot.sandbox
@@ -60,12 +62,10 @@ conda install --yes atomicwrites attrs blas fftw3f importlib_metadata libtiff \
                     more-itertools ninja olefile packaging pillow pluggy py pytest pandas psutil \
                     docopt setproctitle pymbar openmm
 conda install --yes -c openeye openeye-toolkits
-
-# Install RCT stack
 conda install --yes apache-libcloud msgpack-python pyzmq munch regex netifaces \
                     colorama pymongo python-hostlist setproctitle ntplib pytest \
                     pylint flake8 coverage mock wheel future setproctitle pudb parse
 pip install git+https://github.com/radical-cybertools/radical.utils.git@project/covid-19
 pip install git+https://github.com/radical-cybertools/radical.saga.git@project/covid-19
 pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/covid-19
-
+```
