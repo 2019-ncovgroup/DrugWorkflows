@@ -96,34 +96,68 @@ class MyMaster(rp.task_overlay.Master):
         self._prof.prof('create_start')
 
         world_size = self._cfg.n_masters
+        name       = self._cfg.workload.name
         rank       = self._cfg.idx
 
         # check the smi file for this master's index range, and send the
         # resulting pos indexes as task batches
 
-        idxs = list()
-        pos  = rank
-        npos = len(self._idxs)
-        items = list()
-        print('npos:', npos)
-        while pos < npos:
+        protein = self._cfg.workload.receptor
+        smiles  = self._cfg.workload.smiles
 
-            idxs.append(str(pos))
+        # read list of known indicees
+        known = list()
+        fidx  = '%s/%s/%s.idx' % (self._cfg.workload.indexes, smiles, name)
+        self._log.debug('fidx: %s', fidx)
+
+        if os.path.isfile(fidx):
+            with open(fidx, 'r') as fin:
+                for line in fin.readlines():
+                    known.append(int(line))
+
+        known   = set(known)
+        all_pos = set(range(0, len(self._idxs)))
+        new_pos = all_pos.difference(known)
+        npos    = len(new_pos)
+
+        # write known indexes for debugging
+        with open('./known.idx', 'w') as fout:
+            for idx in known:
+                fout.write('%d\n' % int(idx))
+
+        # index access needs list, not set
+        new_pos = list(new_pos)
+
+        # write new indexes for debugging
+        with open('./new.idx', 'w') as fout:
+            for idx in new_pos:
+                fout.write('%d\n' % idx)
+
+
+        idx  = rank
+        reqs = list()
+        while idx < npos:
+
+            pos  = new_pos[idx]
+            off  = self._idxs[pos]
+            idx += world_size
+
             uid  = 'request.%06d' % pos
             item = {'uid' :   uid,
                     'mode':  'call',
                     'data': {'method': 'dock',
                              'kwargs': {'pos': pos,
-                                        'off': self._idxs[pos],
+                                        'off': off,
                                         'uid': uid}}}
-            self.request(item)
-            pos += world_size
-            items.append(item)
+            reqs.append(item)
 
+            if len(reqs) >= 1024:
+                self.request(reqs)
+                reqs = list()
 
-
-        with open('new.idx', 'w') as fout:
-            fout.write('\n'.join(idxs))
+        # request remaining items
+        if reqs:
+            self.request(reqs)
 
         self._prof.prof('create_stop')
 
