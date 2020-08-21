@@ -47,7 +47,6 @@ export PREFIX=/oasis/scratch/comet/$USER/temp_project/radical.pilot.sandbox
 export WF0_CONDA_ENV=ve.rp
 
 mkdir -p $PREFIX
-module purge
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $PREFIX/miniconda.sh
 chmod +x $PREFIX/miniconda.sh
 $PREFIX/miniconda.sh -b -p $PREFIX/.miniconda3
