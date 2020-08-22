@@ -52,7 +52,7 @@ conda config --add channels conda-forge \
              --add channels omnia-dev/label/cuda101 \
              --add channels omnia/label/cuda101
 conda update --yes --all
-conda create --yes -n $WF0_CONDA_ENV
+conda create --yes -n $WF0_CONDA_ENV python=3.7
 conda activate $WF0_CONDA_ENV
 conda install --yes cudatoolkit=10.1.243
 conda install --yes atomicwrites attrs blas fftw3f importlib_metadata libtiff \
