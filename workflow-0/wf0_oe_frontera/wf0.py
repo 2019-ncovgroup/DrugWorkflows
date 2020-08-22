@@ -71,12 +71,18 @@ if __name__ == '__main__':
         with open(run_file, 'r') as fin:
 
             for line in fin.readlines():
+
                 line  = line.strip()
+
+                if not line:
+                    continue
+
+                if line.startswith('#'):
+                    continue
+
                 elems = line.split()
-                if len(elems) != 4:
-                    continue
-                if elems[0] == '#':
-                    continue
+
+                assert(len(elems) == 4), line
 
                 receptor = str(elems[0])
                 smiles   = str(elems[1])
@@ -153,8 +159,8 @@ if __name__ == '__main__':
             # FIXME
             cfg.cpn = 30
 
-            cfg.workload.receptor = '%s.oeb'  % receptor
-            cfg.workload.smiles   = '%s.csv'  % smiles
+            cfg.workload.receptor = receptor
+            cfg.workload.smiles   = smiles
             cfg.workload.name     = name
             cfg.nodes             = nodes
             cfg.runtime           = runtime

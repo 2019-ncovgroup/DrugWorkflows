@@ -51,7 +51,7 @@ class MyMaster(rp.task_overlay.Master):
     def parse_csv(self):
 
         workload = self._cfg.workload
-        fname    = 'input_dir/' + workload.smiles
+        fname    = 'input_dir/%s.csv' % workload.smiles
         header   = None
         idxs     = list()
 
@@ -107,7 +107,7 @@ class MyMaster(rp.task_overlay.Master):
 
         # read list of known indicees
         known = list()
-        fidx  = '%s/%s/%s.idx' % (self._cfg.workload.indexes, smiles, name)
+        fidx  = '%s/%s/%s.idx' % (self._cfg.workload.results, smiles, name)
         self._log.debug('fidx: %s', fidx)
 
         if os.path.isfile(fidx):
@@ -132,7 +132,6 @@ class MyMaster(rp.task_overlay.Master):
         with open('./new.idx', 'w') as fout:
             for idx in new_pos:
                 fout.write('%d\n' % idx)
-
 
         idx  = rank
         reqs = list()
