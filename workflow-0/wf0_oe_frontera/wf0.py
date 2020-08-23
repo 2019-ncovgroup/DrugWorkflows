@@ -55,6 +55,88 @@ def unit_state_cb(unit, state):
 
 # ------------------------------------------------------------------------------
 #
+def check_runs(cfg_file, run_file):
+
+    runs      = list()
+    n_smiles  = dict()
+
+    rec_path  = 'input/receptors.v7/'    # FIXME
+    smi_path  = 'input/smiles/'          # FIXME
+
+    cfg       = ru.Config(cfg=ru.read_json(cfg_file))
+    res_path  = cfg.fs_url + cfg.workload.results
+    
+    fs        = rs.filesystem.Directory(res_path)
+    
+    with open(run_file, 'r') as fin:
+    
+        for line in fin.readlines():
+    
+            line  = line.strip()
+    
+            if not line:
+                continue
+    
+            if line.startswith('#'):
+                continue
+    
+            elems = line.split()
+    
+            assert(len(elems) == 4), line
+    
+            receptor = str(elems[0])
+            smiles   = str(elems[1])
+            nodes    = int(elems[2])
+            runtime  = int(elems[3])
+    
+            assert(receptor)
+            assert(smiles)
+            assert(nodes)
+            assert(runtime)
+
+          # print('%s/%s.oeb' % (rec_path, receptor))
+          # print('%s/%s.csv' % (smi_path, smiles))
+            assert(os.path.isfile('%s/%s.oeb' % (rec_path, receptor)))
+            assert(os.path.isfile('%s/%s.csv' % (smi_path, smiles)))
+
+            fname = '%s_-_%s.idx' % (receptor, smiles)
+            pname = '%s/%s'       % (smiles,   fname)
+            lname = '/tmp/%s'     % (fname)
+    
+            if not fs.is_file(pname):
+                n_have = 0
+            else:
+                ret = fs.list(pname)
+                fs.copy(pname, 'file://localhost/%s' % lname)
+                out, err, ret = ru.sh_callout('wc -l %s | cut -f 1 -d " "' % lname,
+                                              shell=True)
+                n_have = int(out)
+    
+    
+            if smiles in n_smiles:
+                n_need = n_smiles[smiles]
+    
+            else:
+                sname = '%s/%s.csv' % (smi_path, smiles)
+                out, err, ret = ru.sh_callout('wc -l %s | cut -f 1 -d " "' % sname, 
+                                              shell=True)
+                n_need = int(out) - 1
+                n_smiles[smiles] = n_need
+    
+            if n_need > n_have:
+                perc = int(100 * n_have / n_need)
+                print('run  %-30s %-25s [%3d%%]' % (receptor, smiles, perc))
+                runs.append([receptor, smiles, nodes, runtime])
+            else:
+                print('skip %-30s %-25s [100%%]' % (receptor, smiles))
+    
+    
+    return runs
+
+
+
+# ------------------------------------------------------------------------------
+#
 if __name__ == '__main__':
 
     cfg_file  = sys.argv[1]  # resource and workload config
@@ -63,43 +145,12 @@ if __name__ == '__main__':
 
     try:
 
-        cfg       = ru.Config(cfg=ru.read_json(cfg_file))
-        rec_path  = 'input/receptors.v7/'    # FIXME
-        smi_path  = 'input/smiles/'           # FIXME
-        runs      = list()
+        cfg     = ru.Config(cfg=ru.read_json(cfg_file))
+        runs    = check_runs(cfg_file, run_file)
 
-        with open(run_file, 'r') as fin:
-
-            for line in fin.readlines():
-
-                line  = line.strip()
-
-                if not line:
-                    continue
-
-                if line.startswith('#'):
-                    continue
-
-                elems = line.split()
-
-                assert(len(elems) == 4), line
-
-                receptor = str(elems[0])
-                smiles   = str(elems[1])
-                nodes    = int(elems[2])
-                runtime  = int(elems[3])
-
-                assert(receptor)
-                assert(smiles)
-                assert(nodes)
-                assert(runtime)
-
-                print('%s/%s.oeb' % (rec_path, receptor))
-                print('%s/%s.csv' % (smi_path, smiles))
-                assert(os.path.isfile('%s/%s.oeb' % (rec_path, receptor)))
-                assert(os.path.isfile('%s/%s.csv' % (smi_path, smiles)))
-
-                runs.append([receptor, smiles, nodes, runtime])
+        if not runs:
+            print('nothing to run')
+            sys.exit()
 
         session = rp.Session()
         pmgr    = rp.PilotManager(session=session)
@@ -156,9 +207,6 @@ if __name__ == '__main__':
             gpn       = cfg.gpn
             n_masters = cfg.n_masters
 
-            # FIXME
-            cfg.cpn = 30
-
             cfg.workload.receptor = receptor
             cfg.workload.smiles   = smiles
             cfg.workload.name     = name
@@ -168,7 +216,7 @@ if __name__ == '__main__':
             ru.write_json(cfg, 'configs/wf0.%s.cfg' % name)
 
             pd = rp.ComputePilotDescription(cfg.pilot_descr)
-            pd.cores   = nodes * cpn
+            pd.cores   = nodes * 56  # FIXME: cpn
             pd.gpus    = nodes * gpn
             pd.runtime = runtime
 

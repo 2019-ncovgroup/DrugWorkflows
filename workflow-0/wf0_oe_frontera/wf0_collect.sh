@@ -1,5 +1,11 @@
 #!/bin/sh
 
+echo
+echo "do you really want to collect now?"
+echo
+read x
+test "$x" = 'y' || exit
+
 base="/scratch1/07305/rpilot/workflow-0-results"
 for p in pilot.*; do
 

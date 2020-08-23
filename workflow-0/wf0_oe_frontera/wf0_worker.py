@@ -53,7 +53,7 @@ class MyWorker(rp.task_overlay.Worker):
 
             receptor_file      = 'input_dir/receptors.v7/%s.oeb' % workload.receptor
             smiles_file        = 'input_dir/%s.csv'              % workload.smiles
-            output             = './out.'                        % workload.output
+            output             = './out.sdf'
 
             self.verbose       = workload.verbose
             self.force_flipper = workload.force_flipper

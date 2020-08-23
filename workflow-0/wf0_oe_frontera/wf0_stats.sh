@@ -18,9 +18,29 @@ calc(){
     python -c "print(eval('$args'))"
 }
 
+space="$space"$(printf "+-%-30s-+-%-25s-+-%10s-+-%8s-----+-%5s-" "------------------------------" "-------------------------" "----------" "---------" "-----")
+space="$space"$(printf "+-%10s"    "-----------")
+space="$space"$(printf "+-%19s"    "--------------------")
+space="$space"$(printf "+-%9s"     "----------")
+space="$space"$(printf "+-%10s"    "-----------")
+space="$space"$(printf "+-%10s"    "-----------")
+space="$space"$(printf "+-%10s+"  "-----------")
+echo "$space"
+
+head="$head"$(printf  "| %-30s | %-25s | %10s | %8s      | %5s" "receptor" "smiles" "pilot id" "job id" "nodes")
+head="$head"$(printf " | %10s"    "todo")
+head="$head"$(printf " | %19s"    "done         ")
+head="$head"$(printf " | %9s"     "rate   ")
+head="$head"$(printf " | %10s"    "runtime")
+head="$head"$(printf " | %10s"    "estimate")
+head="$head"$(printf " | %10s |"  "remaining")
+echo "$head"
+echo "$space"
 
 sum=0
 for p in pilot.*; do
+
+    stats=""
 
     if test -f "$p/stats.cache"
     then
@@ -30,13 +50,21 @@ for p in pilot.*; do
 
     check=$(ls $p/unit.*/STDOUT 2>/dev/null)
     slurmid=$(grep SLURM_JOB_ID $p/env.orig 2>/dev/null | cut -f 2 -d '"')
+    nodes=$(grep SLURM_NNODES $p/env.orig 2>/dev/null | cut -f 2 -d '"')
 
-    state=$(squeue -h --job $slurmid 2>/dev/null | xargs echo | cut -f 5 -d ' ')
-    test -z "$state" && state='?'
+    if test -z "$slurmid"
+    then
+        slurmid='?'
+        state="W"
+    else
+        state=$(squeue -h --job $slurmid 2>/dev/null | xargs echo | cut -f 5 -d ' ')
+    fi
 
     if test -z "$(ls $p/unit.*/wf0.cfg 2>/dev/null)"
     then
-        printf "%-50s [%10s] [%6s] new\n" '' $p $slurmid
+        stats="$stats"$(printf  "| %-30s | %-25s | %10s | %8s [%2s] | %5d " "$rec_name" "$smiles" $p $slurmid $state $nodes)
+        stats="$stats"$(printf " | %-83s |" " ")
+        echo "$stats"
         continue
     fi
 
@@ -44,12 +72,13 @@ for p in pilot.*; do
     smiles=$(grep   '"smiles"'   $p/unit.*/wf0.cfg | head -n 1 | cut -f 4 -d '"')
     name=$(grep     '"name"'     $p/unit.*/wf0.cfg | head -n 1 | cut -f 4 -d '"')
 
-    name=$(echo $name | sed -e 's/_-_/  /g')
-
+    rec_name=$(echo $receptor | cut -c 1-30)
 
     if test -z "$check"
     then
-        printf "%-50s %10s %6s waiting\n" "$name" $p $slurmid
+        stats="$stats"$(printf  "| %-30s | %-25s | %10s | %8s [%2s] | %5d" "$rec_name" "$smiles" $p $slurmid $state $nodes)
+        stats="$stats"$(printf " | %-83s |" " ")
+        printf "$stats\n"
         continue
     fi
 
@@ -59,7 +88,9 @@ for p in pilot.*; do
         then
             wc  -l $p/unit.*/new.idx | cut -f 1 -d ' ' > $p/nsmiles
         else
-            printf "%-50s %10s %6s starting\n" "$name" $p $slurmid
+            stats="$stats"$(printf  "| %-30s | %-25s | %10s | %8s [%2s] | %5d" "$rec_name" "$smiles" $p $slurmid $state $nodes)
+            stats="$stats"$(printf " | %-83s |" " ")
+            printf "$stats\n"
             continue
         fi
     fi
@@ -69,7 +100,10 @@ for p in pilot.*; do
 
     if test "$count" -eq "0"
     then
-        printf "%-50s %10s %6s started\n" "$name" $p $slurmid
+        stats="$stats"$(printf  "| %-30s | %-25s | %10s | %8s [%2s] | %5d" "$rec_name" "$smiles" $p $slurmid $state $nodes)
+        stats="$stats"$(printf "%10d" $nsmiles)
+        stats="$stats"$(printf " | %-83s |" " ")
+        printf "$stats\n"
         continue
     fi
 
@@ -85,19 +119,18 @@ for p in pilot.*; do
     est=$( calc "$run   / $part    * 100")
     rem=$( calc "$est   - $run"          )
     
-    stats=""
     skip="                                          "
-    stats="$stats"$(printf "%-50s %10s %6s %2s" "$name" $p $slurmid $state)
-    stats="$stats"$(printf "   smi: %10d"              $nsmiles)
-    stats="$stats"$(printf        " %10d [%5.1f%%]"    $count $part)
-    stats="$stats"$(printf "   rate: %6.1f /s"         $(calc "$count / $run"))
-    stats="$stats"$(printf "   run: %10s"              $(time_fmt $run))
-    if test "$rem" = 0
+    stats="$stats"$(printf  "| %-30s | %-25s | %10s | %8s [%2s] | %5d" "$rec_name" "$smiles" $p $slurmid $state $nodes)
+    stats="$stats"$(printf " | %10d"              $nsmiles)
+    stats="$stats"$(printf " | %10d [%5.1f%%]"    $count $part)
+    stats="$stats"$(printf " | %6.1f /s"          $(calc "$count / $run"))
+    stats="$stats"$(printf " | %10s"              $(time_fmt $run))
+    if test -z "$state"
     then
         echo "$stats" | tee "$p/stats.cache"
     else
-        stats="$stats"$(printf "   est: %13s"          $(time_fmt $est))
-        stats="$stats"$(printf "   rem: %13s"          $(time_fmt $rem))
+        stats="$stats"$(printf " | %10s" $(time_fmt $est))
+        stats="$stats"$(printf " | %10s |" $(time_fmt $rem))
         rate=$(calc "$count / $run")
         sum=$(calc "$sum + $rate")
         echo "$stats"
@@ -105,7 +138,10 @@ for p in pilot.*; do
 
 done
 
-echo
-printf "total rate: %10.1f\n" $sum
+echo "$space"
+printf "| %-132s %6.1f /s %38s |\n"  "total" "$sum" " "
+echo "$space"
 echo $sum >> total
+echo
+
 
