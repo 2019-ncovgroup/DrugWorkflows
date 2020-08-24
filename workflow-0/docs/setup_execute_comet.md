@@ -25,6 +25,10 @@ gsissh comet.sdsc.xsede.org
    cd ~/Model-generation/input
    scp -r mturilli@frontera.tacc.utexas.edu:/scratch1/07305/rpilot/merzky/tg803521/covid-19-0/Model-generation/input/Orderable_zinc_db_enaHLL.csv .`
    ```
+1. Link input:
+   ```
+   ln -s /home/mturilli/Model-generation/input input
+   ```
 
 Note:
 
