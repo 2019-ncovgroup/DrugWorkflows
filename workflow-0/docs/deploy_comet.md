@@ -67,10 +67,10 @@ pip install git+https://github.com/radical-cybertools/radical.saga.git@project/c
 pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/covid-19
 ```
 
-# Deploy W0 repository on Comet
+# Deploy W0 repository on 129.114.17.185 and Comet
 
 ```
-cd /oasis/scratch/comet/$USER/temp_project/radical.pilot.sandbox
+cd
 git clone --single-branch --branch covid https://github.com/aclyde11/Model-generation.git
 git clone --single-branch --branch devel https://github.com/2019-ncovgroup/DrugWorfklows.git
 ```
