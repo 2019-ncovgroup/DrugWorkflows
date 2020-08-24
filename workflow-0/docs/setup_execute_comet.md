@@ -36,7 +36,7 @@ Note:
 1. Edit `/home/w0comet/DrugWorfklows/workflow-0/wf0_oe_comet/wf0.py`, L110:
    ```
    110         #d    = rs.filesystem.Directory('ssh://frontera/scratch1/07305/rpilot/workflow-0-results')
-   111         d    = rs.filesystem.Directory('gsissh://comet.sdsc.xsede.org/workflow-0-results')
+   111         d    = rs.filesystem.Directory('gsissh://comet/workflow-0-results')
    ```
 1. Copy receptors from Comet and link them:
    ```
