@@ -8,7 +8,7 @@ gsissh comet.sdsc.xsede.org
 ```
 
 1. Edit RP resource configuration file and push it to the `project/covid-19` branch: <https://github.com/radical-cybertools/radical.pilot/blob/project/covid-19/src/radical/pilot/configs/resource_xsede.json#L405>
-1. Edit workflow0 configuration file and push it to the `devel` branch of the `DrugWorkflows` repo under `/workflow-0/wf0_oe_<anme_of_resource>/wf0.<name_of_resource.cfg `: <https://github.com/2019-ncovgroup/DrugWorkflows/blob/devel/workflow-0/wf0_oe_comet/wf0.comet.cfg>
+1. Edit workflow0 configuration file and push it to the `devel` branch of the `DrugWorkflows` repo under `/workflow-0/wf0_oe_<anme_of_resource>/wf0.<name_of_resource.cfg `: <https://github.com/2019-ncovgroup/DrugWorkflows/blob/devel/workflow-0/wf0_oe_comet/wf0.comet.cfg>. NOTE: `$HOME` is not expanded when used in JSON. Change `/home/mturilli` with your home path on Comet.
 1. Comment out <https://github.com/2019-ncovgroup/DrugWorkflows/blob/devel/workflow-0/wf0_oe_frontera/wf0.py#L154>
 1. Copy OpenEye license from Frontera to Comet:
    ```
