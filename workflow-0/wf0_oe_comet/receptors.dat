@@ -1,7 +1,7 @@
 #
 # receptor                       smiles                          nodes runtime
 
-PLPro_6W9C_A_1_F                 Orderable_zinc_db_enaHLL        2      30
+PLPro_6W9C_A_1_F                 Orderable_zinc_db_enaHLL        72    720
 
 #  PLPro_6W9C_A_1_F                 Orderable_zinc_db_enaHLL      128  1800
 #  PLPro_6W9C_A_2_F                 Orderable_zinc_db_enaHLL      128  1800

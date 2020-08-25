@@ -111,6 +111,7 @@ class MyMaster(rp.task_overlay.Master):
             idxs.append(str(pos))
             uid  = 'request.%06d' % pos
             item = {'uid' :   uid,
+                    'timeout': 180,
                     'mode':  'call',
                     'data': {'method': 'dock',
                              'kwargs': {'pos': pos,

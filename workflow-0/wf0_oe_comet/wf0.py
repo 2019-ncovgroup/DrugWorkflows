@@ -108,8 +108,8 @@ if __name__ == '__main__':
         #   - submit configured number of masters with that cfg on that pilot
         subs = dict()
         #d    = rs.filesystem.Directory('ssh://frontera/scratch1/07305/rpilot/workflow-0-results')
-        d    = rs.filesystem.Directory('gsissh://comet.sdsc.xsede.org/workflow-0-results')
-        ls   = [str(u).split('/')[-1] for u in d.list()]
+        #d    = rs.filesystem.Directory('gsissh://comet.sdsc.xsede.org/workflow-0-results')
+        #ls   = [str(u).split('/')[-1] for u in d.list()]
 
         workload  = cfg.workload
 
@@ -120,25 +120,26 @@ if __name__ == '__main__':
             tgt  = '%s.%s.gz'    % (name, workload.output)
             rec  = False
 
-            if tgt in ls:
-                if workload.recompute:
-                    rec += 1
-                    d.move(tgt, tgt + '.bak')
-                else:
-                    print('skip      1 %s' % name)
-                    continue
+            # TODO: uncomment when defining d and ls
+            #if tgt in ls:
+            #    if workload.recompute:
+            #        rec += 1
+            #        d.move(tgt, tgt + '.bak')
+            #    else:
+            #        print('skip      1 %s' % name)
+            #        continue
 
-            if smiles in ls:
-                if smiles not in subs:
-                    subs[smiles] = [str(u).split('/')[-1]  for u in d.list('%s/*' % smiles)]
-                if tgt in subs[smiles]:
-                    if workload.recompute:
-                        rec += 2
-                        d.move('%s/%s'     % (smiles, tgt),
-                               '%s/%s.bak' % (smiles, tgt))
-                    else:
-                        print('skip      2 %s' % name)
-                        continue
+            #if smiles in ls:
+            #    if smiles not in subs:
+            #        subs[smiles] = [str(u).split('/')[-1]  for u in d.list('%s/*' % smiles)]
+            #    if tgt in subs[smiles]:
+            #        if workload.recompute:
+            #            rec += 2
+            #            d.move('%s/%s'     % (smiles, tgt),
+            #                   '%s/%s.bak' % (smiles, tgt))
+            #        else:
+            #            print('skip      2 %s' % name)
+            #            continue
 
           # if os.path.exists('results/%s.%s.gz' % (name, wofkload.output)):
           #     print('skip      3 %s' % name)
@@ -152,7 +153,7 @@ if __name__ == '__main__':
             n_masters = cfg.n_masters
 
             # FIXME
-            cfg.cpn = 30
+            # cfg.cpn = 30
 
             cfg.workload.receptor = '%s.oeb'  % receptor
             cfg.workload.smiles   = '%s.csv'  % smiles
