@@ -55,3 +55,12 @@ Note:
    ```
 
 ## Execute
+
+```
+tmux new -s wf0.comet
+cd DrugWorfklows/workflow-0/wf0_oe_comet
+. setup.sh.shadow
+vi receptors.dat
+./wf0.py wf0.comet.cfg receptors.dat
+```
+
