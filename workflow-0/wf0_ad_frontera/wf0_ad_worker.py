@@ -74,6 +74,7 @@ class MyWorker(rp.task_overlay.Worker):
             self.smiles_col    = self._cfg.smi_col
             self.name_col      = self._cfg.lig_col
             self.idxs          = self._cfg.idxs
+            self._olock        = mp.Lock()                # lock sdf output
 
             # prepare autodocktool scripts for calling in-proc
             home   = os.environ['HOME']
@@ -108,7 +109,7 @@ class MyWorker(rp.task_overlay.Worker):
 
         self._fin.seek(off)
         line   = self._fin.readline()
-      
+
       # ccount = line.count(',')  # FIXME: CVS parse on incorrect counts
 
         if ',' in line: data = line.split(',')
@@ -186,7 +187,7 @@ class MyWorker(rp.task_overlay.Worker):
         smiles      = data[self._cfg.smi_col]
 
         sid         = pos
-        sdf         = '%s/%s.sdf' % (orig, pos)
+        sdf         = '%s/%s.sdf' % (pwd, pos)
         pythonsh    = '/tmp/tools/bin/pythonsh'
 
         # FIXME: constant - stage
@@ -281,6 +282,14 @@ class MyWorker(rp.task_overlay.Worker):
         self._log.debug('==== 10 %s', cmd10)
         self._log.debug('===  10 %s\nout: %s\nerr: %s', ret10, out10, err10)
         assert(not ret10)
+
+        # collect sdf
+        with self._olock:
+            cmd11 = 'cat %s >> %s/out.sdf' % (sdf, pwd)
+            out11, err11, ret11 = ru.sh_callout(cmd11, shell=True)
+            self._log.debug('==== 11 %s', cmd11)
+            self._log.debug('==== 11 %s', cmd11)
+            self._log.debug('===  11 %s\nout: %s\nerr: %s', ret11, out11, err11)
 
         self._prof.prof('dock_stop', uid=uid)
         return 'OK'
