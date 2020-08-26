@@ -1,0 +1,5 @@
+source ~/.miniconda3/bin/activate
+conda activate ve.rp
+export RADICAL_PILOT_DBURL="mongodb://mturilli:FUQXr5WbKhbEDypQ@129.114.17.185:27017/rct" 
+export RADICAL_LOG_LVL="DEBUG"
+export RADICAL_PROFILE="TRUE"

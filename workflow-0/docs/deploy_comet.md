@@ -52,7 +52,7 @@ conda config --add channels conda-forge \
              --add channels omnia-dev/label/cuda101 \
              --add channels omnia/label/cuda101
 conda update --yes --all
-conda create --yes -n $WF0_CONDA_ENV
+conda create --yes -n $WF0_CONDA_ENV python=3.7
 conda activate $WF0_CONDA_ENV
 conda install --yes cudatoolkit=10.1.243
 conda install --yes atomicwrites attrs blas fftw3f importlib_metadata libtiff \
@@ -67,10 +67,10 @@ pip install git+https://github.com/radical-cybertools/radical.saga.git@project/c
 pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/covid-19
 ```
 
-# Deploy W0 repository on Comet
+# Deploy W0 repository on 129.114.17.185 and Comet
 
 ```
-cd /oasis/scratch/comet/$USER/temp_project/radical.pilot.sandbox
+cd
 git clone --single-branch --branch covid https://github.com/aclyde11/Model-generation.git
 git clone --single-branch --branch devel https://github.com/2019-ncovgroup/DrugWorfklows.git
 ```
