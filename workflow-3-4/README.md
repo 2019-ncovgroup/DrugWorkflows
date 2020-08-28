@@ -45,6 +45,8 @@ Note that our workflow uses NAMD, but installation of the NAMD binaries on Summi
 
 The main script requires to be placed at a writable space before running. Output files are stored in sub-directories of the current directory. Locate this code repository at `$MEMBERWORK/{{PROJECTID}}/` and run the script there. `$HOME` directory does not work when running the script since it becomes a read-only filesystem when a job is running.
 
+Note that `-t` parameter specifies the type of workflow to run, and the `-n` parameter specifies the number of nodes requested to run the workflow.
+
 - workflow-3 only
 ```
 $ python hybridwf.py -t wf3 -n 4
