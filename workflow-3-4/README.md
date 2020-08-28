@@ -1,4 +1,4 @@
-# Workflow-3-4 (hybridwf) in RADICAL EnTK
+# workflow-3-4 (hybridwf) in RADICAL EnTK
 
 ## Workflow Description
 
