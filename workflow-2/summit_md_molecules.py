@@ -28,8 +28,8 @@ wall_hour = 1
 md_counts = 12
 ml_counts = 10
 protein = 'fs-pep'
-pdb_path = './MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb'
-ref_path = './MD_exps/fs-pep/pdb/fs-peptide.pdb'
+pdb_path = os.path.abspath('.') + '/MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb'
+ref_path = os.path.abspath('.') + '/MD_exps/fs-pep/pdb/fs-peptide.pdb'
 
 # Iteration
 CUR_STAGE=0

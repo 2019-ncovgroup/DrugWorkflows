@@ -18,6 +18,9 @@ export RADICAL_PILOT_DBURL="mongodb://$RMQ_USERNAME:$RMQ_PASSWORD@$RMQ_HOSTNAME/
 export CONDA_OPENMM=/gpfs/alpine/proj-shared/med110/conda/openmm
 export CONDA_PYTORCH=/gpfs/alpine/proj-shared/med110/atrifan/scripts/pytorch-1.6.0_cudnn-8.0.2.39_nccl-2.7.8-1_static_mlperf
 export MOLECULES_PATH=/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecules
+
+. "/sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh"
+conda activate WF2
 ```
 
 ## Setup on Project
