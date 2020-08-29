@@ -286,8 +286,8 @@ def generate_training_pipeline():
 
         # --------------------------
         # Outlier identification stage
-        s4 = generate_interfacing_stage() 
-        p.add_stages(s4) 
+        #s4 = generate_interfacing_stage() 
+        #p.add_stages(s4) 
         
         CUR_STAGE += 1
 
