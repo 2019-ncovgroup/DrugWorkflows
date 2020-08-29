@@ -16,31 +16,36 @@ from radical.entk import Pipeline, Stage, Task, AppManager
 # [2] https://docs.google.com/document/d/1XFgg4rlh7Y2nckH0fkiZTxfauadZn_zSn3sh51kNyKE/
 #
 '''
-export RMQ_HOSTNAME=two.radical-project.org 
-export RMQ_PORT=33239
 export RADICAL_PILOT_PROFILE=True
 export RADICAL_ENTK_PROFILE=True
 '''
 
+# Job description
+project_name = 'MED110'
+wall_hour = 1
 
+# Simulation
 md_counts = 12
 ml_counts = 10
-node_counts = md_counts // 6
+protein = 'fs-pep'
+pdb_path = './MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb'
+ref_path = './MD_exps/fs-pep/pdb/fs-peptide.pdb'
 
-
-HOME = os.environ.get('HOME')
-conda_path = os.environ.get('CONDA_PREFIX')
-conda_openmm = os.environ.get('CONDA_OPENMM', conda_path)
-conda_pytorch = os.environ.get('CONDA_PYTORCH', conda_path)
-base_path = os.path.abspath('.') # '/gpfs/alpine/proj-shared/bip179/entk/hyperspace/microscope/experiments/'
-molecules_path = os.environ.get('MOLECULES_PATH')
-
+# Iteration
 CUR_STAGE=0
 MAX_STAGE=10
 RETRAIN_FREQ = 5
 
 LEN_initial = 10
 LEN_iter = 10 
+
+# Conda envs
+conda_path = os.environ.get('CONDA_PREFIX')
+conda_openmm = os.environ.get('CONDA_OPENMM', conda_path)
+conda_pytorch = os.environ.get('CONDA_PYTORCH', conda_path)
+base_path = os.path.abspath('.')
+molecules_path = os.environ.get('MOLECULES_PATH')
+
 
 def generate_training_pipeline():
     """
@@ -66,30 +71,26 @@ def generate_training_pipeline():
         time_stamp = int(time.time())
         for i in range(num_MD):
             t1 = Task()
-            # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_exps/fs-pep/run_openmm.py
             t1.pre_exec = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
             t1.pre_exec += ['module load cuda/9.1.85']
             t1.pre_exec += ['conda activate %s' % conda_openmm] 
             t1.pre_exec += ['export ' \
                     + 'PYTHONPATH=%s/MD_exps:%s/MD_exps/MD_utils:$PYTHONPATH' %
                     (base_path, base_path)] 
-            t1.pre_exec += ['cd %s/MD_exps/fs-pep' % base_path] 
+            t1.pre_exec += ['cd %s/MD_exps/%s' % (base_path, protein)] 
             t1.pre_exec += ['mkdir -p omm_runs_%d && cd omm_runs_%d' % (time_stamp+i, time_stamp+i)]
             t1.executable = ['%s/bin/python' % conda_openmm]  # run_openmm.py
-            t1.arguments = ['%s/MD_exps/fs-pep/run_openmm.py' % base_path]
-          #   t1.arguments += ['--topol', '%s/MD_exps/fs-pep/pdb/topol.top' % base_path]
+            t1.arguments = ['%s/MD_exps/%s/run_openmm.py' % (base_path, protein)]
 
 
             # pick initial point of simulation 
             if initial_MD or i >= len(outlier_list): 
-                t1.arguments += ['--pdb_file',
-                        '%s/MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb' % base_path]
+                t1.arguments += ['--pdb_file', pdb_path ]
             elif outlier_list[i].endswith('pdb'): 
                 t1.arguments += ['--pdb_file', outlier_list[i]] 
                 t1.pre_exec += ['cp %s ./' % outlier_list[i]]  
             elif outlier_list[i].endswith('chk'): 
-                t1.arguments += ['--pdb_file',
-                        '%s/MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb' % base_path,
+                t1.arguments += ['--pdb_file', pdb_path,
                         '-c', outlier_list[i]] 
                 t1.pre_exec += ['cp %s ./' % outlier_list[i]]
 
@@ -136,7 +137,7 @@ def generate_training_pipeline():
         # 1) find all (.dcd) files from openmm results
         # 2) create a temp directory
         # 3) symlink them in the temp directory
-        list_of_dcds = glob.glob(f'{base_path}/MD_exps/fs-pep/omm_runs*/*.dcd')
+        list_of_dcds = glob.glob(f'{base_path}/MD_exps/{protein}/omm_runs*/*.dcd')
         aggregated_temp_path = tempfile.mkdtemp(dir=f'{base_path}/MD_to_CVAE',
                 prefix='{}-'.format(len(list_of_dcds)))
         for i in list_of_dcds:
@@ -144,15 +145,19 @@ def generate_training_pipeline():
             os.symlink(i, '{}/{}.dcd'.format(aggregated_temp_path,
                 new_name_from_omm_directory))
 
-        sparse_matrix_path = f'{aggregated_temp_path}/fs-pep.h5'
+        sparse_matrix_path = f'{aggregated_temp_path}/{protein}.h5'
         t2.executable = [f'{conda_pytorch}/bin/python']  # MD_to_CVAE.py
         t2.arguments = [
-                f'{molecules_path}/scripts/traj_to_sparse_contact_map.py', 
+                f'{molecules_path}/scripts/traj_to_dset.py', 
                 '-t', aggregated_temp_path, 
-                '-p', f'{base_path}/MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb',
-                '-r', f'{base_path}/MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb',
+                '-p', pdb_path,
+                '-r', pdb_path,
                 '-o', sparse_matrix_path,
-                '-P' # parallel
+                '--rmsd',
+                '--fnc',
+                '--contact_map',
+                '--point_cloud',
+                '--num_workers', '1'
                 ]
 
         # Add the aggregation task to the aggreagating stage
@@ -198,7 +203,8 @@ def generate_training_pipeline():
                     '--dim1', 22,
                     '--dim2', 22,
                     '-d', 11,
-                    '-s',      # sparse matrix
+                    #'-s',      # sparse matrix
+                    '--amp',    #pytorch apex
                     '-b', 256, # batch size
                     '-e', 100  # epoch
                     ]
@@ -235,8 +241,9 @@ def generate_training_pipeline():
                 (base_path, base_path)] 
         t4.pre_exec += ['cd %s/Outlier_search' % base_path] 
         t4.executable = ['%s/bin/python' % conda_path] 
-        t4.arguments = ['outlier_locator.py', '--md', '../MD_exps/fs-pep', '--cvae', '../CVAE_exps', '--pdb', '../MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb', 
-                '--ref', '../MD_exps/fs-pep/pdb/fs-peptide.pdb']
+        t4.arguments = ['outlier_locator.py', '--md', f'../MD_exps/{protein}',
+                '--cvae', '../CVAE_exps', '--pdb', pdb_path,
+                '--ref', ref_path]
 
         t4.cpu_reqs = {'processes': 1,
                            'process_type': None,
@@ -340,14 +347,16 @@ if __name__ == '__main__':
     # Create a dictionary to describe four mandatory keys:
     # resource, walltime, cores and project
     # resource is 'local.localhost' to execute locally
+    gpu_per_node = 6
+    node_counts = max(md_counts // gpu_per_node, ml_counts // gpu_per_node)
     res_dict = {
             'resource': 'ornl.summit',
             'queue'   : 'batch',
             'schema'  : 'local',
-            'walltime': 60 * 1,
+            'walltime': 60 * wall_hour,
             'cpus'    : 42 * 4 * node_counts,
             'gpus'    : 6 * node_counts,
-            'project' : 'MED110'
+            'project' : project_name
     }
 
     # Create Application Manager
