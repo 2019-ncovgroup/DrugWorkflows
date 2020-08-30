@@ -1,0 +1,22 @@
+source leaprc.protein.ff14SBonlysc
+source leaprc.water.tip3p
+source leaprc.gaff
+frcmod = loadamberparams /cs/biomd/shunzhou/covid-19/ADRP/esmacs-2/par/lig205/lig.frcmod
+
+# Load moleculaes
+UNL = loadmol2 /cs/biomd/shunzhou/covid-19/ADRP/esmacs-2/par/lig205/lig.mol2
+prot = loadpdb /cs/biomd/shunzhou/covid-19/ADRP/esmacs-2/data/prot.pdb
+
+complex = combine{prot UNL}
+alignaxes complex
+
+# Counterions & Solvation
+addions complex Cl- 0.0
+addions complex Na+ 0.0
+solvatebox complex TIP3PBOX 14
+
+savepdb complex complex.pdb
+saveamberparm complex complex.prmtop complex.crd
+
+quit
+

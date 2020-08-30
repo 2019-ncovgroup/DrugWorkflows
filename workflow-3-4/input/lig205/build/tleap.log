@@ -1,0 +1,113 @@
+-I: Adding /home/shunzhou/miniconda2/dat/leap/prep to search path.
+-I: Adding /home/shunzhou/miniconda2/dat/leap/lib to search path.
+-I: Adding /home/shunzhou/miniconda2/dat/leap/parm to search path.
+-I: Adding /home/shunzhou/miniconda2/dat/leap/cmd to search path.
+-s: Ignoring startup file: leaprc
+-f: Source tleap.in.
+
+Welcome to LEaP!
+Sourcing: ./tleap.in
+----- Source: /home/shunzhou/miniconda2/dat/leap/cmd/leaprc.protein.ff14SBonlysc
+----- Source of /home/shunzhou/miniconda2/dat/leap/cmd/leaprc.protein.ff14SBonlysc done
+Log file: ./leap.log
+Loading parameters: /home/shunzhou/miniconda2/dat/leap/parm/parm10.dat
+Reading title:
+PARM99 + frcmod.ff99SB + frcmod.parmbsc0 + OL3 for RNA
+Loading parameters: /home/shunzhou/miniconda2/dat/leap/parm/frcmod.ff14SB
+Reading force field modification type file (frcmod)
+Reading title:
+ff14SB protein backbone and sidechain parameters
+Loading parameters: /home/shunzhou/miniconda2/dat/leap/parm/frcmod.ff99SB14
+Reading force field modification type file (frcmod)
+Reading title:
+ff99SB backbone parameters (Hornak & Simmerling) with ff14SB atom types
+Loading library: /home/shunzhou/miniconda2/dat/leap/lib/amino12.lib
+Loading library: /home/shunzhou/miniconda2/dat/leap/lib/aminoct12.lib
+Loading library: /home/shunzhou/miniconda2/dat/leap/lib/aminont12.lib
+----- Source: /home/shunzhou/miniconda2/dat/leap/cmd/leaprc.water.tip3p
+----- Source of /home/shunzhou/miniconda2/dat/leap/cmd/leaprc.water.tip3p done
+Loading library: /home/shunzhou/miniconda2/dat/leap/lib/atomic_ions.lib
+Loading library: /home/shunzhou/miniconda2/dat/leap/lib/solvents.lib
+Loading parameters: /home/shunzhou/miniconda2/dat/leap/parm/frcmod.tip3p
+Reading force field modification type file (frcmod)
+Reading title:
+This is the additional/replacement parameter set for TIP3P water
+Loading parameters: /home/shunzhou/miniconda2/dat/leap/parm/frcmod.ions1lm_126_tip3p
+Reading force field modification type file (frcmod)
+Reading title:
+Li/Merz ion parameters of monovalent ions for TIP3P water model (12-6 normal usage set)
+Loading parameters: /home/shunzhou/miniconda2/dat/leap/parm/frcmod.ionsjc_tip3p
+Reading force field modification type file (frcmod)
+Reading title:
+Monovalent ion parameters for Ewald and TIP3P water from Joung & Cheatham JPCB (2008)
+Loading parameters: /home/shunzhou/miniconda2/dat/leap/parm/frcmod.ions234lm_126_tip3p
+Reading force field modification type file (frcmod)
+Reading title:
+Li/Merz ion parameters of divalent to tetravalent ions for TIP3P water model (12-6 normal usage set)
+----- Source: /home/shunzhou/miniconda2/dat/leap/cmd/leaprc.gaff
+----- Source of /home/shunzhou/miniconda2/dat/leap/cmd/leaprc.gaff done
+Log file: ./leap.log
+Loading parameters: /home/shunzhou/miniconda2/dat/leap/parm/gaff.dat
+Reading title:
+AMBER General Force Field for organic molecules (Version 1.81, May 2017)
+Loading parameters: /cs/biomd/shunzhou/covid-19/ADRP/esmacs-2/par/lig205/lig.frcmod
+Reading force field modification type file (frcmod)
+Reading title:
+Remark line goes here
+Loading Mol2 file: /cs/biomd/shunzhou/covid-19/ADRP/esmacs-2/par/lig205/lig.mol2
+Reading MOLECULE named MOL
+Loading PDB file: /cs/biomd/shunzhou/covid-19/ADRP/esmacs-2/data/prot.pdb
+  Added missing heavy atom: .R<CPHE 168>.A<OXT 21>
+  total atoms in file: 1248
+  Leap added 1258 missing atoms according to residue templates:
+       1 Heavy
+       1257 H / lone pairs
+ 0.000000 0 1 0
+0 Cl- ion required to neutralize.
+Adding 0 counter ions to "complex" using 1A grid
+
+/home/shunzhou/miniconda2/bin/teLeap: Warning!
+addIons: 1st Ion & target unit have charges of the same sign:
+     unit charge = 1.64035e-14; ion1 charge = 1;
+     can't neutralize.
+  Solute vdw bounding box:              37.619 48.815 44.494
+  Total bounding box for atom centers:  65.619 76.815 72.494
+  Solvent unit box:                     18.774 18.774 18.774
+  Total vdw box size:                   68.947 79.666 75.927 angstroms.
+  Volume: 417048.356 A^3 
+  Total mass 204559.444 amu,  Density 0.814 g/cc
+  Added 10350 residues.
+Writing pdb file: complex.pdb
+   printing CRYST1 record to PDB file with box info
+
+/home/shunzhou/miniconda2/bin/teLeap: Warning!
+ Converting N-terminal residue name to PDB format: NASN -> ASN
+
+/home/shunzhou/miniconda2/bin/teLeap: Warning!
+ Converting C-terminal residue name to PDB format: CPHE -> PHE
+Checking Unit.
+Building topology.
+Building atom parameters.
+Building bond parameters.
+Building angle parameters.
+Building proper torsion parameters.
+Building improper torsion parameters.
+ total 496 improper torsions applied
+Building H-Bond parameters.
+Incorporating Non-Bonded adjustments.
+Not Marking per-residue atom chain types.
+Marking per-residue atom chain types.
+  (Residues lacking connect0/connect1 - 
+   these don't have chain types marked:
+
+	res	total affected
+
+	CPHE	1
+	MOL	1
+	NASN	1
+	WAT	10350
+  )
+ (no restraints)
+	Quit
+
+Exiting LEaP: Errors = 0; Warnings = 3; Notes = 0.
