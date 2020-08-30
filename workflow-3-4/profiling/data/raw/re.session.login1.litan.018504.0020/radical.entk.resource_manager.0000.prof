@@ -1,0 +1,13 @@
+#time,event,comp,thread,uid,state,msg
+1598821706.2508285,sync_abs,radical.entk.resource_manager.0000,MainThread,,,login1.summit.olcf.ornl.gov:10.134.0.31:1598821706.2495406:1598821706.3277755:ntp
+1598821706.2509229,rmgr obj created,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,
+1598821706.2509601,rdesc_validate,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,
+1598821706.2511089,rdesc_valid,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,
+1598821706.2511184,populating rmgr,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,
+1598821706.2512426,rmgr populated,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,
+1598821706.2798362,creating rreq,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,
+1598821713.7612569,rreq created,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,
+1598821714.8885405,rreq submitted,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,
+1598821793.9791813,resource active,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,
+1598822758.0961585,rreq_cancel,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,
+1598822769.3634694,rreq_canceled,radical.entk.resource_manager.0000,MainThread,resource_manager.0000,,

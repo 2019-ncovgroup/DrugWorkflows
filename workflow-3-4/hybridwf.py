@@ -185,7 +185,7 @@ if __name__ == "__main__":
 
     elif esmacs_ties.args.task == "hybridwf_com":
         esmacs_ties.wf3()
-        esmacs_ties.wf4()
+        esmacs_ties.wf4(ncores="41") # For the current test: 3 ESMACS and 1 TIES in parallel, 41 is better than 35
         esmacs_ties.run()
 
     elif esmacs_ties.args.task == "hybridwf_lig":
