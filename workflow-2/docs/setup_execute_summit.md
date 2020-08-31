@@ -25,7 +25,7 @@ export MOLECULES_PATH=/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecule
 export PROJ=med110
 ```
 
-## Setup on Workging Directory
+## Setup on Working Directory
 ```
 cd $MEMBERWORK/$PROJ/DrugWorkflows/workflow-2
 export WF2_BASE_PATH=`pwd`
