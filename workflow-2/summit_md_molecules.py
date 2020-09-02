@@ -28,8 +28,9 @@ wall_hour = 1
 md_counts = 12
 ml_counts = 10
 protein = 'fs-pep'
-pdb_path = './MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb'
-ref_path = './MD_exps/fs-pep/pdb/fs-peptide.pdb'
+pdb_ref_base = '/gpfs/alpine/med110/scratch/mturilli1/DrugWorkflows/workflow-2/'
+pdb_path = pdb_ref_base+'MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb'    # absolute
+ref_path = pdb_ref_base+'MD_exps/fs-pep/pdb/fs-peptide.pdb'             # absolute
 
 # Iteration
 CUR_STAGE=0
