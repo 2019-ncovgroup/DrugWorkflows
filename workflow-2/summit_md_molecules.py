@@ -28,6 +28,7 @@ wall_hour = 1
 md_counts = 12
 ml_counts = 10
 protein = 'fs-pep'
+# FIX: duplicate of base_path = os.environ.get('WF2_BASE_PATH')
 pdb_ref_base = '/gpfs/alpine/med110/scratch/mturilli1/DrugWorkflows/workflow-2/'
 pdb_path = pdb_ref_base+'MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb'    # absolute
 ref_path = pdb_ref_base+'MD_exps/fs-pep/pdb/fs-peptide.pdb'             # absolute
@@ -44,7 +45,8 @@ LEN_iter = 10
 conda_path = os.environ.get('CONDA_PREFIX')
 conda_openmm = os.environ.get('CONDA_OPENMM', conda_path)
 conda_pytorch = os.environ.get('CONDA_PYTORCH', conda_path)
-base_path = os.path.abspath('.')
+#base_path = os.path.abspath('.')
+base_path = os.environ.get('WF2_BASE_PATH')
 molecules_path = os.environ.get('MOLECULES_PATH')
 
 
