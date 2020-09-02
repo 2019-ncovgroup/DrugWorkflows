@@ -128,7 +128,9 @@ def generate_training_pipeline():
         # Aggregation task
         t2 = Task()
         # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_to_CVAE/MD_to_CVAE.py
-        t2.pre_exec = [] 
+        t2.pre_exec = []
+        t2.pre_exec += ['export LC_ALL=de_DE.utf-8']
+        t2.pre_exec += ['export LANG=de_DE.utf-8']
         t2.pre_exec += ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
         t2.pre_exec += [f'conda activate {conda_pytorch}']
         # preprocessing for molecules' script, it needs files in a single
