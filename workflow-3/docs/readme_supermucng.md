@@ -85,7 +85,7 @@ module load slurm_setup
 squeue --name rct_services
 # example:
 #      JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-#     800228      tmp3 rct_serv  di67rok  R       0:05      1 i01r02c05s05
+#     800276      tmp3 rct_serv  di67rok  R       0:12      1 i01r03c01s12
 ```
 If there is such batch job, then skip the following steps of creation and 
 running corresponding batch script `rct_services.slurm`.
@@ -100,6 +100,17 @@ __RabbitMQ__. Corresponding modules (`erlang` and `rabbitmq`) are located at
 `$CVD_BASE_DIR/spack/modules/x86_64/linux-sles12-x86_64`. Current RabbitMQ
 directory is `$CVD_BASE_DIR/workdir_rabbitmq`, which is a copy of the original 
 one: `$CVD_BASE_DIR/rabbitmq_server-3.8.7`. Service uses default port `5672`.
+
+Config file for RabbitMQ
+```shell script
+cd $CVD_BASE_DIR
+cat > workdir_rabbitmq/etc/rabbitmq/rabbitmq.conf <<EOT
+## Networking
+## ====================
+loopback_users.guest = false
+## ====================
+EOT
+```
 
 Next step is to create a batch script:
 ```shell script
@@ -127,6 +138,7 @@ module use $CVD_BASE_DIR/spack/modules/x86_64/linux-sles12-x86_64
 module load erlang
 module load rabbitmq
 export RABBITMQ_BASE=$CVD_BASE_DIR/workdir_rabbitmq
+export RABBITMQ_CONFIG_FILE=$RABBITMQ_BASE/etc/rabbitmq/rabbitmq.conf
 $RABBITMQ_BASE/sbin/rabbitmq-server -detached
 
 while true; do sleep 1000; done
@@ -153,23 +165,6 @@ mongo --host <hostname>opa
  > use rct_db
  > db.createUser({user: "rct", pwd: "jdWeRT634k", roles: ["readWrite"]})
  > exit
-```
-
-#### RabbitMQ initialization
-Initialize RabbitMQ (should be done ONLY once; if RabbitMQ instance was already
-running, then this step was completed). Should be executed at the host, which
-will run the service: check the name of the host, stop batch script
-(`scancel <jobid>`), do `salloc` to that host, run rabbitmq commands below, then
-rerun batch script.
-```shell script
-salloc -t 00:30:00 -p tmp3 -A pn98ve --qos nolimit -w <hostname>
-
-cd /hppfs/work/pn98ve/common/workdir_rabbitmq/sbin/
-rabbitmq-server -detached
-rabbitmqctl add_user rct jdWeRT634k
-rabbitmqctl set_user_tags rct administrator
-rabbitmqctl set_permissions -p / rct ".*" ".*" ".*"
-rabbitmqctl stop
 ```
 
 ## RP resource config for SuperMUC-NG
@@ -217,14 +212,12 @@ accordingly).
 
 Database URL
 ```shell script
-export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@i01r02c05s05opa/rct_db"
+export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@i01r03c01s12opa/rct_db"
 ```
 RabbitMQ settings
 ```shell script
-export RMQ_HOSTNAME=i01r02c05s05opa
+export RMQ_HOSTNAME=i01r03c01s12opa
 export RMQ_PORT=5672
-export RMQ_USERNAME=rct
-export RMQ_PASSWORD=jdWeRT634k
 ```
 
 
