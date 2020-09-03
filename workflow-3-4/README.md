@@ -6,7 +6,7 @@ This repository includes the workflow script which merges workflow-3 and workflo
 
 ## Installation (Summit @ ORNL)
 
-### RADICAL Cybertools (using Python Virtual Environment)
+### RADICAL Cybertools (using Conda and Python Virtual Environment)
 
 ```
 (python3 in user space for installation permission)
