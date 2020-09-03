@@ -1,4 +1,4 @@
-`updated on: 08-31-2020`
+`updated on: 09-03-2020`
 
 # SuperMUC-NG@LRZ
 Package (archive file) with corresponding environment should be prepared
@@ -39,7 +39,7 @@ conda install -y atomicwrites attrs blas fftw3f importlib_metadata libtiff \
 conda install -y -c openeye openeye-toolkits
 ```
 
-## RP installation
+## RADICAL-Cybertools (RCT) installation
 ```shell script
 conda install -y apache-libcloud chardet colorama future idna msgpack-python \
                  netifaces ntplib parse pymongo python-hostlist pyzmq regex \
@@ -60,6 +60,9 @@ scp $CVD_CONDA_ENV.tar.gz <user_id>@skx.supermuc.lrz.de:$CVD_BASE_DIR
 ```
 
 ## Deployment at SuperMUC-NG
+NOTE: work directory for every user of the project `pn98ve` at SuperMUC-NG is
+in the environment variable `$WORK_pn98ve`; common work directory for the
+project is `/hppfs/work/pn98ve/common`
 ```shell script
 # connect from the RADICAL machine (jetstream VM)
 ssh <user_id>@skx.supermuc.lrz.de
@@ -67,60 +70,77 @@ export CVD_CONDA_ENV=ve.rp
 export CVD_BASE_DIR=/hppfs/work/pn98ve/common
 export PATH=$CVD_BASE_DIR/$CVD_CONDA_ENV/bin:$PATH
 
+mkdir -p $CVD_BASE_DIR/$CVD_CONDA_ENV
 cd $CVD_BASE_DIR
-mkdir $CVD_CONDA_ENV
 tar -xzf $CVD_CONDA_ENV.tar.gz -C $CVD_CONDA_ENV/
 source $CVD_CONDA_ENV/bin/activate
 conda-unpack
 ```
 
-## MongoDB at SuperMUC-NG
-Check that MongoDB instance is running (inside the batch job)
+## RCT related services at SuperMUC-NG
+Check that RCT related services are running (inside the batch job), that
+includes MongoDB and RabbitMQ.
 ```shell script
 module load slurm_setup
-squeue --name rp_mongo
+squeue --name rct_services
 # example:
-#      JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST (REASON)
-#     796917      tmp3 rp_mongo  di67rok  R    2:37:56      1 i01r09c04s12
+#      JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+#     800228      tmp3 rct_serv  di67rok  R       0:05      1 i01r02c05s05
 ```
 If there is such batch job, then skip the following steps of creation and 
-running corresponding batch script for MongoDB.
+running corresponding batch script `rct_services.slurm`.
 
-#### Batch script for MongoDB
-Current MongoDB directory is `$CVD_BASE_DIR/mongod_workdir`, which is a copy
-of the original one: `$CVD_BASE_DIR/mongo-4.4.0`. Firstly need to update/confirm 
-`$CVD_BASE_DIR/mongod_workdir/etc/mongod.conf` to have `bindIpAll: true`.
+#### Batch script for RCT related services
+__MongoDB__. Current MongoDB directory is `$CVD_BASE_DIR/workdir_mongod`, 
+which is a copy of the original one: `$CVD_BASE_DIR/mongo-4.4.0`. Firstly
+need to update/confirm `$CVD_BASE_DIR/workdir_mongod/etc/mongod.conf` to
+have `bindIpAll: true`.
 
-Next step is to create a corresponding batch script:
+__RabbitMQ__. Corresponding modules (`erlang` and `rabbitmq`) are located at 
+`$CVD_BASE_DIR/spack/modules/x86_64/linux-sles12-x86_64`. Current RabbitMQ
+directory is `$CVD_BASE_DIR/workdir_rabbitmq`, which is a copy of the original 
+one: `$CVD_BASE_DIR/rabbitmq_server-3.8.7`. Service uses default port `5672`.
+
+Next step is to create a batch script:
 ```shell script
 cd $CVD_BASE_DIR
-cat > mongod.slurm <<EOT
+cat > rct_services.slurm <<EOT
 #!/bin/bash
 
 #SBATCH --account=pn98ve
 #SBATCH --partition=tmp3
 #SBATCH --time=00:00:00
 #SBATCH --qos=nolimit
-#SBATCH -J "rp_mongo"
-#SBATCH -D /hppfs/work/pn98ve/common/mongod_workdir
-#SBATCH -o mongo.out
-#SBATCH -e mongo.err
+#SBATCH -J "rct_services"
+#SBATCH -D /hppfs/work/pn98ve/common/rct_services
+#SBATCH -o rct_services.out
+#SBATCH -e rct_services.err
 
 module load slurm_setup
+export CVD_BASE_DIR=/hppfs/work/pn98ve/common
 
-/hppfs/work/pn98ve/common/mongod_workdir/usr/bin/mongod --config /hppfs/work/pn98ve/common/mongod_workdir/etc/mongod.conf
+# run mongodb
+$CVD_BASE_DIR/workdir_mongod/usr/bin/mongod --config $CVD_BASE_DIR/workdir_mongod/etc/mongod.conf
+
+# run rabbitmq
+module use $CVD_BASE_DIR/spack/modules/x86_64/linux-sles12-x86_64
+module load erlang
+module load rabbitmq
+export RABBITMQ_BASE=$CVD_BASE_DIR/workdir_rabbitmq
+$RABBITMQ_BASE/sbin/rabbitmq-server -detached
+
 while true; do sleep 1000; done
 EOT
 
 module load slurm_setup
-sbatch mongod.slurm
+sbatch rct_services.slurm
 ```
 
-#### Hostname running MongoDB instance
-Get the name of the host running MongoDB and use it later with the following 
-format: `"<hostname>opa"`
+#### Name of the host running RCT related services
+Get the name of the host running RCT services and use it later with the
+following format: `"<hostname>opa"`
 ```shell script
-squeue --name rp_mongo
+squeue --name rct_services
 # .....   NODELIST (REASON)
 # .....   <hostname>
 ```
@@ -133,6 +153,23 @@ mongo --host <hostname>opa
  > use rct_db
  > db.createUser({user: "rct", pwd: "jdWeRT634k", roles: ["readWrite"]})
  > exit
+```
+
+#### RabbitMQ initialization
+Initialize RabbitMQ (should be done ONLY once; if RabbitMQ instance was already
+running, then this step was completed). Should be executed at the host, which
+will run the service: check the name of the host, stop batch script
+(`scancel <jobid>`), do `salloc` to that host, run rabbitmq commands below, then
+rerun batch script.
+```shell script
+salloc -t 00:30:00 -p tmp3 -A pn98ve --qos nolimit -w <hostname>
+
+cd /hppfs/work/pn98ve/common/workdir_rabbitmq/sbin/
+rabbitmq-server -detached
+rabbitmqctl add_user rct jdWeRT634k
+rabbitmqctl set_user_tags rct administrator
+rabbitmqctl set_permissions -p / rct ".*" ".*" ".*"
+rabbitmqctl stop
 ```
 
 ## RP resource config for SuperMUC-NG
@@ -161,24 +198,31 @@ mongo --host <hostname>opa
         "agent_launch_method"         : "SRUN",
         "task_launch_method"          : "SRUN",
         "mpi_launch_method"           : "SRUN",
-        "pre_bootstrap_0"             : ["module load slurm_setup",
-                                         "export CVD_BASE_DIR=/hppfs/work/pn98ve/common"],
+        "pre_bootstrap_0"             : ["module load slurm_setup"],
         "default_remote_workdir"      : "$HOME",
         "valid_roots"                 : ["$HOME",
                                          "$SCRATCH"],
         "python_dist"                 : "anaconda",
-        "virtenv"                     : "$CVD_BASE_DIR/ve.rp",
+        "virtenv"                     : "/hppfs/work/pn98ve/common/ve.rp",
         "virtenv_mode"                : "use",
         "rp_version"                  : "installed"
     }
 }
 ```
 
-## Run RP-based workflows
-RP environment variable for database URL:
+## Run RCT-based workflows
+Current host is `i01r02c05s05` (adjust environment variable accordingly)
+
+Database URL
 ```shell script
 export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@<hostname>opa/rct_db"
-# current URL: mongodb://rct:jdWeRT634k@i01r09c04s12opa/rct_db
+```
+RabbitMQ settings
+```shell script
+export RMQ_HOSTNAME=<hostname>opa
+export RMQ_PORT=5672
+export RMQ_USERNAME=rct
+export RMQ_PASSWORD=jdWeRT634k
 ```
 
 
