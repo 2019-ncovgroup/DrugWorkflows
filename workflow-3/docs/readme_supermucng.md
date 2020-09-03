@@ -211,15 +211,17 @@ rabbitmqctl stop
 ```
 
 ## Run RCT-based workflows
-Current host is `i01r02c05s05` (adjust environment variable accordingly)
+Environment variables below are set with the name of host, which runs the RCT
+services (whenever the host will be changed, please update these variables
+accordingly).
 
 Database URL
 ```shell script
-export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@<hostname>opa/rct_db"
+export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@i01r02c05s05opa/rct_db"
 ```
 RabbitMQ settings
 ```shell script
-export RMQ_HOSTNAME=<hostname>opa
+export RMQ_HOSTNAME=i01r02c05s05opa
 export RMQ_PORT=5672
 export RMQ_USERNAME=rct
 export RMQ_PASSWORD=jdWeRT634k
