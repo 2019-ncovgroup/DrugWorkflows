@@ -35,7 +35,6 @@ cp -rp DrugWorkflows/workflow-3-4/input $RUN_DIR
 . /sw/summit/python/3.7/anaconda3/5.3.0/etc/profile.d/conda.sh
 conda create -n $CONDA_ENV python=3.7 -y
 conda activate $CONDA_ENV
-conda install numpy
 # install OpenMM (from source code on Summit)
 ```
 
