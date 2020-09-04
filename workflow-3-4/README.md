@@ -23,7 +23,7 @@ have to edit `hybridwf.py` accordingly.
 
 ```
 export PROJ="med110"
-export CONDA_ENV="wf3"
+export CONDA_ENV="workflow-3-4"
 export BASE_DIR="$MEMBERWORK/$PROJ/"
 export RUN_DIR="$BASE_DIR/wf3"
 
@@ -35,12 +35,12 @@ cp -rp DrugWorkflows/workflow-3-4/input $RUN_DIR
 . /sw/summit/python/3.7/anaconda3/5.3.0/etc/profile.d/conda.sh
 conda create -n $CONDA_ENV python=3.7 -y
 conda activate $CONDA_ENV
-# install OpenMM (from source code on Summit)
+# install OpenMM (via conda on Summit)
 ```
 
 ### OpenMM
 
-- by source code (for Linux ppc64le, e.g., **Summit**)
+- by source code (for Linux ppc64le)
 https://gist.github.com/lee212/4bbfe520c8003fbb91929731b8ea8a1e
 
 - by conda (for Linux x86\_64, e.g., PSC Bridges)
@@ -50,6 +50,13 @@ module load cuda/9.2
 source /opt/packages/anaconda/anaconda3-5.2.0/etc/profile.d/conda.sh
 conda install -c omnia/label/cuda92 openmm
 ```
+- by conda on Summit. Assuming you have already created and activated a 
+  conda env following the instructions at `ESMACS Tasks Setup`:
+```
+module load cuda/9.2
+conda install -c omnia-dev/label/cuda92 openmm
+```
+
 
 ### Environmental Variables (RabbitMQ and MongoDB)
 
