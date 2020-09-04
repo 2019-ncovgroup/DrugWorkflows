@@ -1,4 +1,4 @@
-`updated on: 09-03-2020`
+`updated on: 09-04-2020`
 
 # SuperMUC-NG@LRZ
 Package (archive file) with corresponding environment should be prepared
@@ -130,6 +130,9 @@ cat > rct_services.slurm <<EOT
 module load slurm_setup
 export CVD_BASE_DIR=/hppfs/work/pn98ve/common
 
+# save host name
+echo "$(hostname -s)opa" > $CVD_BASE_DIR/rct_services/HOSTNAME
+
 # run mongodb
 $CVD_BASE_DIR/workdir_mongod/usr/bin/mongod --config $CVD_BASE_DIR/workdir_mongod/etc/mongod.conf
 
@@ -149,19 +152,13 @@ sbatch rct_services.slurm
 ```
 
 #### Name of the host running RCT related services
-Get the name of the host running RCT services and use it later with the
-following format: `"<hostname>opa"`
-```shell script
-squeue --name rct_services
-# .....   NODELIST (REASON)
-# .....   <hostname>
-```
+File `/hppfs/work/pn98ve/common/rct_services/HOSTNAME` contains the hostname.
 
 #### MongoDB initialization
 Initialize MongoDB (should be done ONLY once; if MongoDB instance was already
 running, then this step was completed)
 ```shell script
-mongo --host <hostname>opa
+mongo --host "$(cat /hppfs/work/pn98ve/common/rct_services/HOSTNAME)"
  > use rct_db
  > db.createUser({user: "rct", pwd: "jdWeRT634k", roles: ["readWrite"]})
  > exit
@@ -206,17 +203,14 @@ mongo --host <hostname>opa
 ```
 
 ## Run RCT-based workflows
-Environment variables below are set with the name of host, which runs the RCT
-services (whenever the host will be changed, please update these variables
-accordingly).
-
 Database URL
 ```shell script
-export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@i01r03c01s12opa/rct_db"
+export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@$(cat /hppfs/work/pn98ve/common/rct_services/HOSTNAME)/rct_db"
+
 ```
 RabbitMQ settings
 ```shell script
-export RMQ_HOSTNAME=i01r03c01s12opa
+export RMQ_HOSTNAME="$(cat /hppfs/work/pn98ve/common/rct_services/HOSTNAME)"
 export RMQ_PORT=5672
 ```
 
