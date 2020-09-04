@@ -54,7 +54,7 @@ conda install -c omnia/label/cuda92 openmm
   conda env following the instructions at `ESMACS Tasks Setup`:
 ```
 module load cuda/9.2
-conda install -c omnia-dev/label/cuda92 openmm
+conda install -c omnia-dev/label/cuda92 -y openmm
 ```
 
 
