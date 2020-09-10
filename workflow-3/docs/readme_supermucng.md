@@ -1,11 +1,15 @@
-`updated on: 09-04-2020`
+`updated on: 09-10-2020`
 
-# SuperMUC-NG@LRZ
+SuperMUC-NG@LRZ
+===
 Package (archive file) with corresponding environment should be prepared
 outside of SuperMUC-NG, and then by using `conda-pack` be transferred there.
 
-## Conda environment (basic)
-Conda package preparation is done at the RADICAL machine (jetstream VM)
+# 1. Virtual environment deployment
+Conda package preparation is done at the RADICAL machine (jetstream VM), since 
+its IP address is approved for ssh-connection to SuperMUC-NG.
+
+## 1.1. Conda environment (basic)
 ```shell script
 export PYTHONNOUSERSITE=True
 export CVD_CONDA_ENV=ve.rp
@@ -25,7 +29,7 @@ conda config --add channels conda-forge
 conda update -y --all
 ```
 
-## Special packages
+## 1.2. Special packages
 NOTE: below is the set of packages for the current installation, if the
 particular workflow requires other set of packages, then this section should 
 be updated.
@@ -39,7 +43,7 @@ conda install -y atomicwrites attrs blas fftw3f importlib_metadata libtiff \
 conda install -y -c openeye openeye-toolkits
 ```
 
-## RADICAL-Cybertools (RCT) installation
+## 1.3. RADICAL-Cybertools (RCT) installation
 ```shell script
 conda install -y apache-libcloud chardet colorama future idna msgpack-python \
                  netifaces ntplib parse pymongo python-hostlist pyzmq regex \
@@ -48,9 +52,12 @@ conda install -y apache-libcloud chardet colorama future idna msgpack-python \
 pip install git+https://github.com/radical-cybertools/radical.utils.git@project/covid-19
 pip install git+https://github.com/radical-cybertools/radical.saga.git@project/covid-19
 pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/covid-19
+
+# if needed for the corresponding workflow
+pip install git+https://github.com/radical-cybertools/radical.entk.git@devel
 ```
 
-## Conda-pack
+## 1.4. Pack the environment with `conda-pack`
 Pack conda environment, and move it to and set it up on SuperMUC-NG (should be 
 used the RADICAL machine, since its IP is approved to be connected from)
 ```shell script
@@ -59,7 +66,7 @@ conda pack -n $CVD_CONDA_ENV
 scp $CVD_CONDA_ENV.tar.gz <user_id>@skx.supermuc.lrz.de:$CVD_BASE_DIR
 ```
 
-## Deployment at SuperMUC-NG
+## 1.5. Deployment at SuperMUC-NG
 NOTE: work directory for every user of the project `pn98ve` at SuperMUC-NG is
 in the environment variable `$WORK_pn98ve`; common work directory for the
 project is `/hppfs/work/pn98ve/common`
@@ -77,7 +84,7 @@ source $CVD_CONDA_ENV/bin/activate
 conda-unpack
 ```
 
-## RCT related services at SuperMUC-NG
+# 2. RCT related services at SuperMUC-NG
 Check that RCT related services are running (inside the batch job), that
 includes MongoDB and RabbitMQ.
 ```shell script
@@ -87,10 +94,17 @@ squeue --name rct_services
 #      JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 #     800276      tmp3 rct_serv  di67rok  R       0:12      1 i01r03c01s12
 ```
-If there is such batch job, then skip the following steps of creation and 
-running corresponding batch script `rct_services.slurm`.
+If there is no such batch job, then run it from the predefined batch script.
+```shell script
+module load slurm_setup
+sbatch /hppfs/work/pn98ve/common/rct_services.slurm
+```
+If there is no a predefined script, then follow the next steps to create and
+run it (`rct_services.slurm`).
 
-#### Batch script for RCT related services
+## 2.1. Batch script for RCT related services
+__THIS STEP SHOULD BE SKIPPED IF THE CORRESPONDING SCRIPT EXISTS__
+
 __MongoDB__. Current MongoDB directory is `$CVD_BASE_DIR/workdir_mongod`, 
 which is a copy of the original one: `$CVD_BASE_DIR/mongo-4.4.0`. Firstly
 need to update/confirm `$CVD_BASE_DIR/workdir_mongod/etc/mongod.conf` to
@@ -154,7 +168,7 @@ sbatch rct_services.slurm
 #### Name of the host running RCT related services
 File `/hppfs/work/pn98ve/common/rct_services/HOSTNAME` contains the hostname.
 
-#### MongoDB initialization
+## 2.2. MongoDB initialization
 Initialize MongoDB (should be done ONLY once; if MongoDB instance was already
 running, then this step was completed)
 ```shell script
@@ -164,8 +178,14 @@ mongo --host "$(cat /hppfs/work/pn98ve/common/rct_services/HOSTNAME)"
  > exit
 ```
 
-## RP resource config for SuperMUC-NG
-`$HOME/.radical/pilot/configs/resource_lrz.json`
+# 3. RP resource config for SuperMUC-NG
+Use one of the following locations to keep the configuration data:
+`$HOME/.radical/pilot/configs/resource_lrz.json` (user space) OR
+`$CVD_BASE_DIR/$CVD_CONDA_ENV/lib/python3.7/site-packages/radical/pilot/configs/resource_lrz.json` 
+(virtenv space)
+
+NOTE: Parameters that might be workflow-specific are: `"virtenv"` and 
+`"pre_bootstrap_0"` (update them accordingly if needed).
 ```json
 {
     "supermuc-ng": {
@@ -202,7 +222,16 @@ mongo --host "$(cat /hppfs/work/pn98ve/common/rct_services/HOSTNAME)"
 }
 ```
 
-## Run RCT-based workflows
+# 4. Run RCT-based workflows
+Activate virtual environment
+```shell script
+export CVD_CONDA_ENV=ve.rp
+export CVD_BASE_DIR=/hppfs/work/pn98ve/common
+
+cd $CVD_BASE_DIR
+source $CVD_CONDA_ENV/bin/activate
+```
+
 Database URL
 ```shell script
 export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@$(cat /hppfs/work/pn98ve/common/rct_services/HOSTNAME)/rct_db"
@@ -214,4 +243,9 @@ export RMQ_HOSTNAME="$(cat /hppfs/work/pn98ve/common/rct_services/HOSTNAME)"
 export RMQ_PORT=5672
 ```
 
+## 4.1. Open Babel package (optional)
+```shell script
+module use $WORK_pn98ve/../common/spack/modules/x86_64/linux-sles12-x86_64
+module load openbabel
+```
 
