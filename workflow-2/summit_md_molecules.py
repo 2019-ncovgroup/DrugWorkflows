@@ -28,8 +28,10 @@ wall_hour = 1
 md_counts = 12
 ml_counts = 10
 protein = 'fs-pep'
-pdb_path = os.path.abspath('.') + '/MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb'
-ref_path = os.path.abspath('.') + '/MD_exps/fs-pep/pdb/fs-peptide.pdb'
+# FIX: duplicate of base_path = os.environ.get('WF2_BASE_PATH')
+pdb_ref_base = '/gpfs/alpine/med110/scratch/mturilli1/DrugWorkflows/workflow-2/'
+pdb_path = pdb_ref_base+'MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb'    # absolute
+ref_path = pdb_ref_base+'MD_exps/fs-pep/pdb/fs-peptide.pdb'             # absolute
 
 # Iteration
 CUR_STAGE=0
@@ -43,7 +45,8 @@ LEN_iter = 10
 conda_path = os.environ.get('CONDA_PREFIX')
 conda_openmm = os.environ.get('CONDA_OPENMM', conda_path)
 conda_pytorch = os.environ.get('CONDA_PYTORCH', conda_path)
-base_path = os.path.abspath('.')
+#base_path = os.path.abspath('.')
+base_path = os.environ.get('WF2_BASE_PATH')
 molecules_path = os.environ.get('MOLECULES_PATH')
 
 
@@ -128,7 +131,9 @@ def generate_training_pipeline():
         # Aggregation task
         t2 = Task()
         # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_to_CVAE/MD_to_CVAE.py
-        t2.pre_exec = [] 
+        t2.pre_exec = []
+        t2.pre_exec += ['export LC_ALL=de_DE.utf-8']
+        t2.pre_exec += ['export LANG=de_DE.utf-8']
         t2.pre_exec += ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
         t2.pre_exec += [f'conda activate {conda_pytorch}']
         # preprocessing for molecules' script, it needs files in a single

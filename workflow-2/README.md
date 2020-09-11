@@ -52,7 +52,7 @@ by conda (for linux 64 e.g. PSC Bridges)
 module load anaconda3
 module load cuda/9.2
 source /opt/packages/anaconda/anaconda3-5.2.0/etc/profile.d/conda.sh
-conda install -c omnia/label/cuda92 openmm
+conda install -c omnia-dev/label/cuda92 openmm
 ```
 
 ### Latest stack info
