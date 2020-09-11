@@ -141,19 +141,16 @@ def generate_training_pipeline():
         # 1) find all (.dcd) files from openmm results
         # 2) create a temp directory
         # 3) symlink them in the temp directory
-        list_of_dcds = glob.glob(f'{base_path}/MD_exps/adrp/omm_runs_*/*.dcd')
-        aggregated_temp_path = tempfile.mkdtemp(dir=f'{base_path}/MD_to_CVAE',
-                prefix='{}-'.format(len(list_of_dcds)))
-        for i in list_of_dcds:
-            new_name_from_omm_directory = os.path.basename(os.path.dirname(i))
-            os.symlink(i, '{}/{}.dcd'.format(aggregated_temp_path,
-                new_name_from_omm_directory))
+        
+        t2.pre_exec = [ f'export dcd_list=(`ls {base_path}/MD_exps/adrp/omm_runs_*/*dcd`)',
+                f'export tmp_path=`mktemp -p {base_path}/MD_to_CVAE/ -d`',
+                'for dcd in ${dcd_list[@]}; do tmp=$(basename $(dirname $dcd)); ln -s $dcd $tmp_path/$tmp.dcd; done']
 
-        sparse_matrix_path = f'{aggregated_temp_path}/adrp.h5'
+        sparse_matrix_path = f'{base_path}/MD_to_CVAE/adrp.h5'
         t2.executable = [f'{conda_openmm}/bin/python']  # MD_to_CVAE.py
         t2.arguments = [
                 f'{molecules_path}/scripts/traj_to_dset.py', 
-                '-t', aggregated_temp_path, 
+                '-t', '$tmp_path', 
                 '-p', f'{base_path}/Parameters/input_adrp/prot.pdb',
                 '-r', f'{base_path}/Parameters/input_adrp/prot.pdb',
                 '-o', sparse_matrix_path,
@@ -183,7 +180,8 @@ def generate_training_pipeline():
         s3.name = 'learning'
 
         global sparse_matrix_path
-        sparse_matrix_path = '/gpfs/alpine/med110/scratch/hrlee/hm0/MD_to_CVAE/120-9ql8szwe/adrp.h5'
+        if sparse_matrix_path is None:
+            sparse_matrix_path = f'{base_path}/MD_to_CVAE/adrp.h5'
 
         # learn task
         time_stamp = int(time.time())
@@ -302,9 +300,9 @@ def generate_training_pipeline():
         if CUR_STAGE % RETRAIN_FREQ == 0: 
             # --------------------------
             # Aggregate stage
-            #s2 = generate_aggregating_stage() 
+            s2 = generate_aggregating_stage() 
             # Add the aggregating stage to the training pipeline
-            #p.add_stages(s2)
+            p.add_stages(s2)
 
             # --------------------------
             # Learning stage
@@ -336,9 +334,9 @@ def generate_training_pipeline():
 
     # --------------------------
     # Aggregate stage
-    #s2 = generate_aggregating_stage() 
+    s2 = generate_aggregating_stage() 
     # Add the aggregating stage to the training pipeline
-    #p.add_stages(s2)
+    p.add_stages(s2)
 
     # --------------------------
     # Learning stage
@@ -372,7 +370,7 @@ if __name__ == '__main__':
             'resource': 'ornl.summit',
             'queue'   : 'batch',
             'schema'  : 'local',
-            'walltime': 60 * 2,
+            'walltime': 60 * 3,
             'cpus'    : 42 * 4 * node_counts,
             'gpus'    : 6 * node_counts,
             'project' : 'MED110'
