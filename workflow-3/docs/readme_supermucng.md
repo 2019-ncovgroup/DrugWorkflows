@@ -246,6 +246,14 @@ export RMQ_PORT=5672
 ## 4.1. Open Babel package (optional)
 ```shell script
 module use $WORK_pn98ve/../common/spack/modules/x86_64/linux-sles12-x86_64
-module load openbabel
+module load openbabel/3.0.0
+```
+
+## 4.2. NAMD package (optional)
+```shell script
+module use $WORK_pn98ve/../common/spack/modules/skylake/linux-sles12-skylake_avx512
+module load namd/2.14-impi
+# OR
+# module load namd/2.14-impi-smp
 ```
 
