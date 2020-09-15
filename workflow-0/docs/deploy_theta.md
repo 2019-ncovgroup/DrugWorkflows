@@ -104,10 +104,16 @@ $HOME/mongo/bin/mongo --host `hostname -f` --port 59361
 ```
 
 # 3. RP resource config for Theta
-`$HOME/.radical/pilot/configs/resource_anl.json` (is used to make test runs)
+Use one of the following locations to keep the configuration data:
+`$HOME/.radical/pilot/configs/resource_anl.json` (user space) OR
+`$HOME/ve.rp/lib/python3.7/site-packages/radical/pilot/configs/resource_anl.json` 
+(virtenv space)
+
+Special queue is used for WF0 - `CVD_Research` (this is going to the
+configuration file `wf0.theta.cfg`)
 
 NOTE: default queue for tests is `debug-flat-quad`, production queue is
-`default` (with minimum 128 nodes).
+`default` with minimum 128 nodes.
 ```json
 {
     "theta": {
@@ -120,7 +126,7 @@ NOTE: default queue for tests is `debug-flat-quad`, production queue is
             "job_manager_endpoint"    : "cobalt://localhost/",
             "filesystem_endpoint"     : "file://localhost/"
         },
-        "default_queue"               : "default",
+        "default_queue"               : "debug-flat-quad",
         "resource_manager"            : "COBALT",
         "lfs_per_node"                : "/tmp",
         "agent_config"                : "default",
@@ -157,6 +163,9 @@ export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@`hostname -f`:59361/rct_db"
 ```
 
 ## 4.1. Run WF0 execution
+Project name for the allocation: `CVD-Mol-AI` (if not a member of this 
+project then should be used `CVD_Research`)
+
 Launch scrip includes all pre-/post-exec actions (VE activation, start/stop DB)
 ```shell script
 ./run.sh

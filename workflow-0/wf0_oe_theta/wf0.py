@@ -160,21 +160,22 @@ if __name__ == '__main__':
             gpn       = cfg.gpn
             n_masters = cfg.n_masters
 
-            # Theta Job Scheduling Policy:
-            #   https://www.alcf.anl.gov/support-center/theta/job-scheduling-policy-theta#knl-queues
-            is_policy_set = False
-            if nodes <= MAX_NODES:
-                for theta_sp in THETA_SCHEDULING_POLICY:
-                    if runtime > theta_sp['max_runtime']:
-                        continue
-                    if nodes < theta_sp['min_nodes']:
-                        nodes = theta_sp['min_nodes']
-                    is_policy_set = True
+            if cfg.pilot_descr.queue == 'default':
+                # Theta Job Scheduling Policy:
+                #   https://www.alcf.anl.gov/support-center/theta/job-scheduling-policy-theta#knl-queues
+                is_policy_set = False
+                if nodes <= MAX_NODES:
+                    for theta_sp in THETA_SCHEDULING_POLICY:
+                        if runtime > theta_sp['max_runtime']:
+                            continue
+                        if nodes < theta_sp['min_nodes']:
+                            nodes = theta_sp['min_nodes']
+                        is_policy_set = True
 
-            if not is_policy_set:
-                raise RuntimeError(
-                    'Requested pair (nodes=%s, runtime=%s) ' % (nodes, runtime) +
-                    'does not fulfill the scheduling policy')
+                if not is_policy_set:
+                    raise RuntimeError(
+                        'Requested pair (nodes=%s, runtime=%s) does not ' %
+                        (nodes, runtime) + 'fulfill the scheduling policy')
 
             cfg.workload.receptor = '%s.oeb'  % receptor
             cfg.workload.smiles   = '%s.csv'  % smiles
