@@ -1,6 +1,6 @@
 {
     "md_counts"     : 120,
-    "ml_counts"     : 1,
+    "ml_counts"     : 10,
     "gpu_per_node"  : 6,
     "batch_size"    : 64,
     "epoch"         : 100,
@@ -13,14 +13,14 @@
     "molecules_path": "/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecules",
 
     "CUR_STAGE"     : 0,
-    "MAX_STAGE"     : 1,
-    "RETRAIN_FREQ"  : 1,
+    "MAX_STAGE"     : 10,
+    "RETRAIN_FREQ"  : 5,
     "LEN_initial"   : 10,
     "LEN_iter"      : 10,
 
     "resource"      : "ornl.summit",
-    "queue"         : "debug",
+    "queue"         : "batch",
     "schema"        : "local",
-    "walltime"      : 60,
+    "walltime"      : 360,
     "project"       : "MED110"
 }

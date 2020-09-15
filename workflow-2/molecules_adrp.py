@@ -27,15 +27,12 @@ export RADICAL_PILOT_PROFILE=True
 export RADICAL_ENTK_PROFILE=True
 '''
 
-# GGlobal variables
-sparse_matrix_path = None
-CUR_STAGE = 0
-MAX_STAGE = 1
-
 def generate_training_pipeline(cfg):
     """
     Function to generate the CVAE_MD pipeline
     """
+    CUR_STAGE = cfg['CUR_STAGE']
+    MAX_STAGE = cfg['MAX_STAGE']
 
     def generate_MD_stage(num_MD=1):
         """
@@ -110,7 +107,6 @@ def generate_training_pipeline(cfg):
         """
         s2 = Stage()
         s2.name = 'aggregating'
-        global sparse_matrix_path
 
         # Aggregation task
         t2 = Task()
@@ -130,14 +126,13 @@ def generate_training_pipeline(cfg):
                 'export tmp_path=`mktemp -p %s/MD_to_CVAE/ -d`' % cfg['base_path'],
                 'for dcd in ${dcd_list[@]}; do tmp=$(basename $(dirname $dcd)); ln -s $dcd $tmp_path/$tmp.dcd; done']
 
-        sparse_matrix_path = '%s/MD_to_CVAE/adrp.h5' % cfg['base_path']
         t2.executable = ['%s/bin/python' % cfg['conda_openmm']]  # MD_to_CVAE.py
         t2.arguments = [
                 '%s/scripts/traj_to_dset.py' % cfg['molecules_path'],
                 '-t', '$tmp_path',
                 '-p', '%s/Parameters/input_adrp/prot.pdb' % cfg['base_path'],
                 '-r', '%s/Parameters/input_adrp/prot.pdb' % cfg['base_path'],
-                '-o', sparse_matrix_path,
+                '-o', '%s/MD_to_CVAE/adrp.h5' % cfg['base_path'],
                 '--rmsd',
                 '--fnc',
                 '--contact_map',
@@ -161,10 +156,6 @@ def generate_training_pipeline(cfg):
         s3 = Stage()
         s3.name = 'learning'
 
-        global sparse_matrix_path
-        if sparse_matrix_path is None:
-            sparse_matrix_path = '%s/MD_to_CVAE/adrp.h5' % cfg['base_path']
-
         # learn task
         time_stamp = int(time.time())
         for i in range(num_ML):
@@ -184,14 +175,14 @@ def generate_training_pipeline(cfg):
             dim = i + 3
             cvae_dir = 'cvae_runs_%.2d_%d' % (dim, time_stamp+i)
             run_dir = 'runs/cmaps-adrp-summit-1'
-            t3.pre_exec += ['cd %s/CVAE_exps' % {cfg['base_path']}]
+            t3.pre_exec += ['cd %s/CVAE_exps' % cfg['base_path']]
             t3.pre_exec += ['mkdir -p %s && cd %s' % (cvae_dir, cvae_dir)]
             t3.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
             nnodes = cfg['node_counts'] // num_ML
 
             cmd_cat    = 'cat /dev/null'
             cmd_jsrun  = 'jsrun -n %s -r 1 -g 6 -a 3 -c 42 -d packed' % nnodes
-            cmd_vae    = '%s/examples/run_vae_dist_summit.sh %s' % (cfg['molecules_path'], sparse_matrix_path)
+            cmd_vae    = '%s/examples/run_vae_dist_summit.sh %s/MD_to_CVAE/adrp.h5' % (cfg['molecules_path'], cfg['base_path'])
             cmd_sparse = '%s sparse-concat resnet 168 168 21 amp distributed %s %s 3' % (cvae_dir, cfg['batch_size'], cfg['epoch'])
 
             t3.executable= ['%s; %s %s ./ %s' % (cmd_cat, cmd_jsrun, cmd_vae, cmd_sparse)]
@@ -266,16 +257,16 @@ def generate_training_pipeline(cfg):
 
 
     def func_condition():
-        global CUR_STAGE
-        global MAX_STAGE
+        nonlocal CUR_STAGE
+        nonlocal MAX_STAGE
         if CUR_STAGE < MAX_STAGE:
             func_on_true()
         else:
             func_on_false()
 
     def func_on_true():
-        global CUR_STAGE
-        global MAX_STAGE
+        nonlocal CUR_STAGE
+        nonlocal MAX_STAGE
         print('finishing stage %d of %d' % (CUR_STAGE, MAX_STAGE))
 
         # --------------------------
@@ -307,7 +298,7 @@ def generate_training_pipeline(cfg):
     def func_on_false():
         print ('Done')
 
-    global CUR_STAGE
+    nonlocal CUR_STAGE
     p = Pipeline()
     p.name = 'MD_ML'
 
