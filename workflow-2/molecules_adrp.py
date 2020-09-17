@@ -176,8 +176,8 @@ def generate_training_pipeline(cfg):
             t3.pre_exec += ['cd %s/CVAE_exps' % cfg['base_path']]
             t3.pre_exec += ['mkdir -p %s && cd %s' % (cvae_dir, cvae_dir)]
             t3.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
-            nnodes = cfg['node_counts'] // num_ML
-
+            
+            nnodes     = cfg['node_counts'] // num_ML
             cmd_cat    = 'cat /dev/null'
             cmd_jsrun  = 'jsrun -n %s -r 1 -g 6 -a 3 -c 42 -d packed' % nnodes
             cmd_vae    = '%s/examples/run_vae_dist_summit_entk.sh %s/MD_to_CVAE/cvae_input.h5' % (cfg['molecules_path'], cfg['base_path'])
