@@ -74,7 +74,7 @@ def generate_training_pipeline(cfg):
                 t1.arguments += ['--pdb_file', outlier_list[i]]
                 t1.pre_exec += ['cp %s ./' % outlier_list[i]]
             elif outlier_list[i].endswith('chk'):
-                t1.arguments += ['--pdb_file', cfg['pdb_path'],
+                t1.arguments += ['--pdb_file', cfg['pdb_file'],
                         '-c', outlier_list[i]]
                 t1.pre_exec += ['cp %s ./' % outlier_list[i]]
 
@@ -132,7 +132,7 @@ def generate_training_pipeline(cfg):
                 '-t', '$tmp_path',
                 '-p', '%s/Parameters/input_adrp/prot.pdb' % cfg['base_path'],
                 '-r', '%s/Parameters/input_adrp/prot.pdb' % cfg['base_path'],
-                '-o', '%s/MD_to_CVAE/adrp.h5' % cfg['base_path'],
+                '-o', '%s/MD_to_CVAE/cvae_input.h5' % cfg['base_path'],
                 '--rmsd',
                 '--fnc',
                 '--contact_map',
@@ -182,7 +182,7 @@ def generate_training_pipeline(cfg):
 
             cmd_cat    = 'cat /dev/null'
             cmd_jsrun  = 'jsrun -n %s -r 1 -g 6 -a 3 -c 42 -d packed' % nnodes
-            cmd_vae    = '%s/examples/run_vae_dist_summit.sh %s/MD_to_CVAE/adrp.h5' % (cfg['molecules_path'], cfg['base_path'])
+            cmd_vae    = '%s/examples/run_vae_dist_summit_entk.sh %s/MD_to_CVAE/cvae_input.h5' % (cfg['molecules_path'], cfg['base_path'])
             cmd_sparse = '%s sparse-concat resnet 168 168 21 amp distributed %s %s 3' % (cvae_dir, cfg['batch_size'], cfg['epoch'])
 
             t3.executable= ['%s; %s %s ./ %s' % (cmd_cat, cmd_jsrun, cmd_vae, cmd_sparse)]
@@ -217,8 +217,6 @@ def generate_training_pipeline(cfg):
 
             # Add the learn task to the learning stage
             s3.add_tasks(t3)
-            s3.post_exec = func_condition
-            # TODO: ?
         return s3
 
 
@@ -230,17 +228,26 @@ def generate_training_pipeline(cfg):
         t4 = Task()
 
         t4.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
-        t4.pre_exec += ['module load cuda/9.1.85']
-        t4.pre_exec += ['conda activate %s' % cfg['conda_path']]
-        t4.pre_exec += ['export PYTHONPATH=%s/CVAE_exps:%s/CVAE_exps/cvae:$PYTHONPATH' %
-                (cfg['base_path'], cfg['base_path'])]
-        t4.pre_exec += ['cd %s/Outlier_search' % cfg['base_path']]
+        t4.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
+        t4.pre_exec += ['mkdir -p %s/Outlier_search/outlier_pdbs' % cfg['base_path']]
+        t4.pre_exec += ['export models='';for i in `ls -d %s/CVAE_exps/cvae_runs*/`; do if [ "$models" != "" ]; then    models=$models","$i; else     models=$i; fi; done;' % cfg['base_path']]
 
-        t4.executable = ['%s/bin/python' % cfg['conda_path']]
-        t4.arguments = ['outlier_locator.py', '--md', '../MD_exps/fs-pep',
-                        '--cvae', '../CVAE_exps', '--pdb',
-                        '../MD_exps/fs-pep/pdb/100-fs-peptide-400K.pdb',
-                        '--ref', '../MD_exps/fs-pep/pdb/fs-peptide.pdb']
+        t4.executable = ['%s/bin/python' % cfg['conda_pytorch']]
+        t4.arguments = ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
+                        '--sim_path', '%s/MD_exps/adrp' % cfg['base_path'],
+                        '--pdb_out_path', '%s/Outlier_search/outlier_pdbs' % cfg['base_path'],
+                        '--restart_points_path',
+                        '%s/Outlier_search/restart_points.json' % cfg['base_path'],
+                        '--data_path', '%s/MD_to_CVAE/cvae_input.h5' % cfg['base_path'],
+                        '--model_paths', '$models',
+                        '--model_type', 'vae-resnet',
+                        '--min_samples', 10,
+                        '--n_outliers', 500,
+                        '--device', 'cuda:0',
+                        '--dim1', 168,
+                        '--dim2', 168,
+                        '--cm_format', 'sparse-concat',
+                        '--batch_size', 256]
 
         t4.cpu_reqs = {'processes': 1,
                        'process_type': None,
@@ -290,15 +297,14 @@ def generate_training_pipeline(cfg):
 
         # --------------------------
         # Outlier identification stage
-        #s4 = generate_interfacing_stage()
-        #p.add_stages(s4)
+        s4 = generate_interfacing_stage()
+        p.add_stages(s4)
 
         CUR_STAGE += 1
 
     def func_on_false():
         print ('Done')
 
-    nonlocal CUR_STAGE
     p = Pipeline()
     p.name = 'MD_ML'
 
@@ -322,8 +328,8 @@ def generate_training_pipeline(cfg):
 
     # --------------------------
     # Outlier identification stage
-    # s4 = generate_interfacing_stage()
-    # p.add_stages(s4)
+    s4 = generate_interfacing_stage()
+    p.add_stages(s4)
 
     CUR_STAGE += 1
 
@@ -344,14 +350,13 @@ if __name__ == '__main__':
     # resource specified as argument
     if len(sys.argv) == 2:
         cfg_file = sys.argv[1]
+    elif sys.argv[0] == "molecules_adrp.py":
+        cfg_file = "molecules_adrp.json"
     else:
         reporter.exit('Usage:\t%s [config.json]\n\n' % sys.argv[0])
 
     cfg = ru.Config(cfg=ru.read_json(cfg_file))
     cfg['node_counts'] = cfg['md_counts'] // cfg['gpu_per_node']
-    cfg['pdb_path'] = cfg['base_path']+'/Parameters/input_adrp/prot.pdb'
-    cfg['pdb_file'] = cfg['pdb_path']
-    cfg['top_file'] = cfg['base_path']+'/Parameters/input_adrp/prot.prmtop'
     # cfg['ref_path'] = cfg['base_path']+'/Parameters/input_adrp/prot.pdb'
 
     # Create a dictionary to describe four mandatory keys:
