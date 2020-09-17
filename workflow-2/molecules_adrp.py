@@ -166,12 +166,11 @@ def generate_training_pipeline(cfg):
 
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/CVAE_exps/train_cvae.py
             t3.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
-            t3.pre_exec += [
-                    'module load gcc/7.4.0',
-                    'module load cuda/10.1.243',
-                    'module load hdf5/1.10.4',
-                    'export LANG=en_US.utf-8',
-                    'export LC_ALL=en_US.utf-8']
+            t3.pre_exec += ['module load gcc/7.4.0',
+                            'module load cuda/10.1.243',
+                            'module load hdf5/1.10.4',
+                            'export LANG=en_US.utf-8',
+                            'export LC_ALL=en_US.utf-8']
             t3.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
             t3.pre_exec += ['PYTHONPATH=/ccs/home/hrlee/.local/lib/python3.6/site-packages:$PYTHONPATH']
             t3.pre_exec += ['cd %s/CVAE_exps' % cfg['base_path']]
