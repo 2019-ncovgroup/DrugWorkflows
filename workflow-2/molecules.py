@@ -230,7 +230,7 @@ def generate_training_pipeline(cfg):
         t4.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
         t4.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
         t4.pre_exec += ['mkdir -p %s/Outlier_search/outlier_pdbs' % cfg['base_path']]
-        t4.pre_exec += ['export models=''; for i in `ls -d %s/CVAE_exps/cvae_runs*/`; do if [ "$models" != "" ]; then models=$models","$i; else models=$i; fi; done;' % cfg['base_path']]
+        t4.pre_exec += ['export models=""; for i in `ls -d %s/CVAE_exps/model-cvae_runs*/`; do if [ "$models" != "" ]; then    models=$models","$i; else models=$i; fi; done;cat /dev/null' % cfg['base_path']]
 
         t4.executable = ['%s/bin/python' % cfg['conda_pytorch']]
         t4.arguments = ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
@@ -244,10 +244,10 @@ def generate_training_pipeline(cfg):
                         '--min_samples', 10,
                         '--n_outliers', 500,
                         '--device', 'cuda:0',
-                        '--dim1', 168,
-                        '--dim2', 168,
+                        '--dim1', cfg['residues'],
+                        '--dim2', cfg['residues'],
                         '--cm_format', 'sparse-concat',
-                        '--batch_size', 256]
+                        '--batch_size', cfg['batch_size']]
 
         t4.cpu_reqs = {'processes'          : 1,
                        'process_type'       : None,
