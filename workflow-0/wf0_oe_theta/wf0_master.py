@@ -121,8 +121,6 @@ class MyMaster(rp.task_overlay.Master):
             pos += world_size
             items.append(item)
 
-
-
         with open('new.idx', 'w') as fout:
             fout.write('\n'.join(idxs))
 
@@ -167,36 +165,8 @@ if __name__ == '__main__':
     gpn        = cfg.gpn
     descr      = cfg.worker_descr
 
-    # add data staging to worker: link input_dir, impress_dir, and oe_license
-    descr['arguments']     = ['wf0_worker.py']
-    descr['cpu_threads']   = 1
-    descr['input_staging'] = [
-                               {'source': '%s/wf0_worker.py' % os.getcwd(),
-                                'target': 'wf0_worker.py',
-                                'action': rp.COPY,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.0'},
-                               {'source': '%s/wf0.cfg' % os.getcwd(),
-                                'target': 'wf0.cfg',
-                                'action': rp.COPY,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.1'},
-                               {'source': workload.input_dir,
-                                'target': 'input_dir',
-                                'action': rp.LINK,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.2'},
-                               {'source': workload.impress_dir,
-                                'target': 'impress_md',
-                                'action': rp.LINK,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.3'},
-                               {'source': workload.oe_license,
-                                'target': 'oe_license.txt',
-                                'action': rp.LINK,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.4'},
-                              ]
+    descr.update({'arguments'  : ['wf0_worker.py'],
+                  'cpu_threads': 1})
 
     # one node is used by master.  Alternatively (and probably better), we could
     # reduce one of the worker sizes by one core.  But it somewhat depends on
@@ -227,8 +197,8 @@ if __name__ == '__main__':
 
     # collect sdf files
     ext = workload.output
-    os.system('sh -c "cat worker.*/out.%s | gzip > %s.%s.gz"'
-             % (workload.output, workload.name, ext))
+    os.system('sh -c "cat out.*.%s | gzip > %s.%s.gz"' %
+              (ext, workload.name, ext))
 
 
 # ------------------------------------------------------------------------------

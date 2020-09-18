@@ -36,7 +36,7 @@ for p in pilot.*; do
 
     echo "collect"
 
-    for f in $p/un*/worker.0*/*sdf
+    for f in $p/un*/*sdf
     do
         echo "  collect $f"
         cat $f >> $sdf

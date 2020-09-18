@@ -73,7 +73,7 @@ if __name__ == '__main__':
 
         cfg       = ru.Config(cfg=ru.read_json(cfg_file))
         rec_path  = 'input/receptors.v7/'    # FIXME
-        smi_path  = 'input/smiles/'           # FIXME
+        smi_path  = 'input/smiles/'          # FIXME
         runs      = list()
 
         with open(run_file, 'r') as fin:
@@ -198,31 +198,30 @@ if __name__ == '__main__':
 
             for i in range(n_masters):
                 td = rp.ComputeUnitDescription(cfg.master_descr)
-                td.executable     = "python3"
                 td.arguments      = ['wf0_master.py', i]
                 td.cpu_threads    = 1
                 td.pilot          = pid
-                td.input_staging  = [{'source': cfg.master,
-                                      'target': 'wf0_master.py',
-                                      'action': rp.TRANSFER,
-                                      'flags' : rp.DEFAULT_FLAGS},
-                                     {'source': cfg.worker,
-                                      'target': 'wf0_worker.py',
-                                      'action': rp.TRANSFER,
-                                      'flags' : rp.DEFAULT_FLAGS},
-                                     {'source': 'configs/wf0.%s.cfg' % name,
-                                      'target': 'wf0.cfg',
-                                      'action': rp.TRANSFER,
-                                      'flags' : rp.DEFAULT_FLAGS},
-                                     {'source': workload.input_dir,
-                                      'target': 'input_dir',
-                                      'action': rp.LINK,
-                                      'flags' : rp.DEFAULT_FLAGS}
-                                    ]
-                td.output_staging = [{'source': '%s.%s.gz'         % (name, workload.output),
-                                      'target': 'results/%s.%s.gz' % (name, workload.output),
-                                      'action': rp.TRANSFER,
-                                      'flags' : rp.DEFAULT_FLAGS}]
+                td.input_staging  = [
+                    {'source': cfg.master,
+                     'target': 'wf0_master.py'},
+                    {'source': cfg.worker,
+                     'target': 'wf0_worker.py'},
+                    {'source': 'configs/wf0.%s.cfg' % name,
+                     'target': 'wf0.cfg'},
+                    {'source': workload.input_dir,
+                     'target': 'input_dir',
+                     'action': rp.LINK},
+                    {'source': workload.impress_dir,
+                     'target': 'impress_md',
+                     'action': rp.LINK},
+                    {'source': workload.oe_license,
+                     'target': 'oe_license.txt',
+                     'action': rp.LINK}
+                ]
+                td.output_staging = [
+                    {'source': '%s.%s.gz'         % (name, workload.output),
+                     'target': 'results/%s.%s.gz' % (name, workload.output)}
+                ]
                 tds.append(td)
 
             tasks = umgr.submit_units(tds)

@@ -51,9 +51,9 @@ class MyWorker(rp.task_overlay.Worker):
 
             self._log.debug('pre_exec (%s)', workload.output)
 
-            receptor_file      = 'input_dir/receptors.v7/' + workload.receptor
-            smiles_file        = 'input_dir/smiles/'       + workload.smiles
-            output             = './out.'                  + workload.output
+            receptor_file      = 'input_dir/receptors.v7/%s' % workload.receptor
+            smiles_file        = 'input_dir/smiles/%s'       % workload.smiles
+            output             = './out.%s.%s' % (rank, workload.output)
 
             self.verbose       = workload.verbose
             self.force_flipper = workload.force_flipper
