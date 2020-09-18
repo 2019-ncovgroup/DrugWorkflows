@@ -357,7 +357,7 @@ if __name__ == '__main__':
         reporter.exit('Usage:\t%s [config.json]\n\n' % sys.argv[0])
 
     cfg = ru.Config(cfg=ru.read_json(cfg_file))
-    cfg['node_counts'] = cfg['md_counts'] // cfg['gpu_per_node']
+    cfg['node_counts'] = max(1, cfg['md_counts'] // cfg['gpu_per_node'])
 
     res_dict = {
             'resource': cfg['resource'],
