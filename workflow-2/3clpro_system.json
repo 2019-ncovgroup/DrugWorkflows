@@ -1,0 +1,83 @@
+{
+    "md_counts"     : 120,
+    "ml_counts"     : 10,
+    "gpu_per_node"  : 6,
+    "batch_size"    : 256,
+    "epoch"         : 5,
+
+    "conda_path"    : "/gpfs/alpine/proj-shared/med110/conda/openmm",
+    "conda_openmm"  : "/gpfs/alpine/proj-shared/med110/conda/openmm",
+    "conda_pytorch" : "/gpfs/alpine/proj-shared/med110/atrifan/scripts/pytorch-1.6.0_cudnn-8.0.2.39_nccl-2.7.8-1_static_mlperf",
+
+    "base_path"     : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2",
+    "molecules_path": "/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecules",
+
+    "residues"      : 302,
+    "pdb_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.pdb",
+    "top_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.prmtop",
+  
+    "ml_hpo" : [
+        {
+            "optimizer": "name=RMSprop,lr=1e-5",
+            "latent_dim": 21,
+	    "batch_size": 256
+        },
+        {
+            "optimizer": "name=RMSprop,lr=1e-4",
+            "latent_dim": 21,
+	    "batch_size": 256
+        },
+        {
+            "optimizer": "name=RMSprop,lr=1e-3",
+            "latent_dim": 21,
+	    "batch_size": 256
+        },
+        {
+            "optimizer": "name=RMSprop,lr=1e-2",
+            "latent_dim": 21,
+	    "batch_size": 256
+        },
+        {
+            "optimizer": "name=RMSprop,lr=1e-1",
+            "latent_dim": 21,
+	    "batch_size": 256
+        },
+        {
+            "optimizer": "name=Adam,lr=1e-5",
+            "latent_dim": 21,
+	    "batch_size": 256
+        },
+        {
+            "optimizer": "name=Adam,lr=1e-4",
+            "latent_dim": 21,
+	    "batch_size": 256
+        },
+        {
+            "optimizer": "name=Adam,lr=1e-3",
+            "latent_dim": 21,
+	    "batch_size": 256
+        },
+        {
+            "optimizer": "name=Adam,lr=1e-2",
+            "latent_dim": 21,
+	    "batch_size": 256
+        },
+        {
+            "optimizer": "name=Adam,lr=1e-1",
+            "latent_dim": 21,
+	    "batch_size": 256
+        }
+    ],
+
+    "CUR_STAGE"     : 0,
+    "MAX_STAGE"     : 10,
+    "RETRAIN_FREQ"  : 5,
+    "LEN_initial"   : 10,
+    "LEN_iter"      : 10,
+
+    "resource"      : "ornl.summit",
+    "queue"         : "batch",
+    "schema"        : "local",
+    "walltime"      : 360,
+    "project"       : "MED110"
+}

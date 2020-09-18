@@ -12,6 +12,7 @@
     "base_path"     : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2",
     "molecules_path": "/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecules",
 
+    "residues"      : 168,
     "pdb_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_adrp/prot.pdb",
     "top_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_adrp/prot.prmtop",
 
