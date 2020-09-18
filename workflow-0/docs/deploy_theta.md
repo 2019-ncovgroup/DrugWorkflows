@@ -110,7 +110,7 @@ Use one of the following locations to keep the configuration data:
 (virtenv space)
 
 NOTE: default queue for tests is `debug-flat-quad`, production queue is 
-`default` with minimum 128 nodes (WF0 has special queues, see section 4.1 for 
+`default` with minimum 128 nodes (WF0 has a special queue, see section 4.1 for 
 details).
 ```json
 {
@@ -161,9 +161,9 @@ export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@`hostname -f`:59361/rct_db"
 ```
 
 ## 4.1. Run WF0 execution
-Project name and corresponding queue are: `CVD-Mol-AI`, `R.CVD_Research` (backup
-project and queue is `CVD_Research`), and which are set in the configuration
-file `wf0.theta.cfg`.
+Project name and corresponding queue are: `CVD-Mol-AI`, `CVD_Research` (backup
+project is `CVD_Research`), and which are set in the configuration file 
+`wf0.theta.cfg`.
 
 Launch scrip includes all pre-/post-exec actions (VE activation, start/stop DB)
 ```shell script
