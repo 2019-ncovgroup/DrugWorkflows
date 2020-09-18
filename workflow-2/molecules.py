@@ -2,8 +2,6 @@ import os
 import sys
 import json
 import time
-import glob
-import tempfile
 
 import radical.utils as ru
 
@@ -59,10 +57,10 @@ def generate_training_pipeline(cfg):
             t1.pre_exec += ['conda activate %s' % cfg['conda_openmm']]
             t1.pre_exec += ['export PYTHONPATH=%s/MD_exps:%s/MD_exps/MD_utils:$PYTHONPATH' %
                 (cfg['base_path'], cfg['base_path'])]
-            t1.pre_exec += ['cd %s/MD_exps/adrp' % cfg['base_path']]
+            t1.pre_exec += ['cd %s/MD_exps/%s' % (cfg['base_path'], cfg['system_name'])]
             t1.pre_exec += ['mkdir -p omm_runs_%d && cd omm_runs_%d' % (time_stamp+i, time_stamp+i)]
             t1.executable = ['%s/bin/python' % cfg['conda_openmm']]  # run_openmm.py
-            t1.arguments = ['%s/MD_exps/adrp/run_openmm.py' % cfg['base_path']]
+            t1.arguments = ['%s/MD_exps/%s/run_openmm.py' % (cfg['base_path'], cfg['system_name'])]
           #   t1.arguments += ['--topol', '%s/MD_exps/fs-pep/pdb/topol.top' % cfg['base_path']]
 
 
@@ -122,7 +120,7 @@ def generate_training_pipeline(cfg):
         # 3) symlink them in the temp directory
 
         t2.pre_exec = [
-                'export dcd_list=(`ls %s/MD_exps/adrp/omm_runs_*/*dcd`)' % cfg['base_path'],
+                'export dcd_list=(`ls %s/MD_exps/%s/omm_runs_*/*dcd`)' % (cfg['base_path'], cfg['system_name']),
                 'export tmp_path=`mktemp -p %s/MD_to_CVAE/ -d`' % cfg['base_path'],
                 'for dcd in ${dcd_list[@]}; do tmp=$(basename $(dirname $dcd)); ln -s $dcd $tmp_path/$tmp.dcd; done']
 
@@ -130,8 +128,8 @@ def generate_training_pipeline(cfg):
         t2.arguments = [
                 '%s/scripts/traj_to_dset.py' % cfg['molecules_path'],
                 '-t', '$tmp_path',
-                '-p', '%s/Parameters/input_adrp/prot.pdb' % cfg['base_path'],
-                '-r', '%s/Parameters/input_adrp/prot.pdb' % cfg['base_path'],
+                '-p', '%s/Parameters/input_protein/prot.pdb' % cfg['base_path'],
+                '-r', '%s/Parameters/input_protein/prot.pdb' % cfg['base_path'],
                 '-o', '%s/MD_to_CVAE/cvae_input.h5' % cfg['base_path'],
                 '--rmsd',
                 '--fnc',
@@ -240,7 +238,7 @@ def generate_training_pipeline(cfg):
 
         t4.executable = ['%s/bin/python' % cfg['conda_pytorch']]
         t4.arguments = ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
-                        '--sim_path', '%s/MD_exps/adrp' % cfg['base_path'],
+                        '--sim_path', '%s/MD_exps/%s' % (cfg['base_path'], cfg['system_name']),
                         '--pdb_out_path', '%s/Outlier_search/outlier_pdbs' % cfg['base_path'],
                         '--restart_points_path',
                         '%s/Outlier_search/restart_points.json' % cfg['base_path'],
