@@ -15,6 +15,13 @@ pip install radical.entk
 
 ```
 
+## Deploy molecules
+
+The latest branch for GB is here:
+```
+pip install git+https://github.com/braceal/molecules/tree/ddp_model_overhaul/molecules
+```
+
 ## Deploy W2 repository
 
 ```
