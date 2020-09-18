@@ -109,11 +109,9 @@ Use one of the following locations to keep the configuration data:
 `$HOME/ve.rp/lib/python3.7/site-packages/radical/pilot/configs/resource_anl.json` 
 (virtenv space)
 
-Special queue is used for WF0 - `CVD_Research` (this is going to the
-configuration file `wf0.theta.cfg`)
-
-NOTE: default queue for tests is `debug-flat-quad`, production queue is
-`default` with minimum 128 nodes.
+NOTE: default queue for tests is `debug-flat-quad`, production queue is 
+`default` with minimum 128 nodes (WF0 has special queues, see section 4.1 for 
+details).
 ```json
 {
     "theta": {
@@ -163,8 +161,9 @@ export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@`hostname -f`:59361/rct_db"
 ```
 
 ## 4.1. Run WF0 execution
-Project name for the allocation: `CVD-Mol-AI` (if not a member of this 
-project then should be used `CVD_Research`)
+Project name and corresponding queue are: `CVD-Mol-AI`, `R.CVD_Research` (backup
+project and queue is `CVD_Research`), and which are set in the configuration
+file `wf0.theta.cfg`.
 
 Launch scrip includes all pre-/post-exec actions (VE activation, start/stop DB)
 ```shell script
