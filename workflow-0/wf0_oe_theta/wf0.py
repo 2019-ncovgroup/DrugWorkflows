@@ -219,8 +219,8 @@ if __name__ == '__main__':
                      'action': rp.LINK}
                 ]
                 td.output_staging = [
-                    {'source': '%s.%s.gz'         % (name, workload.output),
-                     'target': 'results/%s.%s.gz' % (name, workload.output)}
+                    {'source': '%s.%s.gz'            % (name, workload.output),
+                     'target': 'results/%s.%s.%s.gz' % (name, i, workload.output)}
                 ]
                 tds.append(td)
 
