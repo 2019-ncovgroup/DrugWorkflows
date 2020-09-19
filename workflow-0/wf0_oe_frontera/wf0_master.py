@@ -52,20 +52,37 @@ class MyMaster(rp.task_overlay.Master):
 
         workload = self._cfg.workload
         fname    = 'input_dir/%s.csv' % workload.smiles
+        iname    = '%s.idx' % fname
         header   = None
         idxs     = list()
+        i        = 0
 
-        # build indexes
-        with open(fname) as fin:
-            while True:
-                idxs.append(fin.tell())
-                line = fin.readline()
-                if not line  : break
-                if not header: header = line
+        if os.path.isfile(iname):
+            # read indexes
+            print('using cached index')
+            with open(fname) as fin:
+                header = fin.readline()
+            with open(iname, 'r') as fin:
+                idxs = [int(line) for line in fin.readlines()]
+            idxs.pop()   # EOF
 
+        else:
+            # build indexes
+            print('read start')
+            with open(fname) as fin:
+                header = fin.readline()
+                while True:
+                    idxs.append(fin.tell())
+                    line = fin.readline()
+                    if not line  : break
+                    if not i % 1000000:
+                        print('read %d' % i)
+                    i += 1
+                    if i > 10000:
+                        break  # FIXME
+            print('read stop')
 
-        idxs.pop(0)  # header
-        idxs.pop()   # EOF
+            idxs.pop()   # EOF
 
         self._idxs        = idxs
         self._cfg.columns = header.strip('\n').split(',')
@@ -201,40 +218,41 @@ if __name__ == '__main__':
 
     # add data staging to worker: link input_dir, impress_dir, and oe_license
     descr['arguments']     = ['wf0_worker.py']
-    descr['cpu_threads']   = 1
-    descr['input_staging'] = [
-                               {'source': '%s/wf0_worker.py' % os.getcwd(),
-                                'target': 'wf0_worker.py',
-                                'action': rp.COPY,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.0'},
-                               {'source': '%s/wf0.cfg' % os.getcwd(),
-                                'target': 'wf0.cfg',
-                                'action': rp.COPY,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.1'},
-                               {'source': workload.input_dir,
-                                'target': 'input_dir',
-                                'action': rp.LINK,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.2'},
-                               {'source': workload.impress_dir,
-                                'target': 'impress_md',
-                                'action': rp.LINK,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.3'},
-                               {'source': workload.oe_license,
-                                'target': 'oe_license.txt',
-                                'action': rp.LINK,
-                                'flags' : rp.DEFAULT_FLAGS,
-                                'uid'   : 'sd.4'},
-                              ]
+  # descr['cpu_threads']   = 1
+  # descr['input_staging'] = [
+  #                            {'source': '%s/wf0_worker.py' % os.getcwd(),
+  #                             'target': 'wf0_worker.py',
+  #                             'action': rp.COPY,
+  #                             'flags' : rp.DEFAULT_FLAGS,
+  #                             'uid'   : 'sd.0'},
+  #                            {'source': '%s/wf0.cfg' % os.getcwd(),
+  #                             'target': 'wf0.cfg',
+  #                             'action': rp.COPY,
+  #                             'flags' : rp.DEFAULT_FLAGS,
+  #                             'uid'   : 'sd.1'},
+  #                            {'source': workload.input_dir,
+  #                             'target': 'input_dir',
+  #                             'action': rp.LINK,
+  #                             'flags' : rp.DEFAULT_FLAGS,
+  #                             'uid'   : 'sd.2'},
+  #                            {'source': workload.impress_dir,
+  #                             'target': 'impress_md',
+  #                             'action': rp.LINK,
+  #                             'flags' : rp.DEFAULT_FLAGS,
+  #                             'uid'   : 'sd.3'},
+  #                            {'source': workload.oe_license,
+  #                             'target': 'oe_license.txt',
+  #                             'action': rp.LINK,
+  #                             'flags' : rp.DEFAULT_FLAGS,
+  #                             'uid'   : 'sd.4'},
+  #                           ]
 
     # one node is used by master.  Alternatively (and probably better), we could
     # reduce one of the worker sizes by one core.  But it somewhat depends on
     # the worker type and application workload to judge if that makes sense, so
     # we leave it for now.
-    n_workers = int((n_nodes / cfg.n_masters) - 1)
+    n_workers = cfg.n_workers
+    print('n_workers', n_workers)
 
     # create a master class instance - this will establish communitation to the
     # pilot agent
@@ -245,7 +263,7 @@ if __name__ == '__main__':
     # NOTE: this assumes a certain worker size / layout
     print('cpn: %d' % cpn)
     master.submit(descr=descr, count=n_workers, cores=cpn,     gpus=gpn)
-    master.submit(descr=descr, count=1,         cores=cpn - 1, gpus=gpn)
+  # master.submit(descr=descr, count=1,         cores=cpn - 1, gpus=gpn)
 
     # wait until `m` of those workers are up
     # This is optional, work requests can be submitted before and will wait in

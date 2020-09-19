@@ -171,9 +171,9 @@ if __name__ == '__main__':
 
         for receptor, smiles, nodes, runtime in runs:
 
-            print('=== %30s  %s' % (receptor, smiles))
-            name = '%s_-_%s'     % (receptor, smiles)
-            tgt  = '%s.%s.gz'    % (name, workload.output)
+            print('%30s  %s'   % (receptor, smiles))
+            name = '%s_-_%s'   % (receptor, smiles)
+            tgt  = '%s.%s.gz'  % (name, workload.output)
             rec  = False
 
             if tgt in ls:
@@ -212,6 +212,8 @@ if __name__ == '__main__':
             cfg.workload.name     = name
             cfg.nodes             = nodes
             cfg.runtime           = runtime
+            cfg.n_workers         = int(nodes / n_masters - 1)
+            print('n_workers: %d'  % cfg.n_workers)
 
             ru.write_json(cfg, 'configs/wf0.%s.cfg' % name)
 
@@ -231,7 +233,7 @@ if __name__ == '__main__':
                 td = rp.ComputeUnitDescription(cfg.master_descr)
                 td.executable     = "python3"
                 td.arguments      = ['wf0_master.py', i]
-                td.cpu_threads    = 1
+                td.cpu_threads    = cpn
                 td.pilot          = pid
                 td.input_staging  = [{'source': cfg.master,
                                       'target': 'wf0_master.py',
@@ -248,7 +250,15 @@ if __name__ == '__main__':
                                      {'source': workload.input_dir,
                                       'target': 'input_dir',
                                       'action': rp.LINK,
-                                      'flags' : rp.DEFAULT_FLAGS}
+                                      'flags' : rp.DEFAULT_FLAGS},
+                                     {'source': workload.impress_dir,
+                                      'target': 'impress_md',
+                                      'action': rp.LINK,
+                                      'flags' : rp.DEFAULT_FLAGS},
+                                     {'source': workload.oe_license,
+                                      'target': 'oe_license.txt',
+                                      'action': rp.LINK,
+                                      'flags' : rp.DEFAULT_FLAGS},
                                     ]
                 td.output_staging = [{'source': '%s.%s.gz'         % (name, workload.output),
                                       'target': 'results/%s.%s.gz' % (name, workload.output),

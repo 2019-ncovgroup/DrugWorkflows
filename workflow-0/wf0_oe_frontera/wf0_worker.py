@@ -32,6 +32,8 @@ class MyWorker(rp.task_overlay.Worker):
 
         self.register_call('dock', self.dock)
 
+        self._log.debug('started worker %s', self._uid)
+
 
     # --------------------------------------------------------------------------
     #
@@ -47,13 +49,12 @@ class MyWorker(rp.task_overlay.Worker):
         try:
 
             workload           = self._cfg.workload
-            rank               = self._uid
 
             self._log.debug('pre_exec (%s)', workload.output)
 
             receptor_file      = 'input_dir/receptors.v7/%s.oeb' % workload.receptor
             smiles_file        = 'input_dir/%s.csv'              % workload.smiles
-            output             = './out.sdf'
+            output             = './out.%s.sdf'                  % self._uid
 
             self.verbose       = workload.verbose
             self.force_flipper = workload.force_flipper

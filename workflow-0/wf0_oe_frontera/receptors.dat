@@ -1,7 +1,20 @@
 #
-# receptor                        smiles                    nodes   runtime
+# receptor                        smiles                           nodes   runtime
+# 3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM         6        30
 
-  # PLPro_6W9C_A_1_F                 Orderable_zinc_db_enaHLL        2    30
+
+# texascale
+
+# 3CLPro_6LU7_A_1_F               mcule_ultimate_200204_VJL3jM      2740        1440
+  3CLPro_6LU7_A_2_F               mcule_ultimate_200204_VJL3jM      3850        1440
+# 3CLPro_6LU7_A_3_F               mcule_ultimate_200204_VJL3jM      1950        1440
+# 3CLPro_6LU7_A_4_H               mcule_ultimate_200204_VJL3jM      1950        1440
+# 3CLPro_6w63_A_1_H               mcule_ultimate_200204_VJL3jM      1950        1440
+# 3CLPro_7BQY_A_1_F               mcule_ultimate_200204_VJL3jM      1950        1440
+# 3CLPro_7BQY_A_2_F               mcule_ultimate_200204_VJL3jM      1950        1440
+# 3CLPro_7c7p_A_1_H               mcule_ultimate_200204_VJL3jM      1950        1440
+# 3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM      1950        1440
+
 
 # ------------------------------------------------------------------------------------------
 #
@@ -10,16 +23,16 @@
 
 # new receptors
 
-    PLPro_Sn608_WT_A_1_H                             Orderable_zinc_db_enaHLL      128  1800   
-    3CLPro_X1MSB_A_1_H                               Orderable_zinc_db_enaHLL      128  1800 
-    ADRP_6wcf_A_1_H                                  Orderable_zinc_db_enaHLL      128  1800 
-    ADRP_6w6y_A_1_H                                  Orderable_zinc_db_enaHLL      128  1800 
-    PLPro_Sn630_ssm_WT_A_1_H                         Orderable_zinc_db_enaHLL      128  1800 
-    ADRP_6ywl_A_1_H                                  Orderable_zinc_db_enaHLL      128  1800 
+#   PLPro_Sn608_WT_A_1_H                             Orderable_zinc_db_enaHLL      128  1800
+#   3CLPro_X1MSB_A_1_H                               Orderable_zinc_db_enaHLL      128  1800
+#   ADRP_6wcf_A_1_H                                  Orderable_zinc_db_enaHLL      128  1800
+#   ADRP_6w6y_A_1_H                                  Orderable_zinc_db_enaHLL      128  1800
+#   PLPro_Sn630_ssm_WT_A_1_H                         Orderable_zinc_db_enaHLL      128  1800
+#   ADRP_6ywl_A_1_H                                  Orderable_zinc_db_enaHLL      128  1800
 
 
 # # rerun v7 ?
-# 
+#
 #   NSP15-GUU_A_1                                    Orderable_zinc_db_enaHLL      128  1800
 #   PLPro_7JIW_A_1_H                                 Orderable_zinc_db_enaHLL      128  1800
 #   3CLPro_7c7p_A_1_H                                Orderable_zinc_db_enaHLL      128  1800
@@ -29,8 +42,8 @@
 #   NSP10-16_7JHE_Cap1_SAH                           Orderable_zinc_db_enaHLL      128  1800
 #   NSP10-16_7JPE_SAM_Cap0                           Orderable_zinc_db_enaHLL      128  1800
 
-# # v7 
-    
+# # v7
+
 #   PLPro_6W9C_A_1_F                                 Orderable_zinc_db_enaHLL      128  1800
 #   PLPro_6W9C_A_2_F                                 Orderable_zinc_db_enaHLL      128  1800
 #   PLPro_6W9C_A_3_F                                 Orderable_zinc_db_enaHLL      128  1800
@@ -39,19 +52,19 @@
 #   PLPro_7JIT_A_1_H                                 Orderable_zinc_db_enaHLL      128  1800
 #   PLPro_7JIV_A_1_H                                 Orderable_zinc_db_enaHLL      128  1800
 #   PLPro_7JIW_A_1_H                                 Orderable_zinc_db_enaHLL      128  1800
-# 
-#   3CLPro_6LU7_A_1_F                                Orderable_zinc_db_enaHLL      128  1800    
-#   3CLPro_6LU7_A_2_F                                Orderable_zinc_db_enaHLL      128  1800    
-#   3CLPro_6LU7_A_3_F                                Orderable_zinc_db_enaHLL      128  1800    
-#   3CLPro_6LU7_A_4_H                                Orderable_zinc_db_enaHLL      128  1800    
-#   3CLPro_6w63_A_1_H                                Orderable_zinc_db_enaHLL      128  1800    
-#   3CLPro_7BQY_A_1_F                                Orderable_zinc_db_enaHLL      128  1800    
-#   3CLPro_7BQY_A_2_F                                Orderable_zinc_db_enaHLL      128  1800    
-#   3CLPro_7c7p_A_1_H                                Orderable_zinc_db_enaHLL      128  1800    
-# 
-#   ADRP_6W02_A_1_H                                  Orderable_zinc_db_enaHLL      256  1800                            
-# 
-#   NSP10-16_6XKM_SAMBound_A_1                       Orderable_zinc_db_enaHLL      128  1800                            
+#
+#   3CLPro_6LU7_A_1_F                                Orderable_zinc_db_enaHLL      128  1800
+#   3CLPro_6LU7_A_2_F                                Orderable_zinc_db_enaHLL      128  1800
+#   3CLPro_6LU7_A_3_F                                Orderable_zinc_db_enaHLL      128  1800
+#   3CLPro_6LU7_A_4_H                                Orderable_zinc_db_enaHLL      128  1800
+#   3CLPro_6w63_A_1_H                                Orderable_zinc_db_enaHLL      128  1800
+#   3CLPro_7BQY_A_1_F                                Orderable_zinc_db_enaHLL      128  1800
+#   3CLPro_7BQY_A_2_F                                Orderable_zinc_db_enaHLL      128  1800
+#   3CLPro_7c7p_A_1_H                                Orderable_zinc_db_enaHLL      128  1800
+#
+#   ADRP_6W02_A_1_H                                  Orderable_zinc_db_enaHLL      256  1800
+#
+#   NSP10-16_6XKM_SAMBound_A_1                       Orderable_zinc_db_enaHLL      128  1800
 #   NSP10-16_6w4h_A_1                                Orderable_zinc_db_enaHLL      128  1800
 #   NSP10-16_6w61_A_1                                Orderable_zinc_db_enaHLL      128  1800
 #   NSP10-16_6w75_A                                  Orderable_zinc_db_enaHLL      128  1800
@@ -62,7 +75,7 @@
 #   NSP10-16_7JHE_Cap1_SAH                           Orderable_zinc_db_enaHLL      128  1800
 #   NSP10-16_7JPE_SAM_Cap0                           Orderable_zinc_db_enaHLL      128  1800
 #   NSP10_6W61_B_1_F                                 Orderable_zinc_db_enaHLL      128  1800
-#                                                   
+#
 #   NSP13_6XEZ_ADPBound_A_1_F                        Orderable_zinc_db_enaHLL      128  1800
 #   NSP13_6XEZ_A_2_F                                 Orderable_zinc_db_enaHLL      128  1800
 #   NSP13_6XEZ_Leu329_AB_1_F                         Orderable_zinc_db_enaHLL      128  1800
@@ -74,7 +87,7 @@
 #   NSP13_HELICASE_5WWP_1_A_A__DU__apo_PHE_A-145     Orderable_zinc_db_enaHLL      128  1800
 #   NSP13_HELICASE_6JYT_1_A_A__DU__apo_PRO_A-408     Orderable_zinc_db_enaHLL      128  1800
 #   NSP13_HELICASE_6JYT_2_A_A__DU__apo_LEU_A-227     Orderable_zinc_db_enaHLL      128  1800
-# 
+#
 #   NSP15-6x1b_A_1                                   Orderable_zinc_db_enaHLL      128  1800
 #   NSP15-GUU_A_1                                    Orderable_zinc_db_enaHLL      128  1800
 #   NSP15_6VWW_A_1_F                                 Orderable_zinc_db_enaHLL      128  1800
@@ -93,20 +106,20 @@
 #   PLPro_7JIT_A_1_H                                 Orderable_zinc_db_enaHLL      128  1800
 #   PLPro_7JIV_A_1_H                                 Orderable_zinc_db_enaHLL      128  1800
 #   PLPro_7JIW_A_1_H                                 Orderable_zinc_db_enaHLL      128  1800
-# 
+#
 #   RDRP_6M71_A_1_F                                  Orderable_zinc_db_enaHLL      128  1800
 #   RDRP_6xqb_A_1_F                                  Orderable_zinc_db_enaHLL      128  1800
 #   RDRP_6xqb_A_2_F                                  Orderable_zinc_db_enaHLL      128  1800
 #   RDRP_7BTF_A_1_F                                  Orderable_zinc_db_enaHLL      128  1800
 #   RDRP_7BV1_A_1_F                                  Orderable_zinc_db_enaHLL      128  1800
 #   RDRP_7BV2_A_1_F                                  Orderable_zinc_db_enaHLL      128  1800
-# 
+#
 #   Viroporin_6XDC_AB__DU__apo_ARG_B-122             Orderable_zinc_db_enaHLL      128  1800
 #   Viroporin_6XDC_AB__DU__apo_ASN_B-137             Orderable_zinc_db_enaHLL      128  1800
 #   Viroporin_6XDC_AB__DU__apo_ASP_A-142             Orderable_zinc_db_enaHLL      128  1800
 
 # ------------------------------------------------------------------------------------------
-                           
+
 #   PLPro_6W9C_A_1_F                 mcule_ultimate_200204_VJL3jM  128  1800
 #   PLPro_6W9C_A_2_F                 mcule_ultimate_200204_VJL3jM  128  1800
 #   PLPro_6W9C_A_3_F                 mcule_ultimate_200204_VJL3jM  128  1800
@@ -153,7 +166,7 @@
 #  #   3CLPro_7BQY_A_1_F             Orderable_zinc_db_enaHLL 128 1800
 #  #   DNMT1_3PTA_A_1_F              Orderable_zinc_db_enaHLL 128 1800
 #  #   DNMT3A_5YX2_A_1_F             Orderable_zinc_db_enaHLL 128 1800
-                           
+
 #   # filler
 #   CRBD-ACE2_6VW1_AE_1_F         Orderable_zinc_db_enaHLL  128 2400
 #   helicase_m1_pocket1           Orderable_zinc_db_enaHLL  128 2400
@@ -170,21 +183,21 @@
 #   helicase_m1_pocket2           Orderable_zinc_db_enaHLL  128  2400
 #   helicase_m3_pocket1           Orderable_zinc_db_enaHLL  128  2400
 #   helicase_m3_pocket2           Orderable_zinc_db_enaHLL  128  2400
-#  
-#   CRBD-ACE2_6VW1_BH_1_F         UMICH_nucleotideSmiles 128 1200 
-#   CRBD-ACE2_6VW1_AE_1_F         UMICH_nucleotideSmiles 128 1200 
-#   helicase_m1_pocket1           UMICH_nucleotideSmiles 128 1200 
-#   helicase_m1_pocket2           UMICH_nucleotideSmiles 128 1200 
-#   helicase_m3_pocket1           UMICH_nucleotideSmiles 128 1200 
-#   helicase_m3_pocket2           UMICH_nucleotideSmiles 128 1200 
-#  
-#   CRBD-ACE2_6VW1_BH_1_F         UMICH_nucleosidesEnum  2 60 
-#   CRBD-ACE2_6VW1_AE_1_F         UMICH_nucleosidesEnum  2 60 
-#   helicase_m1_pocket1           UMICH_nucleosidesEnum  2 60 
-#   helicase_m1_pocket2           UMICH_nucleosidesEnum  2 60 
-#   helicase_m3_pocket1           UMICH_nucleosidesEnum  2 60 
-#   helicase_m3_pocket2           UMICH_nucleosidesEnum  2 60 
-#  
+#
+#   CRBD-ACE2_6VW1_BH_1_F         UMICH_nucleotideSmiles 128 1200
+#   CRBD-ACE2_6VW1_AE_1_F         UMICH_nucleotideSmiles 128 1200
+#   helicase_m1_pocket1           UMICH_nucleotideSmiles 128 1200
+#   helicase_m1_pocket2           UMICH_nucleotideSmiles 128 1200
+#   helicase_m3_pocket1           UMICH_nucleotideSmiles 128 1200
+#   helicase_m3_pocket2           UMICH_nucleotideSmiles 128 1200
+#
+#   CRBD-ACE2_6VW1_BH_1_F         UMICH_nucleosidesEnum  2 60
+#   CRBD-ACE2_6VW1_AE_1_F         UMICH_nucleosidesEnum  2 60
+#   helicase_m1_pocket1           UMICH_nucleosidesEnum  2 60
+#   helicase_m1_pocket2           UMICH_nucleosidesEnum  2 60
+#   helicase_m3_pocket1           UMICH_nucleosidesEnum  2 60
+#   helicase_m3_pocket2           UMICH_nucleosidesEnum  2 60
+#
 #   ADRP_6W02_A_1_H               UMICH_nucleotideSmiles 128 1200
 
 #   PLPro_6W9C_A_1_F              Orderable_zinc_db_enaHLL  128  2400
@@ -211,9 +224,9 @@
 #   RDRP_7BV2_A_1_F               UMICH_nucleosidesEnum  2 60
 #   RDRP_7BV2_A_2_F               UMICH_nucleosidesEnum  2 60
 #   RDRP_7BV2_A_3_F               UMICH_nucleosidesEnum  2 60
-#  
+#
 #   ADRP_6W02_A_1_H               UMICH_nucleosidesEnum  2 60
-#  
+#
 #   RDRP_6M71_A_2_F               UMICH_nucleotideSmiles 128 1200
 #   RDRP_6M71_A_3_F               UMICH_nucleotideSmiles 128 1200
 #   RDRP_6M71_A_4_F               UMICH_nucleotideSmiles 128 1200
@@ -224,7 +237,7 @@
 #   RDRP_7BV2_A_1_F               UMICH_nucleotideSmiles 128 1200
 #   RDRP_7BV2_A_2_F               UMICH_nucleotideSmiles 128 1200
 #   RDRP_7BV2_A_3_F               UMICH_nucleotideSmiles 128 1200
-   
+
 #   3CLPro_6LU7_AB_1_F            Orderable_zinc_db_enaHLL  128  2400
 #   3CLPro_6LU7_AB_2_F            Orderable_zinc_db_enaHLL  128  2400
 #   3CLPro_6LU7_A_1_F             Orderable_zinc_db_enaHLL  128  2400
@@ -254,45 +267,45 @@
 #   MPro_5RFE_A_1_H               Orderable_zinc_db_enaHLL  128  2400
 #   MPro_5RG1_A_1_H               Orderable_zinc_db_enaHLL  128  2400
 #   MPro_NAN_A_1_H                Orderable_zinc_db_enaHLL  128  2400
-#   NPRBD_6VYO_AB_1_F             Orderable_zinc_db_enaHLL  128  2400 
-#   NPRBD_6VYO_A_1_F              Orderable_zinc_db_enaHLL  128  2400 
-#   NPRBD_6VYO_BC_1_F             Orderable_zinc_db_enaHLL  128  2400 
-#   NPRBD_6VYO_CD_1_F             Orderable_zinc_db_enaHLL  128  2400 
-#   NPRBD_6VYO_DA_1_F             Orderable_zinc_db_enaHLL  128  2400 
-#   NSP10-16_6W61_AB_1_F          Orderable_zinc_db_enaHLL  128  2400 
-#   NSP10-16_6W61_AB_2_F          Orderable_zinc_db_enaHLL  128  2400 
-#   NSP10_6W61_B_1_F              Orderable_zinc_db_enaHLL  128  2400 
-#   NSP15_6VWW_AB_1_F             Orderable_zinc_db_enaHLL  128  2400 
-#   NSP15_6VWW_A_1_F              Orderable_zinc_db_enaHLL  128  2400 
-#   NSP15_6VWW_A_2_F              Orderable_zinc_db_enaHLL  128  2400 
-#   NSP15_6W01_AB_1_F             Orderable_zinc_db_enaHLL  128  2400 
-#   NSP15_6W01_A_1_F              Orderable_zinc_db_enaHLL  128  2400 
-#   NSP15_6W01_A_2_F              Orderable_zinc_db_enaHLL  128  2400 
-#   NSP15_6W01_A_3_H              Orderable_zinc_db_enaHLL  128  2400 
-#   NSP16_6W61_A_1_H              Orderable_zinc_db_enaHLL  128  2400 
-#   NSUN2_NAN_A_1_F               Orderable_zinc_db_enaHLL  128  2400 
-#   NSUN6_5WWR_A_1_F              Orderable_zinc_db_enaHLL  128  2400 
-#   PLPro_6W9C_ABC_1_F            Orderable_zinc_db_enaHLL  128  2400 
-#   PLPro_6W9C_AB_1_F             Orderable_zinc_db_enaHLL  128  2400 
-#   PLPro_6W9C_A_1_F              Orderable_zinc_db_enaHLL  128  2400 
-#   PLPro_6W9C_A_2_F              Orderable_zinc_db_enaHLL  128  2400 
-#   PLPro_6W9C_A_3_F              Orderable_zinc_db_enaHLL  128  2400 
-#   PLPro_6W9C_A_4_F              Orderable_zinc_db_enaHLL  128  2400 
-#   PLPro_6W9C_BC_1_F             Orderable_zinc_db_enaHLL  128  2400 
-#   PLPro_6W9C_CA_1_F             Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_6M71_A_1_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_6M71_A_2_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_6M71_A_3_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_6M71_A_4_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BTF_A_1_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BTF_A_2_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BTF_A_3_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BTF_A_4_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BV1_A_1_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BV1_A_2_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BV1_A_3_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BV1_A_4_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BV2_A_1_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BV2_A_2_F               Orderable_zinc_db_enaHLL  128  2400 
-#   RDRP_7BV2_A_3_F               Orderable_zinc_db_enaHLL  128  2400 
+#   NPRBD_6VYO_AB_1_F             Orderable_zinc_db_enaHLL  128  2400
+#   NPRBD_6VYO_A_1_F              Orderable_zinc_db_enaHLL  128  2400
+#   NPRBD_6VYO_BC_1_F             Orderable_zinc_db_enaHLL  128  2400
+#   NPRBD_6VYO_CD_1_F             Orderable_zinc_db_enaHLL  128  2400
+#   NPRBD_6VYO_DA_1_F             Orderable_zinc_db_enaHLL  128  2400
+#   NSP10-16_6W61_AB_1_F          Orderable_zinc_db_enaHLL  128  2400
+#   NSP10-16_6W61_AB_2_F          Orderable_zinc_db_enaHLL  128  2400
+#   NSP10_6W61_B_1_F              Orderable_zinc_db_enaHLL  128  2400
+#   NSP15_6VWW_AB_1_F             Orderable_zinc_db_enaHLL  128  2400
+#   NSP15_6VWW_A_1_F              Orderable_zinc_db_enaHLL  128  2400
+#   NSP15_6VWW_A_2_F              Orderable_zinc_db_enaHLL  128  2400
+#   NSP15_6W01_AB_1_F             Orderable_zinc_db_enaHLL  128  2400
+#   NSP15_6W01_A_1_F              Orderable_zinc_db_enaHLL  128  2400
+#   NSP15_6W01_A_2_F              Orderable_zinc_db_enaHLL  128  2400
+#   NSP15_6W01_A_3_H              Orderable_zinc_db_enaHLL  128  2400
+#   NSP16_6W61_A_1_H              Orderable_zinc_db_enaHLL  128  2400
+#   NSUN2_NAN_A_1_F               Orderable_zinc_db_enaHLL  128  2400
+#   NSUN6_5WWR_A_1_F              Orderable_zinc_db_enaHLL  128  2400
+#   PLPro_6W9C_ABC_1_F            Orderable_zinc_db_enaHLL  128  2400
+#   PLPro_6W9C_AB_1_F             Orderable_zinc_db_enaHLL  128  2400
+#   PLPro_6W9C_A_1_F              Orderable_zinc_db_enaHLL  128  2400
+#   PLPro_6W9C_A_2_F              Orderable_zinc_db_enaHLL  128  2400
+#   PLPro_6W9C_A_3_F              Orderable_zinc_db_enaHLL  128  2400
+#   PLPro_6W9C_A_4_F              Orderable_zinc_db_enaHLL  128  2400
+#   PLPro_6W9C_BC_1_F             Orderable_zinc_db_enaHLL  128  2400
+#   PLPro_6W9C_CA_1_F             Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_6M71_A_1_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_6M71_A_2_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_6M71_A_3_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_6M71_A_4_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BTF_A_1_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BTF_A_2_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BTF_A_3_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BTF_A_4_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BV1_A_1_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BV1_A_2_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BV1_A_3_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BV1_A_4_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BV2_A_1_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BV2_A_2_F               Orderable_zinc_db_enaHLL  128  2400
+#   RDRP_7BV2_A_3_F               Orderable_zinc_db_enaHLL  128  2400
 
