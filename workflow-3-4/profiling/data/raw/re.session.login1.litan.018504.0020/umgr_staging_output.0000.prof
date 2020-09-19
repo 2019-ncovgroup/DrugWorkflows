@@ -1,0 +1,6 @@
+#time,event,comp,thread,uid,state,msg
+1598821798.5204997,sync_abs,umgr_staging_output.0000,MainThread,,,login1.summit.olcf.ornl.gov:10.134.0.31:1598821798.5203886:1598821798.5269566:ntp
+1598821798.5205324,init1,umgr_staging_output.0000,MainThread,umgr_staging_output.0000,,/gpfs/alpine/med110/scratch/litan/test_hybridwf/re.session.login1.litan.018504.0020
+1598821798.5244257,component_init,umgr_staging_output.0000,Thread-1,,,
+1598822788.8431518,component_final,umgr_staging_output.0000,Thread-3,,,
+1598822788.8431628,END,umgr_staging_output.0000,Thread-3,,,

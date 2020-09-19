@@ -1,0 +1,18 @@
+{
+    "base": "/gpfs/alpine/med110/scratch/litan/test_hybridwf",
+    "cmgr": "cmgr.0001",
+    "count": 1,
+    "db_poll_sleeptime": 10.0,
+    "dburl": "mongodb://litan:sccDg7PxE3UjhA5L@129.114.17.185:27017/rct-test",
+    "heartbeat": {
+        "addr_pub": "tcp://10.134.0.31:35621",
+        "addr_sub": "tcp://10.134.0.31:43523",
+        "interval": 1.0,
+        "timeout": 60.0
+    },
+    "kind": "pmgr_launching",
+    "owner": "pmgr.0000",
+    "path": "/gpfs/alpine/med110/scratch/litan/test_hybridwf/re.session.login1.litan.018504.0020",
+    "sid": "re.session.login1.litan.018504.0020",
+    "uid": "pmgr_launching.0000"
+}

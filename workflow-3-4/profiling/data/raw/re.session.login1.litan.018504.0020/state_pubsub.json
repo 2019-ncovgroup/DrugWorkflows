@@ -1,0 +1,17 @@
+{
+    "bulk_size": 0,
+    "channel": "state_pubsub",
+    "cmgr": "cmgr.0000",
+    "heartbeat": {
+        "addr_pub": "tcp://10.134.0.31:35667",
+        "addr_sub": "tcp://10.134.0.31:33907",
+        "interval": 1.0,
+        "timeout": 60.0
+    },
+    "kind": "pubsub",
+    "log_level": "error",
+    "path": "/gpfs/alpine/med110/scratch/litan/test_hybridwf/re.session.login1.litan.018504.0020",
+    "sid": "re.session.login1.litan.018504.0020",
+    "stall_hwm": 1,
+    "uid": "state_pubsub"
+}

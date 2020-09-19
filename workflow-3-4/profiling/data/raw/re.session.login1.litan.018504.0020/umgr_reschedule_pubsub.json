@@ -1,0 +1,17 @@
+{
+    "bulk_size": 0,
+    "channel": "umgr_reschedule_pubsub",
+    "cmgr": "cmgr.0002",
+    "heartbeat": {
+        "addr_pub": "tcp://10.134.0.31:41849",
+        "addr_sub": "tcp://10.134.0.31:41877",
+        "interval": 1.0,
+        "timeout": 60.0
+    },
+    "kind": "pubsub",
+    "log_level": "error",
+    "path": "/gpfs/alpine/med110/scratch/litan/test_hybridwf/re.session.login1.litan.018504.0020",
+    "sid": "re.session.login1.litan.018504.0020",
+    "stall_hwm": 0,
+    "uid": "umgr_reschedule_pubsub"
+}

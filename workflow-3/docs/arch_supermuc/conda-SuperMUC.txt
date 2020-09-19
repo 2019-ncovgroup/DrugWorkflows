@@ -1,0 +1,77 @@
+# The following is probably not necessary but I did not have time to test
+mv ~/.local ~/.local_OLD 
+ln -s /dev/null ~/.local
+
+export PYTHONNOUSERSITE=True
+export PREFIX=$HOME
+export WF1_CONDA_ENV=ve.rp
+
+# Create workflow-1 environment
+
+mkdir -p $PREFIX
+module purge
+wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $PREFIX/miniconda.sh
+chmod +x $PREFIX/miniconda.sh
+$PREFIX/miniconda.sh -b -p $PREFIX/.miniconda3
+source $PREFIX/.miniconda3/bin/activate
+conda update -y -n base -c defaults conda
+conda config --add channels conda-forge \
+             --add channels omnia-dev/label/cuda101 \
+             --add channels omnia/label/cuda101
+conda update --yes --all
+conda create --yes -n $WF1_CONDA_ENV
+conda activate $WF1_CONDA_ENV
+conda install --yes cudatoolkit=10.1.243
+conda install --yes atomicwrites attrs blas fftw3f importlib_metadata libtiff \
+                    more-itertools ninja olefile packaging pillow pluggy py pytest pandas psutil \
+                    docopt setproctitle pymbar openmm
+conda install --yes -c openeye openeye-toolkits
+
+# Install RCT dependencies
+conda install --yes apache-libcloud msgpack-python pyzmq munch regex netifaces \
+                    colorama pymongo python-hostlist setproctitle ntplib pytest \
+                    pylint flake8 coverage mock wheel future setproctitle pudb parse
+
+# Install RCT stack
+pip install git+https://github.com/radical-cybertools/radical.utils.git@project/covid-19
+pip install git+https://github.com/radical-cybertools/radical.saga.git@project/covid-19
+pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/covid-19
+# pip install git+https://github.com/radical-cybertools/radical.entk.git@devel
+# pip install git+https://github.com/radical-cybertools/radical.analytics.git@devel
+
+# Get MongoDB
+wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-suse12-4.2.5.tgz
+tar -zxvf $PREFIX/mongodb-linux-x86_64-suse12-4.2.5.tgz
+cp $PREFIX/mongodb-linux-x86_64-suse12-4.2.5/bin/* $PREFIX/.miniconda3/envs/$WF1_CONDA_ENV/bin/
+
+# Clone workflow
+git clone --single-branch --branch covid https://github.com/aclyde11/Model-generation.git
+git clone https://github.com/2019-ncovgroup/DrugWorfklows.git
+tar -czf workflow.tar.gz Model-generation/ DrugWorfklows/
+
+# Pack conda environment, and move to and set it up on SuperMUC
+conda install --yes conda-pack 
+conda pack -n $WF1_CONDA_ENV
+scp $WF1_CONDA_ENV.tar.gz workflow.tar.gz <user_id>@skx.supermuc.lrz.de:
+
+ssh <user_id>@skx.supermuc.lrz.de
+mkdir $WF1_CONDA_ENV
+tar -xzf $WF1_CONDA_ENV.tar.gz -C $WF1_CONDA_ENV/
+source $WF1_CONDA_ENV/bin/activate
+conda-unpack
+
+# Test the env
+radical-stack
+
+# Unzip the workflow
+tar -xzf workflow.tar.gz
+
+# Set MongoDB
+mkdir mongodb
+# mongod --fork --dbpath ~/mongodb --logpath ~/mongodb/log --bind_ip `hostname -f`
+# mongo --host `hostname -f`
+# > use rct_test
+# > db.createUser({user: "rct", pwd: "rct_test", roles: ["readWrite"]})
+# > exit
+# Kill process: ps aux | grep mongod | grep -v grep | cut -c 10-16 | xargs kill
+#               rm ~/mongodb/mongod.lock

@@ -1,0 +1,22 @@
+{
+    "base": "/gpfs/alpine/med110/scratch/litan/test_hybridwf",
+    "bulk_size": 1024,
+    "bulk_time": 1.0,
+    "client_sandbox": "/gpfs/alpine/med110/scratch/litan/test_hybridwf",
+    "cmgr": "cmgr.0000",
+    "count": 1,
+    "dburl": "mongodb://litan:sccDg7PxE3UjhA5L@129.114.17.185:27017/rct-test",
+    "default_dburl": "mongodb://rct:rct_test@two.radical-project.org/rct_test",
+    "heartbeat": {
+        "addr_pub": "tcp://10.134.0.31:35667",
+        "addr_sub": "tcp://10.134.0.31:33907",
+        "interval": 1.0,
+        "timeout": 60.0
+    },
+    "kind": "update",
+    "path": "/gpfs/alpine/med110/scratch/litan/test_hybridwf/re.session.login1.litan.018504.0020",
+    "record": null,
+    "session_base": "/gpfs/alpine/scratch/litan/med110/test_hybridwf",
+    "sid": "re.session.login1.litan.018504.0020",
+    "uid": "update.0000"
+}
