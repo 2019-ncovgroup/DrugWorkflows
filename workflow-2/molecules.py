@@ -112,7 +112,7 @@ def generate_training_pipeline(cfg):
         # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_to_CVAE/MD_to_CVAE.py
         t2.pre_exec = [
                 '. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh',
-                'conda activate %s' % cfg['conda_openmm'],
+                'conda activate %s' % cfg['conda_pytorch'],
                 'export LANG=en_US.utf-8',
                 'export LC_ALL=en_US.utf-8'
                 ]
@@ -125,9 +125,11 @@ def generate_training_pipeline(cfg):
         t2.pre_exec += [
                 'export dcd_list=(`ls %s/MD_exps/%s/omm_runs_*/*dcd`)' % (cfg['base_path'], cfg['system_name']),
                 'export tmp_path=`mktemp -p %s/MD_to_CVAE/ -d`' % cfg['base_path'],
-                'for dcd in ${dcd_list[@]}; do tmp=$(basename $(dirname $dcd)); ln -s $dcd $tmp_path/$tmp.dcd; done']
+                'for dcd in ${dcd_list[@]}; do tmp=$(basename $(dirname $dcd)); ln -s $dcd $tmp_path/$tmp.dcd; done',
+                'ls ${tmp_path}'
+                ]
 
-        t2.executable = ['%s/bin/python' % cfg['conda_openmm']]  # MD_to_CVAE.py
+        t2.executable = ['%s/bin/python' % cfg['conda_pytorch']]  # MD_to_CVAE.py
         t2.arguments = [
                 '%s/scripts/traj_to_dset.py' % cfg['molecules_path'],
                 '-t', '$tmp_path',
@@ -138,7 +140,8 @@ def generate_training_pipeline(cfg):
                 '--fnc',
                 '--contact_map',
                 '--point_cloud',
-                '--num_workers', 42]
+                '--num_workers', 42,
+                '--verbose']
 
         # Add the aggregation task to the aggreagating stage
         t2.cpu_reqs = {'processes'          : 1,
