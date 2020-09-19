@@ -110,9 +110,12 @@ def generate_training_pipeline(cfg):
         t2 = Task()
         
         # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_to_CVAE/MD_to_CVAE.py
-        t2.pre_exec  = []
-        t2.pre_exec += ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
-        t2.pre_exec += ['conda activate %s' % cfg['conda_openmm']]
+        t2.pre_exec = [
+                '. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh',
+                'conda activate %s' % cfg['conda_openmm'],
+                'export LANG=en_US.utf-8',
+                'export LC_ALL=en_US.utf-8'
+                ]
         # preprocessing for molecules' script, it needs files in a single
         # directory
         # the following pre-processing does:
