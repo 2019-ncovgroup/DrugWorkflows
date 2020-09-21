@@ -65,11 +65,12 @@ def generate_training_pipeline(cfg):
             t1.executable = ['%s/bin/python' % cfg['conda_openmm']]  # run_openmm.py
             t1.arguments = ['%s/MD_exps/%s/run_openmm.py' % (cfg['base_path'], cfg['system_name'])]
             #t1.arguments += ['--topol', '%s/MD_exps/fs-pep/pdb/topol.top' % cfg['base_path']]
-            
+           
+            if 'top_file' in cfg:
+                t1.arguments += ['--topol', cfg['top_file']]
             # pick initial point of simulation
             if initial_MD or i >= len(outlier_list):
                 t1.arguments += ['--pdb_file', cfg['pdb_file'] ]
-                t1.arguments += ['--topol', cfg['top_file']]
             elif outlier_list[i].endswith('pdb'):
                 t1.arguments += ['--pdb_file', outlier_list[i]]
                 t1.pre_exec += ['cp %s ./' % outlier_list[i]]
