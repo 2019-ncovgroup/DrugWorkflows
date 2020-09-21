@@ -2,7 +2,7 @@
 
 ## Workflow Description
 
-This repository includes the workflow script which merges workflow-3 and workflow-4 written in Python using [RADICAL Cybertools](https://radical-cybertools.github.io/) (specifically the Ensemble Toolkit), as an implementation of the ESMACS protocal with [OpenMM](http://openmm.org/) and the TIES protocol with [NAMD](https://www.ks.uiuc.edu/Research/namd/) to perform equilibration and simulation of large biomolecular systems.
+This repository includes the workflow script which merges workflow-3 and workflow-4 written in Python using [RADICAL Cybertools](https://radical-cybertools.github.io/) (specifically the Ensemble Toolkit), as an implementation of the ESMACS protocol with [OpenMM](http://openmm.org/) and the TIES protocol with [NAMD](https://www.ks.uiuc.edu/Research/namd/) to perform equilibration and simulation of large biomolecular systems.
 
 ## Installation
 
