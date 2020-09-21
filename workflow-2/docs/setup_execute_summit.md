@@ -40,7 +40,7 @@ export WF2_BASE_PATH=`pwd`
 # clean up
 rm -rf $WF2_BASE_PATH/MD_exps/*/omm_runs_*
 rm -rf $WF2_BASE_PATH/MD_to_CVAE/cvae_input.h5
-rm -rf $WF2_BASE_PATH/CVAE_exps/cvae_runs_*
+rm -rf $WF2_BASE_PATH/CVAE_exps/model-cvae_runs_*
 rm -rf $WF2_BASE_PATH/Outlier_search/outlier_pdbs/*
 rm -rf $WF2_BASE_PATH/Outlier_search/eps_record.json
 rm -rf $WF2_BASE_PATH/Outlier_search/restart_points.json
@@ -77,7 +77,7 @@ export CUR_TIME=`date +%Y-%m-%d-%H:%M:%S`
 mkdir -p $WF2_BASE_PATH/results/$CUR_TIME
 mv $WF2_BASE_PATH/MD_exps/*/omm_runs_* $WF2_BASE_PATH/results/$CUR_TIME
 mv $WF2_BASE_PATH/MD_to_CVAE/cvae_input.h5 $WF2_BASE_PATH/results/$CUR_TIME
-mv $WF2_BASE_PATH/CVAE_exps/cvae_runs_* $WF2_BASE_PATH/results/$CUR_TIME
+mv $WF2_BASE_PATH/CVAE_exps/model-cvae_runs_* $WF2_BASE_PATH/results/$CUR_TIME
 mv $WF2_BASE_PATH/Outlier_search/outlier_pdbs/* $WF2_BASE_PATH/results/$CUR_TIME
 mv $WF2_BASE_PATH/Outlier_search/eps_record.json $WF2_BASE_PATH/results/$CUR_TIME
 mv $WF2_BASE_PATH/Outlier_search/restart_points.json $WF2_BASE_PATH/results/$CUR_TIME
