@@ -137,6 +137,7 @@ def generate_training_pipeline(cfg):
                 '-p', '%s/Parameters/input_protein/prot.pdb' % cfg['base_path'],
                 '-r', '%s/Parameters/input_protein/prot.pdb' % cfg['base_path'],
                 '-o', '%s/MD_to_CVAE/cvae_input.h5' % cfg['base_path'],
+                '-c', cfg['cutoff'],
                 '--rmsd',
                 '--fnc',
                 '--contact_map',
