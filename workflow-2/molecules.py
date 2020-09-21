@@ -192,7 +192,7 @@ def generate_training_pipeline(cfg):
                                    str(cfg['residues']), str(cfg['residues']),
                                    str(hp['latent_dim']), 'amp', 'non-distributed',
                                    str(hp['batch_size']), str(cfg['epoch']), '3',
-                                   hp['optimizer']])
+                                   hp['optimizer'], cfg['pretrain_model']])
 
             t3.executable= ['%s %s' % (cmd_vae, cmd_sparse)]
 

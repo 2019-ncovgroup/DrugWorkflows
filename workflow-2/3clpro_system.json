@@ -1,6 +1,6 @@
 {
     "md_counts"     : 120,
-    "ml_counts"     : 10,
+    "ml_counts"     : 3,
     "gpu_per_node"  : 6,
     "batch_size"    : 128,
     "epoch"         : 5,
@@ -15,60 +15,26 @@
 
     "system_name"   : "3clpro",
     "residues"      : 301,
+    "pretrain_model": "epoch-10-20200919-211859.pt",
     "pdb_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.pdb",
     "top_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.prmtop",
   
     "ml_hpo" : [
         {
-            "optimizer": "name=RMSprop,lr=1e-5",
-            "latent_dim": 21,
-	    "batch_size": 256
-        },
-        {
-            "optimizer": "name=RMSprop,lr=1e-4",
-            "latent_dim": 21,
-	    "batch_size": 256
-        },
-        {
-            "optimizer": "name=RMSprop,lr=1e-3",
-            "latent_dim": 21,
-	    "batch_size": 256
-        },
-        {
-            "optimizer": "name=RMSprop,lr=1e-2",
-            "latent_dim": 21,
-	    "batch_size": 256
-        },
-        {
-            "optimizer": "name=RMSprop,lr=1e-1",
-            "latent_dim": 21,
-	    "batch_size": 256
-        },
-        {
             "optimizer": "name=Adam,lr=1e-5",
-            "latent_dim": 21,
-	    "batch_size": 256
+            "latent_dim": 38,
+	        "batch_size": 128
         },
         {
-            "optimizer": "name=Adam,lr=1e-4",
-            "latent_dim": 21,
-	    "batch_size": 256
+            "optimizer": "name=Adam,lr=1e-6",
+            "latent_dim": 38,
+	        "batch_size": 128
         },
         {
-            "optimizer": "name=Adam,lr=1e-3",
-            "latent_dim": 21,
-	    "batch_size": 256
+            "optimizer": "name=Adam,lr=1e-7",
+            "latent_dim": 38,
+	        "batch_size": 128
         },
-        {
-            "optimizer": "name=Adam,lr=1e-2",
-            "latent_dim": 21,
-	    "batch_size": 256
-        },
-        {
-            "optimizer": "name=Adam,lr=1e-1",
-            "latent_dim": 21,
-	    "batch_size": 256
-        }
     ],
 
     "CUR_STAGE"     : 0,
