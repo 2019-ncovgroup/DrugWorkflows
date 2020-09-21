@@ -126,6 +126,7 @@ def generate_training_pipeline(cfg):
                 'export dcd_list=(`ls %s/MD_exps/%s/omm_runs_*/*dcd`)' % (cfg['base_path'], cfg['system_name']),
                 'export tmp_path=`mktemp -p %s/MD_to_CVAE/ -d`' % cfg['base_path'],
                 'for dcd in ${dcd_list[@]}; do tmp=$(basename $(dirname $dcd)); ln -s $dcd $tmp_path/$tmp.dcd; done',
+                'ln -s %s $tmp_path/prot.pdb' % cfg['pdb_file'],
                 'ls ${tmp_path}'
                 ]
 
