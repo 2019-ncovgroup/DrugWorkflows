@@ -276,9 +276,7 @@ if __name__ == '__main__':
     # FIXME: clean up workers
 
     # collect sdf files
-    ext = workload.output
-    os.system('sh -c "cat worker.*/out.%s | gzip > %s.%s.gz"'
-             % (workload.output, workload.name, ext))
+    # os.system('sh -c "cat out.worker.*.sdf | gzip > %s.sdf.gz"' % workload.name)
 
 
 # ------------------------------------------------------------------------------
