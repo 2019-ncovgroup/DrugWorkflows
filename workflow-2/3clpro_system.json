@@ -5,6 +5,7 @@
     "batch_size"    : 128,
     "epoch"         : 5,
     "cutoff"        : 20,
+    "selection"     : "protein and name CA",
 
     "conda_path"    : "/gpfs/alpine/proj-shared/med110/conda/openmm",
     "conda_openmm"  : "/gpfs/alpine/proj-shared/med110/conda/openmm",
