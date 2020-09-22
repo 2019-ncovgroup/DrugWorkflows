@@ -23,17 +23,17 @@
     "ml_hpo" : [
         {
             "optimizer": "name=Adam,lr=1e-5",
-            "latent_dim": 38,
+            "latent_dim": 19,
 	        "batch_size": 128
         },
         {
             "optimizer": "name=Adam,lr=1e-6",
-            "latent_dim": 38,
+            "latent_dim": 19,
 	        "batch_size": 128
         },
         {
             "optimizer": "name=Adam,lr=1e-7",
-            "latent_dim": 38,
+            "latent_dim": 19,
 	        "batch_size": 128
         },
     ],
