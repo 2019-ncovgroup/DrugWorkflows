@@ -67,8 +67,9 @@ manual change in the script
 
 ## Execute
 
+~~python summit_md_molecules.py~~
 ```
-python summit_md_molecules.py
+python molecules.py 3clpro_system.json
 ```
 
 ## Save results for further analysis
