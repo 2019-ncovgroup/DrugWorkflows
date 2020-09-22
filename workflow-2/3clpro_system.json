@@ -15,7 +15,7 @@
     "molecules_path": "/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecules",
 
     "system_name"   : "3clpro",
-    "residues"      : 301,
+    "residues"      : 304,
     "pretrain_model": "epoch-10-20200919-211859.pt",
     "pdb_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.pdb",
     "top_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.prmtop",
@@ -40,7 +40,7 @@
 
     "CUR_STAGE"     : 0,
     "MAX_STAGE"     : 10,
-    "RETRAIN_FREQ"  : 5,
+    "RETRAIN_FREQ"  : 1,
     "LEN_initial"   : 10,
     "LEN_iter"      : 10,
 
