@@ -2,7 +2,7 @@
     "md_counts"     : 120,
     "ml_counts"     : 3,
     "gpu_per_node"  : 6,
-    "batch_size"    : 128,
+    "batch_size"    : 512,
     "epoch"         : 5,
     "cutoff"        : 20,
     "selection"     : "protein and name CA",
