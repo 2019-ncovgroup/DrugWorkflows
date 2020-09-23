@@ -291,13 +291,12 @@ def generate_training_pipeline(cfg):
         # Add simulating stage to the training pipeline
         p.add_stages(s1)
 
-        if CUR_STAGE % cfg['RETRAIN_FREQ'] == 0:
-            # --------------------------
-            # Aggregate stage
-            s2 = generate_aggregating_stage()
-            # Add the aggregating stage to the training pipeline
-            p.add_stages(s2)
+        # --------------------------
+        # Aggregate stage
+        s2 = generate_aggregating_stage()
+        p.add_stages(s2)
 
+        if CUR_STAGE % cfg['RETRAIN_FREQ'] == 0:
             # --------------------------
             # Learning stage
             s3 = generate_ML_stage(num_ML=cfg['ml_counts'])
