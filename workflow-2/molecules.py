@@ -115,8 +115,7 @@ def generate_training_pipeline(cfg):
                 '. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh',
                 'conda activate %s' % cfg['conda_pytorch'],
                 'export LANG=en_US.utf-8',
-                'export LC_ALL=en_US.utf-8'
-                ]
+                'export LC_ALL=en_US.utf-8']
         # preprocessing for molecules' script, it needs files in a single
         # directory
         # the following pre-processing does:
@@ -128,8 +127,7 @@ def generate_training_pipeline(cfg):
                 'export tmp_path=`mktemp -p %s/MD_to_CVAE/ -d`' % cfg['base_path'],
                 'for dcd in ${dcd_list[@]}; do tmp=$(basename $(dirname $dcd)); ln -s $dcd $tmp_path/$tmp.dcd; done',
                 'ln -s %s $tmp_path/prot.pdb' % cfg['pdb_file'],
-                'ls ${tmp_path}'
-                ]
+                'ls ${tmp_path}']
 
         t2.executable = ['%s/bin/python' % cfg['conda_pytorch']]  # MD_to_CVAE.py
         t2.arguments = [
@@ -174,7 +172,6 @@ def generate_training_pipeline(cfg):
                             'export LANG=en_US.utf-8',
                             'export LC_ALL=en_US.utf-8']
             t3.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
-            t3.pre_exec += ['PYTHONPATH=/ccs/home/hrlee/.local/lib/python3.6/site-packages:$PYTHONPATH']
             dim = i + 3
             cvae_dir = 'cvae_runs_%.2d_%d' % (dim, time_stamp+i)
             t3.pre_exec += ['cd %s/CVAE_exps' % cfg['base_path']]
