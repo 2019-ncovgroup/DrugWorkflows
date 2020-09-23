@@ -65,11 +65,13 @@ def generate_training_pipeline(cfg):
             t1.executable = ['%s/bin/python' % cfg['conda_openmm']]  # run_openmm.py
             t1.arguments = ['%s/MD_exps/%s/run_openmm.py' % (cfg['base_path'], cfg['system_name'])]
             #t1.arguments += ['--topol', '%s/MD_exps/fs-pep/pdb/topol.top' % cfg['base_path']]
-            
+           
+            if 'top_file' in cfg:
+                t1.arguments += ['--topol', cfg['top_file']]
+
             # pick initial point of simulation
             if initial_MD or i >= len(outlier_list):
                 t1.arguments += ['--pdb_file', cfg['pdb_file'] ]
-                t1.arguments += ['--topol', cfg['top_file']]
             elif outlier_list[i].endswith('pdb'):
                 t1.arguments += ['--pdb_file', outlier_list[i]]
                 t1.pre_exec += ['cp %s ./' % outlier_list[i]]
@@ -240,6 +242,7 @@ def generate_training_pipeline(cfg):
         t4.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
         t4.pre_exec += ['mkdir -p %s/Outlier_search/outlier_pdbs' % cfg['base_path']]
         t4.pre_exec += ['export models=""; for i in `ls -d %s/CVAE_exps/model-cvae_runs*/`; do if [ "$models" != "" ]; then    models=$models","$i; else models=$i; fi; done;cat /dev/null' % cfg['base_path']]
+        t4.pre_exec += ['export LANG=en_US.utf-8', 'export LC_ALL=en_US.utf-8']
 
         t4.executable = ['%s/bin/python' % cfg['conda_pytorch']]
         t4.arguments = ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
@@ -291,13 +294,12 @@ def generate_training_pipeline(cfg):
         # Add simulating stage to the training pipeline
         p.add_stages(s1)
 
-        if CUR_STAGE % cfg['RETRAIN_FREQ'] == 0:
-            # --------------------------
-            # Aggregate stage
-            s2 = generate_aggregating_stage()
-            # Add the aggregating stage to the training pipeline
-            p.add_stages(s2)
+        # --------------------------
+        # Aggregate stage
+        s2 = generate_aggregating_stage()
+        p.add_stages(s2)
 
+        if CUR_STAGE % cfg['RETRAIN_FREQ'] == 0:
             # --------------------------
             # Learning stage
             s3 = generate_ML_stage(num_ML=cfg['ml_counts'])

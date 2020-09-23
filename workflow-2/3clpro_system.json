@@ -11,14 +11,14 @@
     "conda_openmm"  : "/gpfs/alpine/proj-shared/med110/conda/openmm",
     "conda_pytorch" : "/gpfs/alpine/proj-shared/med110/conda/pytorch",
 
-    "base_path"     : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2",
+    "base_path"     : "/gpfs/alpine/scratch/hrlee/med110/git/wf2_fine_tuning/workflow-2",
     "molecules_path": "/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecules",
 
     "system_name"   : "3clpro",
     "residues"      : 304,
-    "pretrain_model": "epoch-10-20200919-211859.pt",
-    "pdb_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.pdb",
-    "top_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.prmtop",
+    "pretrain_model": "/gpfs/alpine/proj-shared/med110/hrlee/epoch-5-20200922-132005.pt",
+    "pdb_file"      : "/gpfs/alpine/scratch/hrlee/med110/git/wf2_fine_tuning/workflow-2/Parameters/input_protein/prot.pdb",
+    "top_file"      : "/gpfs/alpine/scratch/hrlee/med110/git/wf2_fine_tuning/workflow-2/Parameters/input_protein/prot.prmtop",
   
     "ml_hpo" : [
         {
@@ -35,14 +35,14 @@
             "optimizer": "name=Adam,lr=1e-7",
             "latent_dim": 19,
 	        "batch_size": 128
-        },
+        }
     ],
 
     "CUR_STAGE"     : 0,
     "MAX_STAGE"     : 10,
     "RETRAIN_FREQ"  : 1,
-    "LEN_initial"   : 10,
-    "LEN_iter"      : 10,
+    "LEN_initial"   : 1,
+    "LEN_iter"      : 1,
 
     "resource"      : "ornl.summit",
     "queue"         : "batch",
