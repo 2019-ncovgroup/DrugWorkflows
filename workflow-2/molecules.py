@@ -128,21 +128,29 @@ def generate_training_pipeline(cfg):
                 'for dcd in ${dcd_list[@]}; do tmp=$(basename $(dirname $dcd)); ln -s $dcd $tmp_path/$tmp.dcd; done',
                 'ln -s %s $tmp_path/prot.pdb' % cfg['pdb_file'],
                 'ls ${tmp_path}']
+            
+        t2.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
 
-        t2.executable = ['%s/bin/python' % cfg['conda_pytorch']]  # MD_to_CVAE.py
+        node_cnt_constraint = cfg['md_counts'] * max(1, CUR_STAGE) // 12
+        cmd_cat    = 'cat /dev/null'
+        cmd_jsrun  = 'jsrun -n %s -r 1 -a 6 -c 7 -d packed' % min(cfg['node_counts'], node_cnt_constraint)
+ 
+        t2.executable = ['%s; %s %s/bin/python' % (cmd_cat, cmd_jsrun, cfg['conda_pytorch'])]  # MD_to_CVAE.py
         t2.arguments = [
                 '%s/scripts/traj_to_dset.py' % cfg['molecules_path'],
                 '-t', '$tmp_path',
                 '-p', '%s/Parameters/input_protein/prot.pdb' % cfg['base_path'],
                 '-r', '%s/Parameters/input_protein/prot.pdb' % cfg['base_path'],
                 '-o', '%s/MD_to_CVAE/cvae_input.h5' % cfg['base_path'],
-                '-c', cfg['cutoff'],
+                '--contact_maps_parameters',
+                "kernel_type=threshold,threshold=%s" % cfg['cutoff'],
                 '-s', cfg['selection'],
                 '--rmsd',
                 '--fnc',
                 '--contact_map',
                 '--point_cloud',
-                '--num_workers', 42,
+                '--num_workers', 2,
+                '--distributed',
                 '--verbose']
 
         # Add the aggregation task to the aggreagating stage
