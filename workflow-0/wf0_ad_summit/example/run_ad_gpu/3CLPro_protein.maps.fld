@@ -1,0 +1,42 @@
+# AVS field file
+#
+# AutoDock Atomic Affinity and Electrostatic Grids
+#
+# Created by autogrid4.
+#
+#SPACING 0.375
+#NELEMENTS 54 52 60
+#CENTER -10.520 -2.322 -20.631
+#MACROMOLECULE 3CLPro_protein.pdbqt
+#GRID_PARAMETER_FILE 3CLPro_protein.gpf
+#
+ndim=3			# number of dimensions in the field
+dim1=55			# number of x-elements
+dim2=53			# number of y-elements
+dim3=61			# number of z-elements
+nspace=3		# number of physical coordinates per point
+veclen=8		# number of affinity values at each point
+data=float		# data type (byte, integer, float, double)
+field=uniform		# field type (uniform, rectilinear, irregular)
+coord 1 file=3CLPro_protein.maps.xyz filetype=ascii offset=0
+coord 2 file=3CLPro_protein.maps.xyz filetype=ascii offset=2
+coord 3 file=3CLPro_protein.maps.xyz filetype=ascii offset=4
+label=C-affinity	# component label for variable 1
+label=HD-affinity	# component label for variable 2
+label=OA-affinity	# component label for variable 3
+label=N-affinity	# component label for variable 4
+label=NA-affinity	# component label for variable 5
+label=Cl-affinity	# component label for variable 6
+label=Electrostatics	# component label for variable 6
+label=Desolvation	# component label for variable 7
+#
+# location of affinity grid files and how to read them
+#
+variable 1 file=3CLPro_protein.C.map filetype=ascii skip=6
+variable 2 file=3CLPro_protein.HD.map filetype=ascii skip=6
+variable 3 file=3CLPro_protein.OA.map filetype=ascii skip=6
+variable 4 file=3CLPro_protein.N.map filetype=ascii skip=6
+variable 5 file=3CLPro_protein.NA.map filetype=ascii skip=6
+variable 6 file=3CLPro_protein.Cl.map filetype=ascii skip=6
+variable 7 file=3CLPro_protein.e.map filetype=ascii skip=6
+variable 8 file=3CLPro_protein.d.map filetype=ascii skip=6

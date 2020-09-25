@@ -1,0 +1,160 @@
+AutoDock-GPU version: sd-tsri-318-g46ddb415f8fe08a3a257d1c3ea2cc10d1ff20561
+
+**********************************************************
+**    AutoDock-GPU AUTODOCKTOOLS-COMPATIBLE DLG FILE    **
+**********************************************************
+
+
+    DOCKING PARAMETERS
+    ________________________
+
+
+Ligand file:                               ./DB-2133.pdbqt
+Grid fld file:                             ./3CLPro_protein.maps.fld
+
+Number of runs:                            1
+Number of energy evaluations:              2500000
+Number of generations:                     27000
+Size of population:                        150
+Rate of crossover:                         80.000000%
+Tournament selection probability limit:    60.000000%
+Rate of mutation:                          2.000000%
+Maximal allowed delta movement:            +/- 6.000000A
+Maximal allowed delta angle:               +/- 90.000000
+
+Rate of local search:                      80.000000%
+Maximal number of local search iterations: 300
+Rho lower bound:                           0.010000
+Spread of local search delta movement:     2.000000A
+Spread of local search delta angle:        74.999999
+Limit of consecutive successes/failures:   4
+
+Handle symmetry during clustering:         YES
+RMSD tolerance:                            2.000000A
+
+Program call in command line was:          autodock_gpu_64wi -filelist ./batch_file.txt -devnum 1 -lsmet ad 
+
+
+    GRID PARAMETERS
+    ________________________
+
+
+Receptor name:                             3CLPro_protein
+Number of grid points (x, y, z):           55, 53, 61
+Grid size (x, y, z):                       20.250000, 19.500000, 22.500000A
+Grid spacing:                              0.375000A
+
+
+    LIGAND PARAMETERS
+    ________________________
+
+
+Ligand name:                               ./DB-2133
+Number of atoms:                           5
+Number of rotatable bonds:                 1
+Number of atom types:                      3
+
+
+    DUMMY DATA (only for ADT-compatibility)
+    ________________________
+
+
+DPF> outlev 1
+DPF> ga_run 1
+DPF> fld 3CLPro_protein.maps.fld
+DPF> move ./DB-2133.pdbqt
+
+
+           COUNTER STATES           
+___________________________________
+
+Number of energy evaluations performed:    2507963
+Number of generations used:                183
+
+
+    INPUT LIGAND PDBQT FILE:
+    ________________________
+
+
+INPUT-LIGAND-PDBQT: REMARK  1 active torsions:
+INPUT-LIGAND-PDBQT: REMARK  status: ('A' for Active; 'I' for Inactive)
+INPUT-LIGAND-PDBQT: REMARK    1  A    between atoms: N_2  and  C_3 
+INPUT-LIGAND-PDBQT: ROOT
+INPUT-LIGAND-PDBQT: ATOM      1  C   UNL d   1       1.023   0.060  -0.069  0.00  0.00     0.306 C 
+INPUT-LIGAND-PDBQT: ATOM      2  N   UNL d   1       2.479   0.071  -0.082  0.00  0.00     0.078 N 
+INPUT-LIGAND-PDBQT: ATOM      3  H   UNL d   1       2.824  -0.889  -0.111  0.00  0.00     0.315 HD
+INPUT-LIGAND-PDBQT: ENDROOT
+INPUT-LIGAND-PDBQT: BRANCH   2   4
+INPUT-LIGAND-PDBQT: ATOM      4  C   UNL d   1       2.984   0.807  -1.240  0.00  0.00     0.264 C 
+INPUT-LIGAND-PDBQT: ATOM      5  C   UNL d   1       4.505   0.805  -1.234  0.00  0.00     0.037 C 
+INPUT-LIGAND-PDBQT: ENDBRANCH   2   4
+INPUT-LIGAND-PDBQT: TORSDOF 1
+
+
+    FINAL DOCKED STATE:
+    ________________________
+
+
+Run:   1 / 1
+Time taken for this run:   0.560s
+
+DOCKED: MODEL        1
+DOCKED: USER    Run = 1
+DOCKED: USER
+DOCKED: USER    Estimated Free Energy of Binding    =  -3.01 kcal/mol  [=(1)+(2)+(3)-(4)]
+DOCKED: USER
+DOCKED: USER    (1) Final Intermolecular Energy     =  -3.31 kcal/mol
+DOCKED: USER        vdW + Hbond + desolv Energy     =  -1.42 kcal/mol
+DOCKED: USER        Electrostatic Energy            =  -1.89 kcal/mol
+DOCKED: USER    (2) Final Total Internal Energy     =  +0.00 kcal/mol
+DOCKED: USER    (3) Torsional Free Energy           =  +0.30 kcal/mol
+DOCKED: USER    (4) Unbound System's Energy         =  +0.00 kcal/mol
+DOCKED: USER
+DOCKED: USER
+DOCKED: REMARK  1 active torsions:
+DOCKED: REMARK  status: ('A' for Active; 'I' for Inactive)
+DOCKED: REMARK    1  A    between atoms: N_2  and  C_3 
+DOCKED: USER                              x       y       z     vdW  Elec       q    Type
+DOCKED: USER                           _______ _______ _______ _____ _____    ______ ____
+DOCKED: ROOT
+DOCKED: ATOM      1  C   UNL d   1     -10.539  -3.396 -16.698 -0.27 -0.38    +0.306 C 
+DOCKED: ATOM      2  N   UNL d   1      -9.393  -2.699 -16.131 -0.29 -0.13    +0.078 N 
+DOCKED: ATOM      3  H   UNL d   1      -8.714  -3.383 -15.794 -0.32 -1.05    +0.315 HD
+DOCKED: ENDROOT
+DOCKED: BRANCH   2   4
+DOCKED: ATOM      4  C   UNL d   1      -8.763  -1.836 -17.128 -0.46 -0.29    +0.264 C 
+DOCKED: ATOM      5  C   UNL d   1      -7.512  -1.195 -16.545 -0.63 -0.03    +0.037 C 
+DOCKED: ENDBRANCH   2   4
+DOCKED: TORSDOF 1
+DOCKED: TER
+DOCKED: ENDMDL
+________________________________________________________________________________
+
+
+    CLUSTERING HISTOGRAM
+    ____________________
+
+
+________________________________________________________________________________
+     |           |     |           |     |
+Clus | Lowest    | Run | Mean      | Num | Histogram
+-ter | Binding   |     | Binding   | in  |
+Rank | Energy    |     | Energy    | Clus|    5    10   15   20   25   30   35
+_____|___________|_____|___________|_____|____:____|____:____|____:____|____:___
+   1 |     -3.01 |   1 |     -3.01 |   1 |#
+_____|___________|_____|___________|_____|______________________________________
+
+
+    RMSD TABLE
+    __________
+
+
+_____________________________________________________________________
+     |      |      |           |         |                 |
+Rank | Sub- | Run  | Binding   | Cluster | Reference       | Grep
+     | Rank |      | Energy    | RMSD    | RMSD            | Pattern
+_____|______|______|___________|_________|_________________|___________
+   1      1      1       -3.01      0.00     19.75           RANKING
+
+Run time 0.563 sec
+Idle time 0.006 sec

@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<result>
+	<clustering_histogram>
+		<cluster cluster_rank="1" lowest_binding_energy="-1.92" run="1" mean_binding_energy="-1.92" num_in_clus="1" />
+	</clustering_histogram>
+	<rmsd_table>
+		<run rank="1" sub_rank="1" run="1" binding_energy="-1.92" cluster_rmsd="0.00" reference_rmsd="28.79" />
+	</rmsd_table>
+</result>

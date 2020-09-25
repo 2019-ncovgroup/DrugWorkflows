@@ -1,0 +1,22 @@
+DB-7596_tmp.pdbqt
+ OpenBabel09162017173D
+
+  2  1  0  0  0  0  0  0  0  0999 V2000
+   -6.7700    3.3020  -28.8280 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+   -6.3860    2.5560  -27.0000 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0  0  0  0
+M  END
+>  <REMARK>
+  0 active torsions:
+  status: ('A' for Active; 'I' for Inactive)
+
+>  <TORSDO>
+F 0
+
+>  <AutodockScore>
+
+
+>  <TITLE>
+DB-7596
+
+$$$$

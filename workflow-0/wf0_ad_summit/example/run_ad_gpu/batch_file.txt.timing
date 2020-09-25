@@ -1,0 +1,6 @@
+ID ADADELTA n_evals capped autostopped nev_at_stop num_atoms num_rotbonds successful exec_time
+0 1 2500000 0 0 2506094 4 0 1 0.362
+1 1 2500000 0 0 2507963 5 1 1 0.563
+2 1 2500000 0 0 2504726 2 0 1 0.536
+3 1 2500000 0 0 2502348 5 2 1 0.460
+4 1 2500000 0 0 2506102 3 0 1 0.551
