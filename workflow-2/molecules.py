@@ -247,6 +247,7 @@ def generate_training_pipeline(cfg):
         t4.pre_exec += ['mkdir -p %s/Outlier_search/outlier_pdbs' % cfg['base_path']]
         t4.pre_exec += ['export models=""; for i in `ls -d %s/CVAE_exps/model-cvae_runs*/`; do if [ "$models" != "" ]; then    models=$models","$i; else models=$i; fi; done;cat /dev/null' % cfg['base_path']]
         t4.pre_exec += ['export LANG=en_US.utf-8', 'export LC_ALL=en_US.utf-8']
+        t4.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
 
         cmd_cat = 'cat /dev/null'
         cmd_jsrun = 'jsrun -n %s -a 6 -g 6 -r 1 -c 7' % cfg['node_counts']
