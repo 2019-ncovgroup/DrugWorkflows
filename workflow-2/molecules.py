@@ -248,8 +248,12 @@ def generate_training_pipeline(cfg):
         t4.pre_exec += ['export models=""; for i in `ls -d %s/CVAE_exps/model-cvae_runs*/`; do if [ "$models" != "" ]; then    models=$models","$i; else models=$i; fi; done;cat /dev/null' % cfg['base_path']]
         t4.pre_exec += ['export LANG=en_US.utf-8', 'export LC_ALL=en_US.utf-8']
 
-        t4.executable = ['%s/bin/python' % cfg['conda_pytorch']]
-        t4.arguments = ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
+        cmd_cat = 'cat /dev/null'
+        cmd_jsrun = 'jsrun -n %s -a 6 -g 6 -r 1 -c 7' % cfg['node_count']
+
+        t4.executable = [' %s; %s %s/examples/outlier_detection/run_optics_dist_summit_entk.sh' % (cmd_cat, cmd_jsrun, cfg['molecules_path'])]
+        t4.arguments = ['%s/bin/python' % cfg['conda_pytorch']]
+        t4.arguments += ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
                         '--sim_path', '%s/MD_exps/%s' % (cfg['base_path'], cfg['system_name']),
                         '--pdb_out_path', '%s/Outlier_search/outlier_pdbs' % cfg['base_path'],
                         '--restart_points_path',
@@ -263,7 +267,8 @@ def generate_training_pipeline(cfg):
                         '--dim1', cfg['residues'],
                         '--dim2', cfg['residues'],
                         '--cm_format', 'sparse-concat',
-                        '--batch_size', cfg['batch_size']]
+                        '--batch_size', cfg['batch_size'],
+                        '--distributed']
 
         t4.cpu_reqs = {'processes'          : 1,
                        'process_type'       : None,
