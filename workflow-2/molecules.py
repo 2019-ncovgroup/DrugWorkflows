@@ -250,10 +250,11 @@ def generate_training_pipeline(cfg):
 
         cmd_cat = 'cat /dev/null'
         cmd_jsrun = 'jsrun -n %s -a 6 -g 6 -r 1 -c 7' % cfg['node_counts']
+        molecules_path = '/gpfs/alpine/world-shared/ven201/tkurth/molecules/'
 
         t4.executable = [' %s; %s %s/examples/outlier_detection/run_optics_dist_summit_entk.sh' % (cmd_cat, cmd_jsrun, cfg['molecules_path'])]
         t4.arguments = ['%s/bin/python' % cfg['conda_pytorch']]
-        t4.arguments += ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
+        t4.arguments += ['%s/examples/outlier_detection/optics.py' % molecules_path, #cfg['molecules_path'],
                         '--sim_path', '%s/MD_exps/%s' % (cfg['base_path'], cfg['system_name']),
                         '--pdb_out_path', '%s/Outlier_search/outlier_pdbs' % cfg['base_path'],
                         '--restart_points_path',
