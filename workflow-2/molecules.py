@@ -249,7 +249,7 @@ def generate_training_pipeline(cfg):
         t4.pre_exec += ['export LANG=en_US.utf-8', 'export LC_ALL=en_US.utf-8']
 
         cmd_cat = 'cat /dev/null'
-        cmd_jsrun = 'jsrun -n %s -a 6 -g 6 -r 1 -c 7' % cfg['node_count']
+        cmd_jsrun = 'jsrun -n %s -a 6 -g 6 -r 1 -c 7' % cfg['node_counts']
 
         t4.executable = [' %s; %s %s/examples/outlier_detection/run_optics_dist_summit_entk.sh' % (cmd_cat, cmd_jsrun, cfg['molecules_path'])]
         t4.arguments = ['%s/bin/python' % cfg['conda_pytorch']]
