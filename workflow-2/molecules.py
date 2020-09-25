@@ -264,7 +264,6 @@ def generate_training_pipeline(cfg):
                         '--model_type', 'vae-resnet',
                         '--min_samples', 10,
                         '--n_outliers', 500,
-                        '--device', 'cuda:0',
                         '--dim1', cfg['residues'],
                         '--dim2', cfg['residues'],
                         '--cm_format', 'sparse-concat',
