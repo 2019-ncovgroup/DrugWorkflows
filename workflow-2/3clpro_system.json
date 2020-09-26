@@ -16,14 +16,14 @@
     "conda_openmm"  : "/gpfs/alpine/proj-shared/med110/conda/openmm",
     "conda_pytorch" : "/gpfs/alpine/proj-shared/med110/conda/pytorch",
 
-    "base_path"     : "/gpfs/alpine/scratch/hrlee/med110/git/wf2_fine_tuning/workflow-2",
+    "base_path"     : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2",
     "molecules_path": "/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecules",
 
     "system_name"   : "3clpro",
     "residues"      : 303,
     "init_weights"  : "/gpfs/alpine/proj-shared/med110/hrlee/epoch-60-20200926-003445.pt",
-    "pdb_file"      : "/gpfs/alpine/scratch/hrlee/med110/git/wf2_fine_tuning/workflow-2/Parameters/input_protein/prot.pdb",
-    "top_file"      : "/gpfs/alpine/scratch/hrlee/med110/git/wf2_fine_tuning/workflow-2/Parameters/input_protein/prot.prmtop",
+    "pdb_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.pdb",
+    "top_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.prmtop",
   
     "ml_hpo" : [
         {
@@ -49,8 +49,8 @@
     "CUR_STAGE"     : 0,
     "MAX_STAGE"     : 10,
     "RETRAIN_FREQ"  : 1,
-    "LEN_initial"   : 1,
-    "LEN_iter"      : 1,
+    "LEN_initial"   : 10,
+    "LEN_iter"      : 10,
 
     "resource"      : "ornl.summit",
     "queue"         : "batch",
