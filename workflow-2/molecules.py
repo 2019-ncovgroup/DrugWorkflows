@@ -189,13 +189,33 @@ def generate_training_pipeline(cfg):
             hp = cfg['ml_hpo'][i]
             #cmd_cat    = 'cat /dev/null'
             #cmd_jsrun  = 'jsrun -n %s -r 1 -g 6 -a 3 -c 42 -d packed' % nnodes
-            cmd_vae    = '%s/examples/run_vae_dist_summit_entk.sh' % cfg['molecules_path']
+
+            # VAE config
+            # cmd_vae    = '%s/examples/run_vae_dist_summit_entk.sh' % cfg['molecules_path']
+            # cmd_sparse = ' '.join(['%s/MD_to_CVAE/cvae_input.h5' % cfg["base_path"],
+            #                        "./", cvae_dir, 'sparse-concat', 'resnet',
+            #                        str(cfg['residues']), str(cfg['residues']),
+            #                        str(hp['latent_dim']), 'amp', 'non-distributed',
+            #                        str(hp['batch_size']), str(cfg['epoch']),
+            #                        str(cfg['sample_interval']),
+            #                        hp['optimizer'], cfg['init_weights']])
+
+            # AAE config
+            cmd_vae    = '%s/examples/bin/summit/run_aae_dist_summit_entk.sh' % cfg['molecules_path']
             cmd_sparse = ' '.join(['%s/MD_to_CVAE/cvae_input.h5' % cfg["base_path"], 
-                                   "./", cvae_dir, 'sparse-concat', 'resnet',
-                                   str(cfg['residues']), str(cfg['residues']),
-                                   str(hp['latent_dim']), 'amp', 'non-distributed',
-                                   str(hp['batch_size']), str(cfg['epoch']), '3',
-                                   hp['optimizer'], cfg['pretrain_model']])
+                                   "./",
+                                   cvae_dir,
+                                   str(cfg['residues']),
+                                   str(hp['latent_dim']),
+                                   'non-amp',
+                                   'non-distributed',
+                                   str(hp['batch_size']),
+                                   str(cfg['epoch']),
+                                   str(cfg['sample_interval']),
+                                   hp['optimizer'],
+                                   hp['loss_weights'],
+                                   cfg['init_weights']])
+
 
             t3.executable= ['%s %s' % (cmd_vae, cmd_sparse)]
 
@@ -252,7 +272,7 @@ def generate_training_pipeline(cfg):
                         '%s/Outlier_search/restart_points.json' % cfg['base_path'],
                         '--data_path', '%s/MD_to_CVAE/cvae_input.h5' % cfg['base_path'],
                         '--model_paths', '$models',
-                        '--model_type', 'vae-resnet',
+                        '--model_type', cfg['model_type'],
                         '--min_samples', 10,
                         '--n_outliers', 500,
                         '--device', 'cuda:0',

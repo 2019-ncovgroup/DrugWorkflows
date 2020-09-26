@@ -2,10 +2,15 @@
     "md_counts"     : 120,
     "ml_counts"     : 3,
     "gpu_per_node"  : 6,
-    "batch_size"    : 512,
-    "epoch"         : 2,
+
     "cutoff"        : 16,
     "selection"     : "resid 1:303 and protein and name CA",
+
+    "epoch"         : 5,
+    "sample_interval": 3,
+
+    "batch_size"    : 512,
+    "model_type"    : "aae",
 
     "conda_path"    : "/gpfs/alpine/proj-shared/med110/conda/openmm",
     "conda_openmm"  : "/gpfs/alpine/proj-shared/med110/conda/openmm",
@@ -16,25 +21,28 @@
 
     "system_name"   : "3clpro",
     "residues"      : 303,
-    "pretrain_model": "/gpfs/alpine/proj-shared/med110/hrlee/epoch-10-20200925-084941.pt",
+    "init_weights"  : "/gpfs/alpine/proj-shared/med110/hrlee/epoch-60-20200926-003445.pt",
     "pdb_file"      : "/gpfs/alpine/scratch/hrlee/med110/git/wf2_fine_tuning/workflow-2/Parameters/input_protein/prot.pdb",
     "top_file"      : "/gpfs/alpine/scratch/hrlee/med110/git/wf2_fine_tuning/workflow-2/Parameters/input_protein/prot.prmtop",
   
     "ml_hpo" : [
         {
-            "optimizer": "name=Adam,lr=1e-5",
-            "latent_dim": 38,
-	        "batch_size": 128
+            "optimizer"    : "name=Adam,lr=1e-5",
+            "loss_weights" : "lambda_rec=0.5,lambda_gp=10",
+            "latent_dim"   : 48,
+            "batch_size"   : 32
         },
         {
-            "optimizer": "name=Adam,lr=1e-6",
-            "latent_dim": 38,
-	        "batch_size": 128
+            "optimizer"    : "name=Adam,lr=1e-6",
+            "loss_weights" : "lambda_rec=0.5,lambda_gp=10",
+            "latent_dim"   : 48,
+            "batch_size"   : 32
         },
         {
-            "optimizer": "name=Adam,lr=1e-7",
-            "latent_dim": 38,
-	        "batch_size": 128
+            "optimizer"    : "name=Adam,lr=1e-7",
+            "loss_weights" : "lambda_rec=0.5,lambda_gp=10",
+            "latent_dim"   : 48,
+            "batch_size"   : 32
         }
     ],
 
