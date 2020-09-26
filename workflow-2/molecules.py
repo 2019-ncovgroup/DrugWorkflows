@@ -116,8 +116,7 @@ def generate_training_pipeline(cfg):
                 '. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh',
                 'conda activate %s' % cfg['conda_pytorch'],
                 'export LANG=en_US.utf-8',
-                'export LC_ALL=en_US.utf-8'
-                ]
+                'export LC_ALL=en_US.utf-8']
         # preprocessing for molecules' script, it needs files in a single
         # directory
         # the following pre-processing does:
@@ -129,23 +128,30 @@ def generate_training_pipeline(cfg):
                 'export tmp_path=`mktemp -p %s/MD_to_CVAE/ -d`' % cfg['base_path'],
                 'for dcd in ${dcd_list[@]}; do tmp=$(basename $(dirname $dcd)); ln -s $dcd $tmp_path/$tmp.dcd; done',
                 'ln -s %s $tmp_path/prot.pdb' % cfg['pdb_file'],
-                'ls ${tmp_path}'
-                ]
+                'ls ${tmp_path}']
 
-        t2.executable = ['%s/bin/python' % cfg['conda_pytorch']]  # MD_to_CVAE.py
+        t2.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
+
+        node_cnt_constraint = cfg['md_counts'] * max(1, CUR_STAGE) // 12
+        cmd_cat    = 'cat /dev/null'
+        cmd_jsrun  = 'jsrun -n %s -r 1 -a 6 -c 7 -d packed' % min(cfg['node_counts'], node_cnt_constraint)
+        
+        t2.executable = ['%s; %s %s/bin/python' % (cmd_cat, cmd_jsrun, cfg['conda_pytorch'])]  # MD_to_CVAE.py
         t2.arguments = [
                 '%s/scripts/traj_to_dset.py' % cfg['molecules_path'],
                 '-t', '$tmp_path',
                 '-p', '%s/Parameters/input_protein/prot.pdb' % cfg['base_path'],
                 '-r', '%s/Parameters/input_protein/prot.pdb' % cfg['base_path'],
                 '-o', '%s/MD_to_CVAE/cvae_input.h5' % cfg['base_path'],
-                '-c', cfg['cutoff'],
+                '--contact_maps_parameters',
+                "kernel_type=threshold,threshold=%s" % cfg['cutoff'],
                 '-s', cfg['selection'],
                 '--rmsd',
                 '--fnc',
                 '--contact_map',
                 '--point_cloud',
-                '--num_workers', 42,
+                '--num_workers', 2,
+                '--distributed',
                 '--verbose']
 
         # Add the aggregation task to the aggreagating stage
@@ -177,7 +183,6 @@ def generate_training_pipeline(cfg):
                             'export LANG=en_US.utf-8',
                             'export LC_ALL=en_US.utf-8']
             t3.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
-            t3.pre_exec += ['PYTHONPATH=/ccs/home/hrlee/.local/lib/python3.6/site-packages:$PYTHONPATH']
             dim = i + 3
             cvae_dir = 'cvae_runs_%.2d_%d' % (dim, time_stamp+i)
             t3.pre_exec += ['cd %s/CVAE_exps' % cfg['base_path']]
@@ -263,9 +268,14 @@ def generate_training_pipeline(cfg):
         t4.pre_exec += ['mkdir -p %s/Outlier_search/outlier_pdbs' % cfg['base_path']]
         t4.pre_exec += ['export models=""; for i in `ls -d %s/CVAE_exps/model-cvae_runs*/`; do if [ "$models" != "" ]; then    models=$models","$i; else models=$i; fi; done;cat /dev/null' % cfg['base_path']]
         t4.pre_exec += ['export LANG=en_US.utf-8', 'export LC_ALL=en_US.utf-8']
+        t4.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
 
-        t4.executable = ['%s/bin/python' % cfg['conda_pytorch']]
-        t4.arguments = ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
+        cmd_cat = 'cat /dev/null'
+        cmd_jsrun = 'jsrun -n %s -a 6 -g 6 -r 1 -c 7' % cfg['node_counts']
+        molecules_path = '/gpfs/alpine/world-shared/ven201/tkurth/molecules/'
+        t4.executable = [' %s; %s %s/examples/outlier_detection/run_optics_dist_summit_entk.sh' % (cmd_cat, cmd_jsrun, cfg['molecules_path'])]
+        t4.arguments = ['%s/bin/python' % cfg['conda_pytorch']]
+        t4.arguments += ['%s/examples/outlier_detection/optics.py' % molecules_path, #cfg['molecules_path'],
                         '--sim_path', '%s/MD_exps/%s' % (cfg['base_path'], cfg['system_name']),
                         '--pdb_out_path', '%s/Outlier_search/outlier_pdbs' % cfg['base_path'],
                         '--restart_points_path',
@@ -275,11 +285,11 @@ def generate_training_pipeline(cfg):
                         '--model_type', cfg['model_type'],
                         '--min_samples', 10,
                         '--n_outliers', 500,
-                        '--device', 'cuda:0',
                         '--dim1', cfg['residues'],
                         '--dim2', cfg['residues'],
                         '--cm_format', 'sparse-concat',
-                        '--batch_size', cfg['batch_size']]
+                        '--batch_size', cfg['batch_size'],
+                        '--distributed']
 
         t4.cpu_reqs = {'processes'          : 1,
                        'process_type'       : None,
