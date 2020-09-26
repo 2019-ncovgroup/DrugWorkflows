@@ -3,9 +3,9 @@
     "ml_counts"     : 3,
     "gpu_per_node"  : 6,
     "batch_size"    : 512,
-    "epoch"         : 5,
-    "cutoff"        : 20,
-    "selection"     : "protein and name CA",
+    "epoch"         : 2,
+    "cutoff"        : 16,
+    "selection"     : "resid 1:303 and protein and name CA",
 
     "conda_path"    : "/gpfs/alpine/proj-shared/med110/conda/openmm",
     "conda_openmm"  : "/gpfs/alpine/proj-shared/med110/conda/openmm",
@@ -15,25 +15,25 @@
     "molecules_path": "/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecules",
 
     "system_name"   : "3clpro",
-    "residues"      : 304,
-    "pretrain_model": "epoch-10-20200919-211859.pt",
+    "residues"      : 303,
+    "pretrain_model": "epoch-10-20200925-084941.pt",
     "pdb_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.pdb",
     "top_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.prmtop",
   
     "ml_hpo" : [
         {
             "optimizer": "name=Adam,lr=1e-5",
-            "latent_dim": 19,
+            "latent_dim": 38,
 	        "batch_size": 128
         },
         {
             "optimizer": "name=Adam,lr=1e-6",
-            "latent_dim": 19,
+            "latent_dim": 38,
 	        "batch_size": 128
         },
         {
             "optimizer": "name=Adam,lr=1e-7",
-            "latent_dim": 19,
+            "latent_dim": 38,
 	        "batch_size": 128
         },
     ],
