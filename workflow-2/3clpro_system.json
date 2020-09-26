@@ -4,7 +4,7 @@
     "gpu_per_node"  : 6,
 
     "cutoff"        : 16,
-    "selection"     : "resid 1:303 and protein and name CA",
+    "selection"     : "resid 2:305 and protein and name CA",
 
     "epoch"         : 5,
     "sample_interval": 3,
