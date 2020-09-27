@@ -1,8 +1,0 @@
-REMARK  0 active torsions:
-REMARK  status: ('A' for Active; 'I' for Inactive)
-ROOT
-ATOM      1  C   UNL d   1      -6.770   3.305 -28.881  0.00  0.00     0.021 C 
-ATOM      2  C   UNL d   1      -6.397   3.428 -27.419  0.00  0.00     0.110 C 
-ATOM      3 CL   UNL d   1      -6.396   1.830 -26.641  0.00  0.00    -0.131 Cl
-ENDROOT
-TORSDOF 0

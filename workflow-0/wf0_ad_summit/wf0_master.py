@@ -111,45 +111,12 @@ class MyMaster(rp.task_overlay.Master):
     #
     def create_work_items(self):
 
-        print('create_start')
-        # self._prof.prof('create_start')
-
-        world_size = self._cfg.n_masters
-        rank       = 0
-
-        # create an initial list of work items to be distributed to the workers.
-        # Work items MUST be serializable dictionaries.
-        total = int(1024)
-        idx   = rank
-        while idx < total:
-
-            uid  = 'request.%06d' % idx
-            item = {'uid'  :   uid,
-                    'mode' :  'call',
-                    'cores':  1,
-                  # 'gpus' :  1,
-                    'mode':  'call',
-                    'data': {'method': 'dock',
-                             'kwargs': {'pos': idx,
-                                        'off': 1,
-                                        'uid': uid}}}
-            self.request(item)
-            idx += world_size
-            print(idx)
-
-        # self._prof.prof('create_stop')
-        print('create_stop')
-
-
-    # --------------------------------------------------------------------------
-    #
-    def create_work_items_1(self):
-
         self._prof.prof('create_start')
 
         world_size = self._cfg.n_masters
         name       = self._cfg.workload.name
         rank       = self._cfg.idx
+        chunk      = self._cfg.workload.chunksize
 
         # check the smi file for this master's index range, and send the
         # resulting pos indexes as task batches
@@ -185,7 +152,9 @@ class MyMaster(rp.task_overlay.Master):
             for idx in new_pos:
                 fout.write('%d\n' % idx)
 
+        rnum = 0
         idx  = rank
+        idxs = list()
         reqs = list()
         while idx < npos:
 
@@ -193,23 +162,34 @@ class MyMaster(rp.task_overlay.Master):
             off  = self._idxs[pos]
             idx += world_size
 
-            if idx >= 64: break
+            idxs.append([idx, pos, off])
 
-            uid  = 'request.%06d' % pos
+            if len(idxs) >= chunk:
+
+                # The lowest index is used as basis for the request ID, it
+                # identifies the batch of smiles packed into that request (bid).
+                uid  = 'request.%06d' % idxs[0][0]
+                item = {'uid' :   uid,
+                        'mode':  'call',
+                        'data': {'method': 'dock',
+                                 'kwargs': {'idxs': idxs,
+                                            'bid' : uid}}}
+                self.request(item)
+                idxs  = list()
+                rnum += 1
+
+                # FIXME AM:
+                break
+
+        # request remaining indexes (likely fewer than `chunk`)
+        if idxs:
+            uid  = 'request.%06d' % idxs[0][0]
             item = {'uid' :   uid,
                     'mode':  'call',
                     'data': {'method': 'dock',
-                             'kwargs': {'pos': pos,
-                                        'off': off,
-                                        'uid': uid}}}
-            reqs.append(item)
-
-            if len(reqs) >= 16:
-                reqs = list()
-
-        # request remaining items
-        if reqs:
-            self.request(reqs)
+                             'kwargs': {'idxs': idxs,
+                                        'bid': uid}}}
+            self.request(item)
 
         self._prof.prof('create_stop')
 

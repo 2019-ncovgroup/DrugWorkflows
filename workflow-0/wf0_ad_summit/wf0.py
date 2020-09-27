@@ -60,7 +60,7 @@ def check_runs(cfg_file, run_file):
     runs      = list()
     n_smiles  = dict()
 
-    rec_path  = 'input/receptors.v7/'    # FIXME
+    rec_path  = 'input/receptors.ad/'    # FIXME
     smi_path  = 'input/smiles/'          # FIXME
 
     cfg       = ru.Config(cfg=ru.read_json(cfg_file))
@@ -94,10 +94,10 @@ def check_runs(cfg_file, run_file):
             assert(nodes)
             assert(runtime)
 
-          # print('%s/%s.oeb' % (rec_path, receptor))
-          # print('%s/%s.csv' % (smi_path, smiles))
-            assert(os.path.isfile('%s/%s.oeb' % (rec_path, receptor)))
-            assert(os.path.isfile('%s/%s.csv' % (smi_path, smiles)))
+          # print('%s/%s.pdbqt' % (rec_path, receptor))
+          # print('%s/%s.csv'   % (smi_path, smiles))
+            assert(os.path.isfile('%s/%s.pdbqt' % (rec_path, receptor)))
+            assert(os.path.isfile('%s/%s.csv'   % (smi_path, smiles)))
 
             fname = '%s_-_%s.idx' % (receptor, smiles)
             pname = '%s/%s'       % (smiles,   fname)
@@ -256,9 +256,9 @@ if __name__ == '__main__':
                                       'target': 'impress_md',
                                       'action': rp.LINK,
                                       'flags' : rp.DEFAULT_FLAGS},
-                                     {'source': workload.oe_license,
-                                      'target': 'oe_license.txt',
-                                      'action': rp.LINK,
+                                     {'source': 'read_ligand_dict.py',
+                                      'target': 'read_ligand_dict.py',
+                                      'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS},
                                     ]
                 td.output_staging = [{'source': '%s.%s.gz'         % (name, workload.output),
