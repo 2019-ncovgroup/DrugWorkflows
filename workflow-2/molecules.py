@@ -168,12 +168,14 @@ def generate_training_pipeline(cfg):
         """
         Function to generate the learning stage
         """
-        s3 = Stage()
-        s3.name = 'learning'
-
         # learn task
         time_stamp = int(time.time())
+        stages=[]
         for i in range(num_ML):
+            s3 = Stage()
+            s3.name = 'learning'
+
+
             t3 = Task()
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/CVAE_exps/train_cvae.py
             t3.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
@@ -186,14 +188,16 @@ def generate_training_pipeline(cfg):
             dim = i + 3
             cvae_dir = 'cvae_runs_%.2d_%d' % (dim, time_stamp+i)
             t3.pre_exec += ['cd %s/CVAE_exps' % cfg['base_path']]
+            t3.pre_exec += ['export LD_LIBRARY_PATH=/gpfs/alpine/proj-shared/med110/atrifan/scripts/cuda/targets/ppc64le-linux/lib/:$LD_LIBRARY_PATH']
             #t3.pre_exec += ['mkdir -p %s && cd %s' % (cvae_dir, cvae_dir)] # model_id creates sub-dir
             # this is for ddp, distributed
-            #t3.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
-            #nnodes = cfg['node_counts'] // num_ML
+            t3.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
+            #pnodes = cfg['node_counts'] // num_ML # partition
+            pnodes = 1#max(1, pnodes)
 
             hp = cfg['ml_hpo'][i]
-            #cmd_cat    = 'cat /dev/null'
-            #cmd_jsrun  = 'jsrun -n %s -r 1 -g 6 -a 3 -c 42 -d packed' % nnodes
+            cmd_cat    = 'cat /dev/null'
+            cmd_jsrun  = 'jsrun -n %s -r 1 -g 6 -a 6 -c 42 -d packed' % pnodes
 
             # VAE config
             # cmd_vae    = '%s/examples/run_vae_dist_summit_entk.sh' % cfg['molecules_path']
@@ -207,22 +211,20 @@ def generate_training_pipeline(cfg):
 
             # AAE config
             cmd_vae    = '%s/examples/bin/summit/run_aae_dist_summit_entk.sh' % cfg['molecules_path']
-            cmd_sparse = ' '.join(['%s/MD_to_CVAE/cvae_input.h5' % cfg["base_path"], 
+            t3.executable = ['%s; %s %s' % (cmd_cat, cmd_jsrun, cmd_vae)]
+            t3.arguments = ['%s/MD_to_CVAE/cvae_input.h5' % cfg["base_path"], 
                                    "./",
                                    cvae_dir,
                                    str(cfg['residues']),
                                    str(hp['latent_dim']),
                                    'non-amp',
-                                   'non-distributed',
+                                   'distributed',
                                    str(hp['batch_size']),
                                    str(cfg['epoch']),
                                    str(cfg['sample_interval']),
                                    hp['optimizer'],
                                    hp['loss_weights'],
-                                   cfg['init_weights']])
-
-
-            t3.executable= ['%s %s' % (cmd_vae, cmd_sparse)]
+                                   cfg['init_weights']]
 
             #+ f'{cfg['molecules_path']}/examples/run_vae_dist_summit.sh -i {sparse_matrix_path} -o ./ --model_id {cvae_dir} -f sparse-concat -t resnet --dim1 168 --dim2 168 -d 21 --amp --distributed -b {batch_size} -e {epoch} -S 3']
         #     ,
@@ -253,7 +255,8 @@ def generate_training_pipeline(cfg):
 
             # Add the learn task to the learning stage
             s3.add_tasks(t3)
-        return s3
+            stages.append(s3)
+        return stages
 
 
     def generate_interfacing_stage():
@@ -272,10 +275,10 @@ def generate_training_pipeline(cfg):
 
         cmd_cat = 'cat /dev/null'
         cmd_jsrun = 'jsrun -n %s -a 6 -g 6 -r 1 -c 7' % cfg['node_counts']
-        molecules_path = '/gpfs/alpine/world-shared/ven201/tkurth/molecules/'
+        #molecules_path = '/gpfs/alpine/world-shared/ven201/tkurth/molecules/'
         t4.executable = [' %s; %s %s/examples/outlier_detection/run_optics_dist_summit_entk.sh' % (cmd_cat, cmd_jsrun, cfg['molecules_path'])]
         t4.arguments = ['%s/bin/python' % cfg['conda_pytorch']]
-        t4.arguments += ['%s/examples/outlier_detection/optics.py' % molecules_path, #cfg['molecules_path'],
+        t4.arguments += ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
                         '--sim_path', '%s/MD_exps/%s' % (cfg['base_path'], cfg['system_name']),
                         '--pdb_out_path', '%s/Outlier_search/outlier_pdbs' % cfg['base_path'],
                         '--restart_points_path',
@@ -289,7 +292,8 @@ def generate_training_pipeline(cfg):
                         '--dim2', cfg['residues'],
                         '--cm_format', 'sparse-concat',
                         '--batch_size', cfg['batch_size'],
-                        '--distributed']
+                        '--distributed',
+                        '-iw', cfg['init_weights']]
 
         t4.cpu_reqs = {'processes'          : 1,
                        'process_type'       : None,
@@ -366,7 +370,7 @@ def generate_training_pipeline(cfg):
     s3 = generate_ML_stage(num_ML=cfg['ml_counts'])
     # Add the learning stage to the pipeline
     p.add_stages(s3)
-
+    
     # --------------------------
     # Outlier identification stage
     s4 = generate_interfacing_stage()
