@@ -37,6 +37,11 @@ class MyWorker(rp.task_overlay.Worker):
     #
     def __init__(self, cfg):
 
+        with open('./env.%d' % os.getpid(), 'w') as fout:
+            for k in sorted(os.environ.keys()):
+                v = os.environ[k]
+                fout.write('%s=%s\n' % (k, v))
+
         rp.task_overlay.Worker.__init__(self, cfg)
 
         self.register_call('dock', self.dock)
@@ -52,6 +57,7 @@ class MyWorker(rp.task_overlay.Worker):
 
             workload = self._cfg.workload
 
+            self.sbox     = os.getcwd()
             self.cache    = workload.cache
             self.trivial  = workload.trivial
 
@@ -84,7 +90,6 @@ class MyWorker(rp.task_overlay.Worker):
             # result file residing on the shared FS - we lock that operation
             self.sdf_lock      = mp.Lock()
 
-
         except Exception:
             self._log.exception('pre_exec failed')
             raise
@@ -95,14 +100,7 @@ class MyWorker(rp.task_overlay.Worker):
     def post_exec(self):
 
         try:
-            workload = self._cfg.workload
-
-            self._log.debug('post_exec (%s)', workload.output)
-
-            # FIXME: SDF concat per requested batch
-            out, err, ret = ru.sh_callout("cp -r %s/results/ ." % self.cache)
-            assert(not ret), [out, err, ret]
-
+            self._log.debug('post_exec')
 
         except Exception:
             self._log.exception('post_exec failed')
@@ -116,8 +114,15 @@ class MyWorker(rp.task_overlay.Worker):
         self._fin.seek(off)
         line   = self._fin.readline()
       # ccount = line.count(',')  # FIXME: CVS parse on incorrect counts
-        data   = line.split(',')
+        data   = [x.strip() for x in line.split(',')]
         return data
+
+
+    # --------------------------------------------------------------------------
+    #
+    def bak(self, name):
+
+        os.system('cp -r %s %s/cache.%s' %(self.cache, self.sbox, name))
 
 
     # --------------------------------------------------------------------------
@@ -130,69 +135,78 @@ class MyWorker(rp.task_overlay.Worker):
         bcache = '%s/%s' % (self.cache, bid)
         ru.rec_makedir(bcache)
 
-
-        os.system('ls -la %s' % self.cache)
-        os.system('ls -la %s' % bcache)
+        # we change into the cachdir, to simplify paths and to ensure that
+        # autodock tmp files also end up here (and not in the worker sbox on the
+        # chared fs)
+        os.chdir(bcache)
 
         # start new batch
-        with open('%s/batch.%s' % (bcache, bid), 'w') as fin:
-            fin.write('\n%s/%s.maps.fld\n\n' % (self.cache, self.cfg.receptor))
+        with open('./batch', 'w') as fout:
+            fout.write('\n%s/%s.maps.fld\n\n' % (self.cache, self.receptor))
 
-        for idx, pos, off in idxs:
-            self.prepare_ligands(idx, pos, off, bid, bcache)
+            for idx, pos, off in idxs:
+                # TODO: cache for result loop below
+                data = self.get_data(off)
+                smi  = data[self._cfg.smi_col]
+                lig  = data[self._cfg.lig_col]
 
-        self.prepare_grids(bid, bcache)
-        self.run_autodock_gpu(bid, bcache)
+                print('=== %s : %s : %s : %s' % (self.uid, bid, lig, smi))
+                self.prepare_ligands(idx, pos, off, smi, lig, bid, batch=fout)
 
-        for idx, pos, off in idxs:
-            self.transform_results(idx, pos, off, bid, bcache)
-            ret.append('foo')
+        self.prepare_grids(bid)
+        self.run_autodock_gpu(bid)
+
+        with open('./%s.sdf' % (bid), 'w') as fout:
+            for idx, pos, off in idxs:
+                # TODO: cache from prep loop below
+                data = self.get_data(off)
+                smi  = data[self._cfg.smi_col]
+                lig  = data[self._cfg.lig_col]
+
+                score = self.transform_results(idx, pos, off, smi, lig, bid, sdf=fout)
+                ret.append(score)
+
+        with self.sdf_lock:
+            cmd = 'cat ./%s.sdf >> %s/%s.sdf' % (bid, self.sbox, self.uid)
+            out, err, ret = ru.sh_callout(cmd, shell=True)
+            assert(not ret), [cmd, out, err, ret]
+
+        self.bak('%s.final' % bid)
 
         return ret
 
 
     # --------------------------------------------------------------------------
     #
-    def prepare_ligands(self, idx, pos, off, bid, bcache):
+    def prepare_ligands(self, idx, pos, off, smi, lig, bid, batch):
 
         self._prof.prof('dock_start', uid=idx)
 
-        # TODO: move smiles, ligand_name into args
-        data        = self.get_data(off)
-        smiles      = data[self._cfg.smi_col]
-        ligand_name = data[self._cfg.lig_col]
-
         # obtain unbound fragment
-        fragments = [ion for ion in smiles.split('.')
+        fragments = [ion for ion in smi.split('.')
                          if  ion not in self.trivial]
         assert(fragments          ), ("Empty SMILES after deleting trivial ions")
         assert(len(fragments) == 1), ("SMILES contains multiple non-bonded fragments")
         fragment = fragments[0]
        
         babel = 'obabel -h --gen3d --conformer --nconf 100 --score energy -ismi -omol2'
-        out, err, ret = ru.sh_callout('echo "%s" | %s > %s/%s.mol2'
-                                     % (fragment, babel, bcache, idx), shell=True)
-        assert(not ret), [out, err, ret]
+        cmd   = 'echo "%s" | %s > ./%s.mol2' % (fragment, babel, lig)
+        out, err, ret = ru.sh_callout(cmd, shell=True)
+        assert(not ret), [cmd, out, err, ret]
 
-        cmd = '%s/prepare_ligand4.py -l %s/%s.mol2 -F -o %s/%s.pdbqt -d %s/ligand_dict.py' \
-              % (self.adt_util, bcache, idx, bcache, idx, bcache)
-        out, err, ret = ru.sh_callout('pythonsh %s' % cmd)
-        assert(not ret), [out, err, ret]
+        cmd = 'pythonsh %s/prepare_ligand4.py -l ./%s.mol2 -F -o ./%s.pdbqt -d ./ligand_dict.py' \
+              % (self.adt_util, lig, lig)
+        out, err, ret = ru.sh_callout(cmd)
+        assert(not ret), [cmd, out, err, ret]
 
-        out, err, ret = ru.sh_callout('cat %s/%s.pdbqt >> %s/batch.%s'
-                                     % (bcache, idx, bcache, bid), shell=True)
-        assert(not ret), [out, err, ret]
-
-        out, err, ret = ru.sh_callout('echo "%s" >> %s/batch.%s'
-                                     % (idx, bcache, bid), shell=True)
-        assert(not ret), [out, err, ret]
+        batch.write('./%s.pdbqt\n%s\n' % (lig, lig))
 
 
     # --------------------------------------------------------------------------
     #
-    def prepare_grids(self, bid, bcache):
+    def prepare_grids(self, bid):
 
-        # exec(open('%s/ligand_dict.py' % bcache).read())
+        # exec(open('./ligand_dict.py').read())
         #
         # Oh boy, don't we all love Python?  It is a language with
         # *unparalleled* flexibility, ease of use, and low learning curve which
@@ -217,8 +231,8 @@ class MyWorker(rp.task_overlay.Worker):
         #
         # LOL
         #
-        os.system('python3 ./read_ligand_dict.py %s ' % bcache)
-        d = ru.read_json('%s/ligand_dict.json' % bcache)
+        os.system('python3 %s/read_ligand_dict.py' % self.sbox)
+        d = ru.read_json('./ligand_dict.json')
 
         atom_types = set()
         for val in d.values():
@@ -230,73 +244,73 @@ class MyWorker(rp.task_overlay.Worker):
                 % (self.adt_util, self.cache, self.receptor, ligand_types, 
                         self.npts, self.center, self.receptor)
         out, err, ret = ru.sh_callout('pythonsh %s' % cmd)
-        assert(not ret), [out, err, ret]
+        assert(not ret), [cmd, out, err, ret]
 
         # FIXME: use python shell utils
         # FIXME: autogrid needs that file in $PWD.  Is a link ok?
-        out, err, ret = ru.sh_callout("ln -s %s/%s.pdbqt ."
-                                      % (self.cache, self.receptor))
-        assert(not ret), [out, err, ret]
-        os.system('echo bcache %s' % bcache)
-        os.system('ls -la %s' % bcache)
+        cmd = "ln -s %s/%s.pdbqt ." % (self.cache, self.receptor)
+        out, err, ret = ru.sh_callout(cmd)
+        assert(not ret), [cmd, out, err, ret]
 
-      # out, err, ret = ru.sh_callout('autogrid4 -p %s.gpf -l %s.glg'
-      #                             % (self.receptor, self.receptor))
-      # assert(not ret), [out, err, ret]
+        cmd = 'autogrid4 -p %s.gpf -l %s.glg' % (self.receptor, self.receptor)
+        out, err, ret = ru.sh_callout(cmd)
+        assert(not ret), [cmd, out, err, ret]
 
 
     # --------------------------------------------------------------------------
     #
-    def run_autodock_gpu(self, bid, bcache):
+    def run_autodock_gpu(self, bid):
         
         # FIXME: GPU_ID
         gpu_id = 1
-        cmd = 'autodock_gpu_64wi -filelist %s/batch.%s -devnum %s -lsmet "ad"' \
-              % (bcache, bid, gpu_id)
-        print(cmd)
-        time.sleep(5)
-      # out, err, ret = ru.sh_callout(cmd)
-      # assert(not ret), [out, err, ret]
+        os.environ['WF0_HOME'] = self.sbox
+        cmd = 'autodock_gpu_64wi -filelist ./batch -devnum %s -lsmet "ad"' % gpu_id
+        out, err, ret = ru.sh_callout(cmd)
+        assert(not ret), [cmd, out, err, ret]
         
         
     # --------------------------------------------------------------------------
     #
-    def transform_results(self, idx, pos, off, bid, bcache):
+    def transform_results(self, idx, pos, off, smi, lig, bid, sdf):
 
-        print('writing to %s.sdf' % bid)
-        with open('%s.sdf' % bid, 'a+') as fout:
-            fout.write('result for %s %s %s %s\n' % (bid, idx, pos, off))
-        return
+        if not os.path.isfile('%s.dlg' % lig):
+            print('=== no dlg for %s' % lig)
+            return None
 
-        data        = self.get_data(off)
-        smiles      = data[self._cfg.smi_col]
-
-        cmd = '$AUTODOCKTOOLS_UTIL/write_lowest_energy_ligand.py -f %s.dlg -o %s_tmp.pdbqt' % (bid, bid)
+        os.environ['WF0_HOME'] = self.sbox
+        cmd = '%s/write_lowest_energy_ligand.py -f %s.dlg -o %s_tmp.pdbqt' \
+                % (self.adt_util, lig, lig)
         out, err, ret = ru.sh_callout('pythonsh %s' % cmd)
-        assert(not ret), [out, err, ret]
+        assert(not ret), [cmd, out, err, ret]
 
-        cmd = 'obabel -ipdbqt %s_tmp.pdbqt -osdf | head -n -1 > %s.sdf' % (bid, bid)
+        cmd = 'obabel -ipdbqt %s_tmp.pdbqt -osdf | head -n -1' % lig
         out, err, ret = ru.sh_callout(cmd, shell=True)
-        assert(not ret), [out, err, ret]
+        assert(not ret), [cmd, out, err, ret]
+        babel_output = out
 
-        if os.path.isfile('%s.sdf' % bid):
+        if not babel_output:
+            print("no babel output")
+            return None
 
-            score = None
-            with open('%s.dlg' % bid, 'r') as fin:
+        score = None
+        with open('%s.dlg' % lig, 'r') as fin:
 
-                for line in fin.readlines:
-                    if 'USER    Estimated Free Energy of Binding    =' in line:
-                        if 'DOCKED: USER' not in line:
-                            score = line.split()[7]
-                            break
+            for line in fin.readlines():
+                if 'USER    Estimated Free Energy of Binding    =' in line:
+                    if 'DOCKED: USER' not in line:
+                        score = line.split()[7]
+                        break
+        print('==== %s score: %s' % ('%s.dlg' % lig, score))
 
-            assert(score is not None)
+      # assert(score is not None)
 
-            with open('%s.sdf' % bid, 'a') as fout:
-                fout.write('>  <AutodockScore>\n%s\n\n>  <TITLE>\n%s\n\n$$$$\n' % idx)
+        sdf.write('%s\n>  <AutodockScore>\n%s\n\n>  <TITLE>\n%s\n\n$$$$\n'
+                  % (babel_output, score, lig))
 
-            # FIXME: write in-place 
-          # mv $id.sdf ../results
+        return score
+
+        # FIXME: write in-place 
+      # mv $id.sdf ../results
 
 
 # ------------------------------------------------------------------------------

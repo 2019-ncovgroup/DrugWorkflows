@@ -178,8 +178,10 @@ class MyMaster(rp.task_overlay.Master):
                 idxs  = list()
                 rnum += 1
 
-                # FIXME AM:
-                break
+                self._log.debug('=== push bid %s', uid)
+
+              # # FIXME AM:
+              # break
 
         # request remaining indexes (likely fewer than `chunk`)
         if idxs:
@@ -189,6 +191,7 @@ class MyMaster(rp.task_overlay.Master):
                     'data': {'method': 'dock',
                              'kwargs': {'idxs': idxs,
                                         'bid': uid}}}
+            self._log.debug('=== push bid %s', uid)
             self.request(item)
 
         self._prof.prof('create_stop')
@@ -247,6 +250,7 @@ if __name__ == '__main__':
     # those workers and execute them.  Insert one smaller worker (see above)
     # NOTE: this assumes a certain worker size / layout
     print('cpn: %d' % cpn)
+    print('gpn: %d' % gpn)
     master.submit(descr=descr, count=n_workers, cores=cpn,     gpus=gpn)
   # master.submit(descr=descr, count=1,         cores=cpn - 1, gpus=gpn)
 
