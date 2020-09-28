@@ -278,7 +278,7 @@ def generate_training_pipeline(cfg):
         #molecules_path = '/gpfs/alpine/world-shared/ven201/tkurth/molecules/'
         t4.executable = [' %s; %s %s/examples/outlier_detection/run_optics_dist_summit_entk.sh' % (cmd_cat, cmd_jsrun, cfg['molecules_path'])]
         t4.arguments = ['%s/bin/python' % cfg['conda_pytorch']]
-        t4.arguments += ['%s/examples/outlier_detection/optics.py' % molecules_path, #cfg['molecules_path'],
+        t4.arguments += ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
                         '--sim_path', '%s/MD_exps/%s' % (cfg['base_path'], cfg['system_name']),
                         '--pdb_out_path', '%s/Outlier_search/outlier_pdbs' % cfg['base_path'],
                         '--restart_points_path',
@@ -370,7 +370,7 @@ def generate_training_pipeline(cfg):
     s3 = generate_ML_stage(num_ML=cfg['ml_counts'])
     # Add the learning stage to the pipeline
     p.add_stages(s3)
-
+    
     # --------------------------
     # Outlier identification stage
     s4 = generate_interfacing_stage()
