@@ -21,7 +21,7 @@
 
     "system_name"   : "3clpro",
     "residues"      : 304,
-    "init_weights"  : "/gpfs/alpine/proj-shared/med110/hrlee/304-dim-test-epoch-2-20200928-095801.pt",
+    "init_weights"  : "/gpfs/alpine/proj-shared/med110/hrlee/304-dim-test-epoch-4-20200928-124333.pt",
     "pdb_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.pdb",
     "top_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.prmtop",
   
