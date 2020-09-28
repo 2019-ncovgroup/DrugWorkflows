@@ -20,8 +20,8 @@
     "molecules_path": "/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecules",
 
     "system_name"   : "3clpro",
-    "residues"      : 303,
-    "init_weights"  : "/gpfs/alpine/proj-shared/med110/hrlee/epoch-60-20200926-003445.pt",
+    "residues"      : 304,
+    "init_weights"  : "/gpfs/alpine/proj-shared/med110/hrlee/304-dim-test-epoch-2-20200928-095801.pt",
     "pdb_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.pdb",
     "top_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.prmtop",
   
