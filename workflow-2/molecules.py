@@ -293,8 +293,7 @@ def generate_training_pipeline(cfg):
                         '--dim2', cfg['residues'],
                         '--cm_format', 'sparse-concat',
                         '--batch_size', cfg['batch_size'],
-                        '--distributed',
-                        '-iw', cfg['init_weights']]
+                        '--distributed']
 
         t4.cpu_reqs = {'processes'          : 1,
                        'process_type'       : None,
