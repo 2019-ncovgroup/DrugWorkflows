@@ -204,8 +204,10 @@ if __name__ == '__main__':
             if rec: print('recompute %d %s' % (rec, name))
             else  : print('compute   2 %s'  %       name)
 
-            cpn       = cfg.cpn
-            gpn       = cfg.gpn
+            smt       = cfg.smt
+            cpw       = cfg.cpw
+            gpw       = cfg.gpw
+            wpn       = cfg.wpn
             n_masters = cfg.n_masters
 
             cfg.workload.receptor = receptor
@@ -219,8 +221,8 @@ if __name__ == '__main__':
             ru.write_json(cfg, 'configs/wf0.%s.cfg' % name)
 
             pd = rp.ComputePilotDescription(cfg.pilot_descr)
-            pd.cores   = nodes * cpn
-            pd.gpus    = nodes * gpn
+            pd.cores   = nodes * cpw * wpn * smt
+            pd.gpus    = nodes * gpw * wpn
             pd.runtime = runtime
 
             pilot = pmgr.submit_pilots(pd)
@@ -234,7 +236,7 @@ if __name__ == '__main__':
                 td = rp.ComputeUnitDescription(cfg.master_descr)
                 td.executable     = "python3"
                 td.arguments      = ['wf0_master.py', i]
-                td.cpu_threads    = cpn
+                td.cpu_threads    = 1 * smt
                 td.pilot          = pid
                 td.input_staging  = [{'source': 'wf0_master.py',
                                       'target': 'wf0_master.py',

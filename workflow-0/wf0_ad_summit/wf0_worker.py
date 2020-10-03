@@ -23,6 +23,13 @@ def _run_exec(data):
     exec(data, globals(), locals())
     return d
 
+pid  = os.getpid()
+rank = int(os.environ.get('PMIX_RANK', -1))
+
+def out(data):
+    sys.stdout.write('==== %2d  %8d  %12d  %s\n' % (rank, pid, time.time(), data))
+    sys.stdout.flush()
+
 
 
 # ------------------------------------------------------------------------------
@@ -120,9 +127,9 @@ class MyWorker(rp.task_overlay.Worker):
 
     # --------------------------------------------------------------------------
     #
-    def bak(self, name):
+    def bak(self, bid, name):
 
-        os.system('cp -r %s %s/cache.%s' %(self.cache, self.sbox, name))
+        os.system('cp -r %s/%s %s/%s.%s' %(self.cache, bid, self.sbox, bid, name))
 
 
     # --------------------------------------------------------------------------
@@ -150,7 +157,7 @@ class MyWorker(rp.task_overlay.Worker):
                 smi  = data[self._cfg.smi_col]
                 lig  = data[self._cfg.lig_col]
 
-                print('=== %s : %s : %s : %s' % (self.uid, bid, lig, smi))
+                print('%s : %s : %s : %s' % (self.uid, bid, lig, smi))
                 self.prepare_ligands(idx, pos, off, smi, lig, bid, batch=fout)
 
         self.prepare_grids(bid)
@@ -171,7 +178,7 @@ class MyWorker(rp.task_overlay.Worker):
             out, err, ret = ru.sh_callout(cmd, shell=True)
             assert(not ret), [cmd, out, err, ret]
 
-        self.bak('%s.final' % bid)
+        self.bak(bid, 'final')
 
         return ret
 
@@ -262,9 +269,20 @@ class MyWorker(rp.task_overlay.Worker):
     def run_autodock_gpu(self, bid):
         
         # FIXME: GPU_ID
-        gpu_id = 1
+        gpu_id = os.environ.get('CUDA_VISIBLE_DEVICES')
+
+        # autodock GPU IDs start at 1
+        if gpu_id: gpu_id = int(gpu_id) + 1
+        else     : gpu_id = 1
+
         os.environ['WF0_HOME'] = self.sbox
-        cmd = 'autodock_gpu_64wi -filelist ./batch -devnum %s -lsmet "ad"' % gpu_id
+        print('using gpu %d' %  gpu_id)
+      # exe = 'autodock_gpu_64wi'
+        exe = 'autodock_gpu_64wi_debug'
+        cmd = '%s -filelist ./batch -devnum %s -lsmet "ad"' % (exe, gpu_id)
+
+        self.bak(bid, 'ad')
+        self._log.debug('=== %s', cmd)
         out, err, ret = ru.sh_callout(cmd)
         assert(not ret), [cmd, out, err, ret]
         
@@ -274,7 +292,7 @@ class MyWorker(rp.task_overlay.Worker):
     def transform_results(self, idx, pos, off, smi, lig, bid, sdf):
 
         if not os.path.isfile('%s.dlg' % lig):
-            print('=== no dlg for %s' % lig)
+            print('no dlg for %s' % lig)
             return None
 
         os.environ['WF0_HOME'] = self.sbox
@@ -297,8 +315,10 @@ class MyWorker(rp.task_overlay.Worker):
 
             for line in fin.readlines():
                 if 'USER    Estimated Free Energy of Binding    =' in line:
-                    if 'DOCKED: USER' not in line:
-                        score = line.split()[7]
+                  # if 'DOCKED: USER' not in line:
+                    if True:
+                        print('score line: %s' % line)
+                        score = line.split()[8]
                         break
         print('==== %s score: %s' % ('%s.dlg' % lig, score))
 
