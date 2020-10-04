@@ -129,6 +129,7 @@ class MyWorker(rp.task_overlay.Worker):
     #
     def bak(self, bid, name):
 
+        return
         os.system('cp -r %s/%s %s/%s.%s' %(self.cache, bid, self.sbox, bid, name))
 
 
@@ -270,6 +271,7 @@ class MyWorker(rp.task_overlay.Worker):
         
         # FIXME: GPU_ID
         gpu_id = os.environ.get('CUDA_VISIBLE_DEVICES')
+        del(os.environ['CUDA_VISIBLE_DEVICES'])
 
         # autodock GPU IDs start at 1
         if gpu_id: gpu_id = int(gpu_id) + 1
