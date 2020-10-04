@@ -263,10 +263,10 @@ if __name__ == '__main__':
                                       'action': rp.TRANSFER,
                                       'flags' : rp.DEFAULT_FLAGS},
                                     ]
-                td.output_staging = [{'source': '%s.%s.gz'         % (name, workload.output),
-                                      'target': 'results/%s.%s.gz' % (name, workload.output),
-                                      'action': rp.TRANSFER,
-                                      'flags' : rp.DEFAULT_FLAGS}]
+              # td.output_staging = [{'source': '%s.%s.gz'         % (name, workload.output),
+              #                       'target': 'results/%s.%s.gz' % (name, workload.output),
+              #                       'action': rp.TRANSFER,
+              #                       'flags' : rp.DEFAULT_FLAGS}]
                 tds.append(td)
 
             tasks = umgr.submit_units(tds)

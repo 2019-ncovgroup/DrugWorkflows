@@ -163,10 +163,9 @@ class MyMaster(rp.task_overlay.Master):
             for idx in new_pos:
                 fout.write('%d\n' % idx)
 
-        self._todo = len(new_pos)
+        self._todo = 0
         self._done = 0
 
-        rnum = 0
         idx  = rank
         idxs = list()
         reqs = list()
@@ -192,7 +191,7 @@ class MyMaster(rp.task_overlay.Master):
                                              'bid' : uid}}}
                 self.request(item)
                 idxs  = list()
-                rnum += 1
+                self._todo += 1
 
                 self._log.debug('=== push bid %s', uid)
 
@@ -211,6 +210,7 @@ class MyMaster(rp.task_overlay.Master):
                                          'bid': uid}}}
             self._log.debug('=== push bid %s', uid)
             self.request(item)
+            self._todo += 1
 
         log('create_stop')
         self._prof.prof('create_stop')
@@ -228,11 +228,14 @@ class MyMaster(rp.task_overlay.Master):
 
           # count = r.work['data']['kwargs']['count']
           # if count < 10:
+          #     self._todo += 1
           #     new_requests.append({'mode': 'call',
           #                          'data': {'method': 'dock',
           #                                   'kwargs': {'count': count + 100}}})
 
+        self._log.debug('=== term check: %d >= %d', self._done, self._todo)
         if self._done >= self._todo:
+            self._log.debug('=== term check: terminate')
             self.terminate()
 
         return new_requests
@@ -356,6 +359,8 @@ if __name__ == '__main__':
   # master.wait(count=nworkers)
 
     master.run()
+
+    log('run completed')
 
     # simply terminate
     # FIXME: clean up workers

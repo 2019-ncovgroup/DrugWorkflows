@@ -2,7 +2,7 @@
 # receptor                        smiles                         workers     runtime
 # 3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM         6          30
 # 3CLPro_protein                  ena+db-small                         2          30
-  3CLPro_protein                  ena+db                              16          30
+  3CLPro_protein                  test                                 4          30
 
 
 # texascale
