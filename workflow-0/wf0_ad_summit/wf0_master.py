@@ -163,6 +163,9 @@ class MyMaster(rp.task_overlay.Master):
             for idx in new_pos:
                 fout.write('%d\n' % idx)
 
+        self._todo = len(new_pos)
+        self._done = 0
+
         rnum = 0
         idx  = rank
         idxs = list()
@@ -220,6 +223,7 @@ class MyMaster(rp.task_overlay.Master):
         # result callbacks can return new work items
         new_requests = list()
         for r in requests:
+            self._done += 1
             log('result_cb %s: %s [%s]\n' % (r.uid, r.state, r.result))
 
           # count = r.work['data']['kwargs']['count']
@@ -227,6 +231,9 @@ class MyMaster(rp.task_overlay.Master):
           #     new_requests.append({'mode': 'call',
           #                          'data': {'method': 'dock',
           #                                   'kwargs': {'count': count + 100}}})
+
+        if self._done >= self._todo:
+            self.terminate()
 
         return new_requests
 
