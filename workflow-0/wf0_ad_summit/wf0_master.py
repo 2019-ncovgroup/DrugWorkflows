@@ -234,7 +234,7 @@ class MyMaster(rp.task_overlay.Master):
           #                                   'kwargs': {'count': count + 100}}})
 
         self._log.debug('=== term check: %d >= %d', self._done, self._todo)
-        if self._done >= self._todo:
+        if self._done >= self._todo - 1:
             self._log.debug('=== term check: terminate')
             self.terminate()
 
