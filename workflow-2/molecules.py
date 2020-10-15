@@ -212,21 +212,29 @@ def generate_training_pipeline(cfg):
             #                        hp['optimizer'], cfg['init_weights']])
 
             # AAE config
-            cmd_vae    = '%s/examples/bin/summit/run_aae_dist_summit_entk.sh' % cfg['molecules_path']
+            cmd_vae    = '%s/examples/bin/run_aae_dist_entk.sh' % cfg['molecules_path']
+         
             t3.executable = ['%s; %s %s' % (cmd_cat, cmd_jsrun, cmd_vae)]
-            t3.arguments = ['%s/MD_to_CVAE/cvae_input.h5' % cfg["base_path"], 
-                                   "./",
-                                   cvae_dir,
-                                   str(cfg['residues']),
-                                   str(hp['latent_dim']),
-                                   'non-amp',
-                                   'distributed',
-                                   str(hp['batch_size']),
-                                   str(cfg['epoch']),
-                                   str(cfg['sample_interval']),
-                                   hp['optimizer'],
-                                   hp['loss_weights'],
-                                   cfg['init_weights']]
+            t3.arguments = ['%s/bin/python' % cfg['conda_pytorch']]
+            t3.arguments += ['%s/examples/example_aae.py' % cfg['molecules_path'],
+                            '-i', '%s/MD_to_CVAE/cvae_input.h5' % cfg["base_path"], 
+                            '-o', './',
+                            '--distributed',
+                            '-m', cvae_dir,
+                            '-dn', 'point_cloud',
+                            '-rn', 'rmsd',
+                            '--encoder_kernel_sizes', '5', '3', '3', '1', '1',
+                            '-nf', '0',
+                            '-np', str(cfg['residues']),
+                            '-e', str(cfg['epoch']),
+                            '-b', str(hp['batch_size']),
+                            '-opt', hp['optimizer'], 
+                            '-iw', cfg['init_weights'],
+                            '-lw', hp['loss_weights'],
+                            '-S', str(cfg['sample_interval']),
+                            '-ti', str(int(cfg['epoch']) + 1),
+                            '-d', str(hp['latent_dim']),
+                            '--num_data_workers', '0']
 
             #+ f'{cfg['molecules_path']}/examples/run_vae_dist_summit.sh -i {sparse_matrix_path} -o ./ --model_id {cvae_dir} -f sparse-concat -t resnet --dim1 168 --dim2 168 -d 21 --amp --distributed -b {batch_size} -e {epoch} -S 3']
         #     ,
