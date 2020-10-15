@@ -1,8 +1,8 @@
 {
-    "md_counts"     : 120,
+    "md_counts"     : 12,
     "ml_counts"     : 3,
-    "gpu_per_node"  : 6,
-    "cpu_per_node"  : 42,
+    "gpu_per_node"  : 4,
+    "cpu_per_node"  : 44,
 
     "cutoff"        : 16,
     "selection"     : "resid 2:305 and protein and name CA",
@@ -13,18 +13,18 @@
     "batch_size"    : 512,
     "model_type"    : "aae",
 
-    "conda_path"    : "/gpfs/alpine/proj-shared/med110/conda/openmm",
-    "conda_openmm"  : "/gpfs/alpine/proj-shared/med110/conda/openmm",
-    "conda_pytorch" : "/gpfs/alpine/proj-shared/med110/conda/pytorch",
+    "conda_path"    : "/usr/workspace/cv_ddmd/conda/openmm",
+    "conda_openmm"  : "/usr/workspace/cv_ddmd/conda/openmm",
+    "conda_pytorch" : "/usr/workspace/cv_ddmd/conda/pytorch",
 
-    "base_path"     : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2",
-    "molecules_path": "/gpfs/alpine/proj-shared/med110/hrlee/git/braceal/molecules",
+    "base_path"     : "/usr/workspace/cv_ddmd/lee1078/git/DrugWorkflows/workflow-2",
+    "molecules_path": "/usr/workspace/cv_ddmd/lee1078/git/molecules",
 
     "system_name"   : "3clpro",
     "residues"      : 304,
-    "init_weights"  : "/gpfs/alpine/proj-shared/med110/hrlee/pretrain-weights-3clpro-304-residue-48-latentdim-epoch-100-20200928-181009.pt",
-    "pdb_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.pdb",
-    "top_file"      : "/gpfs/alpine/scratch/mturilli1/med110/DrugWorkflows/workflow-2/Parameters/input_protein/prot.prmtop",
+    "init_weights"  : "/usr/workspace/cv_ddmd/lee1078/pretrain-weights-3clpro-304-residue-48-latentdim-epoch-100-20200928-181009.pt",
+    "pdb_file"      : "/usr/workspace/cv_ddmd/lee1078/git/DrugWorkflows/workflow-2/Parameters/input_protein/prot.pdb",
+    "top_file"      : "/usr/workspace/cv_ddmd/lee1078/git/DrugWorkflows/workflow-2/Parameters/input_protein/prot.prmtop",
   
     "ml_hpo" : [
         {
@@ -53,9 +53,9 @@
     "LEN_initial"   : 1,
     "LEN_iter"      : 10,
 
-    "resource"      : "ornl.summit",
-    "queue"         : "batch",
+    "resource"      : "llnl.lassen",
+    "queue"         : "pbatch",
     "schema"        : "local",
     "walltime"      : 360,
-    "project"       : "MED110"
+    "project"       : "cv19-a01"
 }

@@ -54,7 +54,7 @@ def generate_training_pipeline(cfg):
             t1 = Task()
             
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_exps/fs-pep/run_openmm.py
-            t1.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
+            t1.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh || true']
             t1.pre_exec += ['module load cuda/9.1.85']
             t1.pre_exec += ['conda activate %s' % cfg['conda_openmm']]
             t1.pre_exec += ['export PYTHONPATH=%s/MD_exps:%s/MD_exps/MD_utils:$PYTHONPATH' %
@@ -113,7 +113,7 @@ def generate_training_pipeline(cfg):
         
         # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_to_CVAE/MD_to_CVAE.py
         t2.pre_exec = [
-                '. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh',
+                '. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh || true',
                 'conda activate %s' % cfg['conda_pytorch'],
                 'export LANG=en_US.utf-8',
                 'export LC_ALL=en_US.utf-8']
@@ -179,10 +179,10 @@ def generate_training_pipeline(cfg):
 
             t3 = Task()
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/CVAE_exps/train_cvae.py
-            t3.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
-            t3.pre_exec += ['module load gcc/7.4.0',
+            t3.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh || true']
+            t3.pre_exec += ['module load gcc/7.4.0 || module load gcc/7.3.1',
                             'module load cuda/10.1.243',
-                            'module load hdf5/1.10.4',
+                            'module load hdf5/1.10.4 || true',
                             'export LANG=en_US.utf-8',
                             'export LC_ALL=en_US.utf-8']
             t3.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
@@ -190,6 +190,7 @@ def generate_training_pipeline(cfg):
             cvae_dir = 'cvae_runs_%.2d_%d' % (dim, time_stamp+i)
             t3.pre_exec += ['cd %s/CVAE_exps' % cfg['base_path']]
             t3.pre_exec += ['export LD_LIBRARY_PATH=/gpfs/alpine/proj-shared/med110/atrifan/scripts/cuda/targets/ppc64le-linux/lib/:$LD_LIBRARY_PATH']
+            t3.pre_exec += ['export LD_LIBRARY_PATH=/usr/workspace/cv_ddmd/lee1078/anaconda/envs/cuda/targets/ppc64le-linux/lib/:$LD_LIBRARY_PATH']
             #t3.pre_exec += ['mkdir -p %s && cd %s' % (cvae_dir, cvae_dir)] # model_id creates sub-dir
             # this is for ddp, distributed
             t3.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
@@ -198,7 +199,7 @@ def generate_training_pipeline(cfg):
 
             hp = cfg['ml_hpo'][i]
             cmd_cat    = 'cat /dev/null'
-            cmd_jsrun  = 'jsrun -n %s -g 6 -a 6 -c 42 -d packed' % pnodes
+            cmd_jsrun  = 'jsrun -n %s -g %s -a %s -c %s -d packed' % (pnodes, cfg['gpu_per_node'], cfg['gpu_per_node'], cfg['cpu_per_node'])
 
             # VAE config
             # cmd_vae    = '%s/examples/run_vae_dist_summit_entk.sh' % cfg['molecules_path']
@@ -267,7 +268,7 @@ def generate_training_pipeline(cfg):
         # Scaning for outliers and prepare the next stage of MDs
         t4 = Task()
 
-        t4.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
+        t4.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh || true']
         t4.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
         t4.pre_exec += ['mkdir -p %s/Outlier_search/outlier_pdbs' % cfg['base_path']]
         t4.pre_exec += ['export models=""; for i in `ls -d %s/CVAE_exps/model-cvae_runs*/`; do if [ "$models" != "" ]; then    models=$models","$i; else models=$i; fi; done;cat /dev/null' % cfg['base_path']]
@@ -275,7 +276,7 @@ def generate_training_pipeline(cfg):
         t4.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
 
         cmd_cat = 'cat /dev/null'
-        cmd_jsrun = 'jsrun -n %s -a 6 -g 6 -r 1 -c 7' % cfg['node_counts']
+        cmd_jsrun = 'jsrun -n %s -a %s -g %s -r 1 -c %s' % (cfg['node_counts'], cfg['gpu_per_node'], cfg['gpu_per_node'], cfg['cpu_per_node'] // cfg['gpu_per_node'])
 
         #molecules_path = '/gpfs/alpine/world-shared/ven201/tkurth/molecules/'
         t4.executable = [' %s; %s %s/examples/outlier_detection/run_optics_dist_summit_entk.sh' % (cmd_cat, cmd_jsrun, cfg['molecules_path'])]
@@ -408,7 +409,7 @@ if __name__ == '__main__':
             'walltime': cfg['walltime'],
             'project' : cfg['project'],
             'cpus'    : 42 * 4 * cfg['node_counts'],
-            'gpus'    : 6 * cfg['node_counts']
+            'gpus'    : cfg['node_counts'] * cfg['gpu_per_node']
     }
 
     # Create Application Manager
