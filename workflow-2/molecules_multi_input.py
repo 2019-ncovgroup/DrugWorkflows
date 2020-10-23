@@ -179,7 +179,7 @@ def generate_training_pipeline(cfg):
 
             cnt_constraint = min(cfg['node_counts'] * 4, cfg['md_counts'] * max(1, CUR_STAGE) // 2)
             # Add the aggregation task to the aggreagating stage
-            t_1.cpu_reqs = {'processes'          : 1 * cnt_constraints,
+            t_1.cpu_reqs = {'processes'          : 1 * cnt_constraint,
                        'process_type'       : None,
                        'threads_per_process': 26,
                        'thread_type'        : 'OpenMP'}
@@ -366,7 +366,7 @@ def generate_training_pipeline(cfg):
         cmd_jsrun = 'jsrun -n %s -a %s -g %s -r 1 -c %s' % (cfg['node_counts'], cfg['gpu_per_node'], cfg['gpu_per_node'], cfg['cpu_per_node'] // cfg['gpu_per_node'])
 
         #molecules_path = '/gpfs/alpine/world-shared/ven201/tkurth/molecules/'
-        t4.executable = [' %s; %s %s/examples/outlier_detection/run_optics_dist_summit_entk.sh' % (cmd_cat, cmd_jsrun, cfg['molecules_path'])]
+        t4.executable = [' %s; %s %s/examples/outlier_detection/run_optics_dist_entk.sh' % (cmd_cat, cmd_jsrun, cfg['molecules_path'])]
         t4.arguments = ['%s/bin/python' % cfg['conda_pytorch']]
         t4.arguments += ['%s/examples/outlier_detection/optics.py' % cfg['molecules_path'],
                         '--sim_path', '%s/MD_exps/%s' % (cfg['base_path'], cfg['system_name']),
