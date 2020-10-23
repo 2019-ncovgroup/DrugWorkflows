@@ -1,7 +1,7 @@
 {
     "md_counts"     : 16,
     "ml_counts"     : 3,
-    "gpu_per_node"  : 6,
+    "gpu_per_node"  : 4,
     "cpu_per_node"  : 40, 
 
     "cutoff"        : 8,
