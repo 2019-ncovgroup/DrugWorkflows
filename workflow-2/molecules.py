@@ -180,9 +180,8 @@ def generate_training_pipeline(cfg):
             t3 = Task()
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/CVAE_exps/train_cvae.py
             t3.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh || true']
-            t3.pre_exec += ['module load gcc/7.4.0 || module load gcc/7.3.1',
+            t3.pre_exec += ['module load gcc/7.3.1',
                             'module load cuda/10.1.243',
-                            'module load hdf5/1.10.4 || true',
                             'export LANG=en_US.utf-8',
                             'export LC_ALL=en_US.utf-8']
             t3.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
