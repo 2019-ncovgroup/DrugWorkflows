@@ -263,16 +263,14 @@ def generate_training_pipeline(cfg):
             t3 = Task()
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/CVAE_exps/train_cvae.py
             t3.pre_exec  = ['. /etc/profile.d/conda.sh']
-            t3.pre_exec += ['module load gcc/7.4.0',
+            t3.pre_exec += ['module load gcc/7.3.1',
                             'module load cuda/10.1.243',
-                            'module load hdf5/1.10.4 || true',
                             'export LANG=en_US.utf-8',
                             'export LC_ALL=en_US.utf-8']
             t3.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
             dim = i + 3
             cvae_dir = 'cvae_runs_%.2d_%d' % (dim, time_stamp+i)
             t3.pre_exec += ['cd %s/CVAE_exps' % cfg['base_path']]
-            #t3.pre_exec += ['export LD_LIBRARY_PATH=/gpfs/alpine/proj-shared/med110/atrifan/scripts/cuda/targets/ppc64le-linux/lib/:$LD_LIBRARY_PATH']
             t3.pre_exec += ['export LD_LIBRARY_PATH=/usr/workspace/cv_ddmd/lee1078/anaconda/envs/cuda/targets/ppc64le-linux/lib/:$LD_LIBRARY_PATH']
             #t3.pre_exec += ['mkdir -p %s && cd %s' % (cvae_dir, cvae_dir)] # model_id creates sub-dir
             # this is for ddp, distributed
