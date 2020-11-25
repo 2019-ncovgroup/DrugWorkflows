@@ -266,7 +266,8 @@ def generate_training_pipeline(cfg):
             t3.pre_exec += ['module load gcc/7.3.1',
                             'module load cuda/10.1.243',
                             'export LANG=en_US.utf-8',
-                            'export LC_ALL=en_US.utf-8']
+                            'export LC_ALL=en_US.utf-8',
+                            'export HDF5_USE_FILE_LOCKING=FALSE']
             t3.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
             dim = i + 3
             cvae_dir = 'cvae_runs_%.2d_%d' % (dim, time_stamp+i)
