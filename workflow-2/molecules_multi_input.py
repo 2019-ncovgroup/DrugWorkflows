@@ -3,6 +3,7 @@ import sys
 import json
 import time
 import uuid
+from pathlib import Path
 
 import radical.utils as ru
 
@@ -296,6 +297,24 @@ def generate_training_pipeline(cfg):
             #                        hp['optimizer'], cfg['init_weights']])
 
             # AAE config
+            if CUR_STAGE > 0:
+                # Get latest model weights
+                model_paths = Path(cfg["base_path"]).joinpath("CVAE_exps").glob("model-cvae_runs*")
+                model_paths = sorted(model_paths, key=lambda p: int(p.name.split("_")[-1])) # Sort by timestamp
+                latest_model_path = list(model_paths)[-1] # Get latest model run
+                weights_path = latest_model_path.joinpath("checkpoint").glob("*.pt") # Glob checkpoints
+                # Checkpoints have format epoch-1-20201207-143335.pt
+                weights_path = sorted(weights_path, key=lambda p: int(p.name.split("-")[1]))
+                latest_weights_path = "-iw " + list(weights_path)[-1].as_posix()
+            elif "init_weights" in cfg:
+                # Use pretrained model
+                latest_weights_path = "-iw " + cfg["init_weights"]
+            else:
+                # Train from scratch
+                latest_weights_path = ""
+
+            print(f"CUR_STAGE: {CUR_STAGE} using weights {latest_weights_path}")
+
             cmd_vae    = '%s/examples/bin/run_aae_dist_entk.sh' % cfg['molecules_path']
             t3.executable = ['%s; %s %s' % (cmd_cat, cmd_jsrun, cmd_vae)]
             t3.arguments = ["%s/bin/python" % cfg["conda_pytorch"]]
@@ -313,7 +332,7 @@ def generate_training_pipeline(cfg):
                 "-e", str(cfg["epoch"]),
                 "-b", str(hp["batch_size"]),
                 "-opt", hp["optimizer"],
-                "-iw", cfg["init_weights"],
+                latest_weights_path,
                 "-lw", hp["loss_weights"],
                 "-S", str(cfg["sample_interval"]),
                 "-ti", str(int(cfg["epoch"]) + 1),
