@@ -1,0 +1,63 @@
+{
+    "md_counts"     : 16,
+    "ml_counts"     : 3,
+    "gpu_per_node"  : 4,
+    "cpu_per_node"  : 40, 
+
+    "cutoff"        : 8,
+    "selection"     : "protein and name CA",
+
+    "epoch"         : 5,
+    "sample_interval": 20,
+
+    "batch_size"    : 512,
+    "model_type"    : "aae",
+
+    "top_dir"       : "/p/gpfs1/trifan1/PLPro_ligands/gb_plpro/DrugWorkflows_6wij_lassen/workflow-2/top_dir",
+    "h5_tmp_dir"    : "/p/gpfs1/trifan1/PLPro_ligands/gb_plpro/DrugWorkflows_6wij_lassen/workflow-2/h5_tmp",
+    
+    "conda_path"    : "/usr/workspace/cv_ddmd/conda/openmm",
+    "conda_openmm"  : "/usr/workspace/cv_ddmd/conda/openmm",
+    "conda_pytorch" : "/usr/workspace/cv_ddmd/conda/pytorch",
+
+    "base_path"     : "/p/gpfs1/trifan1/PLPro_ligands/gb_plpro/DrugWorkflows_6wij_lassen/workflow-2",
+    "molecules_path": "/p/gpfs1/trifan1/PLPro_ligands/gb_plpro/molecules",
+
+    "system_name"   : "plpro_6w9c",
+    "residues"      : 309,
+    "init_weights"  : "/p/gpfs1/trifan1/PLPro_ligands/gb_plpro/epoch-100-20200930-231639-pretrained.pt",
+  
+    "ml_hpo" : [
+        {
+            "optimizer"    : "name=RMSprop,lr=1e-5",
+            "loss_weights" : "lambda_rec=0.5,lambda_gp=10",
+            "latent_dim"   : 64,
+            "batch_size"   : 32
+        },
+        {
+            "optimizer"    : "name=RMSprop,lr=1e-6",
+            "loss_weights" : "lambda_rec=0.5,lambda_gp=10",
+            "latent_dim"   : 64,
+            "batch_size"   : 32
+        },
+        {
+            "optimizer"    : "name=RMSprop,lr=1e-7",
+            "loss_weights" : "lambda_rec=0.5,lambda_gp=10",
+            "latent_dim"   : 64,
+            "batch_size"   : 32
+        }
+    ],
+
+    "CUR_STAGE"     : 1,
+    "MAX_STAGE"     : 3,
+    "RETRAIN_FREQ"  : 1,
+    "LEN_initial"   : 4,
+    "LEN_iter"      : 4,
+
+
+    "resource"      : "llnl.lassen",
+    "queue"         : "pbatch",
+    "schema"        : "local",
+    "walltime"      :  180,
+    "project"       : "cv19-a01"
+}
