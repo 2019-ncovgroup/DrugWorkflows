@@ -7,7 +7,7 @@
     "cutoff"        : 8,
     "selection"     : "protein and name CA",
 
-    "epoch"         : 15,
+    "epoch"         : 5,
     "sample_interval": 20,
 
     "batch_size"    : 512,
