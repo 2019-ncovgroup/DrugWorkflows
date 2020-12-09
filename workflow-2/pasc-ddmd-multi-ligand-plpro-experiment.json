@@ -40,8 +40,8 @@
     "CUR_STAGE"     : 0,
     "MAX_STAGE"     : 3,
     "RETRAIN_FREQ"  : 1,
-    "LEN_initial"   : 4,
-    "LEN_iter"      : 4,
+    "LEN_initial"   : 1,
+    "LEN_iter"      : 1,
 
 
     "resource"      : "ornl.summit",
