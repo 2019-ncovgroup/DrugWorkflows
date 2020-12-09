@@ -294,10 +294,10 @@ def generate_training_pipeline(cfg):
                 weights_path = latest_model_path.joinpath("checkpoint").glob("*.pt") # Glob checkpoints
                 # Checkpoints have format epoch-1-20201207-143335.pt
                 weights_path = sorted(weights_path, key=lambda p: int(p.name.split("-")[1]))
-                latest_weights_path = "-iw " + list(weights_path)[-1].as_posix()
+                latest_weights_path = list(weights_path)[-1].as_posix()
             elif "init_weights" in cfg:
                 # Use pretrained model
-                latest_weights_path = "-iw " + cfg["init_weights"]
+                latest_weights_path = cfg["init_weights"]
             else:
                 # Train from scratch
                 latest_weights_path = ""
@@ -320,7 +320,6 @@ def generate_training_pipeline(cfg):
                 "-e", str(cfg["epoch"]),
                 "-b", str(hp["batch_size"]),
                 "-opt", hp["optimizer"],
-                latest_weights_path,
                 "-lw", hp["loss_weights"],
                 "-S", str(cfg["sample_interval"]),
                 "-ti", str(int(cfg["epoch"]) + 1),
@@ -329,6 +328,9 @@ def generate_training_pipeline(cfg):
                 '-E', '0',
                 '-D', '0',
                 '-G', '0']
+
+            if latest_weights_path:
+                t3.arguments += ["-iw", latest_weights_path]
 
             #+ f'{cfg['molecules_path']}/examples/run_vae_dist_summit.sh -i {sparse_matrix_path} -o ./ --model_id {cvae_dir} -f sparse-concat -t resnet --dim1 168 --dim2 168 -d 21 --amp --distributed -b {batch_size} -e {epoch} -S 3']
         #     ,
