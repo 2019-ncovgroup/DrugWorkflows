@@ -74,7 +74,7 @@ def generate_training_pipeline(cfg):
             t1 = Task()
             
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_exps/fs-pep/run_openmm.py
-            t1.pre_exec  = ['. /etc/profile.d/conda.sh']
+            t1.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
             t1.pre_exec += ['module load cuda/9.1.85']
             t1.pre_exec += ['conda activate %s' % cfg['conda_openmm']]
             t1.pre_exec += ['export PYTHONPATH=%s/MD_exps:%s/MD_exps/MD_utils:$PYTHONPATH' %
@@ -84,10 +84,6 @@ def generate_training_pipeline(cfg):
            
             t1.executable = ['%s/bin/python' % cfg['conda_openmm']]  # run_openmm.py
             t1.arguments = ['%s/MD_exps/%s/run_openmm.py' % (cfg['base_path'], cfg['system_name'])]
-            #t1.arguments += ['--topol', '%s/MD_exps/fs-pep/pdb/topol.top' % cfg['base_path']]
-           
-            #if 'top_file' in cfg:
-            #    t1.arguments += ['--topol', cfg['top_file']]
 
             # pick initial point of simulation
             if initial_MD or i >= len(outlier_list):
@@ -149,7 +145,7 @@ def generate_training_pipeline(cfg):
             print('omm_dir', omm_dir)
 
             t_1.pre_exec = [
-                '. /etc/profile.d/conda.sh',
+                '. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh',
                 'conda activate %s' % cfg['conda_pytorch'],
                 'export LANG=en_US.utf-8',
                 'export LC_ALL=en_US.utf-8',
@@ -178,11 +174,10 @@ def generate_training_pipeline(cfg):
                 '--point_cloud',
                 '--verbose']
 
-            cnt_constraint = min(cfg['node_counts'] * 4, cfg['md_counts'] * max(1, CUR_STAGE) // 2)
             # Add the aggregation task to the aggreagating stage
             t_1.cpu_reqs = {'processes'          : 1 * cnt_constraint,
                        'process_type'       : None,
-                       'threads_per_process': 26,
+                       'threads_per_process': 4 * cfg['gpu_per_node'],
                        'thread_type'        : 'OpenMP'}
 
             s_1.add_tasks(t_1)
@@ -202,7 +197,7 @@ def generate_training_pipeline(cfg):
         
         # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/MD_to_CVAE/MD_to_CVAE.py
         t2.pre_exec = [
-                '. /etc/profile.d/conda.sh',
+                '. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh',
                 'conda activate %s' % cfg['conda_pytorch'],
                 'export LANG=en_US.utf-8',
                 'export LC_ALL=en_US.utf-8']
@@ -242,7 +237,7 @@ def generate_training_pipeline(cfg):
         # Add the aggregation task to the aggreagating stage
         t2.cpu_reqs = {'processes'          : 1,
                        'process_type'       : None,
-                       'threads_per_process': 26,
+                       'threads_per_process': 4,
                        'thread_type'        : 'OpenMP'}
 
         s2.add_tasks(t2)
@@ -255,16 +250,14 @@ def generate_training_pipeline(cfg):
         """
         # learn task
         time_stamp = int(time.time())
-        stages=[]
+        s3 = Stage()
+        s3.name = 'learning'
         for i in range(num_ML):
-            s3 = Stage()
-            s3.name = 'learning'
-
 
             t3 = Task()
             # https://github.com/radical-collaboration/hyperspace/blob/MD/microscope/experiments/CVAE_exps/train_cvae.py
-            t3.pre_exec  = ['. /etc/profile.d/conda.sh']
-            t3.pre_exec += ['module load gcc/7.3.1',
+            t3.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
+            t3.pre_exec += ['module load gcc/7.4.0',
                             'module load cuda/10.1.243',
                             'export LANG=en_US.utf-8',
                             'export LC_ALL=en_US.utf-8',
@@ -273,7 +266,8 @@ def generate_training_pipeline(cfg):
             dim = i + 3
             cvae_dir = 'cvae_runs_%.2d_%d' % (dim, time_stamp+i)
             t3.pre_exec += ['cd %s/CVAE_exps' % cfg['base_path']]
-            t3.pre_exec += ['export LD_LIBRARY_PATH=/usr/workspace/cv_ddmd/lee1078/anaconda/envs/cuda/targets/ppc64le-linux/lib/:$LD_LIBRARY_PATH']
+            
+            t3.pre_exec += ['export LD_LIBRARY_PATH=/gpfs/alpine/proj-shared/med110/atrifan/scripts/cuda/targets/ppc64le-linux/lib/:$LD_LIBRARY_PATH']
             #t3.pre_exec += ['mkdir -p %s && cd %s' % (cvae_dir, cvae_dir)] # model_id creates sub-dir
             # this is for ddp, distributed
             t3.pre_exec += ['unset CUDA_VISIBLE_DEVICES', 'export OMP_NUM_THREADS=4']
@@ -317,13 +311,12 @@ def generate_training_pipeline(cfg):
             print(f"CUR_STAGE: {CUR_STAGE} using weights {latest_weights_path}")
 
             cmd_vae    = '%s/examples/bin/run_aae_dist_entk.sh' % cfg['molecules_path']
-            t3.executable = ['%s; %s %s' % (cmd_cat, cmd_jsrun, cmd_vae)]
-            t3.arguments = ["%s/bin/python" % cfg["conda_pytorch"]]
-            t3.arguments += [
+            t3.arguments = "%s/bin/python" % cfg["conda_pytorch"]
+            t3.arguments = [
                 "%s/examples/example_aae.py" % cfg["molecules_path"],
                 "-i",  "%s/MD_to_CVAE/cvae_input.h5" % cfg["base_path"],
                 "-o", "./",
-                "--distributed",
+                #"--distributed",
                 "-m", cvae_dir,
                 "-dn", "point_cloud",
                 "-rn", "rmsd",
@@ -339,7 +332,9 @@ def generate_training_pipeline(cfg):
                 "-ti", str(int(cfg["epoch"]) + 1),
                 "-d", str(hp["latent_dim"]),
                 "--num_data_workers", 0,
-            ]
+                '-E', '0',
+                '-D', '0',
+                '-G', '0']
 
             #+ f'{cfg['molecules_path']}/examples/run_vae_dist_summit.sh -i {sparse_matrix_path} -o ./ --model_id {cvae_dir} -f sparse-concat -t resnet --dim1 168 --dim2 168 -d 21 --amp --distributed -b {batch_size} -e {epoch} -S 3']
         #     ,
@@ -360,7 +355,7 @@ def generate_training_pipeline(cfg):
         #             ]
 
             t3.cpu_reqs = {'processes'          : 1,
-                           'process_type'       : 'MPI',
+                           'process_type'       : None,
                            'threads_per_process': 4,
                            'thread_type'        : 'OpenMP'}
             t3.gpu_reqs = {'processes'          : 1,
@@ -370,8 +365,7 @@ def generate_training_pipeline(cfg):
 
             # Add the learn task to the learning stage
             s3.add_tasks(t3)
-            stages.append(s3)
-        return stages
+        return s3
 
 
     def generate_interfacing_stage():
@@ -381,7 +375,7 @@ def generate_training_pipeline(cfg):
         # Scaning for outliers and prepare the next stage of MDs
         t4 = Task()
 
-        t4.pre_exec  = ['. /etc/profile.d/conda.sh']
+        t4.pre_exec  = ['. /sw/summit/python/3.6/anaconda3/5.3.0/etc/profile.d/conda.sh']
         t4.pre_exec += ['conda activate %s' % cfg['conda_pytorch']]
         t4.pre_exec += ['mkdir -p %s/Outlier_search/outlier_pdbs' % cfg['base_path']]
         t4.pre_exec += ['export models=""; for i in `ls -d %s/CVAE_exps/model-cvae_runs*/`; do if [ "$models" != "" ]; then    models=$models","$i; else models=$i; fi; done;cat /dev/null' % cfg['base_path']]
@@ -412,12 +406,12 @@ def generate_training_pipeline(cfg):
                         '--batch_size', cfg['batch_size'],
                         '--distributed']
 
-        t4.cpu_reqs = {'processes'          : 1,
-                       'process_type'       : None,
-                       'threads_per_process': 12,
+        t4.cpu_reqs = {'processes'          : 6 * cfg['node_counts'] or 1,
+                       'process_type'       : 'MPI',
+                       'threads_per_process': cfg['gpu_per_node'] * 4,
                        'thread_type'        : 'OpenMP'}
         t4.gpu_reqs = {'processes'          : 1,
-                       'process_type'       : None,
+                       'process_type'       : 'MPI',
                        'threads_per_process': 1,
                        'thread_type'        : 'CUDA'}
         
