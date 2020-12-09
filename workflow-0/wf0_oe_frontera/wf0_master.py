@@ -45,13 +45,16 @@ class MyMaster(rp.task_overlay.Master):
 
         self.parse_csv()
 
+        import pprint
+        pprint.pprint(self._cfg)
+
 
     # --------------------------------------------------------------------------
     #
     def parse_csv(self):
 
         workload = self._cfg.workload
-        fname    = 'input_dir/%s.csv' % workload.smiles
+        fname    = 'input_dir/smiles/%s.csv' % workload.smiles
         iname    = '%s.idx' % fname
         header   = None
         idxs     = list()

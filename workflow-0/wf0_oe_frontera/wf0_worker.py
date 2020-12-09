@@ -53,7 +53,7 @@ class MyWorker(rp.task_overlay.Worker):
             self._log.debug('pre_exec (%s)', workload.output)
 
             receptor_file      = 'input_dir/receptors.v7/%s.oeb' % workload.receptor
-            smiles_file        = 'input_dir/%s.csv'              % workload.smiles
+            smiles_file        = 'input_dir/smiles/%s.csv'       % workload.smiles
             output             = './out.%s.sdf'                  % self._uid
 
             self.verbose       = workload.verbose
@@ -86,6 +86,7 @@ class MyWorker(rp.task_overlay.Worker):
 
         self._fin.seek(off)
         line   = self._fin.readline()
+        print('LINE [%d]: %s' % (off, line.rstrip()))
       # ccount = line.count(',')  # FIXME: CVS parse on incorrect counts
         data   = line.split(',')
         return data
