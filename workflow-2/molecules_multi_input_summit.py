@@ -166,11 +166,18 @@ def generate_training_pipeline(cfg):
                 '--point_cloud',
                 '--verbose']
 
+            cnt_constraint = min(
+                cfg['node_counts'] * 4,
+                cfg['md_counts'] * max(1, CUR_STAGE) // 2
+            )
+
             # Add the aggregation task to the aggreagating stage
-            t_1.cpu_reqs = {'processes'          : 1 * cnt_constraint,
-                       'process_type'       : None,
-                       'threads_per_process': 4 * cfg['gpu_per_node'],
-                       'thread_type'        : 'OpenMP'}
+            t_1.cpu_reqs = {
+                'processes': 1 * cnt_constraint,
+                'process_type': None,
+                'threads_per_process': 4 * cfg['gpu_per_node'],
+                'thread_type': 'OpenMP'
+            }
 
             s_1.add_tasks(t_1)
         
