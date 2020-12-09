@@ -78,11 +78,12 @@ class MyMaster(rp.task_overlay.Master):
                     idxs.append(fin.tell())
                     line = fin.readline()
                     if not line  : break
-                    if not i % 1000000:
-                        print('read %d' % i)
+                    if not i % 1000:
+                        sys.stdout.write('read %d\n' % i)
+                        sys.stdout.flush()
                     i += 1
-                    if i > 10000:
-                        break  # FIXME
+                  # if i > 10000:
+                  #     break  # FIXME
             print('read stop')
 
             idxs.pop()   # EOF

@@ -3,10 +3,12 @@
 # 3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM         6        30
 
 
-  NSP10-16_6XKM_SAMBound_A_1      ts                                7900      60
+  NSP10-16_6XKM_SAMBound_A_1      mcule_ultimate_200204_VJL3jM      7900    1440
+# NSP10-16_6XKM_SAMBound_A_1      mcule_ultimate_200204_VJL3jM      7900    1440
+
+# NSP10-16_6XKM_SAMBound_A_1      ts                                7900      60
 # NSP10-16_6XKM_SAMBound_A_1      ts                                4400    1440
 # NSP10-16_6XKM_SAMBound_A_1      Orderable_zinc_db_enaHLL          4400    1440
-# NSP10-16_6XKM_SAMBound_A_1      mcule_ultimate_200204_VJL3jM      4400    1440
 # NSP13_HELICASE_5WWP_0_A_A__DU__apo_PHE_A-145 3600  10
 
 # NSP10-16_6XKM_SAMBound_A_1      mcule_ultimate_200204_VJL3jM      7900      10  
