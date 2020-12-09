@@ -1,0 +1,24 @@
+DB-9218_tmp.pdbqt
+ OpenBabel09172006583D
+
+  3  2  0  0  0  0  0  0  0  0999 V2000
+   -6.7700    3.3020  -28.8790 C   0  0  0  0  0  1  0  0  0  0  0  0
+   -6.3960    3.4300  -27.4160 C   0  0  0  0  0  2  0  0  0  0  0  0
+   -6.3990    1.8360  -26.6330 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0  0  0  0
+  2  3  1  0  0  0  0
+M  END
+>  <REMARK>
+  0 active torsions:
+  status: ('A' for Active; 'I' for Inactive)
+
+>  <TORSDO>
+F 0
+
+>  <AutodockScore>
+
+
+>  <TITLE>
+DB-9218
+
+$$$$

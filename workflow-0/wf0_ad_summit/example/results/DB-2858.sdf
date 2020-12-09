@@ -1,0 +1,30 @@
+DB-2858_tmp.pdbqt
+ OpenBabel09172006583D
+
+  5  4  0  0  0  0  0  0  0  0999 V2000
+   -5.1030   -6.0500  -25.1240 C   0  0  0  0  0  2  0  0  0  0  0  0
+   -4.1460   -4.9390  -25.5280 C   0  0  0  0  0  2  0  0  0  0  0  0
+   -4.8860   -3.6620  -25.8810 C   0  0  0  0  0  1  0  0  0  0  0  0
+   -4.8810   -7.1980  -25.9320 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.8920   -6.9070  -26.8600 H   0  0  0  0  0  0  0  0  0  0  0  0
+  2  1  1  0  0  0  0
+  3  2  1  0  0  0  0
+  4  1  1  0  0  0  0
+  5  4  1  0  0  0  0
+M  END
+>  <REMARK>
+  2 active torsions:
+  status: ('A' for Active; 'I' for Inactive)
+    1  A    between atoms: C_2  and  C_3 
+    2  A    between atoms: C_3  and  O_4 
+
+>  <TORSDO>
+F 2
+
+>  <AutodockScore>
+
+
+>  <TITLE>
+DB-2858
+
+$$$$

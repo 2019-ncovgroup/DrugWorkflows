@@ -1,0 +1,37 @@
+#!/bin/bash
+#BSUB -P med110
+#BSUB -W 1:00
+#BSUB -nnodes 1
+#BSUB -alloc_flags nvme
+#BSUB -J s1
+#BSUB -o s1.%J.out
+#BSUB -e s1.%J.err
+
+
+# ------------------------------------------------------------------------------
+# setup
+DATADIR=/mnt/bb/$USER
+NNODES=$(cat ${LSB_DJOB_HOSTFILE} | sort -u | grep -v -e login -e batch | wc -l)
+source $WORLDWORK/stf011/junqi/covid19/adt_env.sh
+export PATH=$(pwd):$PATH
+
+
+# ------------------------------------------------------------------------------
+# stage input files to nvme 
+jsrun -n${NNODES} -a1 -c1 -r1 cp 3CLPro_protein* ena+db-small.can $DATADIR
+
+
+# ------------------------------------------------------------------------------
+# execution
+jsrun -n${NNODES} -a1 -c7 -r1 -g1 -E DATADIR=$DATADIR smiles_dock_gpu.sh \
+                  3CLPro_protein ${DATADIR}/ena+db-small.can  \
+                  '-10.520,-2.322,-20.631' '54,52,60'
+
+
+# ------------------------------------------------------------------------------
+# copy the results back
+jsrun -n${NNODES} -a1 -c1 -r1 cp -r $DATADIR/results . 
+
+
+# ------------------------------------------------------------------------------
+
