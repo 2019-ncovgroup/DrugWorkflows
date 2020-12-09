@@ -1,5 +1,5 @@
 {
-    "md_counts"     : 76,
+    "md_counts"     : 78,
     "ml_counts"     : 1,
     "gpu_per_node"  : 6,
     "cpu_per_node"  : 42, 
