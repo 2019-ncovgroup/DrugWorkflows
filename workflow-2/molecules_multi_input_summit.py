@@ -310,8 +310,8 @@ def generate_training_pipeline(cfg):
             print(f"CUR_STAGE: {CUR_STAGE} using weights {latest_weights_path}")
 
             cmd_vae    = '%s/examples/bin/run_aae_dist_entk.sh' % cfg['molecules_path']
+            t3.executable = ["%s/bin/python" % cfg["conda_pytorch"]]
             t3.arguments = [
-                "%s/bin/python" % cfg["conda_pytorch"],
                 "%s/examples/example_aae.py" % cfg["molecules_path"],
                 "-i",  "%s/MD_to_CVAE/cvae_input.h5" % cfg["base_path"],
                 "-o", "./",
