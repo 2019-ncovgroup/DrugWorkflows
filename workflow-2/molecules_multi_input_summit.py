@@ -64,10 +64,10 @@ def generate_training_pipeline(cfg):
             outlier_list = Path(cfg["pdb_dir"]).glob("*.pdb")
             outlier_list = [p.as_posix() for p in outlier_list]
 
+        print('Number of outliers in stage 1:', len(outlier_list))
+
         # Keep looping around outlier_list in case num_MD > len(outlier_list)
         outlier_list = itertools.cycle(outlier_list)
-
-        print('Number of outliers in stage 1:', len(outlier_list))
 
         # MD tasks
         global time_stamp
