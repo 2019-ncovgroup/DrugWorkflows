@@ -3,6 +3,7 @@ import sys
 import json
 import time
 import uuid
+import itertools
 from pathlib import Path
 
 import radical.utils as ru
@@ -36,7 +37,7 @@ def get_ligand_topology(pdb_file, topol_dir):
     ligid = pdb_filename.split('_')[1]
     if '.pdb' in ligid:
         ligid = ligid[:-4]
-    return os.path.join(topol_dir, f'topology_{ligid}.top')
+    return os.path.join(topol_dir, f'topology_{ligid}.prmtop')
 
 
 def generate_training_pipeline(cfg):
@@ -53,14 +54,18 @@ def generate_training_pipeline(cfg):
         s1 = Stage()
         s1.name = 'MD'
         
-        initial_MD = True
         outlier_filepath = '%s/Outlier_search/restart_points.json' % cfg['base_path']
-        
+        initial_MD = True
         if os.path.exists(outlier_filepath):
             initial_MD = False
-            outlier_file = open(outlier_filepath, 'r')
-            outlier_list = json.load(outlier_file)
-            outlier_file.close()
+            with open(outlier_filepath, "r") as f:
+                outlier_list = json.load(f)
+        else:
+            outlier_list = Path(cfg["pdb_dir"]).glob("*.pdb")
+            outlier_list = [p.as_posix() for p in outlier_list]
+
+        # Keep looping around outlier_list in case num_MD > len(outlier_list)
+        outlier_list = itertools.cycle(outlier_list)
 
         print('Number of outliers in stage 1:', len(outlier_list))
 
@@ -86,28 +91,15 @@ def generate_training_pipeline(cfg):
             t1.arguments = ['%s/MD_exps/%s/run_openmm.py' % (cfg['base_path'], cfg['system_name'])]
 
             # pick initial point of simulation
-            if initial_MD or i >= len(outlier_list):
-                # Not used ince outlier_list is filled from the start
-                t1.arguments += ['--pdb_file', cfg['pdb_file']]
-                t1.arguments += ['--topol',
-                        get_ligand_topology(cfg['pdb_file'], cfg['top_dir'])]
-                print('stage 1 error. using pdb in config')
-            elif outlier_list[i].endswith('pdb'):
-                print('Getting PDB outlier')
-                print('pdb:', outlier_list[i])
-                print('top:', get_ligand_topology(outlier_list[i], cfg['top_dir']))
-                t1.arguments += ['--pdb_file', outlier_list[i],
-                                 '--topol',
-                                 get_ligand_topology(outlier_list[i],
-                                     cfg['top_dir'])]
-                t1.pre_exec += ['cp %s ./' % outlier_list[i]]
-            elif outlier_list[i].endswith('chk'):
-                t1.arguments += ['--pdb_file', cfg['pdb_file'],
-                                 '-c', outlier_list[i],
-                                 '--topol',
-                                 get_ligand_topology(outlier_list[i],
-                                     cfg['top_dir'])]
-                t1.pre_exec += ['cp %s ./' % outlier_list[i]]
+            print('Getting PDB')
+            pdb_file = next(outlier_list)
+            top_file = get_ligand_topology(pdb_file, cfg['top_dir'])
+            print('pdb_file:', pdb_file)
+            print('top_file:', top_file)
+
+            t1.arguments += ['--pdb_file', pdb_file,
+                             '--topol', top_file]
+            t1.pre_exec += ['cp %s ./' % pdb_file]
 
             # how long to run the simulation
             if initial_MD:
