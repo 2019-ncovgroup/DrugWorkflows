@@ -40,9 +40,9 @@ conda install -y apache-libcloud chardet colorama future idna msgpack-python \
                  netifaces ntplib parse pymongo python-hostlist pyzmq regex \
                  requests setproctitle urllib3
 
-pip install git+https://github.com/radical-cybertools/radical.utils.git@project/covid_theta
-pip install git+https://github.com/radical-cybertools/radical.saga.git@project/covid-19
-pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/covid_theta
+pip install radical.utils
+pip install git+https://github.com/radical-cybertools/radical.saga.git@devel
+pip install git+https://github.com/radical-cybertools/radical.pilot.git@project/cobalt
 ```
 
 # 2. RCT related services
@@ -104,49 +104,12 @@ $HOME/mongo/bin/mongo --host `hostname -f` --port 59361
 ```
 
 # 3. RP resource config for Theta
-Use one of the following locations to keep the configuration data:
-`$HOME/.radical/pilot/configs/resource_anl.json` (user space) OR
-`$HOME/ve.rp/lib/python3.7/site-packages/radical/pilot/configs/resource_anl.json` 
-(virtenv space)
+Corresponding resource config is already in the RP package 
+([resource_anl](https://github.com/radical-cybertools/radical.pilot/blob/project/cobalt/src/radical/pilot/configs/resource_anl.json))
 
 NOTE: default queue for tests is `debug-flat-quad`, production queue is 
 `default` with minimum 128 nodes (WF0 has a special queue, see section 4.1 for 
 details).
-```json
-{
-    "theta": {
-        "description"                 : "",
-        "notes"                       : "",
-        "schemas"                     : ["local"],
-        "local"                       : 
-	    {
-            "job_manager_hop"         : "cobalt://localhost/",
-            "job_manager_endpoint"    : "cobalt://localhost/",
-            "filesystem_endpoint"     : "file://localhost/"
-        },
-        "default_queue"               : "debug-flat-quad",
-        "resource_manager"            : "COBALT",
-        "lfs_per_node"                : "/tmp",
-        "agent_config"                : "default",
-        "agent_scheduler"             : "CONTINUOUS",
-        "agent_spawner"               : "POPEN",
-        "agent_launch_method"         : "APRUN",
-        "task_launch_method"          : "APRUN",
-        "mpi_launch_method"           : "APRUN",
-        "pre_bootstrap_0"             : [
-            "module load miniconda-3"
-        ],
-        "valid_roots"                 : ["$HOME"],
-        "default_remote_workdir"      : "$HOME",
-        "python_dist"                 : "anaconda",
-        "virtenv_mode"                : "use",
-        "virtenv"                     : "$HOME/ve.rp",
-        "rp_version"                  : "installed",
-        "stage_cacerts"               : true,
-        "cores_per_node"              : 64
-    }
-}
-```
 
 # 4. Run RCT-based workflows
 Virtual environment activation
@@ -160,17 +123,38 @@ Database URL
 export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@`hostname -f`:59361/rct_db"
 ```
 
+**OR** all pre-/post-execution actions (VE activation, start/stop DB) could be 
+wrapped into an execution script (`rct_launcher.sh`):
+```shell
+#!/bin/sh
+
+# - pre exec -
+module load miniconda-3
+conda activate $HOME/ve.rp
+
+$HOME/mongo/bin/mongod -f $HOME/mongo/etc/mongodb.theta.conf
+
+export RADICAL_PILOT_DBURL="mongodb://rct:jdWeRT634k@`hostname -f`:59361/rct_db"
+export RADICAL_LOG_LVL=DEBUG
+export RADICAL_PROFILE=TRUE
+
+# - exec -
+<workflow_launcher_script>
+
+# - post exec -
+$HOME/mongo/bin/mongod -f $HOME/mongo/etc/mongodb.theta.conf --shutdown
+```
+
+```shell
+./rct_launcher.sh
+
+### OR run it in background
+# nohup ./rct_launcher.sh > OUTPUT 2>&1 </dev/null &
+### check the status of the script running
+# jobs -l
+```
+
 ## 4.1. Run WF0 execution
 Project name and corresponding queue are: `CVD-Mol-AI`, `CVD_Research` (backup
 project is `CVD_Research`), and which are set in the configuration file 
 `wf0.theta.cfg`.
-
-Launch scrip includes all pre-/post-exec actions (VE activation, start/stop DB)
-```shell script
-./run.sh
-
-### OR run it in background
-# nohup ./run.sh > OUTPUT 2>&1 </dev/null &
-### check the status of the script running
-# jobs -l
-```
