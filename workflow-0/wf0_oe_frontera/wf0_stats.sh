@@ -40,7 +40,7 @@ echo "$space"
 sum=0
 for p in pilot.*; do
 
-    u0=$(ls -d $p/unit.*/ | head -n 1 | cut -f 2 -d /)
+    u0=$(ls -d $p/master.*/ | head -n 1 | cut -f 2 -d /)
 
     stats=""
 
@@ -168,7 +168,7 @@ done
 echo "$space"
 printf "| %-130s | %6.1f /s | %36s |\n"  "total" "$sum" " "
 echo "$space"
-echo $sum >> total
+echo $(date +%s) $sum >> total
 ~/alloc.sh
 echo
 

@@ -13,6 +13,9 @@ def parse_csv():
     idxs     = list()
     i        = 0
 
+    print('csv', fname)
+    print('idx', iname)
+
     if not os.path.isfile(iname):
         # build indexes
         print('create index %s' % iname)

@@ -9,7 +9,7 @@ test "$x" = 'y' || exit
 base="/scratch1/07305/rpilot/workflow-0-results"
 for p in pilot.*; do
 
-    name=$(grep '"name"' $p/unit.*/wf0.cfg | head -n 1 | cut -f 4 -d '"')
+    name=$(grep '"name"' $p/master.*/wf0.cfg | head -n 1 | cut -f 4 -d '"')
     smi=$(echo $name | sed -e 's/_-_/ /g' | cut -f 2 -d ' ')
     dir="$base/$smi"
     sdf="$dir/$name.sdf"
@@ -26,7 +26,7 @@ for p in pilot.*; do
 
     printf "%-10s: %30s  " "$p" "$name"
 
-    stop=$(cat $p/unit.*/un*prof | grep 'cu_exec_stop')
+    stop=$(cat $p/master.*/un*prof | grep 'cu_exec_stop')
     if test -z "$stop" 
     then
         echo 'running'
@@ -35,13 +35,13 @@ for p in pilot.*; do
 
     echo "collect"
 
-    for f in $p/unit.*/out.worker.*.sdf
+    for f in $p/master.*/out.worker.*.sdf
     do
         echo "  collect $f"
         cat $f >> $sdf
     done
    
-    grep result_cb $p/unit.*/unit.*.out | cut -f 2 -d '.' | cut -f 1 -d ':' >> $idx
+    cat $p/master.*/master.*.out | grep result_cb | cut -f 2 -d '.' | cut -f 1 -d ':' >> $idx
    
 done
 

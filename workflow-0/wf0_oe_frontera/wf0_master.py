@@ -3,6 +3,7 @@
 import os
 import sys
 import glob
+import random
 
 import radical.utils as ru
 import radical.pilot as rp
@@ -26,7 +27,7 @@ import radical.pilot as rp
 
 # ------------------------------------------------------------------------------
 #
-class MyMaster(rp.task_overlay.Master):
+class MyMaster(rp.raptor.Master):
     '''
     This class provides the communication setup for the task overlay: it will
     set up the request / response communication queus and provide the endpoint
@@ -39,7 +40,7 @@ class MyMaster(rp.task_overlay.Master):
 
         # initialized the task overlay base class.  That base class will ensure
         # proper communication channels to the pilot agent.
-        rp.task_overlay.Master.__init__(self, cfg=cfg)
+        rp.raptor.Master.__init__(self, cfg=cfg)
 
         print('%s: cfg from %s to %s' % (self._uid, cfg.idx, cfg.n_masters))
 
@@ -158,17 +159,20 @@ class MyMaster(rp.task_overlay.Master):
         reqs = list()
         while idx < npos:
 
-            pos  = new_pos[idx]
+            i = random.randint(0, npos-1)
+
+            pos  = new_pos[i]
             off  = self._idxs[pos]
             idx += world_size
 
             uid  = 'request.%06d' % pos
-            item = {'uid' :   uid,
-                    'mode':  'call',
-                    'data': {'method': 'dock',
-                             'kwargs': {'pos': pos,
-                                        'off': off,
-                                        'uid': uid}}}
+            item = {'uid'    :   uid,
+                    'mode'   :  'call',
+                    'timeout': 60,
+                    'data'   : {'method': 'dock',
+                                'kwargs': {'pos': pos,
+                                           'off': off,
+                                           'uid': uid}}}
             reqs.append(item)
 
             if len(reqs) >= 1024:
@@ -274,7 +278,11 @@ if __name__ == '__main__':
     # a work queue.
   # master.wait(count=nworkers)
 
-    master.run()
+    master.start()
+    master.join()
+    master.stop()
+
+
 
     # simply terminate
     # FIXME: clean up workers

@@ -1,35 +1,54 @@
-#
-# receptor                        smiles                           nodes   runtime
-# 3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM         6        30
 
+  3CLPro_6LU7_A_1_F               mcule_ultimate_200204_VJL3jM     64  90
+  3CLPro_6LU7_A_2_F               mcule_ultimate_200204_VJL3jM     64  90
+  3CLPro_6LU7_A_3_F               mcule_ultimate_200204_VJL3jM     64  90
+  3CLPro_6LU7_A_4_H               mcule_ultimate_200204_VJL3jM     64  90
+  3CLPro_6w63_A_1_H               mcule_ultimate_200204_VJL3jM     64  90
+  3CLPro_7BQY_A_1_F               mcule_ultimate_200204_VJL3jM     64  90
+  3CLPro_7BQY_A_2_F               mcule_ultimate_200204_VJL3jM     64  90
+  3CLPro_7c7p_A_1_H               mcule_ultimate_200204_VJL3jM     64  90
+  3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM     64  90
+ 
+# receptor                        smiles                         nodes   runtime
+# v8
+# NSP10-16_6YZ1_A_1_SFG_H         ORD_mcule_instock                 32      1440
+# NSP10-16_6YZ1_A_1_SFG_H         Orderable_zinc_db_enaHLL           2        60 
 
-  NSP10-16_6XKM_SAMBound_A_1      mcule_ultimate_200204_VJL3jM      7900    1440
-# NSP10-16_6XKM_SAMBound_A_1      mcule_ultimate_200204_VJL3jM      7900    1440
+# 3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM       6        30
 
-# NSP10-16_6XKM_SAMBound_A_1      ts                                7900      60
-# NSP10-16_6XKM_SAMBound_A_1      ts                                4400    1440
-# NSP10-16_6XKM_SAMBound_A_1      Orderable_zinc_db_enaHLL          4400    1440
+# fast: NSP10-16_6XKM_SAMBound_A_1
+# slow: NSP13_HELICASE_5WWP_0_A_A__DU__apo_PHE_A-145
+
+# PLPro_Sn608_WT_A_1_H            mcule_ultimate_200204_VJL3jM      16        30
+# 3CLPro_6LU7_A_1_F               mcule_ultimate_200204_VJL3jM    7900       600
+# PLPro_Sn608_WT_A_1_H            mcule_ultimate_200204_VJL3jM    7900       180
+# NSP10-16_6XKM_SAMBound_A_1      Orderable_zinc_db_enaHLL        7900      1440
+# NSP10-16_6XKM_SAMBound_A_1      Orderable_zinc_db_enaHLL        7900      1440
+
+# NSP10-16_6XKM_SAMBound_A_1      ts                              7900        60
+# NSP10-16_6XKM_SAMBound_A_1      ts                              4400      1440
+# NSP10-16_6XKM_SAMBound_A_1      Orderable_zinc_db_enaHLL        4400      1440
 # NSP13_HELICASE_5WWP_0_A_A__DU__apo_PHE_A-145 3600  10
 
-# NSP10-16_6XKM_SAMBound_A_1      mcule_ultimate_200204_VJL3jM      7900      10  
+# NSP10-16_6XKM_SAMBound_A_1      mcule_ultimate_200204_VJL3jM    7900        10  
 # NSP13_HELICASE_5WWP_0_A_A__DU__apo_PHE_A-145 Orderable_zinc_db_enaHLL     7900  10
 
 # texascale 2
-# NSP10-16_6XKM_SAMBound_A_1      Orderable_zinc_db_enaHLL          7900      1440  
-# NSP10-16_6XKM_SAMBound_A_1      mcule_ultimate_200204_VJL3jM      7900      1440  
+# NSP10-16_6XKM_SAMBound_A_1      Orderable_zinc_db_enaHLL        7900      1440  
+# NSP10-16_6XKM_SAMBound_A_1      mcule_ultimate_200204_VJL3jM    7900      1440  
 # NSP13_HELICASE_5WWP_0_A_A__DU__apo_PHE_A-145 Orderable_zinc_db_enaHLL     7900  1440
 # NSP13_HELICASE_5WWP_0_A_A__DU__apo_PHE_A-145 mcule_ultimate_200204_VJL3jM 7900  1440  
 
-# 3CLPro_6LU7_A_1_F               mcule_ultimate_200204_VJL3jM         4        30
-# 3CLPro_6LU7_A_1_F               mcule_ultimate_200204_VJL3jM      1024      1440
-# 3CLPro_6LU7_A_2_F               mcule_ultimate_200204_VJL3jM      2048      1440
-# 3CLPro_6LU7_A_3_F               mcule_ultimate_200204_VJL3jM      1024      1440
-# 3CLPro_6LU7_A_4_H               mcule_ultimate_200204_VJL3jM      1024      1440
-# 3CLPro_6w63_A_1_H               mcule_ultimate_200204_VJL3jM      1024      1440
-# 3CLPro_7BQY_A_1_F               mcule_ultimate_200204_VJL3jM      1024      1440
-# 3CLPro_7BQY_A_2_F               mcule_ultimate_200204_VJL3jM      1024      1440
-# 3CLPro_7c7p_A_1_H               mcule_ultimate_200204_VJL3jM      1024      1440
-# 3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM      1024      1440
+# 3CLPro_6LU7_A_1_F               mcule_ultimate_200204_VJL3jM       4        30
+# 3CLPro_6LU7_A_1_F               mcule_ultimate_200204_VJL3jM    1024      1440
+# 3CLPro_6LU7_A_2_F               mcule_ultimate_200204_VJL3jM    2048      1440
+# 3CLPro_6LU7_A_3_F               mcule_ultimate_200204_VJL3jM    1024      1440
+# 3CLPro_6LU7_A_4_H               mcule_ultimate_200204_VJL3jM    1024      1440
+# 3CLPro_6w63_A_1_H               mcule_ultimate_200204_VJL3jM    1024      1440
+# 3CLPro_7BQY_A_1_F               mcule_ultimate_200204_VJL3jM    1024      1440
+# 3CLPro_7BQY_A_2_F               mcule_ultimate_200204_VJL3jM    1024      1440
+# 3CLPro_7c7p_A_1_H               mcule_ultimate_200204_VJL3jM    1024      1440
+# 3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM    1024      1440
 #
 
 # ------------------------------------------------------------------------------------------

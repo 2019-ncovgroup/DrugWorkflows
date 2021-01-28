@@ -60,7 +60,7 @@ def check_runs(cfg_file, run_file):
     runs      = list()
     n_smiles  = dict()
 
-    rec_path  = 'input/receptors.v7/'    # FIXME
+    rec_path  = 'input/receptors.v8/'    # FIXME
     smi_path  = 'input/smiles/'          # FIXME
 
     cfg       = ru.Config(cfg=ru.read_json(cfg_file))
@@ -155,7 +155,7 @@ if __name__ == '__main__':
         session = rp.Session()
         pmgr    = rp.PilotManager(session=session)
         umgr    = rp.UnitManager(session=session)
-
+      
         umgr.register_callback(unit_state_cb)
 
 
@@ -167,8 +167,8 @@ if __name__ == '__main__':
         d    = rs.filesystem.Directory('ssh://frontera/scratch1/07305/rpilot/workflow-0-results')
         ls   = [str(u).split('/')[-1] for u in d.list()]
 
-        workload  = cfg.workload
-
+        workload = cfg.workload
+        uid_cnt  = 0
         for receptor, smiles, nodes, runtime in runs:
 
             print('%30s  %s'   % (receptor, smiles))
@@ -212,7 +212,8 @@ if __name__ == '__main__':
             cfg.workload.name     = name
             cfg.nodes             = nodes
             cfg.runtime           = runtime
-            cfg.n_workers         = int(nodes / n_masters - 1)
+            cfg.n_workers         = (int(nodes / n_masters) - 1) # * 2 
+            print('n_masters: %d'  % cfg.n_masters)
             print('n_workers: %d'  % cfg.n_workers)
 
             ru.write_json(cfg, 'configs/wf0.%s.cfg' % name)
@@ -235,6 +236,7 @@ if __name__ == '__main__':
                 td.arguments      = ['wf0_master.py', i]
                 td.cpu_threads    = cpn
                 td.pilot          = pid
+                td.uid            = 'master.%06d' % uid_cnt
                 td.input_staging  = [{'source': cfg.master,
                                       'target': 'wf0_master.py',
                                       'action': rp.TRANSFER,
@@ -260,11 +262,12 @@ if __name__ == '__main__':
                                       'action': rp.LINK,
                                       'flags' : rp.DEFAULT_FLAGS},
                                     ]
-                td.output_staging = [{'source': '%s.%s.gz'         % (name, workload.output),
-                                      'target': 'results/%s.%s.gz' % (name, workload.output),
-                                      'action': rp.TRANSFER,
-                                      'flags' : rp.DEFAULT_FLAGS}]
+              # td.output_staging = [{'source': '%s.%s.gz'         % (name, workload.output),
+              #                       'target': 'results/%s.%s.gz' % (name, workload.output),
+              #                       'action': rp.TRANSFER,
+              #                       'flags' : rp.DEFAULT_FLAGS}]
                 tds.append(td)
+                uid_cnt += 1
 
             tasks = umgr.submit_units(tds)
             p_map[pilot] = tasks

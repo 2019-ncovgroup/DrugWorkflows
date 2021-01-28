@@ -13,12 +13,13 @@ from   openeye    import oechem
 from   impress_md import interface_functions as iface
 
 
+import radical.utils as ru
 import radical.pilot as rp
 
 
 # ------------------------------------------------------------------------------
 #
-class MyWorker(rp.task_overlay.Worker):
+class MyWorker(rp.raptor.Worker):
     '''
     This class provides the required functionality to execute work requests.
     In this simple example, the worker only implements a single call: `dock`.
@@ -28,9 +29,9 @@ class MyWorker(rp.task_overlay.Worker):
     #
     def __init__(self, cfg):
 
-        rp.task_overlay.Worker.__init__(self, cfg)
+        rp.raptor.Worker.__init__(self, cfg)
 
-        self.register_call('dock', self.dock)
+      # self.register_call('dock', self.dock)
 
         self._log.debug('started worker %s', self._uid)
 
@@ -52,7 +53,7 @@ class MyWorker(rp.task_overlay.Worker):
 
             self._log.debug('pre_exec (%s)', workload.output)
 
-            receptor_file      = 'input_dir/receptors.v7/%s.oeb' % workload.receptor
+            receptor_file      = 'input_dir/receptors.v8/%s.oeb' % workload.receptor
             smiles_file        = 'input_dir/smiles/%s.csv'       % workload.smiles
             output             = './out.%s.sdf'                  % self._uid
 
@@ -137,6 +138,7 @@ class MyWorker(rp.task_overlay.Worker):
 
       # self._log.debug(out)
         self._prof.prof('dock_stop', uid=uid)
+        ru.untrace()
         return out
 
 
@@ -147,7 +149,9 @@ if __name__ == '__main__':
     # the `info` dict is passed to the worker as config file.
     # Create the worker class and run it's work loop.
     worker = MyWorker(sys.argv[1])
-    worker.run()
+
+    worker.start()
+    worker.join()
 
 
 # ------------------------------------------------------------------------------
