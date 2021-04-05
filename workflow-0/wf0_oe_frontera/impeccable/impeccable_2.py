@@ -176,32 +176,7 @@ if __name__ == '__main__':
             tgt  = '%s.%s.gz'  % (name, workload.output)
             rec  = False
 
-            if tgt in ls:
-                if workload.recompute:
-                    rec += 1
-                    d.move(tgt, tgt + '.bak')
-                else:
-                    print('skip      1 %s' % name)
-                    continue
-
-            if smiles in ls:
-                if smiles not in subs:
-                    subs[smiles] = [str(u).split('/')[-1]  for u in d.list('%s/*' % smiles)]
-                if tgt in subs[smiles]:
-                    if workload.recompute:
-                        rec += 2
-                        d.move('%s/%s'     % (smiles, tgt),
-                               '%s/%s.bak' % (smiles, tgt))
-                    else:
-                        print('skip      2 %s' % name)
-                        continue
-
-          # if os.path.exists('results/%s.%s.gz' % (name, wofkload.output)):
-          #     print('skip      3 %s' % name)
-          #     continue
-
-            if rec: print('recompute %d %s' % (rec, name))
-            else  : print('compute   2 %s'  %       name)
+            print('compute   2 %s' % name)
 
             cpn       = cfg.cpn
             gpn       = cfg.gpn

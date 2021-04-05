@@ -70,6 +70,7 @@ class MyWorker(rp.raptor.Worker):
             high_resolution    = workload.high_resolution
 
             self.ofs           = oechem.oemolostream(output)
+
             self.ofs_lock      = mp.Lock()
             self.pdb_name      = self.get_root_protein_name(receptor_file)
 
@@ -104,7 +105,7 @@ class MyWorker(rp.raptor.Worker):
     #
     def dock(self, pos, off, uid):
 
-        self._prof.prof('dock_start', uid=uid)
+      # self._prof.prof('dock_start', uid=uid)
         try:
 
              # TODO: move smiles, ligand_name into args
@@ -150,7 +151,8 @@ class MyWorker(rp.raptor.Worker):
                  out.append([None, 'skip'])
 
         finally:
-          self._prof.prof('dock_stop', uid=uid)
+      #   self._prof.prof('dock_stop', uid=uid)
+          pass
 
         # self._log.debug(out)
         return out

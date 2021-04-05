@@ -203,16 +203,17 @@ if __name__ == '__main__':
             if rec: print('recompute %d %s' % (rec, name))
             else  : print('compute   2 %s'  %       name)
 
-            cpn       = cfg.cpn
-            gpn       = cfg.gpn
-            n_masters = cfg.n_masters
+            cpn        = cfg.cpn
+            gpn        = cfg.gpn
+            n_masters  = cfg.n_masters
+            half_nodes = int((nodes - cfg.n_agents) / 2)
 
             cfg.workload.receptor = receptor
             cfg.workload.smiles   = smiles
             cfg.workload.name     = name
             cfg.nodes             = nodes
             cfg.runtime           = runtime
-            cfg.n_workers         = (int(nodes / n_masters) - 1) # * 2 
+            cfg.n_workers         = (int(half_nodes / n_masters) - 1) # * 2 
             print('n_masters: %d'  % cfg.n_masters)
             print('n_workers: %d'  % cfg.n_workers)
 
@@ -268,6 +269,17 @@ if __name__ == '__main__':
               #                       'flags' : rp.DEFAULT_FLAGS}]
                 tds.append(td)
                 uid_cnt += 1
+
+            for i in range(half_nodes + 1):
+                for j in range(cpn):
+                    td = rp.ComputeUnitDescription(cfg.master_descr)
+                    td.executable = '/home1/07305/rpilot/hello_rp.sh'
+                    td.arguments  = [600]
+                    td.sandbox    = 'hello_rp'
+                    td.pilot      = pid
+
+                    tds.append(td)
+                    uid_cnt += 1
 
             tasks = umgr.submit_units(tds)
             p_map[pilot] = tasks

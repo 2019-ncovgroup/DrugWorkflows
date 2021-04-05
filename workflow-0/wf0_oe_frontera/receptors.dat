@@ -1,15 +1,30 @@
-
-  3CLPro_6LU7_A_1_F               mcule_ultimate_200204_VJL3jM     64  90
-  3CLPro_6LU7_A_2_F               mcule_ultimate_200204_VJL3jM     64  90
-  3CLPro_6LU7_A_3_F               mcule_ultimate_200204_VJL3jM     64  90
-  3CLPro_6LU7_A_4_H               mcule_ultimate_200204_VJL3jM     64  90
-  3CLPro_6w63_A_1_H               mcule_ultimate_200204_VJL3jM     64  90
-  3CLPro_7BQY_A_1_F               mcule_ultimate_200204_VJL3jM     64  90
-  3CLPro_7BQY_A_2_F               mcule_ultimate_200204_VJL3jM     64  90
-  3CLPro_7c7p_A_1_H               mcule_ultimate_200204_VJL3jM     64  90
-  3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM     64  90
  
+  3CLPro_6LU7_A_1_F               Orderable_zinc_db_enaHLL        2004       120
+
+# 3CLPro_6LU7_A_1_F               mcule_ultimate_200204_VJL3jM    7500       300
+# 3CLPro_6LU7_A_2_F               mcule_ultimate_200204_VJL3jM    7500       300
+# 3CLPro_6LU7_A_3_F               mcule_ultimate_200204_VJL3jM    6500       300
+# 3CLPro_6LU7_A_4_H               mcule_ultimate_200204_VJL3jM    7500       300
+                                                                   
+# 3CLPro_6w63_A_1_H               mcule_ultimate_200204_VJL3jM    7000       300
+                                                                   
+# 3CLPro_7BQY_A_1_F               mcule_ultimate_200204_VJL3jM    8000       300
+# 3CLPro_7BQY_A_2_F               mcule_ultimate_200204_VJL3jM    8000       300
+# 3CLPro_7c7p_A_1_H               mcule_ultimate_200204_VJL3jM    8000       300
+# 3CLPro_X1MSB_A_1_H              mcule_ultimate_200204_VJL3jM    8000       300
+
+
 # receptor                        smiles                         nodes   runtime
+# 3CLPro_6LU7_A_1_F               Orderable_zinc_db_enaHLL          16        30
+# 3CLPro_6LU7_A_2_F               Orderable_zinc_db_enaHLL          16        30
+# 3CLPro_6LU7_A_3_F               Orderable_zinc_db_enaHLL          16        30
+# 3CLPro_6LU7_A_4_H               Orderable_zinc_db_enaHLL          16        30
+# 3CLPro_6w63_A_1_H               Orderable_zinc_db_enaHLL        4000       120
+# 3CLPro_7BQY_A_1_F               Orderable_zinc_db_enaHLL          16        30
+# 3CLPro_7BQY_A_2_F               Orderable_zinc_db_enaHLL          16        30
+# 3CLPro_7c7p_A_1_H               Orderable_zinc_db_enaHLL          16        30
+# 3CLPro_X1MSB_A_1_H              Orderable_zinc_db_enaHLL          16        30
+ 
 # v8
 # NSP10-16_6YZ1_A_1_SFG_H         ORD_mcule_instock                 32      1440
 # NSP10-16_6YZ1_A_1_SFG_H         Orderable_zinc_db_enaHLL           2        60 

@@ -168,14 +168,26 @@ class MyMaster(rp.raptor.Master):
             off  = self._idxs[pos]
             idx += world_size
 
-            uid  = 'request.%06d' % pos
-            item = {'uid'    :   uid,
-                    'mode'   :  'call',
+            uid  = 'request.call.%06d' % pos
+            item = {'uid'    : uid,
+                    'mode'   : 'call',
                     'timeout': 60,
                     'data'   : {'method': 'dock',
                                 'kwargs': {'pos': pos,
                                            'off': off,
                                            'uid': uid}}}
+            reqs.append(item)
+          
+            cores   = random.choice([1, 2, 4])
+            runtime = random.randint(1, 20)
+            uid     = 'request.exec.%06d' % pos
+            item    = {'uid'    : uid,
+                       'mode'   : 'exec',
+                       'cores'  : cores,
+                       'timeout': 60,
+                       'data'   : {'exe' : '/scratch1/07305/rpilot/merzky/stress-ng/stress-ng',
+                                   'args': ['-c', str(cores), 
+                                            '-t', str(runtime)]}}
             reqs.append(item)
 
             if len(reqs) >= 128:
@@ -217,9 +229,9 @@ class MyMaster(rp.raptor.Master):
 
         # first wait for submission
         while master._requested == 0:
-            print('==== %d' % (master._requested))
+            print('== %d' % (master._requested))
             time.sleep(1)
-        print('==== %d ok' % (master._requested))
+        print('== %d ok' % (master._requested))
 
         # then wait for all submissions to complete
         while master._collected <= master._requested - 10:
